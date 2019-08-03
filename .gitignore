@@ -33,6 +33,8 @@ bower_components
 build/Release
 dist
 frontend/build
+esb-dashboard.exe
+esb-jobs.exe
 
 # Dependency directories
 node_modules/
@@ -56,14 +58,14 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
-.env
-
 # next.js build output
 .next
 
 # webstorm
 .idea
+
+# dotenv environment variables file
+.env
 
 # customisations
 customisation/*.js
