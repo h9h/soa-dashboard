@@ -70,3 +70,7 @@ typings/
 # customisations
 customisation/*.js
 frontend/src/customisation/*.js
+public/customisation/*.js
+customisation/*.jpg
+frontend/src/customisation/*.jpg
+public/customisation/*.jpg

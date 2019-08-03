@@ -8,7 +8,6 @@ import { VIEWS } from '../logic/statistics'
 import { ServicecallStatistik } from './dc/ServicecallStatistik'
 import { AufrufStatistik } from './dc/AufrufStatistik'
 import dc from 'dc'
-import { KennzahlenStatistik } from './dc/KennzahlenStatistik'
 import { RidgelineStatistik } from './dc/RidgelineStatistik'
 
 const log = Log('statistics')
@@ -44,8 +43,6 @@ const InteractiveStatistics = props => {
         return <AufrufStatistik data={data} colorscheme={colorScheme} />
       case VIEWS.SERVICECALLS:
         return <ServicecallStatistik data={data} colorscheme={colorScheme} />
-      case VIEWS.KENNZAHLEN:
-        return <KennzahlenStatistik data={data} colorscheme={colorScheme} />
       case VIEWS.RIDGELINE:
         return <RidgelineStatistik data={data} colorscheme={colorScheme}/>
       default:
