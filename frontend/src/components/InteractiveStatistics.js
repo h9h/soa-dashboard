@@ -1,0 +1,67 @@
+import React, { useEffect, useState } from 'react'
+import WartenAnzeiger from './WartenAnzeiger'
+import { connect } from 'react-redux'
+import { getStatisticsData } from '../logic/api/rest-api-statistics'
+import Log from '../log'
+import { AllgemeineStatistik } from './dc/AllgemeineStatistik'
+import { VIEWS } from '../logic/statistics'
+import { ServicecallStatistik } from './dc/ServicecallStatistik'
+import { AufrufStatistik } from './dc/AufrufStatistik'
+import dc from 'dc'
+import { KennzahlenStatistik } from './dc/KennzahlenStatistik'
+import { RidgelineStatistik } from './dc/RidgelineStatistik'
+
+const log = Log('statistics')
+
+const InteractiveStatistics = props => {
+  const {umgebung, datumVon, datumBis, view, colorScheme} = props
+  log.trace('Interactive Statistics for', umgebung, datumVon, datumBis, view)
+
+  const [data, setData] = useState({status: 'loading'})
+
+  useEffect(() => {
+    setData({status: 'loading'})
+    // hole daten
+    const getData = async () => {
+      const { cf, dims } = await getStatisticsData(umgebung, datumVon, datumBis)
+      setData({ status: 'ready', cf, dims, datumVon, datumBis })
+    }
+    getData()
+  }, [umgebung, datumVon, datumBis])
+
+  useEffect(() => {
+    dc.filterAll()
+    dc.renderAll()
+  }, [view])
+
+  if (!datumVon || !datumBis) return null
+
+  if (data.status === 'loading') return <WartenAnzeiger/>
+
+  if (data.status === 'ready') {
+    switch(view) {
+      case VIEWS.AUFRUF:
+        return <AufrufStatistik data={data} colorscheme={colorScheme} />
+      case VIEWS.SERVICECALLS:
+        return <ServicecallStatistik data={data} colorscheme={colorScheme} />
+      case VIEWS.KENNZAHLEN:
+        return <KennzahlenStatistik data={data} colorscheme={colorScheme} />
+      case VIEWS.RIDGELINE:
+        return <RidgelineStatistik data={data} colorscheme={colorScheme}/>
+      default:
+        return <AllgemeineStatistik data={data} colorscheme={colorScheme}/>
+    }
+  }
+
+  return null
+}
+
+export default connect(
+  state => ({
+    umgebung: state.umgebung,
+    datumVon: state.datumStatVon,
+    datumBis: state.datumStatBis,
+    view: state.view,
+    colorScheme: state.colorScheme,
+  })
+)(InteractiveStatistics)

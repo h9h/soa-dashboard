@@ -31,6 +31,8 @@ bower_components
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 build/Release
+dist
+frontend/build
 
 # Dependency directories
 node_modules/
@@ -59,3 +61,10 @@ typings/
 
 # next.js build output
 .next
+
+# webstorm
+.idea
+
+# customisations
+customisation/*.js
+frontend/src/customisation/*.js

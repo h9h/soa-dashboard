@@ -1,0 +1,140 @@
+body {
+    overflow-y: scroll;
+    line-height: 1.2;
+}
+
+.modal-xl {
+    max-width: 1400px;
+}
+
+.rt-pivot > div > span {
+    font-size: smaller;
+}
+
+.vis-item {
+    border-width: medium;
+}
+
+.vis-item.application {
+    color: white;
+    background-color: darkslategray;
+}
+
+.vis-item.fault {
+    color: white;
+    background-color: darkred;
+}
+
+.vis-item.bus {
+    color: darkblue;
+    background-color: lavender;
+}
+
+/* see https://github.com/almende/vis/issues/450 */
+.vis-panel {
+    box-sizing: content-box;
+}
+
+.flatpickr-input {
+    padding: 6px 12px;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    line-height: 1.5;
+    width: 105px;
+}
+
+/* für TIME_FORMAT === 'HH:mm' setze width= 70px, sonst 100px */
+.flatpickr-input.time {
+    width: 90px;
+}
+
+/* für Autosuggest */
+.react-autosuggest__container {
+    position: relative;
+    width: inherit;
+}
+
+.react-autosuggest__input {
+    width: inherit;
+    height: calc(1.5em + 2px + 0.75rem);
+    padding: 6px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+
+.react-autosuggest__input--focused {
+    outline: none;
+}
+
+.react-autosuggest__input--open {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.react-autosuggest__suggestions-container {
+    display: none;
+}
+
+.react-autosuggest__suggestions-container--open {
+    display: block;
+    position: absolute;
+    top: 40px;
+    border: 1px solid #aaa;
+    background-color: #fff;
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    z-index: 2;
+}
+
+.react-autosuggest__suggestions-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.react-autosuggest__suggestion {
+    cursor: pointer;
+    padding: 6px 12px;
+}
+
+.react-autosuggest__suggestion--highlighted {
+    background-color: #ddd;
+}
+
+.ridgelinePath:hover .ridgelinePath__path {
+    fill: #0b2e13;
+}
+
+.ridgelineTooltip {
+    position: absolute;
+    text-align: center;
+    width: 300px;
+    height: 100px;
+    padding: 2px;
+    font: 14px sans-serif;
+    background: lightsteelblue;
+    border: 0;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+.ridgelineTooltipTime {
+    position: absolute;
+    text-align: center;
+    width: 125px;
+    height: 24px;
+    padding: 4px;
+    font: 14px sans-serif;
+    background: #ddd;
+    border: 0;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+.dc-chart g.row text {
+    fill: #fff;
+    fill-rule: evenodd;
+}
