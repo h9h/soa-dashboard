@@ -1,11 +1,11 @@
-const serve = require('../backend-common/util')
+const serve = require('./backend-common/util')
 const Send = require('koa-send')
 const path = require('path')
 
-const version = require('../frontend/package').version
-const parameters = require('../customisation/authentication.config')
-const getDN = require('./authentication').getDN
-const checkLogin = require('./authentication').checkLogin
+const version = require('./frontend/package').version
+const parameters = require('./customisation/authentication.config')
+const getDN = require('./backend-auth/authentication').getDN
+const checkLogin = require('./backend-auth/authentication').checkLogin
 
 const haveFrontend = process.argv && process.argv[0] && process.argv[0].indexOf('esb-dashboard.exe') > -1
 

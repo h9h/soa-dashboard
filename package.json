@@ -2,7 +2,7 @@
   "name": "soa-dashboard",
   "version": "1.0.0",
   "license": "MIT",
-  "bin": "backend-auth/server.js",
+  "bin": "server.js",
   "dependencies": {
     "@koa/cors": "^3.0.0",
     "activedirectory2": "^1.2.7",
@@ -16,14 +16,14 @@
     "ramda": "^0.26.1"
   },
   "scripts": {
-    "ncc:server:auth": "ncc run backend-auth/server.js",
+    "ncc:server:auth": "ncc run server.js",
     "ncc:server:file": "ncc run backend-jobs/server",
-    "start:auth": "node backend-auth/server.js",
+    "start:auth": "node server.js",
     "start:file": "node backend-jobs/server.js",
     "start:frontend": "cd frontend && yarn start",
     "start": "npm-run-all --parallel start:frontend start:auth ncc:server:file --print-label",
     "build": "cd frontend && yarn build",
-    "ncc:build": "ncc build backend-auth/server.js -o dist/auth && ncc build backend-jobs/server.js -o dist/jobs",
+    "ncc:build": "ncc build server.js -o dist/auth && ncc build backend-jobs/server.js -o dist/jobs",
     "prepkg:server:dashboard": "yarn build",
     "pkg:server:dashboard": "pkg . --target node10-win-x64 --output esb-dashboard.exe --debug > output-dashboard-win-pkg.log",
     "pkg:server:file": "pkg ./backend-jobs/server.js --target node10-win-x64 --output esb-jobs.exe --debug > output-jobs-windows-pkg.log",
