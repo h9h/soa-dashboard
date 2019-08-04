@@ -2,7 +2,7 @@
 siehe für JSON Schema hier: http://json-schema.org/
  */
 
-import { getDefaultUmgebungen, getDefaultUmgebungKey } from '../customisation/configuration.config'
+import { getDefaultUmgebungen, getDefaultUmgebungKey, getDoMock } from '../customisation/configuration.config'
 
 export const defaultConfiguration = {
   version: 4,
@@ -49,7 +49,7 @@ export const defaultConfiguration = {
     }
   },
   mock: {
-    doMock: "false",
+    doMock: getDoMock,
     anzahl: "10000"
   },
   advanced: {

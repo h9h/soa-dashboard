@@ -17,6 +17,8 @@ export const getDefaultUmgebungen = {
 }
 
 export const getDefaultUmgebungKey = 'DEV'
+
+export const getDoMock = 'true'
 ```
 
 2.File **logo.jpg**
