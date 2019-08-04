@@ -9,8 +9,8 @@ Das Frontend liegt im Verzeichnis <code>./frontend</code>. Hierbei handelt es si
 gewöhnliches [CRA-Projekt](https://github.com/facebook/create-react-app), welches eine Single Page App realisiert.
 
 Die Backends sind [KOA-Server](https://koajs.com/):
-- <code>./server-auth-server.js</code> bietet eine REST-Schnittstelle zur LDAP-Authentifizierung
-- <code>./server-file-server.js</code> liefert eine API für's Housekeeping
+- <code>./server.js</code> bietet eine REST-Schnittstelle zur LDAP-Authentifizierung
+- <code>./backend-jobs/server.js</code> liefert eine API für's Housekeeping
 
 #### Warum überhaupt ein Backend?
 Die Authentifizierung findet gegen ActiveDirectory/LDAP statt. Ich habe kein NPM-Modul gefunden, welches nicht
@@ -39,7 +39,7 @@ SOA über eine REST-Schnittstelle angebunden werden (siehe blauen Kasten). Die A
 git clone https://github.com/h9h/soa-dashboard.git
 ``` 
 
-2: Lege Customisation-Dateien in den Ordnern
+2: Lege Customising-Dateien in den Ordnern
 ```
 ./customisation
 ```
@@ -56,6 +56,9 @@ entsprechend der dort liegenden README.md an.
 eine ```.env``` gemäß dem Beispiel ```.env.example``` an.
 
 4: Kopiere dein logo.jpg nach ```frontend/public/customisation```
+
+5: ```yarn install``` einmal auf Ebene des Projektes und einmal im Ordner ```frontend```.
+
 
 ### Skripte
 
