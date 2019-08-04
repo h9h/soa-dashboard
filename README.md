@@ -12,7 +12,7 @@ Die Backends sind [KOA-Server](https://koajs.com/):
 - <code>./server.js</code> bietet eine REST-Schnittstelle zur LDAP-Authentifizierung
 - <code>./backend-jobs/server.js</code> liefert eine API für's Housekeeping
 
-Working Demo: [hier](https://h9h.github.io)
+Working Demo: [hier](https://h9h.github.io) User = Password = testuser
 
 #### Warum überhaupt ein Backend?
 Die Authentifizierung findet gegen ActiveDirectory/LDAP statt. Ich habe kein NPM-Modul gefunden, welches nicht
