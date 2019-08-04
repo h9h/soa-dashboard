@@ -71,6 +71,5 @@ typings/
 customisation/*.js
 frontend/src/customisation/*.js
 frontend/public/customisation/*.js
-customisation/*.jpg
 frontend/src/customisation/*.jpg
 frontend/public/customisation/*.jpg

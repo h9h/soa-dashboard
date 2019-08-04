@@ -34,12 +34,12 @@ SOA über eine REST-Schnittstelle angebunden werden (siehe blauen Kasten). Die A
 über einen REST-Call gegen den roten Kasten, der selbst wiederum das LDAP/ActiveDirectory anspricht.
  
 ### Installation und Customising
-Hole Sourcen:
+1: Hole Sourcen:
 ```
 git clone https://github.com/h9h/soa-dashboard.git
 ``` 
 
-Lege Customisation-Dateien in den Ordnern
+2: Lege Customisation-Dateien in den Ordnern
 ```
 ./customisation
 ```
@@ -49,11 +49,13 @@ und
 ```
 entsprechend der dort liegenden README.md an.
 
-Lege im Ordner
+3: Lege im Ordner
 ```
 ./frontend
 ```
-eine ```.env``` genäß dem Beispiel ```.env.example``` an.
+eine ```.env``` gemäß dem Beispiel ```.env.example``` an.
+
+4: Kopiere dein logo.jpg nach ```frontend/public/customisation```
 
 ### Skripte
 
