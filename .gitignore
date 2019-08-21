@@ -68,8 +68,5 @@ typings/
 .env
 
 # customisations
-customisation/*.js
-frontend/src/customisation/*.js
-frontend/public/customisation/*.js
-frontend/src/customisation/*.jpg
-frontend/public/customisation/*.jpg
+**/customisation/*.*
+!**/customisation/*.md
