@@ -24,9 +24,10 @@ import { ReactTableDefaults } from 'react-table'
 import dc from 'dc'
 import * as d3 from 'd3'
 
-import Log from './log'
 import de_locale from 'moment/locale/de'
 import moment from 'moment'
+
+import Log from './log'
 
 console.log('Log Level', getConfiguration().debug.level)
 const log = Log('index')

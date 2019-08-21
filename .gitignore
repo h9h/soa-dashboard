@@ -67,6 +67,9 @@ typings/
 # dotenv environment variables file
 .env
 
-# customisations
+# generated files
+**/*.generated.js
+
+# customisations but keep the Readme.md files
 **/customisation/*.*
 !**/customisation/*.md

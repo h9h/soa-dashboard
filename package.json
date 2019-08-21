@@ -25,7 +25,8 @@
     "ncc:server:file": "ncc run backend-jobs/server",
     "ncc:build": "ncc build server.js -o dist/auth && ncc build backend-jobs/server.js -o dist/jobs",
 
-    "prebuild": "cpy \"./frontend/src/customisation/*.*\" \"!./frontend/src/customisation/*.js\" \"!./frontend/src/customisation/*.md\" ./frontend/public/customisation",
+    "copy:logo": "cpy \"./frontend/src/customisation/*.*\" \"!./frontend/src/customisation/*.js\" \"!./frontend/src/customisation/*.md\" ./frontend/public/customisation",
+    "prebuild": "yarn copy:logo",
     "build": "cd frontend && yarn build",
 
     "prepkg:server:dashboard": "yarn build",
