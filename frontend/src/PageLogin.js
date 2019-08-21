@@ -15,9 +15,12 @@ import { checkAvailability, checkLogin, checkVersion } from './logic/authorizati
 import { all, identity } from 'ramda'
 import Blank from './components/Blank'
 import { withNotification } from './logic/notification'
+import { getLogoFilename } from './customisation/configuration.config'
 
 import Log from './log'
 const log = Log('pagelogin')
+
+const logo = `customisation/${getLogoFilename}`
 
 const HelpAuthenticator = ({show}) => {
   if (!show) return null
@@ -131,10 +134,9 @@ const PageLogin = props => {
             <Centered>
               <br/>
               <Centered>
-                <img alt="Logo" src="customisation/logo.jpg" style={{ width: '200px', marginTop: '50px', marginBottom: '30px'}}/>
-                <Red>
-                  <h1>ESB Dashboard</h1>
-                </Red>
+                <img alt="Logo" src={logo} style={{ width: '300px', marginTop: '50px', marginBottom: '50px'}}/>
+                <hr />
+                <h1 style={{ marginTop: '50px', fontWeight: 'bold' }}>ESB Dashboard</h1>
               </Centered>
               <br/>
             </Centered>
