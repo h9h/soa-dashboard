@@ -8,7 +8,7 @@ These files are required:
 
 1: File: **configuration.config.js**
 
-Configuration of different stages, identified by Key and given an url:
+Configuration of different stages, identified by key and given an url:
 
 ```
 export const getDefaultUmgebungen = {
@@ -18,9 +18,18 @@ export const getDefaultUmgebungen = {
 
 export const getDefaultUmgebungKey = 'DEV'
 
-export const getDoMock = 'true'
+export getLogoFilename = 'logo.svg'
+
+export const getDoMock = false
 ```
 
-2.File **logo.jpg**
+"getDefaultUmgebungKey" should contain the key to the stage you want to be selected as default.
 
-Your logo.
+"getLogoFilename" should contain the filename of your logo, without path. The logo will be pulled from this directory.
+
+"getDoMock" is usually false, unless youe want to mock the data. In that case, set it to ```true```. Then the data will 
+not be obtained from your api, but will be mocked.
+
+2: File: **#your logo file#**
+
+Your logo. Filename as configured in ```getLogoFilename```

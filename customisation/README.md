@@ -1,6 +1,6 @@
 # Customisation
 
-All customisation happens in this directory.
+All backend customisation happens in this directory.
 
 These files required:
 
