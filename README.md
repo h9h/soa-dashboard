@@ -49,7 +49,10 @@ und
 ```
 ./frontend/src/customisation
 ```
-entsprechend der dort liegenden README.md an.
+entsprechend der dort liegenden README.md an:
+
+* [Backend Customisation Readme](./customisation/README.md)
+* [Frontend Customisation Readme](./frontend/src/customisation/README.md)
 
 3: Lege im Ordner
 ```
@@ -57,9 +60,7 @@ entsprechend der dort liegenden README.md an.
 ```
 eine ```.env``` gemäß dem Beispiel ```.env.example``` an.
 
-4: Kopiere dein logo.jpg nach ```frontend/public/customisation```
-
-5: ```yarn install``` einmal auf Ebene des Projektes und einmal im Ordner ```frontend```.
+4: ```yarn install``` einmal auf Ebene des Projektes und einmal im Ordner ```frontend```.
 
 
 ### Skripte

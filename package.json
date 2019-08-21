@@ -16,24 +16,30 @@
     "ramda": "^0.26.1"
   },
   "scripts": {
-    "ncc:server:auth": "ncc run server.js",
-    "ncc:server:file": "ncc run backend-jobs/server",
     "start:auth": "node server.js",
     "start:file": "node backend-jobs/server.js",
     "start:frontend": "cd frontend && yarn start",
     "start": "npm-run-all --parallel start:frontend start:auth ncc:server:file --print-label",
-    "build": "cd frontend && yarn build",
+
+    "ncc:server:auth": "ncc run server.js",
+    "ncc:server:file": "ncc run backend-jobs/server",
     "ncc:build": "ncc build server.js -o dist/auth && ncc build backend-jobs/server.js -o dist/jobs",
+
+    "prebuild": "cpy \"./frontend/src/customisation/*.*\" \"!./frontend/src/customisation/*.js\" \"!./frontend/src/customisation/*.md\" ./frontend/public/customisation",
+    "build": "cd frontend && yarn build",
+
     "prepkg:server:dashboard": "yarn build",
     "pkg:server:dashboard": "pkg . --target node10-win-x64 --output esb-dashboard.exe --debug > output-dashboard-win-pkg.log",
     "pkg:server:file": "pkg ./backend-jobs/server.js --target node10-win-x64 --output esb-jobs.exe --debug > output-jobs-windows-pkg.log",
     "pkg:all": "yarn pkg:server:dashboard && yarn pkg:server:file",
-    "copy:auth": "copy /y .\\dist\\auth\\index.js .\\frontend\\build\\auth.js",
-    "build:all": "yarn pkg:all && yarn ncc:build && yarn copy:auth",
+    "build:all": "yarn pkg:all && yarn ncc:build",
+    "postbuild:all": "cpy ./dist/auth/index.js ./frontend/build --rename=auth.js",
+
     "release-it": "cd frontend && yarn release-it && git push --follow-tags"
   },
   "devDependencies": {
     "@zeit/ncc": "^0.20.2",
+    "cpy-cli": "^2.0.0",
     "npm-run-all": "^4.1.5",
     "pkg": "^4.4.0",
     "react-scripts": "^3.0.1"
