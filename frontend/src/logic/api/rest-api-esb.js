@@ -94,6 +94,28 @@ export const API = {
 function evolveData (api, dataRow, annotations) {
   dataRow.filter = annotations
 
+  switch (api) {
+    case API.LOGPOINT:
+      // Leite bestimmte Daten ab:
+      // -------------------------
+      if ([1, 18].indexOf(dataRow.LOGPOINTNO) > -1) dataRow.ORIGINATOR = 'SC'
+      if ([9, 10].indexOf(dataRow.LOGPOINTNO) > -1) dataRow.ORIGINATOR = 'SP'
+      break
+    case API.MESSAGE:
+    case API.MESSAGES:
+    case API.DATABASE:
+    case API.QUEUES:
+      // nix
+      break
+    case API.QUEUED_MESSAGES:
+      dataRow.QUEUE_NAME = annotations.queue
+      dataRow.QUEUE_TABLE = annotations.queuetable
+      if (!dataRow.MESSAGE) dataRow.MESSAGE = dataRow['USER_DATA.TEXT_LOB'] // TODO: temporär bis API-Änderung verteilt
+      break
+    default:
+      new Error('Evolve für API ' + api + ' fehlt')
+  }
+
   // MEP sync sollte eigentlich requestReply sein
   if (dataRow.MEP && dataRow.MEP === 'sync') dataRow.MEP = 'requestReply'
   // Kürze Sender-FQN um unnötige Teile
@@ -109,24 +131,7 @@ function evolveData (api, dataRow, annotations) {
 
   if (dataRow.MESSAGE) {
     dataRow.MessageSize = dataRow.MESSAGE.length
-  }
-
-  switch (api) {
-    case API.LOGPOINT:
-      // Leite bestimmte Daten ab:
-      // -------------------------
-      if ([1, 18].indexOf(dataRow.LOGPOINTNO) > -1) dataRow.ORIGINATOR = 'SC'
-      if ([9, 10].indexOf(dataRow.LOGPOINTNO) > -1) dataRow.ORIGINATOR = 'SP'
-      return
-    case API.MESSAGE:
-    case API.MESSAGES:
-    case API.DATABASE:
-    case API.QUEUES:
-    case API.QUEUED_MESSAGES:
-      // nix
-      return
-    default:
-      new Error('Evolve für API ' + api + ' fehlt')
+    dataRow.MessageContent = dataRow.MESSAGE
   }
 }
 

@@ -14,6 +14,8 @@ import QueueName from './QueueName'
 import Anzahl from './Anzahl'
 import Ursache from './Ursache'
 import Timing from './Timing'
+import MsgID from './MsgID'
+import MessageContent from './MessageContent'
 
 export const cellFactory = onClick => key => {
   switch (key) {
@@ -37,8 +39,12 @@ export const cellFactory = onClick => key => {
       return row => <MessageExchangePattern row={row}/>
     case 'MESSAGEID':
       return row => <MessageId row={row} />
+    case 'MSGID':
+      return row => <MsgID row={row} />
     case 'MessageSize': // statt MESSAGE, damit wir nach Größe sortieren können
       return row => <Message row={row} onClick={onClick}/>
+    case 'MessageContent':
+      return row => <MessageContent row={row} />
     case 'MESSAGETYPE':
       return row => <MessageType row={row} />
     case 'ERRORCODE':

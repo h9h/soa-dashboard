@@ -47,6 +47,7 @@ export const initialState = () => {
     view: defaultView,
     colorScheme: configuration.statistics.colorSchemes[defaultView] || 'Tableau10',
     ridgelineDimension: 'operation',
-    ridgelineWert: 'anzahlGesamt'
+    ridgelineWert: 'anzahlGesamt',
+    database: 'ME'
   }
 }

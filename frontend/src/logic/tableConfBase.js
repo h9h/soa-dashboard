@@ -13,6 +13,7 @@ export const TABLE_COLUMNS = {
   LogPoints: ['INTERNALLOGID', 'Timestamp', 'DESCRIPTION', 'LOGPOINTNO', 'MESSAGEID', 'Sender', 'PROCESSINSTANCEID', 'SENDERTIMESTAMP', 'ENVIRONMENT', 'ORIGINATOR', 'OPERATION', 'SERVICE', 'MEP', 'PARENTPROCESSINSTANCEID', 'RELATESTOMESSAGEID'],
   Statistic: ['STARTTIMESTAMP', 'DURATION', 'ENVIRONMENT', 'ORIGINATOR', 'OPERATION', 'SERVICE', 'MEP', 'Sender', 'ANZAHLGESAMT', 'ANZAHLFAULT', 'DURCHSCHNITT_GESAMT_ZEIT', 'DURCHSCHNITT_PROVIDER_ZEIT', 'DURCHSCHNITT_OSB_ZEIT'],
   Queues: ['QUEUE_NAME', 'QUEUE_TABLE', 'QUEUE_TYPE', 'EXPIRATION', 'USER_COMMENT', 'WAITING', 'READY', 'EXPIRED'],
+  Queuetable: ['QUEUE_NAME', 'QUEUE_TABLE', 'MSGID', 'ENQ_TIME', 'MESSAGE', 'MessageSize', 'MessageContent'],
 }
 
 const filterOnParity = ({
@@ -115,8 +116,12 @@ const DEFAULT_PROPS = {
   },
   MessageSize: {
     Header: 'Nachricht',
-    width: 80,
+    width: 100,
     ordnung: 10
+  },
+  MessageContent: {
+    Header: 'Nachrichteninhalt',
+    ordnung: 11
   },
   MESSAGE: {
     show: false
@@ -139,13 +144,18 @@ const DEFAULT_PROPS = {
   },
   QUEUE_NAME: {
     Header: 'Queue',
-    width: 250,
-    ordnung: 20
+    width: 350,
+    ordnung: 1
   },
   QUEUE_TABLE: {
     Header: 'Queue-Tabelle',
+    width: 350,
+    ordnung: 2
+  },
+  MSGID: {
+    Header: 'MSGID',
     width: 250,
-    ordnung: 21
+    ordnung: 4,
   },
   QUEUE_TYPE: {
     Header: 'Queue-Typ',
@@ -175,6 +185,11 @@ const DEFAULT_PROPS = {
     width: 100,
     ...filterOnParity,
     ordnung: 28
+  },
+  ENQ_TIME: {
+    Header: 'Enqueue-Zeitpunkt',
+    width: 250,
+    ordnung: 3
   },
   USER_COMMENT: {
     Header: 'Kommentar',

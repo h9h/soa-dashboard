@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { getDatabases } from '../logic/api/api-dashboard'
-import WartenAnzeiger from './WartenAnzeiger'
 import Form from 'react-bootstrap/Form'
+import Spinner from 'react-bootstrap/Spinner'
 
 const SelectDatabase = ({ umgebung, database: defaultDatabase, onSelect }) => {
   const [database, setDatabase] = useState(defaultDatabase)
@@ -23,7 +23,13 @@ const SelectDatabase = ({ umgebung, database: defaultDatabase, onSelect }) => {
     }
   }, [database, databases, onSelect])
 
-  if (databases.status === 'loading') return <WartenAnzeiger />
+  if (databases.status === 'loading') return (
+    <Form.Label>
+      <Spinner animation="border" role="status">
+        <span className="sr-only">Bitte warten...</span>
+      </Spinner>
+    </Form.Label>
+  )
 
   if (databases.status === 'ready') {
     const handleChange = event => {

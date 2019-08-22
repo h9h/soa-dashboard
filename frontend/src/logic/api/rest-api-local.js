@@ -68,7 +68,7 @@ export const logToFile = destination => content => {
       }
     })
   } catch (_) {
-    console.log(destination, content)
+    //console.log(destination, content)
   }
 }
 

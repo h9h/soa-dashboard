@@ -18,8 +18,8 @@ const log = Log('headerqueues')
 
 const HeaderQueues = props => {
   const configuration = getConfiguration()
-  const { umgebung } = props
-  const [filter, changeFilter] = useState({ umgebung, database: null })
+  const { umgebung, database } = props
+  const [filter, changeFilter] = useState({ umgebung, database })
 
   const handleFilterChange = key => event => {
     const value = event.target ? event.target.value : event
@@ -74,6 +74,7 @@ const HeaderQueues = props => {
 export default connect(
   state => ({
     umgebung: state.umgebung,
+    database: state.database,
   }),
   dispatch => ({
     setFilterQueues: (umgebung, database) => dispatch(setFilterQueues(umgebung, database))

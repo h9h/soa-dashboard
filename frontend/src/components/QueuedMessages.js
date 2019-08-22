@@ -9,23 +9,37 @@ import ReactTable from 'react-table'
 import Log from '../log'
 import { useConfiguration } from '../configuration'
 import { mergeDeepRight, sort } from 'ramda'
-const log = Log('queues')
+import MessageModal from './MessageModal'
+const log = Log('queuedmessages')
 
-const Queuetables = ({ umgebung, database, queuetable, queue }) => {
-  log.trace('Queuetables for', umgebung, database, queuetable, queue)
+const QueuedMessages = ({ umgebung, database, queuetable, queue }) => {
+  log.trace('QueuedMessages for', umgebung, database, queuetable, queue)
 
   const [configuration, setConfiguration] = useConfiguration()
-
   const [messages, setMessages] = useState({status: 'loading'})
-  const columns = getColumns()
+  const [modal, setModal] = useState({show: false})
 
   useEffect(() => {
     if (!database || !queuetable) return
     getQueuedMessages({ umgebung, database, queuetable, queue }, setMessages)
   }, [umgebung, database, queuetable, queue])
 
-  if (!database || !queuetable) return null
+  const Modal = () => {
+    if (!modal.show) return null
+    return <MessageModal {...modal} />
+  }
 
+  const handleHide = () => setModal({
+    show: false
+  })
+
+  const handleClick = (props) => {
+    setModal({show: true, onHide: handleHide, ...props})
+  }
+
+  const columns = getColumns(handleClick)
+
+  if (!database || !queuetable) return null
   if (messages.status === 'loading') return <WartenAnzeiger />
 
   if (messages.status === 'ready') {
@@ -40,6 +54,7 @@ const Queuetables = ({ umgebung, database, queuetable, queue }) => {
     return (
       <Row>
         <Col>
+          <Modal />
           <ReactTable
             columns={columns}
             data={messages.data}
@@ -72,4 +87,4 @@ const Queuetables = ({ umgebung, database, queuetable, queue }) => {
   return null
 }
 
-export default Queuetables
+export default QueuedMessages
