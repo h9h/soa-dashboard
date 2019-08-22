@@ -29,3 +29,7 @@ not be obtained from your api, but will be mocked.
 2: File: **logo.svg**
 
 Your logo.
+
+3: File **frontend/.env**
+
+Create this file with contents as the example ```frontend/.env.example```
