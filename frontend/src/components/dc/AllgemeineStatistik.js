@@ -10,6 +10,7 @@ import { TIMINGS } from './utils'
 import { renderSunburstChart } from './sunburstChart'
 import { renderPieChartDomain, renderPieChartMep, renderPieChartWelcherBus } from './pieCharts'
 import { renderLineChartAnzahlCalls } from './lineCharts'
+import { Centered } from '../styles'
 
 const N = 50
 const NFault = 10
@@ -20,7 +21,9 @@ export function AllgemeineStatistik (props) {
   return <>
     <Row>
       <Col xs={4}>
-        <h3>Verteilung</h3>
+        <Centered>
+          <h3>Verteilung</h3>
+        </Centered>
         <Row>
           <SelectorCol xs={12} style={{ marginLeft: '45px'}}>
             {render(renderBarChartTiming(TIMINGS.GESAMT))}
@@ -42,25 +45,34 @@ export function AllgemeineStatistik (props) {
       <Col xs={4}>
         <Row>
           <Col xs={12} style={{height: '350px'}}>
-            <h3>Faults - Top {NFault}</h3>
+            <Centered>
+              <h3>Faults - Top {NFault}</h3>
+            </Centered>
             {render(renderRowChartFaultsTopN(NFault))}
           </Col>
           <Col xs={12} style={{height: '750px'}}>
-            <h3>Gesamtanzahl Calls - Top {N}</h3>
+            <Centered>
+              <br />
+              <h3>Gesamtanzahl Calls - Top {N}</h3>
+            </Centered>
             {render(renderRowChartServicesTopN(N))}
           </Col>
         </Row>
       </Col>
       <Col xs={4}>
         <Row>
-          <h3>Domänen</h3>
-        <SelectorCol xs={12}>
-          {render(renderPieChartDomain)}
-        </SelectorCol>
-        <VeryHighSelectorCol>
-          {render(renderSunburstChart)}
-        </VeryHighSelectorCol>
-      </Row>
+          <Col xs={12}>
+            <Centered>
+              <h3>Domänen</h3>
+            </Centered>
+          </Col>
+          <SelectorCol xs={12}>
+            {render(renderPieChartDomain)}
+          </SelectorCol>
+          <VeryHighSelectorCol>
+            {render(renderSunburstChart)}
+          </VeryHighSelectorCol>
+        </Row>
       </Col>
     </Row>
   </>

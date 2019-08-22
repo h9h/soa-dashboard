@@ -9,14 +9,25 @@ import Button from 'react-bootstrap/Button'
 import { Icon } from './components/icons'
 import { rightToViewProps } from './logic/authorization'
 import LinkButton from './components/LinkButton'
+import Logo from './Logo'
+
+const Impressum = ({ version }) => {
+  const copyright = process.env.REACT_APP_COPYRIGHT
+  const jahr = moment().format('YYYY')
+  return (
+    <span style={{position: 'absolute', margin: '0', top: '30%'}}>
+      SOA-Dashboard {jahr} v{version} {`made with 💜 and ☕ by ${copyright}`}
+    </span>
+  )
+}
+
+const LogoSmall = () => <Logo style={{height: '35px', paddingRight: '50px'}}/>
 
 const Statusleiste = (props) => {
   const version = process.env.REACT_APP_VERSION
-  const repo = "https://github.com/h9h/soa-dashboard"
   const recipient = process.env.REACT_APP_FEEDBACK_MAIL
   const mail = `mailto://${recipient}?subject=Feedback zum ESB-Dashboard - v ${version}&body=`
-  const copyright = process.env.REACT_APP_COPYRIGHT
-  const jahr = moment().format('YYYY')
+  const repo = "https://github.com/h9h/soa-dashboard"
 
   const [show, setShow] = useState(false)
   const doShow = () => setShow(true)
@@ -33,18 +44,21 @@ const Statusleiste = (props) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav"/>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            SOA-Dashboard {jahr} v{version}  {`made with 💜 and ☕ by ${copyright}`}
+            <LogoSmall />
+            <Nav.Item>
+              <Impressum version={version} />
+            </Nav.Item>
           </Nav>
           <Nav className="justify-content-end">
             {rightToViewProps(props.user) ? (
               <Button onClick={doShow} variant="light">
-                  <Icon glyph='dev' />
+                <Icon glyph='dev'/>
               </Button>
             ) : (
-              <LinkButton href="https://facebook.github.io/create-react-app/" glyph="dev" />
+              <LinkButton href="https://facebook.github.io/create-react-app/" glyph="dev"/>
             )}
-            <LinkButton href={repo} glyph="github" />
-            <LinkButton href={mail} text="Feedback" />
+            <LinkButton href={repo} glyph="github"/>
+            <LinkButton href={mail} text="Feedback"/>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
