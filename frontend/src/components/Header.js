@@ -77,11 +77,11 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
     log.trace('change filter', key, value)
 
     setLocalFilter(filter => {
-      const searchValue = key === 'searchType' ? '' : filter.searchValue
+      const searchValue = key === 'searchType' ? '' : filter.searchValue // setze Suchwert zurück, wenn Suchtyp geändert wird
       const newFilter = {
         ...filter,
         searchValue,
-        [key]: value
+        [key]: value.replace(/"/g, '') // strippe " aus Suchwert (eigentlich immer, aber da spielt es eine Rolle) damit kopierter Wert (mit ") einfach eingesetzt werden kann
       }
 
       if (key === 'umgebung') {
