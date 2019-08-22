@@ -18,9 +18,9 @@ export const getLogpoints = (filter, cb) => {
   const {umgebung, datum, von, bis, searchType, searchValue} = filter
 
   let adjustedVon = von
-  if (searchType !== LOG_SEARCH_TYPES.SENDERFQN && searchValue && searchValue.length > 0) {
+  if (searchValue && searchValue.length > 0) {
     // wenn wir nach spezifischen Referenzen für einzelne Calls suchen, können wir den Suchzeitraum ausdehnen
-    adjustedVon = moment(bis, TIME_FORMAT).subtract(30, 'minutes').format(TIME_FORMAT)
+    adjustedVon = moment(bis, TIME_FORMAT).subtract(60, 'minutes').format(TIME_FORMAT)
   }
 
   let url = `${getEsbUrl(umgebung)}/dashboard/LogPoints/${datum}?from=${adjustedVon}${sec}&to=${bis}${sec}`

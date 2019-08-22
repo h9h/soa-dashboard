@@ -94,10 +94,10 @@ export default () => (
         <li>Message-Id</li>
         <li>Sender FQN</li>
         <li>
-          Referenz - Suche nach einer fachlichen Referenz (Vertragsnummer, Schadennnummer etc)<br />
-          <em>N.B.</em> derzeit ist die API noch nicht überall verteilt, daher funktioniert es noch nicht
+          Referenz - Suche nach einer fachlichen Referenz (Vertragsnummer, Schadennnummer etc)
         </li>
       </ul>
+      Wenn hiermit gesucht wird, dann wird der Suchzeitraum auf eine Stunde ausgedehnt. Daher kann die Suche ein paar Sekunden dauern.
     </ComponentExplanation>
     <IconExplanation glyph="execute">
       führt die Selektion mit den eingegebenen Kriterien aus.
