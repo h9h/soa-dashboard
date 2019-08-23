@@ -5,11 +5,11 @@ import * as PropTypes from 'prop-types'
 import { renderRowChartFaultsTopN, renderRowChartServicesTopN } from './rowCharts'
 import { renderPlot } from './dcUtils'
 import { SelectorCol, VeryHighSelectorCol } from './dcStyles'
-import { renderBarChartTiming } from './barCharts'
+import { renderBarChartDomain, renderBarChartTiming } from './barCharts'
 import { TIMINGS } from './utils'
 import { renderSunburstChart } from './sunburstChart'
 import { renderPieChartDomain, renderPieChartMep, renderPieChartWelcherBus } from './pieCharts'
-import { renderLineChartAnzahlCalls } from './lineCharts'
+import { renderLineChartAnzahlCalls, renderLineChartTimingCalls } from './lineCharts'
 import { Centered } from '../styles'
 
 const N = 50
@@ -25,14 +25,17 @@ export function AllgemeineStatistik (props) {
           <h3>Verteilung</h3>
         </Centered>
         <Row>
+          <SelectorCol xs={12}>
+            {render(renderLineChartAnzahlCalls)}
+          </SelectorCol>
+          <SelectorCol xs={12}>
+            {render(renderLineChartTimingCalls)}
+          </SelectorCol>
           <SelectorCol xs={12} style={{ marginLeft: '45px'}}>
             {render(renderBarChartTiming(TIMINGS.GESAMT))}
           </SelectorCol>
           <SelectorCol xs={12} style={{ marginLeft: '45px'}}>
             {render(renderBarChartTiming(TIMINGS.BUS))}
-          </SelectorCol>
-          <SelectorCol xs={12}>
-            {render(renderLineChartAnzahlCalls)}
           </SelectorCol>
           <SelectorCol xs={6}>
             {render(renderPieChartMep)}
@@ -72,6 +75,9 @@ export function AllgemeineStatistik (props) {
           <VeryHighSelectorCol>
             {render(renderSunburstChart)}
           </VeryHighSelectorCol>
+          <SelectorCol xs={12}>
+            {render(renderBarChartDomain)}
+          </SelectorCol>
         </Row>
       </Col>
     </Row>
