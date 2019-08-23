@@ -60,7 +60,7 @@ Median: ${ZAHL_FORMAT(Math.round(d3.median(d.values)))}<br />
 Durchschnitt: ${ZAHL_FORMAT(Math.round(d3.mean(d.values)))}
 `)
         .style('left', (d3.event.pageX - 150) + 'px')
-        .style('top', (d3.event.pageY - 120) + 'px')
+        .style('top', (d3.event.pageY - 150) + 'px')
     },
 
     mouseout: () => {
@@ -103,7 +103,7 @@ const createCursorline = (div, getDate) => {
   const setTime = setTimeIfChanged(time => {
     elementText.text(time)
       .style("left", (d3.event.pageX) + "px")
-      .style("top", 0)
+      .style("top", "1px")
   })
 
   return {
@@ -261,7 +261,7 @@ class RidgelineChart extends Chart {
     const line = area.lineY1()
 
     d3.select(this._div).append('text')
-      .text(`Anzahl Sätze: ${data.series.length} - Globales Maximum: ${ZAHL_FORMAT(globalMax)} ${this._wert.indexOf('anzahl') === 0 ? 'Stück' : 'ms'}`)
+      .text(`Anzahl Sätze: ${data.series.length} - Globales Maximum: ${ZAHL_FORMAT(globalMax)} ${this._wert.indexOf('anzahl') === 0 ? 'Stück' : 'ms in Summe'}`)
 
     const svg = d3.select(this._div).append('svg')
     svg.attr('width', width)
