@@ -81,26 +81,26 @@ export const getStatisticsData = async (umgebung, datumVon, datumBis) => {
 
     const urls = []
     while(ende.valueOf() > beginn.valueOf()) {
-      const endeWert = ende.format('YYYY-MM-DDTHH:mm:ss')
+      const endeWert = moment(ende).subtract(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
       ende.subtract(1, 'hours')
       const beginnWert = ende.format('YYYY-MM-DDTHH:mm:ss')
       urls.push(`${getEsbUrl(umgebung)}/dashboard/Statistic?from=${beginnWert}&to=${endeWert}`)
     }
-    trace(urls.length + ' calls')
+    trace(urls.length + ' calls', { urls })
 
     const iter = async () => Promise.all(urls.map(async url => { // TODO simplify
       return await fetchRecords(url)
     }))
 
     dataArray = await iter()
-    trace('Finished rest calls', dataArray[0].records.header)
+    trace('Finished rest calls', { header: dataArray[0].records.header, anzahlDataArrays: dataArray.length })
   }
 
   const data = dataArray.reduce((acc, d) => {
     acc.rows.push(...d.records.rows)
     return acc
   }, { header: dataArray[0].records.header.map(h => Object.keys(h)[0]), rows: [] })
-  trace('Collected arrays', data)
+  trace('Collected arrays', { data, anzahlRows: data.rows.length })
 
   const statistics = data.rows.map(row => {
     const object = keysAndRowToObject(data.header, row)
@@ -109,7 +109,7 @@ export const getStatisticsData = async (umgebung, datumVon, datumBis) => {
     object.Date = mom.toDate()
     return object
   })
-  trace('Created object', { beispiel: statistics[0] })
+  trace('Created object', { beispiel: statistics[0], anzahlRows: statistics.length })
 
   statistics.forEach(row => {
     if (row.SERVICE.endsWith('/')) row.SERVICE = row.SERVICE.substring(0, row.SERVICE.length - 1)
@@ -121,10 +121,10 @@ export const getStatisticsData = async (umgebung, datumVon, datumBis) => {
     // bei negativen Werten müsste es sich um asynchrone Calls handeln, dann ist Gesamtzeit ein geeigneter Anhaltspunkt
     row.DURCHSCHNITT_BUS_ZEIT = (row.DURCHSCHNITT_GESAMT_ZEIT - row.DURCHSCHNITT_PROVIDER_ZEIT) < 0 ? row.DURCHSCHNITT_GESAMT_ZEIT : (row.DURCHSCHNITT_GESAMT_ZEIT - row.DURCHSCHNITT_PROVIDER_ZEIT)
   })
-  trace('Created additional fields')
+  trace('Created additional fields', { anzahlRows: statistics.length })
 
   const cf = crossfilter(statistics)
-  trace('Created crossfilter')
+  trace('Created crossfilter', { cfSize: cf.size() })
 
   const part = partition(TIMING_BREAKPOINTS)
   const partBus = partition(TIMING_BUS_BREAKPOINTS)
