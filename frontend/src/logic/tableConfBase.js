@@ -11,7 +11,7 @@ export const MESSAGE_TYPE_COLUMNS = {
 export const TABLE_COLUMNS = {
   ...MESSAGE_TYPE_COLUMNS,
   LogPoints: ['INTERNALLOGID', 'Timestamp', 'DESCRIPTION', 'LOGPOINTNO', 'MESSAGEID', 'Sender', 'PROCESSINSTANCEID', 'SENDERTIMESTAMP', 'ENVIRONMENT', 'ORIGINATOR', 'OPERATION', 'SERVICE', 'MEP', 'PARENTPROCESSINSTANCEID', 'RELATESTOMESSAGEID'],
-  Statistic: ['STARTTIMESTAMP', 'DURATION', 'ENVIRONMENT', 'ORIGINATOR', 'OPERATION', 'SERVICE', 'MEP', 'Sender', 'ANZAHLGESAMT', 'ANZAHLFAULT', 'DURCHSCHNITT_GESAMT_ZEIT', 'DURCHSCHNITT_PROVIDER_ZEIT', 'DURCHSCHNITT_OSB_ZEIT'],
+  Statistic: ['Zeit', 'DURATION', 'ORIGINATOR', 'OPERATION', 'SERVICE', 'MEP', 'ANZAHLGESAMT', 'ANZAHLFAULT', 'DURCHSCHNITT_GESAMT_ZEIT', 'DURCHSCHNITT_PROVIDER_ZEIT', 'DURCHSCHNITT_BUS_ZEIT'],
   Queues: ['QUEUE_NAME', 'QUEUE_TABLE', 'QUEUE_TYPE', 'EXPIRATION', 'USER_COMMENT', 'WAITING', 'READY', 'EXPIRED'],
   Queuetable: ['QUEUE_NAME', 'QUEUE_TABLE', 'MSGID', 'ENQ_TIME', 'MESSAGE', 'MessageSize', 'MessageContent'],
 }
@@ -49,6 +49,11 @@ const DEFAULT_PROPS = {
     Header: 'Timestamp',
     width: 100,
     aggregate: values => values[values.length - 1],
+    ordnung: 3
+  },
+  Zeit: {
+    Header: 'Zeit',
+    width: 100,
     ordnung: 3
   },
   Sender: {
@@ -101,6 +106,16 @@ const DEFAULT_PROPS = {
     Header: 'Service - Operation',
     minWidth: 300,
     ordnung: 25
+  },
+  SERVICE: {
+    Header: 'Service',
+    minWidth: 300,
+    ordnung: 10
+  },
+  OPERATION: {
+    Header: 'Operation',
+    minWidth: 300,
+    ordnung: 11
   },
   filter: {
     Header: 'filter',
@@ -196,7 +211,31 @@ const DEFAULT_PROPS = {
     minWidth: 500,
     ordnung: 30
   },
-
+  ANZAHLGESAMT: {
+    Header: 'Calls',
+    width: 100,
+    ordnung: 20
+  },
+  ANZAHLFAULT: {
+    Header: 'Faults',
+    width: 100,
+    ordnung: 21
+  },
+  DURCHSCHNITT_GESAMT_ZEIT: {
+    Header: 'Ø Gesamt',
+    width: 100,
+    ordnung: 30
+  },
+  DURCHSCHNITT_BUS_ZEIT: {
+    Header: 'Ø Bus',
+    width: 100,
+    ordnung: 31
+  },
+  DURCHSCHNITT_PROVIDER_ZEIT: {
+    Header: 'Ø Provider',
+    width: 100,
+    ordnung: 32
+  }
 }
 
 const columnBase = cellfactory => uniq(Object.keys(TABLE_COLUMNS).reduce((acc, key) => concat(acc, TABLE_COLUMNS[key]), []))

@@ -16,6 +16,8 @@ import Ursache from './Ursache'
 import Timing from './Timing'
 import MsgID from './MsgID'
 import MessageContent from './MessageContent'
+import moment from 'moment'
+import Dauer from './Dauer'
 
 export const cellFactory = onClick => key => {
   switch (key) {
@@ -27,6 +29,8 @@ export const cellFactory = onClick => key => {
       return row => <LogpointNummer row={row}/>
     case 'Timestamp':
       return row => <Timestamp row={row} onClick={onClick}/>
+    case 'Zeit':
+      return row => <Timestamp row={{...row, value: moment(row.value)}} onClick={onClick}/>
     case 'Timestamp.Aggregated':
       return row => <Timestamp row={row} onClick={null}/>
     case 'Sender':
@@ -55,9 +59,17 @@ export const cellFactory = onClick => key => {
     case 'WAITING':
     case 'READY':
     case 'EXPIRED':
+    case 'ANZAHLGESAMT':
+    case 'ANZAHLFAULT':
       return row => <Anzahl row={row} />
     case 'REASON':
       return row => <Ursache row={row} />
+    case 'DURCHSCHNITT_GESAMT_ZEIT':
+    case 'DURCHSCHNITT_BUS_ZEIT':
+    case 'DURCHSCHNITT_PROVIDER_ZEIT':
+      return row => <Dauer row={row} />
+    case 'DUMP':
+      return row => <div style={{ wordBreak: 'normal', overflow: 'auto'}}>{JSON.stringify(row)}</div>
     default:
       return row => {
         return <Default row={row} />

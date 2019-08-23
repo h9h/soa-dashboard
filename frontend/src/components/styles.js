@@ -53,6 +53,11 @@ export const SmallerLeft = styled.div`
   text-align: left !important;
 `
 
+export const SmallerRight = styled.div`
+  font-size: small;
+  text-align: right;
+`
+
 export const Large = styled.span`
   font-size: large;
 `
