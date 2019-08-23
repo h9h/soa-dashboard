@@ -8,7 +8,7 @@ import { renderPlot } from './dcUtils'
 import { renderPieChartDomain } from './pieCharts'
 import { renderSunburstChart } from './sunburstChart'
 import { renderRowChartListServices } from './rowCharts'
-import { renderBarChartTiming } from './barCharts'
+import { renderBarChartDomain, renderBarChartTiming } from './barCharts'
 import { TIMINGS } from './utils'
 import { BrushCol, Listing, MainCol, SelectorCol, HighSelectorCol } from './dcStyles'
 
@@ -22,6 +22,7 @@ export function AufrufStatistik (props) {
 
   const pieDomain = useMemo(() => render(renderPieChartDomain), [render])
   const sunDomain = useMemo(() => render(renderSunburstChart), [render])
+  const barDomain = useMemo(() => render(renderBarChartDomain), [render])
   const histGesamt = useMemo(() => render(renderBarChartTiming(TIMINGS.GESAMT)), [render])
   const histBus = useMemo(() => render(renderBarChartTiming(TIMINGS.BUS)), [render])
 
@@ -72,6 +73,11 @@ export function AufrufStatistik (props) {
           <HighSelectorCol>
             {sunDomain}
           </HighSelectorCol>
+        </Row>
+        <Row>
+          <SelectorCol>
+            {barDomain}
+          </SelectorCol>
         </Row>
         <Row>
           <SelectorCol>
