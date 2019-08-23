@@ -11,18 +11,18 @@ const stretchFactor = 1.2
 const HISTOGRAMM_COLORS = ['#dddddd', ...COLOR_SCHEMES.GreenRed10.slice(1)]
 
 const createBarChart = (div, colorScheme, legend) => {
-  const centre = cx(div)
+  const height = cx(div)
   const chart = dc.barChart(div)
 
   chart.margins().left = 30
-  chart.margins().right = div.clientWidth - stretchFactor * centre
+  chart.margins().right = div.clientWidth - stretchFactor * height
 
   chart.xAxis(d3.axisBottom())
 
   chart
     .ordinalColors(HISTOGRAMM_COLORS)
     .colorAccessor(d => d.key)
-    .height(centre)
+    .height(height)
     .width(div.clientWidth)
     .x(d3.scaleBand())
     .xUnits(dc.units.ordinal)
@@ -134,20 +134,19 @@ export const renderBarChartDomain = ({div, dimensions, colorScheme}) => {
   const domains = dimension.group().reduceSum(dc.pluck('ANZAHLGESAMT'))
   const all = domains.top(Infinity)
   const colors = getColorFunction(colorScheme)
-  const centre = cx(div)
+  const height = cx(div)
 
   const chart = dc.barChart(div)
 
-  chart.margins().left = 30
-  chart.margins().right = div.clientWidth - centre
+  chart.margins().left = 60
+  chart.margins().right = div.clientWidth - height
 
   chart.ordinalColors(colors)
 
   chart
     .colorAccessor(d => d.key)
-    .height(centre)
     .width(div.clientWidth)
-    .height(div.clientHeight)
+    .height(height)
     .x(d3.scaleBand())
     .xUnits(dc.units.ordinal)
     .yAxisLabel('Anzahl Calls')
