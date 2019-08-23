@@ -111,6 +111,9 @@ export const getStatisticsData = async (umgebung, datumVon, datumBis) => {
   })
   trace('Created object', { beispiel: statistics[0], anzahlRows: statistics.length })
 
+  const part = partition(TIMING_BREAKPOINTS)
+  const partBus = partition(TIMING_BUS_BREAKPOINTS)
+
   statistics.forEach(row => {
     if (row.SERVICE.endsWith('/')) row.SERVICE = row.SERVICE.substring(0, row.SERVICE.length - 1)
     const shortService = row.SERVICE.substring(22) // schneide "http://svi.de/service/" weg
@@ -120,14 +123,14 @@ export const getStatisticsData = async (umgebung, datumVon, datumBis) => {
     row.ServiceTree = (shortService + '/' + row.OPERATION).split('/')
     // bei negativen Werten müsste es sich um asynchrone Calls handeln, dann ist Gesamtzeit ein geeigneter Anhaltspunkt
     row.DURCHSCHNITT_BUS_ZEIT = (row.DURCHSCHNITT_GESAMT_ZEIT - row.DURCHSCHNITT_PROVIDER_ZEIT) < 0 ? row.DURCHSCHNITT_GESAMT_ZEIT : (row.DURCHSCHNITT_GESAMT_ZEIT - row.DURCHSCHNITT_PROVIDER_ZEIT)
+    row.PartitionGesamtZeit = part(row.DURCHSCHNITT_GESAMT_ZEIT)
+    row.PartitionBusZeit = partBus(row.DURCHSCHNITT_BUS_ZEIT)
+    row.PartitionProviderZeit = part(row.DURCHSCHNITT_PROVIDER_ZEIT)
   })
   trace('Created additional fields', { anzahlRows: statistics.length })
 
   const cf = crossfilter(statistics)
   trace('Created crossfilter', { cfSize: cf.size() })
-
-  const part = partition(TIMING_BREAKPOINTS)
-  const partBus = partition(TIMING_BUS_BREAKPOINTS)
 
   const dims = {
     zeit: cf.dimension(d => d.Date),
@@ -140,9 +143,9 @@ export const getStatisticsData = async (umgebung, datumVon, datumBis) => {
     serviceTree: cf.dimension(d => d.ServiceTree),
     anzahlGesamt: cf.dimension(d => d.ANZAHLGESAMT),
     anzahlFault: cf.dimension(d => d.ANZAHLFAULT),
-    timingGesamt: cf.dimension(d => part(d.DURCHSCHNITT_GESAMT_ZEIT)),
-    timingProvider: cf.dimension(d => part(d.DURCHSCHNITT_PROVIDER_ZEIT)),
-    timingBus: cf.dimension(d => partBus(d.DURCHSCHNITT_BUS_ZEIT))
+    timingGesamt: cf.dimension(d => d.PartitionGesamtZeit),
+    timingProvider: cf.dimension(d => d.PartitionProviderZeit),
+    timingBus: cf.dimension(d => d.PartitionBusZeit)
   }
   trace('Created dimensions')
 
