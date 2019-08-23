@@ -8,7 +8,7 @@ import moment from 'moment'
 const cx = (div) => div.clientHeight
 const stretchFactor = 1.2
 
-const HISTOGRAMM_COLORS = ['#dddddd', ...COLOR_SCHEMES.GreenRed10.slice(1)]
+export const HISTOGRAMM_COLORS = ['#dddddd', ...COLOR_SCHEMES.GreenRed10.slice(1)]
 
 const createBarChart = (div, colorScheme, legend) => {
   const height = cx(div)

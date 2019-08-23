@@ -19,6 +19,19 @@ import MessageContent from './MessageContent'
 import moment from 'moment'
 import Dauer from './Dauer'
 
+const pk = key => {
+  switch(key){
+    case 'DURCHSCHNITT_GESAMT_ZEIT':
+      return 'PartitionGesamtZeit'
+    case 'DURCHSCHNITT_BUS_ZEIT':
+      return 'PartitionBusZeit'
+    case 'DURCHSCHNITT_PROVIDER_ZEIT':
+      return 'PartitionProviderZeit'
+    default:
+      return null
+  }
+}
+
 export const cellFactory = onClick => key => {
   switch (key) {
     case 'Timing':
@@ -67,7 +80,7 @@ export const cellFactory = onClick => key => {
     case 'DURCHSCHNITT_GESAMT_ZEIT':
     case 'DURCHSCHNITT_BUS_ZEIT':
     case 'DURCHSCHNITT_PROVIDER_ZEIT':
-      return row => <Dauer row={row} />
+      return row => <Dauer row={row} partitionKey={pk(key)} />
     case 'DUMP':
       return row => <div style={{ wordBreak: 'normal', overflow: 'auto'}}>{JSON.stringify(row)}</div>
     default:
