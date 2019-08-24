@@ -1,4 +1,3 @@
-import { getConfiguration } from '../configuration'
 import moment from 'moment'
 import { getDuration } from './time'
 import { MESSAGE_TYPES_NAMES } from './tableConfMessages'
@@ -20,7 +19,7 @@ export const LOG_SEARCH_TYPES = {
 
 export const initialState = () => {
   log.trace('initialState called')
-  const configuration = getConfiguration()
+  const configuration = getStoredConfiguration()
   const { von, bis } = getDuration(configuration.time.duration)(moment())
 
   const persistence = new Persistence(USER_KEY)
@@ -31,7 +30,7 @@ export const initialState = () => {
   const defaultView = VIEWS.DEFAULT
 
   return {
-    configuration: getStoredConfiguration(),
+    configuration,
     user: user,
     umgebung: configuration.filter.umgebung,
     datum: moment().format('YYYY-MM-DD'),

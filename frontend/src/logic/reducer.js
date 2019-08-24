@@ -1,19 +1,20 @@
 import moment from 'moment'
 import { mergeDeepRight } from 'ramda'
 import { getDuration, TIME_FORMAT, widenTime } from './time'
-import { getConfiguration, setConfiguration } from '../configuration'
 import Persistence from '../configuration/Persistence'
 import { USER_KEY } from './store'
 
 import Log from '../log'
-import { storeConfiguration } from './configuration'
+import {
+  getConfigurationValue,
+  getStoredConfiguration,
+  storeConfiguration,
+} from './configuration'
 
 const log = Log('reducer')
 
 function reducer (state = {}, action) {
   log.trace('reduce', {state, action})
-
-  const configuration = getConfiguration()
 
   switch (action.type) {
     case 'loggedIn': {
@@ -38,7 +39,7 @@ function reducer (state = {}, action) {
 
     case 'actualise': {
       const datum = moment().format('YYYY-MM-DD')
-      const {von, bis} = getDuration(configuration.time.duration)(moment())
+      const {von, bis} = getDuration(getConfigurationValue('time.duration'))(moment())
       return {
         ...state,
         logSearchValue: '',
@@ -50,7 +51,7 @@ function reducer (state = {}, action) {
     }
 
     case 'setFilter': {
-      const {von, bis} = getDuration(configuration.time.duration)(moment(action.bis, TIME_FORMAT))
+      const {von, bis} = getDuration(getConfigurationValue('time.duration'))(moment(action.bis, TIME_FORMAT))
       return {
         ...state,
         umgebung: action.umgebung,
@@ -69,7 +70,7 @@ function reducer (state = {}, action) {
       }
 
     case 'setBis': {
-      const {von, bis} = getDuration(configuration.time.duration)(moment(action.bis, TIME_FORMAT))
+      const {von, bis} = getDuration(getConfigurationValue('time.duration'))(moment(action.bis, TIME_FORMAT))
       return {
         ...state,
         von,
@@ -78,7 +79,7 @@ function reducer (state = {}, action) {
     }
 
     case 'setLogSearchParameters': {
-      const {von, bis} = widenTime(configuration.filter.widenFilter)(state.von, state.bis)
+      const {von, bis} = widenTime(getConfigurationValue('filter.widenFilter'))(state.von, state.bis)
       return {
         ...state,
         von,
@@ -120,12 +121,12 @@ function reducer (state = {}, action) {
       return {
         ...state,
         view: action.view,
-        colorScheme: configuration.statistics.colorSchemes[action.view] || 'Tableau10'
+        colorScheme: getConfigurationValue('statistics.colorSchemes')[action.view] || 'Tableau10'
       }
 
     case 'setColorScheme':
-      const newConf = mergeDeepRight(configuration, {statistics: {colorSchemes: {[state.view]: action.colorScheme}}})
-      setConfiguration(newConf)
+      const newConf = mergeDeepRight(getStoredConfiguration(), {statistics: {colorSchemes: {[state.view]: action.colorScheme}}})
+      storeConfiguration(newConf)
 
       return {
         ...state,

@@ -1,8 +1,8 @@
 import { widenTime } from './time'
-import { getConfiguration } from '../configuration'
+import { getConfigurationValue } from './configuration'
 
 export const getMessageRoute = (umgebung, datum, von, bis, messageId) => {
-  const {von: vonNeu, bis: bisNeu} = widenTime(getConfiguration().filter.widenFilter)(von, bis)
+  const {von: vonNeu, bis: bisNeu} = widenTime(getConfigurationValue('filter.widenFilter'))(von, bis)
 
   return `/message/${umgebung}/${datum}/${vonNeu}/${bisNeu}/${messageId}`
 }
