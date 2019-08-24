@@ -8,17 +8,14 @@ import ReactTable from 'react-table'
 
 import Log from '../log'
 import { connect } from 'react-redux'
-import { setFilterQueues } from '../logic/actions'
-import { mergeDeepRight, sort } from 'ramda'
-import { useConfiguration } from '../configuration'
+import { setFilterQueues, updateConfiguration } from '../logic/actions'
+import { sort } from 'ramda'
 
 const log = Log('queues')
 
 const Queues = props => {
   const {umgebung, database} = props
   log.trace('Queues for', umgebung, database)
-
-  const [configuration, setConfiguration] = useConfiguration()
 
   const [queues, setQueues] = useState({status: 'loading'})
   const columns = getColumns()
@@ -34,12 +31,11 @@ const Queues = props => {
   if (queues.status === 'loading') return <WartenAnzeiger/>
 
   if (queues.status === 'ready') {
-    const sizeOptions = sort((a,b) => a-b, configuration.queuetable.pageSizes.filter(s => !!s).map(s => parseInt(s,10)))
+    const sizeOptions = sort((a,b) => a-b, props.pageSizes.filter(s => !!s).map(s => parseInt(s,10)))
     log.trace('SizeOptions', sizeOptions)
 
     const handlePageSizeChange = e => {
-      const newConf = mergeDeepRight(configuration, { queuetable: { defaultSize: '' + e }})
-      setConfiguration(newConf)
+      props.setPageSize(e)
     }
 
     return (
@@ -54,7 +50,7 @@ const Queues = props => {
               ]}
               pageSizeOptions={sizeOptions}
               onPageSizeChange={handlePageSizeChange}
-              defaultPageSize={parseInt(configuration.queuetable.defaultSize, 10)}
+              defaultPageSize={props.defaultPageSize}
               getTdProps={(state, rowInfo, column) => {
                 return {
                   onClick: (e, handleOriginal) => {
@@ -92,9 +88,12 @@ const Queues = props => {
 export default connect(
   state => ({
     umgebung: state.umgebung,
-    database: state.database
+    database: state.database,
+    pageSizes: state.configuration.queuetable.pageSizes,
+    defaultPageSize: parseInt(state.configuration.queuetable.defaultSize, 10)
   }),
   dispatch => ({
-    setFilterQueues: (umgebung, database) => dispatch(setFilterQueues(umgebung, database))
+    setFilterQueues: (umgebung, database) => dispatch(setFilterQueues(umgebung, database)),
+    setPageSize: size => dispatch(updateConfiguration({ queuetable: { defaultSize: '' + size }}))
   })
 )(Queues)

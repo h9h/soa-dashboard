@@ -7,14 +7,16 @@ import Col from 'react-bootstrap/Col'
 import ReactTable from 'react-table'
 import { connect } from 'react-redux'
 import MessageModal from './MessageModal'
-import { useConfiguration } from '../configuration'
-import { mergeDeepRight, sort } from 'ramda'
+import { sort } from 'ramda'
 import MessageFilter from './MessageFilter'
 import SaveJob from './SaveJob'
 import { checkAliveFile } from '../logic/api/rest-api-local'
 import { Centered, Red } from './styles'
 import Log from '../log'
 import moment from 'moment'
+import {
+  updateConfiguration,
+} from '../logic/actions'
 
 const log = Log('messages')
 
@@ -91,8 +93,6 @@ const Messages = props => {
   }, [props.user])
   log.trace('have Jobs-API', haveJobsApi)
 
-  const [configuration, setConfiguration] = useConfiguration()
-
   const [status, setStatus] = useState('loading')
   const [messages, setMessages] = useState(null)
   const [filter, setFilter] = useState('')
@@ -167,12 +167,11 @@ const Messages = props => {
       )
     }
 
-    const sizeOptions = sort((a, b) => a - b, configuration.messagetable.pageSizes.filter(s => !!s).map(s => parseInt(s, 10)))
+    const sizeOptions = sort((a, b) => a - b, props.pageSizes.filter(s => !!s).map(s => parseInt(s, 10)))
     log.trace('SizeOptions', sizeOptions)
 
     const handlePageSizeChange = e => {
-      const newConf = mergeDeepRight(configuration, {messagetable: {defaultSize: '' + e}})
-      setConfiguration(newConf)
+      props.setPageSize(e)
     }
 
     const anzahl = messages.length
@@ -200,7 +199,7 @@ const Messages = props => {
               defaultSorted={getDefaultSorted}
               pageSizeOptions={sizeOptions}
               onPageSizeChange={handlePageSizeChange}
-              defaultPageSize={parseInt(configuration.messagetable.defaultSize, 10)}
+              defaultPageSize={props.defaultPageSize}
               defaultFilterMethod={getDefaultFilterMethod}
               getTdProps={getTdProps(setRow)}
             />
@@ -219,6 +218,11 @@ export default connect(
     messageType: state.messageType,
     datumVon: state.datumVon,
     datumBis: state.datumBis,
-    user: state.user
+    user: state.user,
+    pageSizes: state.configuration.messagetable.pageSizes,
+    defaultPageSize: parseInt(state.configuration.messagetable.defaultSize, 10)
+  }),
+  dispatch => ({
+    setPageSize: size => dispatch(updateConfiguration({ messagetable: { defaultSize: '' + size }}))
   })
 )(Messages)
