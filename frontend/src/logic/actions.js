@@ -81,3 +81,8 @@ export const setRidgelineWert = (wert) => ({
   type: 'setRidgelineWert',
   wert
 })
+
+export const updateConfiguration = (values) => ({
+  type: 'updateConfiguration',
+  values
+})

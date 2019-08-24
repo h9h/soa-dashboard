@@ -6,6 +6,7 @@ import Persistence from '../configuration/Persistence'
 import { USER_KEY } from './store'
 
 import Log from '../log'
+import { storeConfiguration } from './configuration'
 
 const log = Log('reducer')
 
@@ -152,6 +153,15 @@ function reducer (state = {}, action) {
       return {
         ...state,
         ridgelineWert: action.wert,
+      }
+    }
+
+    case 'updateConfiguration': {
+      const newConfiguration = mergeDeepRight(state.configuration, action.values)
+      storeConfiguration(newConfiguration)
+      return {
+        ...state,
+        configuration: newConfiguration,
       }
     }
 

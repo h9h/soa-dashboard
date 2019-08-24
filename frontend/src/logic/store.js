@@ -6,6 +6,7 @@ import { VIEWS } from './statistics'
 import Persistence from '../configuration/Persistence'
 import Log from '../log'
 import { checkValidUser } from './authorization'
+import { getStoredConfiguration } from './configuration'
 
 export const USER_KEY = 'esbd.user'
 
@@ -30,6 +31,7 @@ export const initialState = () => {
   const defaultView = VIEWS.DEFAULT
 
   return {
+    configuration: getStoredConfiguration(),
     user: user,
     umgebung: configuration.filter.umgebung,
     datum: moment().format('YYYY-MM-DD'),
@@ -47,7 +49,6 @@ export const initialState = () => {
     view: defaultView,
     colorScheme: configuration.statistics.colorSchemes[defaultView] || 'Tableau10',
     ridgelineDimension: 'operation',
-    ridgelineWert: 'anzahlGesamt',
-    database: 'ME'
+    ridgelineWert: 'anzahlGesamt'
   }
 }
