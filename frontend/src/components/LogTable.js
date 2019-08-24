@@ -3,18 +3,21 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import ReactTable from 'react-table'
 import ReactJson from 'react-json-view'
-import { sort, mergeDeepRight } from 'ramda'
+import { sort } from 'ramda'
 import { getColumns } from '../logic/tableConfLog'
 import ServiceModal from './ServiceModal'
 import { getLogpoints } from '../logic/api/api-dashboard'
 import ServicecallModal from './ServicecallModal'
 import LogpointDistribution from './LogpointDistribution'
 import WartenAnzeiger from './WartenAnzeiger'
-import { useConfiguration } from '../configuration'
 import Log from '../log'
 import { getStatistik } from '../logic/logpunktstatistik'
 import { connect } from 'react-redux'
-import { setLogSearchParameters, setBis } from '../logic/actions'
+import {
+  setLogSearchParameters,
+  setBis,
+  updateConfiguration,
+} from '../logic/actions'
 import { withRouter } from 'react-router-dom'
 import { getDashboardRoute } from '../logic/routes'
 import { LOG_SEARCH_TYPES } from '../logic/store'
@@ -88,8 +91,6 @@ export const UnconnectedLogTable = withRouter((props) => {
     props.history.push(route)
   }
 
-  const [configuration, setConfiguration] = useConfiguration()
-
   const [logs, setLogs] = useState({status: 'loading'})
   const [analysedData, setAnalysedData] = useState({isEmpty: true})
   const [columns, setColumns] = useState(null)
@@ -162,12 +163,11 @@ export const UnconnectedLogTable = withRouter((props) => {
 
     const {statistik} = analysedData
 
-    const sizeOptions = sort((a, b) => a - b, configuration.logtable.pageSizes.filter(s => !!s).map(s => parseInt(s, 10)))
+    const sizeOptions = sort((a, b) => a - b, props.pageSizes.filter(s => !!s).map(s => parseInt(s, 10)))
     log.trace('SizeOptions', sizeOptions)
 
     const handlePageSizeChange = e => {
-      const newConf = mergeDeepRight(configuration, {logtable: {defaultSize: '' + e}})
-      setConfiguration(newConf)
+      props.setPageSize(e)
     }
 
     const tdProps = getTdProps(handleRouteTo)
@@ -178,8 +178,6 @@ export const UnconnectedLogTable = withRouter((props) => {
     const defaultSorted = [
       {id: 'Timestamp'},
     ]
-    const defaultPageSize = parseInt(configuration.logtable.defaultSize, 10)
-
     return (
       <Row>
         <Col>
@@ -193,7 +191,7 @@ export const UnconnectedLogTable = withRouter((props) => {
             pivotBy={['MESSAGEID']}
             pageSizeOptions={sizeOptions}
             onPageSizeChange={handlePageSizeChange}
-            defaultPageSize={defaultPageSize}
+            defaultPageSize={props.defaultPageSize}
             defaultFilterMethod={getDefaultFilterMethod}
             showPageSizeOptions={fullTableControls}
             showPagination={fullTableControls}
@@ -220,10 +218,13 @@ export default connect(
     von: state.von,
     bis: state.bis,
     searchType: state.logSearchType,
-    searchValue: state.logSearchValue
+    searchValue: state.logSearchValue,
+    pageSizes: state.configuration.logtable.pageSizes,
+    defaultPageSize: parseInt(state.configuration.logtable.defaultSize, 10)
   }),
   dispatch => ({
     setSearchParameters: (searchType, searchValue) => dispatch(setLogSearchParameters(searchType, searchValue)),
-    setBis: bis => dispatch(setBis(bis))
+    setBis: bis => dispatch(setBis(bis)),
+    setPageSize: size => dispatch(updateConfiguration({ logtable: { defaultSize: '' + size }}))
   })
 )(UnconnectedLogTable)
