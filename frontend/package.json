@@ -45,7 +45,6 @@
     "regenerator-runtime": "^0.13.3",
     "store": "^2.0.12",
     "styled-components": "^4.3.2",
-    "universal-cookie": "^3.1.0",
     "uuid": "^3.3.2",
     "vis-timeline": "^5.1.0",
     "xml-formatter": "^1.1.0"

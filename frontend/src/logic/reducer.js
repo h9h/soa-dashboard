@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { mergeDeepRight } from 'ramda'
 import { getDuration, TIME_FORMAT, widenTime } from './time'
-import Persistence from '../configuration/Persistence'
+import Persistence from './Persistence'
 import { USER_KEY } from './store'
 
 import Log from '../log'

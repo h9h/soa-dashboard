@@ -1,4 +1,4 @@
-import Persistence from '../../configuration/Persistence'
+import Persistence from '../Persistence'
 import { LRU } from './lru'
 import Log from '../../log'
 
