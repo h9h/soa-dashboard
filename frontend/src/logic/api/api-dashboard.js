@@ -1,16 +1,16 @@
-import { getConfiguration } from '../../configuration'
 import { API, del, get, getData, postDataXml } from './rest-api-esb'
 import { TIME_FORMAT } from '../time'
 import { LOG_SEARCH_TYPES } from '../store'
 import moment from 'moment'
+import { getConfigurationValue } from '../configuration'
 
 export const getUmgebungen = umgebungen => {
   return Object.keys(umgebungen)
 }
 
-const getEsbUrl = umgebung => {
-  const configuration = getConfiguration()
-  return configuration.umgebungen[umgebung] || 'http://localhost/esb'
+export const getEsbUrl = umgebung => {
+  const umgebungen = getConfigurationValue('umgebungen')
+  return umgebungen[umgebung] || 'http://localhost/esb'
 }
 
 export const getLogpoints = (filter, cb) => {

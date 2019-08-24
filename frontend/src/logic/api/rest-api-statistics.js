@@ -5,6 +5,7 @@ import Log from '../../log'
 import crossfilter from 'crossfilter2'
 import { STATISTIC } from '../mock/statistic'
 import { getConfigurationValue } from '../configuration'
+import { getEsbUrl } from './api-dashboard'
 
 const log = Log('rest-api-statistics')
 
@@ -17,11 +18,6 @@ const partition = breakpoints => v => {
     return i
   }
   return breakpoints.length
-}
-
-const getEsbUrl = umgebung => {
-  const umgebungen = getConfigurationValue('umgebungen')
-  return umgebungen[umgebung] || 'http://localhost/esb'
 }
 
 const getDomain = text => {

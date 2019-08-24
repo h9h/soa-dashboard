@@ -2,7 +2,6 @@ import React from 'react'
 import { notification } from '../notification'
 import { toast } from 'react-toastify'
 import axios from 'axios'
-import { getConfiguration } from '../../configuration'
 import { Small } from '../../components/styles'
 import { convertToMoment } from '../time'
 import { getMockLogpoints } from '../mock/mockData'
@@ -15,6 +14,7 @@ import { defaultTo, path } from 'ramda'
 import Log from '../../log'
 import { logToFile } from './rest-api-local'
 import { keysAndRowToObject } from '../utils'
+import { getConfigurationValue } from '../configuration'
 
 const log = Log('rest-api-esb')
 log.file = logToFile('rest-api-esb')
@@ -140,7 +140,7 @@ function getMockData (api, url) {
 
   switch (api) {
     case API.LOGPOINT:
-      return getMockLogpoints(parseInt(getConfiguration().mock.anzahl, 10), url)
+      return getMockLogpoints(parseInt(getConfigurationValue('mock.anzahl'), 10), url)
     case API.MESSAGE:
       return getMockLogpoints(1) // für modales Fenster eines Nachrichtenaustauschs
     case API.MESSAGES:
@@ -169,7 +169,7 @@ export async function getData (api, url, cb, annotations) {
   const now = new Date()
   const logLabel = 'fetch: "' + url + '"'
   log.time(logLabel)
-  const MOCK = getConfiguration().mock.doMock === 'true'
+  const MOCK = getConfigurationValue('mock.doMock') === 'true'
 
   let records
 
