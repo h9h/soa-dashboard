@@ -1,6 +1,5 @@
 import DEBUG from 'debug';
-import { getConfiguration } from './configuration'
-import { defaultConfiguration } from './configuration/constants'
+import { getConfigurationValue } from './logic/configuration'
 
 export const BASE = 'ESBD'
 
@@ -12,9 +11,9 @@ const formatDiff = (tStart, tEnd) => {
 }
 
 export default unit => {
-  const conf = getConfiguration ? getConfiguration() : defaultConfiguration
-  DEBUG.enable(conf.debug.namespaces)
-  const logLevel = parseInt(conf.debug.level, 10)
+  const debugConfiguration = getConfigurationValue('debug')
+  DEBUG.enable(debugConfiguration.namespaces)
+  const logLevel = parseInt(debugConfiguration.level, 10)
 
   const namespace = `${BASE}:${unit}`;
   const debug = DEBUG(namespace);

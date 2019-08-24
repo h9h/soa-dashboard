@@ -3,8 +3,6 @@ import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 import entries from 'object.entries'
 
-import { getConfiguration } from './configuration'
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css'
@@ -23,14 +21,13 @@ import * as serviceWorker from './serviceWorker';
 import { ReactTableDefaults } from 'react-table'
 import dc from 'dc'
 import * as d3 from 'd3'
-
 import de_locale from 'moment/locale/de'
 import moment from 'moment'
+import { getConfigurationValue } from './logic/configuration'
 
 import Log from './log'
-
-console.log('Log Level', getConfiguration().debug.level)
 const log = Log('index')
+log.info('Log Level', getConfigurationValue('debug.level'))
 log.info('Umgebungsvariablen: ', process.env)
 
 // Konfiguriere deutsche Zeit/Datumsformate für d3
