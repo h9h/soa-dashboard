@@ -1,7 +1,50 @@
 import { toast } from 'react-toastify'
-import { toastConfiguration, getMillisPreExecutionOnNotification } from '../configuration/useConfiguration'
+import { getConfigurationValue } from './configuration'
+
 import Log from '../log'
 const log = Log('notification')
+
+const getMillisNotificationAutoClose = () => {
+  return parseInt(getConfigurationValue('advanced.millisAutoCloseNotification'), 10)
+}
+
+const getMillisPreExecutionOnNotification = () => {
+  return parseInt(getConfigurationValue('advanced.millisPreExecutionOnNotification'), 10)
+}
+
+const getNotificationPosition = () => {
+  const config = getConfigurationValue('advanced')
+  const vert = config.notificationPositionVertical
+  const horz = config.notificationPositionHorizontal
+
+  if (vert === 'top') {
+    if (horz === 'left') {
+      return toast.POSITION.TOP_LEFT
+    } else if(horz === 'center') {
+      return toast.POSITION.TOP_CENTER
+    } else {
+      return toast.POSITION.TOP_RIGHT
+    }
+  } else {
+    if (horz === 'left') {
+      return toast.POSITION.BOTTOM_LEFT
+    } else if(horz === 'center') {
+      return toast.POSITION.BOTTOM_CENTER
+    } else {
+      return toast.POSITION.BOTTOM_RIGHT
+    }
+  }
+}
+
+const toastConfiguration = () => {
+  return {
+    position: getNotificationPosition(),
+    autoClose: getMillisNotificationAutoClose(),
+    pauseOnFocusLoss: true,
+  }
+}
+
+toast.configure(toastConfiguration())
 
 /*
 Zeige Notification solange Funktion ausgeführt wird

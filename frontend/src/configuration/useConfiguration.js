@@ -3,7 +3,6 @@ import { equals } from 'ramda'
 import Configuration from './Configuration'
 import { validateConfiguration } from './validate'
 import { defaultConfiguration } from './constants'
-import { toast } from 'react-toastify'
 import { notification } from '../logic/notification'
 
 let CONFIGURATION
@@ -52,42 +51,4 @@ export const setConfiguration = conf => {
   }
   CONFIGURATION.set(newConf)
   configuration = newConf
-}
-
-const getMillisNotificationAutoClose = () => {
-  return parseInt(configuration.advanced.millisAutoCloseNotification, 10)
-}
-
-const getNotificationPosition = () => {
-  const vert = configuration.advanced.notificationPositionVertical
-  const horz = configuration.advanced.notificationPositionHorizontal
-  if (vert === 'top') {
-    if (horz === 'left') {
-      return toast.POSITION.TOP_LEFT
-    } else if(horz === 'center') {
-      return toast.POSITION.TOP_CENTER
-    } else {
-      return toast.POSITION.TOP_RIGHT
-    }
-  } else {
-    if (horz === 'left') {
-      return toast.POSITION.BOTTOM_LEFT
-    } else if(horz === 'center') {
-      return toast.POSITION.BOTTOM_CENTER
-    } else {
-      return toast.POSITION.BOTTOM_RIGHT
-    }
-  }
-}
-
-export const toastConfiguration = () => {
-  return {
-    position: getNotificationPosition(),
-    autoClose: getMillisNotificationAutoClose(),
-    pauseOnFocusLoss: true,
-  }
-}
-
-export const getMillisPreExecutionOnNotification = () => {
-  return parseInt(configuration.advanced.millisPreExecutionOnNotification, 10)
 }

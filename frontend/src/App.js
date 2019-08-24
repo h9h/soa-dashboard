@@ -19,16 +19,12 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import { toast } from 'react-toastify'
 import WartenAnzeiger from './components/WartenAnzeiger'
-import { toastConfiguration } from './configuration/useConfiguration'
 import reducer from './logic/reducer'
 import { initialState } from './logic/store'
 
 import Log from './log'
 const log = Log('app')
-
-toast.configure(toastConfiguration())
 
 // Lazy Load die einzelnen Seiten
 const RouteUnauthenticated = lazy(() => import('./RouteUnauthenticated'))
