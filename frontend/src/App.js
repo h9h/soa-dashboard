@@ -24,6 +24,7 @@ import reducer from './logic/reducer'
 import { initialState } from './logic/store'
 
 import Log from './log'
+import { getConfigurationValue } from './logic/configuration'
 const log = Log('app')
 
 // Lazy Load die einzelnen Seiten
@@ -46,7 +47,9 @@ const App = () => {
   const store = createStore(
     reducer,
     initialState(),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__({
+      trace: getConfigurationValue('mock.doMock') === 'true'
+    })
   )
 
   return (
