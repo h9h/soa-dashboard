@@ -1,14 +1,14 @@
 import moment from 'moment'
 import Log from '../log'
-import { getConfiguration } from '../configuration'
 import { checkAlive, getVersion, loginUser } from './api/rest-api-local'
 import { isVersionOk } from './utils'
+import { getConfigurationValue } from './configuration'
 
 const log = Log('authorization')
+const isMocked = () => getConfigurationValue('mock.doMock') === 'true'
 
 export async function checkVersion () {
-  const MOCK = getConfiguration().mock.doMock === 'true'
-  if (MOCK) return true
+  if (isMocked()) return true
 
   const currentVersion = await getVersion()
   if (!currentVersion) {
@@ -21,8 +21,7 @@ export async function checkVersion () {
 }
 
 export async function checkAvailability () {
-  const MOCK = getConfiguration().mock.doMock === 'true'
-  if (MOCK) return true
+  if (isMocked()) return true
 
   return await checkAlive()
 }
@@ -31,8 +30,7 @@ export async function checkAvailability () {
 export async function checkLogin (userId, password) {
   log.trace('Authenticating user', userId)
 
-  const MOCK = getConfiguration().mock.doMock === 'true'
-  if (MOCK) return {
+  if (isMocked()) return {
     timestamp: Date.now(),
     userId: 'einUser',
     idm: {
@@ -48,8 +46,7 @@ export async function checkLogin (userId, password) {
 export const checkValidUser = (user) => {
   if (!user) return false
 
-  const MOCK = getConfiguration().mock.doMock === 'true'
-  if (MOCK) return true
+  if (isMocked()) return true
 
   try {
     if (!user.timestamp) return false
@@ -71,6 +68,7 @@ export const checkValidUser = (user) => {
 Einzelne Rechte
  */
 export const rightToViewProps = user => {
+  if (isMocked()) return true
   if (!user) return false
   return user.userId === process.env.REACT_APP_ADMIN
 }
