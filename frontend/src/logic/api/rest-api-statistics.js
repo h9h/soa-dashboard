@@ -1,10 +1,10 @@
 import moment from 'moment'
 import { fetchRecords } from './rest-api-esb'
-import { getConfiguration } from '../../configuration'
 import { timeSpent, keysAndRowToObject } from '../utils'
 import Log from '../../log'
 import crossfilter from 'crossfilter2'
 import { STATISTIC } from '../mock/statistic'
+import { getConfigurationValue } from '../configuration'
 
 const log = Log('rest-api-statistics')
 
@@ -20,8 +20,8 @@ const partition = breakpoints => v => {
 }
 
 const getEsbUrl = umgebung => {
-  const configuration = getConfiguration()
-  return configuration.umgebungen[umgebung] || 'http://localhost/esb'
+  const umgebungen = getConfigurationValue('umgebungen')
+  return umgebungen[umgebung] || 'http://localhost/esb'
 }
 
 const getDomain = text => {
@@ -68,7 +68,7 @@ const getDomain = text => {
 
 export const getStatisticsData = async (umgebung, datumVon, datumBis) => {
   const trace = timeSpent(log.trace)
-  const MOCK = getConfiguration().mock.doMock === 'true'
+  const MOCK = getConfigurationValue('mock.doMock') === 'true'
 
   let dataArray
 
