@@ -6,18 +6,17 @@ import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import Blank from '../components/Blank'
 import { getUmgebungen } from '../logic/api/api-dashboard'
-import { getConfiguration } from '../configuration'
 import { withExplanation } from '../logic/notification'
 import SelectDatabase from './SelectDatabase'
 import Log from '../log'
 import Navigation from './Navigation'
 import { connect } from 'react-redux'
 import { setFilterQueues } from '../logic/actions'
+import { getConfigurationValue } from '../logic/configuration'
 
 const log = Log('headerqueues')
 
 const HeaderQueues = props => {
-  const configuration = getConfiguration()
   const { umgebung, database } = props
   const [filter, changeFilter] = useState({ umgebung, database })
 
@@ -52,7 +51,7 @@ const HeaderQueues = props => {
             <FormGroup controlId="filter.umgebung">
               <FormControl as="select" value={filter.umgebung}
                            onChange={handleFilterChange('umgebung')}>
-                {getUmgebungen(configuration.umgebungen)
+                {getUmgebungen(getConfigurationValue('umgebungen'))
                   .map(umgebung => <option key={umgebung}>{umgebung}</option>)}
               </FormControl>
             </FormGroup>

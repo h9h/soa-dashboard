@@ -10,11 +10,11 @@ import {
   logpointType,
   logpointWithMessage, LP_DIRECTION,
 } from '../logic/logpunkt'
-import { getConfiguration } from '../configuration'
 import MessageFromLogpoint from './MessageFromLogpoint'
 import styled from 'styled-components'
 
 import Log from '../log'
+import { getConfigurationValue } from '../logic/configuration'
 
 const log = Log('servicecall')
 
@@ -57,7 +57,6 @@ const groups = [
 
 const Servicecall = ({umgebung, logpoints, standalone=false}) => {
   log.trace('Servicecall called', umgebung, logpoints, standalone)
-  const configuration = getConfiguration()
 
   const [data, defaultLogIds] = useMemo(() => {
     const defaultLogIds = {}
@@ -94,7 +93,7 @@ const Servicecall = ({umgebung, logpoints, standalone=false}) => {
 
     if (!timeline.current) {
       timeline.current = new Timeline(element.current, data, groups, {
-        align: configuration.presentation.timeline.alignFlag,
+        align: getConfigurationValue('presentation.timeline.alignFlag'),
         type: 'box',
         maxHeight: '500px'
       })
@@ -130,7 +129,7 @@ const Servicecall = ({umgebung, logpoints, standalone=false}) => {
       timeline.current.off('contextmenu', onRightClick)
       timeline.current.destroy()
     }
-  }, [configuration.presentation.timeline.alignFlag, data, element, width])
+  }, [data, element, width])
 
   useEffect(() => {
     if (!timeline.current || width === 0) return

@@ -2,15 +2,14 @@ import React from 'react'
 import moment from 'moment'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { getConfiguration } from '../configuration'
 import crossfilter from 'crossfilter2'
 import DataContext from './dc/DataContext'
 import { renderBarChartLogpoints } from './dc/barCharts'
 import { withNotification } from '../logic/notification'
+import { getConfigurationValue } from '../logic/configuration'
 
 const LogpointDistribution = React.memo(({ statistik, setBis }) => {
-  const configuration = getConfiguration()
-  const barchartHeight = parseInt(configuration.presentation.distribution.heightInPx, 10)
+  const barchartHeight = parseInt(getConfigurationValue('presentation.distribution.heightInPx'), 10)
   if (barchartHeight < 20) return null
 
   const ndx = crossfilter(statistik)

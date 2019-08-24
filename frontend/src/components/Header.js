@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom'
 import ButtonWithTip from '../components/ButtonWithTip'
 import Blank from '../components/Blank'
 import { getUmgebungen } from '../logic/api/api-dashboard'
-import { getConfiguration } from '../configuration'
 import { withExplanation } from '../logic/notification'
 import { actualise, setFilter } from '../logic/actions'
 import Navigation from './Navigation'
@@ -24,6 +23,7 @@ import { equals } from 'ramda'
 import AutosuggestBox from './suggestions/AutosuggestBox'
 import { LOG_SEARCH_TYPES } from '../logic/store'
 import { LRUProvider } from './suggestions/lruProvider'
+import { getConfigurationValue } from '../logic/configuration'
 
 const log = Log('header')
 
@@ -54,8 +54,6 @@ const LRUs = Object.keys(LOG_SEARCH_TYPES).reduce((acc, key) => {
 
 export const HeaderForm = ({setFilter, actualise, ...rest}) => {
   log.trace('Mount Headerform', rest)
-
-  const configuration = getConfiguration()
 
   // setzte lokale Daten auf Props beim ersten Render
   const {umgebung, datum, bis, searchType, searchValue} = rest
@@ -99,7 +97,7 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
   }
 
   const getRoute = filter => {
-    const { von, bis } = getDuration(configuration.time.duration)(moment(filter.bis, TIME_FORMAT))
+    const { von, bis } = getDuration(getConfigurationValue('time.duration'))(moment(filter.bis, TIME_FORMAT))
 
     return getDashboardRoute(filter.umgebung, filter.datum, von, bis, filter.searchType, filter.searchValue)
   }
@@ -110,7 +108,7 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
       fn: actualise
     })
   }
-  const umgebungen = getUmgebungen(configuration.umgebungen).map(umgebung => <option key={umgebung}>{umgebung}</option>)
+  const umgebungen = getUmgebungen(getConfigurationValue('umgebungen')).map(umgebung => <option key={umgebung}>{umgebung}</option>)
   const searchTypes = Object.keys(LOG_SEARCH_TYPES).map(k => <option key={k}>{LOG_SEARCH_TYPES[k]}</option>)
   const propagateLocalFilter = () => {
     LRUs[localFilter.searchType].store(localFilter.searchValue)

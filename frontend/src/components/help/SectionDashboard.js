@@ -6,11 +6,11 @@ import IconExplanation from './IconExplanation'
 import ComponentExplanation from './ComponentExplanation'
 import FormControl from 'react-bootstrap/FormControl'
 import { getUmgebungen } from '../../logic/api/api-dashboard'
-import { getConfiguration } from '../../configuration'
 import Datum from '../datetime/Datum'
 import Zeit from '../datetime/Zeit'
 import { Paragraph } from './styles'
 import { LOG_SEARCH_TYPES } from '../../logic/store'
+import { getConfigurationValue } from '../../logic/configuration'
 
 const noop = () => {}
 const datum = moment().format('YYYY-MM-DD')
@@ -18,7 +18,7 @@ const zeit = '12:00'
 
 const selection = (
   <FormControl as="select" value={'EW'} onChange={noop}>
-    {getUmgebungen(getConfiguration().umgebungen)
+    {getUmgebungen(getConfigurationValue('umgebungen'))
       .map(umgebung => <option key={umgebung}>{umgebung}</option>)}
   </FormControl>
 )

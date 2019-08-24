@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import { equals, groupWith, partition } from 'ramda'
 import { Black, Blue, Centered, Red, Small, Smaller } from '../styles'
 import { logpointDirection, logpointToNumber, logpointType, LP_TYPES, sortLogpunkte } from '../../logic/logpunkt'
-import { getConfiguration } from '../../configuration'
 import Log from '../../log'
 import withLinkToTimeline from '../withLinkToTimeline'
+import { getConfigurationValue } from '../../logic/configuration'
 
 const log = Log('logpointnummer')
 
@@ -26,7 +26,7 @@ const DecoratedBlock = ({ point, children }) => {
     display: inline-block;
     width: 1.5em;
     text-align: center;
-    vertical-align: ${getConfiguration().presentation.logpoints.verticalSeparation === 'true' ? (isRequest(point) ? "super" : "sub") : "baseline"};
+    vertical-align: ${getConfigurationValue('presentation.logpoints.verticalSeparation') === 'true' ? (isRequest(point) ? "super" : "sub") : "baseline"};
     border-top: ${isRequest(point) ? "1px solid" : "hidden"};
     border-bottom: ${isRequest(point) ? "hidden" : "1px solid"};
     border-right: ${[8, 17, 18, 57].indexOf(point) > -1 ? "1px solid" : "hidden"};

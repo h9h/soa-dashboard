@@ -6,18 +6,18 @@ import { HeaderForm } from '../HeaderMessages'
 import ComponentExplanation from './ComponentExplanation'
 import FormControl from 'react-bootstrap/FormControl'
 import { getUmgebungen } from '../../logic/api/api-dashboard'
-import { getConfiguration } from '../../configuration'
 import Datum from '../datetime/Datum'
 import moment from 'moment'
 import { OptionenMessageTypes } from '../../logic/tableConfMessages'
 import MessageFilter from '../MessageFilter'
 import { Icon } from '../icons'
+import { getConfigurationValue } from '../../logic/configuration'
 
 const noop = () => {}
 
 const selection = (
   <FormControl as="select" value={'EW'} onChange={noop}>
-    {getUmgebungen(getConfiguration().umgebungen)
+    {getUmgebungen(getConfigurationValue('umgebungen'))
       .map(umgebung => <option key={umgebung}>{umgebung}</option>)}
   </FormControl>
 )

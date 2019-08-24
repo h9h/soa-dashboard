@@ -7,7 +7,6 @@ import Navbar from 'react-bootstrap/Navbar'
 import ButtonWithTip from '../components/ButtonWithTip'
 import Blank from '../components/Blank'
 import { getUmgebungen } from '../logic/api/api-dashboard'
-import { getConfiguration } from '../configuration'
 import { withExplanation } from '../logic/notification'
 import Log from '../log'
 import Navigation from './Navigation'
@@ -17,13 +16,13 @@ import { OptionenMessageTypes } from '../logic/tableConfMessages'
 import { calculateNewDates } from '../logic/time'
 import Datum from './datetime/Datum'
 import moment from 'moment'
+import { getConfigurationValue } from '../logic/configuration'
 
 const today = moment().format('DD.MM.YYYY')
 
 const log = Log('headermessages')
 
 export const HeaderForm = props => {
-  const configuration = getConfiguration()
   const {umgebung, messageType, datumVon, datumBis} = props
   const [filter, changeFilter] = useState({umgebung, messageType, datumVon, datumBis})
 
@@ -68,7 +67,7 @@ export const HeaderForm = props => {
       <FormGroup controlId="select.umgebung">
         <FormControl as="select" value={filter.umgebung}
                      onChange={handleFilterChange('umgebung')}>
-          {getUmgebungen(configuration.umgebungen)
+          {getUmgebungen(getConfigurationValue('umgebungen'))
             .map(umgebung => <option key={umgebung}>{umgebung}</option>)}
         </FormControl>
       </FormGroup>
