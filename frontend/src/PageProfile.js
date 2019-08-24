@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReactJson from 'react-json-view'
 import styled from 'styled-components'
 import BodyArea from './components/BodyArea'
@@ -8,19 +8,20 @@ import HeaderProfile from './components/HeaderProfile'
 import Container from 'react-bootstrap/Container'
 import { Grey } from './components/styles'
 import { toast } from 'react-toastify'
-import { validateConfiguration } from './configuration/validate'
-import { useConfiguration } from './configuration/useConfiguration'
 import ButtonWithTip from './components/ButtonWithTip'
 import Log from './log'
 import { Helmet } from 'react-helmet'
+import { connect } from 'react-redux'
+import { updateConfiguration } from './logic/actions'
+import { validateConfiguration } from './logic/configuration'
 
 const log = Log('pageprofile')
 
-const PageProfile = () => {
-  const [configuration, setConfiguration] = useConfiguration()
+const PageProfile = (props) => {
+  const [configuration, setConfiguration] = useState({ ...props.configuration })
 
-  const checkChange = (bereich, o) => {
-    const validationResult = validateConfiguration(o)
+  const storeChange = (values) => {
+    const validationResult = validateConfiguration(values)
 
     if (validationResult.errors.length > 0) {
       const messages = validationResult.errors.map(
@@ -36,68 +37,67 @@ const PageProfile = () => {
         </div>,
         {type: toast.TYPE.ERROR},
       )
-      return false
+
+      setConfiguration({...props.configuration})
+      return
     }
 
-    log.info(`Updating ${bereich}`, o[bereich])
     toast(
       `Konfiguration erfolgreich geändert`,
       {type: toast.TYPE.SUCCESS},
     )
-    setConfiguration(o)
-    return true
+
+    props.updateConfiguration(values)
   }
 
   const handleChange = change => {
     log.trace('Change', {...change})
-    const {namespace, updated_src} = change
-    const bereich = namespace[0]
-
-    return checkChange(bereich, updated_src)
+    const {updated_src} = change
+    storeChange(updated_src)
   }
 
   return (
     <>
       <Helmet>
-        <title>SAO-D-Einstellungen</title>
+        <title>Einstellungen</title>
       </Helmet>
-    <Container fluid>
-      <HeaderProfile/>
-      <BodyArea>
-        <Row>
-          <Col>
-            <Hilfe/>
-          </Col>
-          <Col>
-            <h2>Aktuelle Konfiguration:</h2>
-            <ReactJson
-              src={configuration}
-              name={false}
-              onEdit={edit => handleChange(edit)}
-              onAdd={add => handleChange(add)}
-              onDelete={del => handleChange(del)}
-              enableClipboard={false}
-            />
-          </Col>
-          <Col xs={{span: 6, offset: 6}}>
-            <ButtonWithTip
-              text="Konfiguration auf Defaultwerte zurücksetzen"
-              title="Konfiguration zurücksetzen"
-              description="Setzt die aktuelle Konfiguration auf die Default-Konfiguration zurück"
-              glyph="resetConfiguration"
-              handleClick={() => {
-                setConfiguration(null)
-                toast(
-                  `Konfiguration auf Defaultwerte zurückgesetzt`,
-                  {type: toast.TYPE.SUCCESS},
-                )
-              }}
-            />
-          </Col>
-        </Row>
-      </BodyArea>
-    </Container>
-      </>
+      <Container fluid>
+        <HeaderProfile/>
+        <BodyArea>
+          <Row>
+            <Col>
+              <Hilfe/>
+            </Col>
+            <Col>
+              <h2>Aktuelle Konfiguration:</h2>
+              <ReactJson
+                src={configuration}
+                name={false}
+                onEdit={edit => handleChange(edit)}
+                onAdd={add => handleChange(add)}
+                onDelete={del => handleChange(del)}
+                enableClipboard={false}
+              />
+            </Col>
+            <Col xs={{span: 6, offset: 6}}>
+              <ButtonWithTip
+                text="Konfiguration auf Defaultwerte zurücksetzen"
+                title="Konfiguration zurücksetzen"
+                description="Setzt die aktuelle Konfiguration auf die Default-Konfiguration zurück"
+                glyph="resetConfiguration"
+                handleClick={() => {
+                  props.updateConfiguration(null)
+                  toast(
+                    `Konfiguration auf Defaultwerte zurückgesetzt`,
+                    {type: toast.TYPE.SUCCESS},
+                  )
+                }}
+              />
+            </Col>
+          </Row>
+        </BodyArea>
+      </Container>
+    </>
   )
 }
 
@@ -117,7 +117,8 @@ const Hilfe = () => (
         </header>
         <p>
           Sie können hier beliebig viele Umgebungen eintragen. Wenn Sie mit der
-          Maus über die Zeile <Keyword>"umgebungen"</Keyword> streichen, erscheint ein grüner Kreis
+          Maus über die Zeile <Keyword>"umgebungen"</Keyword> streichen,
+          erscheint ein grüner Kreis
           mit einem "+"-Zeichen. Damit können Sie einen neuen Eintrag anlegen.
         </p>
         <p>
@@ -125,7 +126,8 @@ const Hilfe = () => (
           Umgebung.
         </p>
         <p>
-          Bestätigen Sie den Namen, so wird ein neuer Eintrag mit dem Wert "null"
+          Bestätigen Sie den Namen, so wird ein neuer Eintrag mit dem Wert
+          "null"
           angelegt. Diesen können Sie bearbeiten indem Sie mit der Maus über den
           neuen Eintrag streichen und das grüne Editor-Symbol anklicken.
         </p>
@@ -135,7 +137,8 @@ const Hilfe = () => (
           <h3>Konfiguration "Time"</h3>
         </header>
         <p>
-          Die <Keyword>"time.duration"</Keyword> legt die Standard-Zeitspanne fest, für die Daten geholt
+          Die <Keyword>"time.duration"</Keyword> legt die Standard-Zeitspanne
+          fest, für die Daten geholt
           werden. D.h. beim Öffnen der Applikation wird der Filtereintrag "bis"
           mit der aktuellen Uhrzeit belegt und "von" daraus mithilfe dieser
           Zeitspanne abgeleitet. Im Standard sind das 10 Minuten.
@@ -148,12 +151,15 @@ const Hilfe = () => (
             <h3>Weiteres</h3>
           </header>
           <p>
-            <Keyword>"filter.umgebung"</Keyword> legt die beim Start eingestellte Umgebung fest.
-            Diese muss in <Keyword>"umgebungen"</Keyword> vorhanden sein, ansonsten wird der erste
+            <Keyword>"filter.umgebung"</Keyword> legt die beim Start
+            eingestellte Umgebung fest.
+            Diese muss in <Keyword>"umgebungen"</Keyword> vorhanden sein,
+            ansonsten wird der erste
             Eintrag der Liste eingestellt.
           </p>
           <p>
-            <Keyword>"logtable"</Keyword> konfiguriert die auswählbaren Zeilenanzahlen und die
+            <Keyword>"logtable"</Keyword> konfiguriert die auswählbaren
+            Zeilenanzahlen und die
             voreingestellte Zeilenanzahl pro Seite der Datentabelle im
             Dashboard.
           </p>
@@ -161,10 +167,12 @@ const Hilfe = () => (
             <Keyword>"mock"</Keyword> dient Testzwecken.
           </p>
           <p>
-            <Keyword>"advanced"</Keyword> beeinflusst die Anzeige von Benachrichtigungen.
+            <Keyword>"advanced"</Keyword> beeinflusst die Anzeige von
+            Benachrichtigungen.
           </p>
           <p>
-            Mit <Keyword>"debug"</Keyword> kann man die Log-Ausgabe beeinflussen. Änderungen hier
+            Mit <Keyword>"debug"</Keyword> kann man die Log-Ausgabe
+            beeinflussen. Änderungen hier
             werden allerdings erst nach Reload der Seite wirksam.<br/>
             (Log-)Level könnnen von "0" bis "4" festgelegt werden:
           </p>
@@ -180,4 +188,12 @@ const Hilfe = () => (
     </article>
   </Grey>
 )
-export default PageProfile
+
+export default connect(
+  state => ({
+    configuration: state.configuration,
+  }),
+  dispatch => ({
+    updateConfiguration: values => dispatch(updateConfiguration(values)),
+  }),
+)(PageProfile)

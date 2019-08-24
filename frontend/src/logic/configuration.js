@@ -2,6 +2,8 @@ import { getDefaultUmgebungen, getDefaultUmgebungKey, getDoMock } from '../custo
 import store from 'store'
 import defaults from 'store/plugins/defaults'
 import { path } from 'ramda'
+import { Validator } from 'jsonschema'
+import { CONFIGURATION_SCHEMA, DEFINITIONS } from './configurationDefinition'
 
 store.addPlugin(defaults)
 
@@ -79,4 +81,13 @@ export const storeConfiguration = values => {
 
 export const getConfigurationValue = key => {
   return path(key.split('.'), getStoredConfiguration())
+}
+
+export const validateConfiguration = values => {
+  const v = new Validator()
+  Object.keys(DEFINITIONS).forEach(k => {
+    v.addSchema(DEFINITIONS[k], DEFINITIONS[k].id)
+  })
+
+  return v.validate(values, CONFIGURATION_SCHEMA)
 }
