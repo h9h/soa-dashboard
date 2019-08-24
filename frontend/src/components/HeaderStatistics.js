@@ -7,7 +7,6 @@ import Navbar from 'react-bootstrap/Navbar'
 import ButtonWithTip from '../components/ButtonWithTip'
 import Blank from '../components/Blank'
 import { getUmgebungen } from '../logic/api/api-dashboard'
-import { getConfiguration } from '../configuration'
 import { withNotification } from '../logic/notification'
 import Log from '../log'
 import Navigation from './Navigation'
@@ -20,11 +19,11 @@ import SelectReportview from './SelectReportview'
 import { VIEWS } from '../logic/statistics'
 import SelectColorScheme from './dc/SelectColorScheme'
 import dc from 'dc'
+import { getConfigurationValue } from '../logic/configuration'
 
 const log = Log('headerstatistics')
 
 const HeaderStatistics = props => {
-  const configuration = getConfiguration()
   const {umgebung, datumVon, datumBis, view, colorScheme} = props
   const [filter, changeFilter] = useState({umgebung, datumVon, datumBis})
 
@@ -83,7 +82,7 @@ const HeaderStatistics = props => {
             <FormGroup controlId="select.umgebung">
               <FormControl as="select" value={filter.umgebung}
                            onChange={handleFilterChange('umgebung')}>
-                {getUmgebungen(configuration.umgebungen)
+                {getUmgebungen(getConfigurationValue('umgebungen'))
                   .map(umgebung => <option key={umgebung}>{umgebung}</option>)}
               </FormControl>
             </FormGroup>
