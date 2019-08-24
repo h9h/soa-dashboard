@@ -7,15 +7,15 @@ import Col from 'react-bootstrap/Col'
 import ReactTable from 'react-table'
 
 import Log from '../log'
-import { useConfiguration } from '../configuration'
-import { mergeDeepRight, sort } from 'ramda'
+import { sort } from 'ramda'
 import MessageModal from './MessageModal'
+import { connect } from 'react-redux'
+import { updateConfiguration } from '../logic/actions'
 const log = Log('queuedmessages')
 
-const QueuedMessages = ({ umgebung, database, queuetable, queue }) => {
+const QueuedMessages = ({ umgebung, database, queuetable, queue, ...props }) => {
   log.trace('QueuedMessages for', umgebung, database, queuetable, queue)
 
-  const [configuration, setConfiguration] = useConfiguration()
   const [messages, setMessages] = useState({status: 'loading'})
   const [modal, setModal] = useState({show: false})
 
@@ -43,12 +43,11 @@ const QueuedMessages = ({ umgebung, database, queuetable, queue }) => {
   if (messages.status === 'loading') return <WartenAnzeiger />
 
   if (messages.status === 'ready') {
-    const sizeOptions = sort((a,b) => a-b, configuration.queuetabletable.pageSizes.filter(s => !!s).map(s => parseInt(s,10)))
+    const sizeOptions = sort((a,b) => a-b, props.pageSizes.filter(s => !!s).map(s => parseInt(s,10)))
     log.trace('SizeOptions', sizeOptions)
 
     const handlePageSizeChange = e => {
-      const newConf = mergeDeepRight(configuration, { queuetabletable: { defaultSize: '' + e }})
-      setConfiguration(newConf)
+      props.setPageSize(e)
     }
 
     return (
@@ -63,7 +62,7 @@ const QueuedMessages = ({ umgebung, database, queuetable, queue }) => {
             ]}
             pageSizeOptions={sizeOptions}
             onPageSizeChange={handlePageSizeChange}
-            defaultPageSize={parseInt(configuration.queuetabletable.defaultSize, 10)}
+            defaultPageSize={props.defaultPageSize}
             getTdProps={(state, rowInfo, column) => {
               return {
                 onClick: (e, handleOriginal) => {
@@ -87,4 +86,13 @@ const QueuedMessages = ({ umgebung, database, queuetable, queue }) => {
   return null
 }
 
-export default QueuedMessages
+export default connect(
+  state => ({
+    pageSizes: state.configuration.queuetabletable.pageSizes,
+    defaultPageSize: parseInt(state.configuration.queuetabletable.defaultSize, 10)
+  }),
+  dispatch => ({
+    setPageSize: size => dispatch(updateConfiguration({ queuetabletable: { defaultSize: '' + size }}))
+  })
+)(QueuedMessages)
+
