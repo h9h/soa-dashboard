@@ -10,7 +10,7 @@ export const DEFINITIONS = {
       "EW": {type: "string", format: 'uri'},
     },
     patternProperties: {
-      "^[A-Z]{2,3}(-SV[S]?)?$": { anyOf: [
+      "^[-a-zA-Z0-9]{1,10}$": { anyOf: [
           { type: "uri" },
           { type: "null" },
         ]}
