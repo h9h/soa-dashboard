@@ -30,3 +30,23 @@ export const timeSpent = (out) => {
   }
 }
 
+export const getDefaultFilterMethod = (pivot = false) => (filter, row) => {
+  try {
+    // die einzelnen Logpunkte einer Nachricht filtern wir nicht
+    if (pivot && !row._aggregated) return true
+
+    const field = row[filter.id]
+    const testField = field instanceof moment ? field.format('YYYY-MM-DDTHH:mm:ss.SSS') : field
+
+    const pruefer = RegExp(filter.value)
+    const test = pruefer.test.bind(pruefer)
+    if (Array.isArray(testField)) {
+      return testField.some(test)
+    } else {
+      return test(testField)
+    }
+  } catch (_) {
+    // Fehler hier interessieren nicht, z.B. noch unvollständige RegExps
+    return true
+  }
+}

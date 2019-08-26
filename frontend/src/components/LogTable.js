@@ -21,27 +21,9 @@ import {
 import { withRouter } from 'react-router-dom'
 import { getDashboardRoute } from '../logic/routes'
 import { LOG_SEARCH_TYPES } from '../logic/store'
+import { getDefaultFilterMethod } from '../logic/utils'
 
 const log = Log('logtable')
-
-const getDefaultFilterMethod = (filter, row) => {
-  try {
-    // die einzelnen Logpunkte einer Nachricht filtern wir nicht
-    if (!row._aggregated) return true
-
-    const testField = row[filter.id]
-    const pruefer = RegExp(filter.value)
-    const test = pruefer.test.bind(pruefer)
-    if (Array.isArray(testField)) {
-      return testField.some(test)
-    } else {
-      return test(testField)
-    }
-  } catch (_) {
-    // Fehler hier interessieren nicht, z.B. noch unvollständige RegExps
-    return true
-  }
-}
 
 const getSubComponent = ({row}) => {
   const {Timestamp, Sender, ServiceOperation, filter, ...rest} = row._original
@@ -192,7 +174,6 @@ export const UnconnectedLogTable = withRouter((props) => {
             pageSizeOptions={sizeOptions}
             onPageSizeChange={handlePageSizeChange}
             defaultPageSize={props.defaultPageSize}
-            defaultFilterMethod={getDefaultFilterMethod}
             showPageSizeOptions={fullTableControls}
             showPagination={fullTableControls}
             filterable={fullTableControls}
@@ -201,6 +182,7 @@ export const UnconnectedLogTable = withRouter((props) => {
             collapseOnDataChange={false}
             defaultSorted={defaultSorted}
             getTdProps={tdProps}
+            defaultFilterMethod={getDefaultFilterMethod(true)}
           />
         </Col>
       </Row>

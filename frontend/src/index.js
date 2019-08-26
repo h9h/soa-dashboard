@@ -3,8 +3,8 @@ import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 import entries from 'object.entries'
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/css/bootstrap-grid.css'
 import 'bootstrap/dist/css/bootstrap-reboot.css'
@@ -16,8 +16,8 @@ import 'flatpickr/dist/themes/light.css'
 import 'dc/dc.css'
 import './index.css'
 
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import App from './App'
+import * as serviceWorker from './serviceWorker'
 import { ReactTableDefaults } from 'react-table'
 import dc from 'dc'
 import * as d3 from 'd3'
@@ -26,6 +26,8 @@ import moment from 'moment'
 import { getConfigurationValue } from './logic/configuration'
 
 import Log from './log'
+import { getDefaultFilterMethod } from './logic/utils'
+
 const log = Log('index')
 log.info('Log Level', getConfigurationValue('debug.level'))
 log.info('Umgebungsvariablen: ', process.env)
@@ -88,8 +90,9 @@ Object.assign(ReactTableDefaults, {
   rowsText:"Zeilen",
   pageJumpText:"Gehe zu Seite",
   rowsSelectorText:"Zeilen pro Seite",
-  className:"-striped -highlight",
+  className:"-striped",
   filterable: true,
+  defaultFilterMethod: getDefaultFilterMethod(false)
 })
 
 log.trace('ReactDom render App')
