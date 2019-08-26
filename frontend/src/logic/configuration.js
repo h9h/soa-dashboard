@@ -62,6 +62,7 @@ const defaultConfiguration = {
     millisAutoCloseNotification: "4000",
     notificationPositionVertical: "bottom",
     notificationPositionHorizontal: "center",
+    sliceFetchStatisticsHours: "12",
   },
   debug: {
     namespaces: "ESBD:*",

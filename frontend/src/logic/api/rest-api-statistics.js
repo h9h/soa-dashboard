@@ -76,10 +76,14 @@ export const getStatisticsData = async (umgebung, datumVon, datumBis) => {
     const ende = moment(datumBis, 'YYYY-MM-DD').add(1, 'days').startOf('day')
 
     const urls = []
+
+    trace('Get Configuration', { sliceFetchStatisticsHours: getConfigurationValue('advanced.sliceFetchStatisticsHours') })
+    const sliceFetchStatisticsHours = parseInt(getConfigurationValue('advanced.sliceFetchStatisticsHours'), 10)
+
     while(ende.valueOf() > beginn.valueOf()) {
       const endeWert = moment(ende).subtract(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
-      ende.subtract(1, 'hours')
-      const beginnWert = ende.format('YYYY-MM-DDTHH:mm:ss')
+      ende.subtract(sliceFetchStatisticsHours, 'hours')
+      const beginnWert = moment.max(ende, beginn).format('YYYY-MM-DDTHH:mm:ss')
       urls.push(`${getEsbUrl(umgebung)}/dashboard/Statistic?from=${beginnWert}&to=${endeWert}`)
     }
     trace(urls.length + ' calls', { urls })
@@ -89,7 +93,7 @@ export const getStatisticsData = async (umgebung, datumVon, datumBis) => {
     }))
 
     dataArray = await iter()
-    trace('Finished rest calls', { header: dataArray[0].records.header, anzahlDataArrays: dataArray.length })
+    trace('Finished rest calls', { header: dataArray[0].records.header, anzahlDataArrays: dataArray.length, noOfRecords: dataArray.map(a => a.records.rows.length) })
   }
 
   const data = dataArray.reduce((acc, d) => {

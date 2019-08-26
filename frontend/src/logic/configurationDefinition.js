@@ -182,13 +182,15 @@ export const DEFINITIONS = {
       millisPreExecutionOnNotification: {type: "string", pattern: "^\\d{1,3}$"},
       millisAutoCloseNotification: {type: "string", pattern: "^\\d{4,5}$"},
       notificationPositionHorizontal: {type: "string", enum: ['left', 'center', 'right']},
-      notificationPositionVertical: {type: "string", enum: ['top', 'bottom']}
+      notificationPositionVertical: {type: "string", enum: ['top', 'bottom']},
+      sliceFetchStatisticsHours: {type: "string", pattern: "^\\d{1,2}$"}
     },
     required: [
       "millisPreExecutionOnNotification",
       "millisAutoCloseNotification",
       "notificationPositionHorizontal",
-      "notificationPositionVertical"
+      "notificationPositionVertical",
+      "sliceFetchStatisticsHours"
     ],
     additionalProperties: false
   },
