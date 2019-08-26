@@ -71,7 +71,7 @@ const defaultConfiguration = {
 }
 
 export const getStoredConfiguration = () => {
-  return mergeDeepRight(defaultConfiguration, store.get(CONFIG_STORE_KEY))
+  return mergeDeepRight(defaultConfiguration, store.get(CONFIG_STORE_KEY) || {})
 }
 
 export const storeConfiguration = values => {
