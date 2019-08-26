@@ -1,13 +1,10 @@
 import { getDefaultUmgebungen, getDefaultUmgebungKey, getDoMock } from '../customisation/configuration.config'
 import store from 'store'
-import defaults from 'store/plugins/defaults'
-import { path } from 'ramda'
+import { path, mergeDeepRight } from 'ramda'
 import { Validator } from 'jsonschema'
 import { CONFIGURATION_SCHEMA, DEFINITIONS } from './configurationDefinition'
 
 const CONFIG_STORE_KEY = 'esb-dashboard'
-
-store.addPlugin(defaults)
 
 const defaultConfiguration = {
   version: 4,
@@ -74,8 +71,7 @@ const defaultConfiguration = {
 }
 
 export const getStoredConfiguration = () => {
-  store.defaults({ [CONFIG_STORE_KEY]: defaultConfiguration })
-  return store.get(CONFIG_STORE_KEY)
+  return mergeDeepRight(defaultConfiguration, store.get(CONFIG_STORE_KEY))
 }
 
 export const storeConfiguration = values => {
