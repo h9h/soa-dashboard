@@ -3,6 +3,7 @@ import { TIME_FORMAT } from '../time'
 import { LOG_SEARCH_TYPES } from '../store'
 import moment from 'moment'
 import { getConfigurationValue } from '../configuration'
+import { notification } from '../notification'
 
 export const getUmgebungen = umgebungen => {
   return Object.keys(umgebungen)
@@ -10,7 +11,14 @@ export const getUmgebungen = umgebungen => {
 
 export const getEsbUrl = umgebung => {
   const umgebungen = getConfigurationValue('umgebungen')
-  return umgebungen[umgebung] || 'http://localhost/esb'
+  const umgebungURL = umgebungen[umgebung]
+  if (!umgebungURL) {
+    notification({
+      nachricht: `Umgebung zum Schlüssel '${umgebung}' nicht konfiguriert, verwende localhost`,
+    })
+    return 'http://localhost/esb'
+  }
+  return umgebungURL
 }
 
 export const getLogpoints = (filter, cb) => {
