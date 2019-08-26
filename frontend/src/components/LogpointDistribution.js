@@ -8,7 +8,9 @@ import { renderBarChartLogpoints } from './dc/barCharts'
 import { withNotification } from '../logic/notification'
 import { getConfigurationValue } from '../logic/configuration'
 
-const LogpointDistribution = React.memo(({ statistik, setBis }) => {
+const LogpointDistribution = React.memo(({ isEmpty, statistik, setBis }) => {
+  if (isEmpty) return null
+
   const barchartHeight = parseInt(getConfigurationValue('presentation.distribution.heightInPx'), 10)
   if (barchartHeight < 20) return null
 

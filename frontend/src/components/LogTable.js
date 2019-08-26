@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import ReactTable from 'react-table'
@@ -34,7 +34,14 @@ const getSubComponent = ({row}) => {
   )
 }
 
-const getTdProps = (handleRouteTo) => {
+const getTdProps = (history, route) => {
+  const handleRouteTo = (searchType, searchValue) => {
+    const concreteRoute = route(searchType, searchValue)
+    if (history.location.pathname === concreteRoute) return
+    log.trace('routing to ', concreteRoute)
+    history.push(concreteRoute)
+  }
+
   return (state, rowInfo, column) => {
     if (rowInfo && rowInfo && !rowInfo.aggregated) return {}
 
@@ -62,63 +69,50 @@ const getTdProps = (handleRouteTo) => {
   }
 }
 
+const useFetch = ({umgebung, datum, von, bis, searchType, searchValue}) => {
+  const [result, setResult] = useState({
+    status: 'loading'
+  })
+
+  useEffect(() => {
+    log.trace('useEffect on filter', umgebung, datum, von, bis, searchType, searchValue)
+
+    getLogpoints({umgebung, datum, von, bis, searchType, searchValue}, setResult)
+  }, [umgebung, datum, von, bis, searchType, searchValue])
+
+  return result
+}
+
 export const UnconnectedLogTable = withRouter((props) => {
   log.trace('Mount UnconnectedLogTable', props)
   const {umgebung, datum, von, bis, searchType, searchValue} = props
+  const result = useFetch({umgebung, datum, von, bis, searchType, searchValue})
 
-  const handleRouteTo = (searchType, searchValue) => {
-    const route = getDashboardRoute(umgebung, datum, von, bis, searchType, searchValue)
-    if (props.history.location.pathname === route) return
-    log.trace('routing to ', route)
-    props.history.push(route)
-  }
+  if (result.status === 'loading') return <WartenAnzeiger/>
+  if (result.status === 'error') return (
+    <div>
+      <h2>Error</h2>
+      <p>{JSON.stringify(result)}</p>
+    </div>
+  )
 
-  const [logs, setLogs] = useState({status: 'loading'})
-  const [analysedData, setAnalysedData] = useState({isEmpty: true})
-  const [columns, setColumns] = useState(null)
+  if (result.status === 'ready') return <LogpointTable logs={result} {...props} />
+
+  return <div>Unbekannter Zustand</div>
+})
+
+const UnconnectedLogpointTable = ({ logs, defaultPageSize, pageSizes, setPageSize, ...props}) => {
+  const {umgebung, datum, von, bis, searchType, searchValue} = props
+
   const [modal, setModal] = useState({show: false})
 
   const hideModal = () => {
     setModal({show: false})
   }
 
-  useEffect(() => {
-    log.trace('useEffect on filter', umgebung, datum, von, bis, searchType, searchValue)
-
-    const handleLogs = data => {
-      if (props.notify) props.notify(data)
-      setLogs(data)
-    }
-
-    handleLogs({status: 'loading'})
-    getLogpoints({umgebung, datum, von, bis, searchType, searchValue}, handleLogs)
-  }, [umgebung, datum, von, bis, searchType, searchValue, props])
-
-  useEffect(() => {
-    log.trace('useEffect on data', logs.status)
-    if (logs.status !== 'ready') return
-
-    const showModal = (props) => {
-      setModal({show: true, onHide: hideModal, ...props})
-    }
-
-    log.trace('setColumns', logs.keys)
-    if (!columns) setColumns(getColumns(showModal, logs.keys))
-
-    log.trace('calculate statistic')
-    const result = getStatistik(logs.data, 'Timestamp')
-    if (result.isEmpty) {
-      setAnalysedData(result)
-      return
-    }
-    log.trace('Statistik', result)
-
-    setAnalysedData(result)
-  }, [columns, logs])
-
-  if (logs.status === 'loading') return (
-    <WartenAnzeiger/>
-  )
+  const showModal = (props) => {
+    setModal({show: true, onHide: hideModal, ...props})
+  }
 
   const Modal = props => {
     if (!modal.show) return null
@@ -136,61 +130,59 @@ export const UnconnectedLogTable = withRouter((props) => {
     }
   }
 
-  if (logs.status === 'ready') {
-    if (!logs.data || !columns) return (
-      <WartenAnzeiger/>
-    )
+  log.trace('setColumns', logs.keys)
+  const columns = getColumns(showModal, logs.keys)
 
-    log.trace('render LogTable')
+  log.trace('calculate statistic')
+  const {statistik, isEmpty} = useMemo(() => getStatistik(logs.data, 'Timestamp'), [logs.data])
+  const distribution = useMemo(() => <LogpointDistribution isEmpty={isEmpty} statistik={statistik} setBis={props.setBis}/>,
+    [isEmpty, props.setBis, statistik]
+  )
 
-    const {statistik} = analysedData
+  const oneMessageOnly = searchValue && searchType === LOG_SEARCH_TYPES.MESSAGEID
 
-    const sizeOptions = sort((a, b) => a - b, props.pageSizes.filter(s => !!s).map(s => parseInt(s, 10)))
-    log.trace('SizeOptions', sizeOptions)
-
-    const handlePageSizeChange = e => {
-      props.setPageSize(e)
-    }
-
-    const tdProps = getTdProps(handleRouteTo)
-    const oneMessageOnly = searchValue && searchType === LOG_SEARCH_TYPES.MESSAGEID
-    const minRows = oneMessageOnly ? 1 : undefined
-    const fullTableControls = !oneMessageOnly
-
-    const defaultSorted = [
-      {id: 'Timestamp'},
-    ]
-    return (
-      <Row>
-        <Col>
-          <Modal umgebung={umgebung} {...modal} onHide={hideModal}/>
-          {!analysedData.isEmpty && (
-            <LogpointDistribution statistik={statistik} setBis={props.setBis}/>
-          )}
-          <ReactTable
-            columns={columns}
-            data={logs.data}
-            pivotBy={['MESSAGEID']}
-            pageSizeOptions={sizeOptions}
-            onPageSizeChange={handlePageSizeChange}
-            defaultPageSize={props.defaultPageSize}
-            showPageSizeOptions={fullTableControls}
-            showPagination={fullTableControls}
-            filterable={fullTableControls}
-            minRows={minRows}
-            SubComponent={getSubComponent}
-            collapseOnDataChange={false}
-            defaultSorted={defaultSorted}
-            getTdProps={tdProps}
-            defaultFilterMethod={getDefaultFilterMethod(true)}
-          />
-        </Col>
-      </Row>
-    )
+  const tableOptions = {
+    pivotBy: ['MESSAGEID'],
+    defaultSorted: [{id: 'Timestamp'}],
+    defaultFilterMethod: getDefaultFilterMethod(true),
+    showPageSizeOptions: !oneMessageOnly,
+    showPagination: !oneMessageOnly,
+    pageSizeOptions: sort((a, b) => a - b, pageSizes.filter(s => !!s).map(s => parseInt(s, 10))),
+    filterable: !oneMessageOnly,
+    minRows: oneMessageOnly ? 1 : undefined,
+    collapseOnDataChange: false,
+    getTdProps: getTdProps(props.history, getDashboardRoute(umgebung, datum, von, bis)),
   }
 
-  return <h2>{logs.status}</h2>
-})
+  log.trace('render LogTable')
+  return (
+    <Row>
+      <Col>
+        <Modal umgebung={umgebung} {...modal} onHide={hideModal}/>
+        {distribution}
+        <ReactTable
+          columns={columns}
+          data={logs.data}
+          onPageSizeChange={setPageSize}
+          defaultPageSize={defaultPageSize}
+          SubComponent={getSubComponent}
+          {...tableOptions}
+        />
+      </Col>
+    </Row>
+  )
+}
+
+const LogpointTable = connect(
+  state => ({
+    pageSizes: state.configuration.logtable.pageSizes,
+    defaultPageSize: parseInt(state.configuration.logtable.defaultSize, 10)
+  }),
+  dispatch => ({
+    setPageSize: size => dispatch(updateConfiguration({ logtable: { defaultSize: '' + size }}))
+  })
+)(UnconnectedLogpointTable)
+
 UnconnectedLogTable.whyDidYouRender = true
 
 export default connect(
@@ -201,12 +193,9 @@ export default connect(
     bis: state.bis,
     searchType: state.logSearchType,
     searchValue: state.logSearchValue,
-    pageSizes: state.configuration.logtable.pageSizes,
-    defaultPageSize: parseInt(state.configuration.logtable.defaultSize, 10)
   }),
   dispatch => ({
     setSearchParameters: (searchType, searchValue) => dispatch(setLogSearchParameters(searchType, searchValue)),
     setBis: bis => dispatch(setBis(bis)),
-    setPageSize: size => dispatch(updateConfiguration({ logtable: { defaultSize: '' + size }}))
   })
 )(UnconnectedLogTable)

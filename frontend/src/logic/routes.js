@@ -7,7 +7,7 @@ export const getMessageRoute = (umgebung, datum, von, bis, messageId) => {
   return `/message/${umgebung}/${datum}/${vonNeu}/${bisNeu}/${messageId}`
 }
 
-export const getDashboardRoute = (umgebung, datum, von, bis, searchType, searchValue) => {
+export const getDashboardRoute = (umgebung, datum, von, bis) => (searchType, searchValue) => {
   if (searchValue) {
     return `/dashboard/${umgebung}/${datum}/${von}/${bis}/${searchType}/${searchValue}`
   }
