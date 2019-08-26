@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { equals, groupWith, partition } from 'ramda'
+import { equals, groupWith, once, partition } from 'ramda'
 import { Black, Blue, Centered, Red, Small, Smaller } from '../styles'
 import { logpointDirection, logpointToNumber, logpointType, LP_TYPES, sortLogpunkte } from '../../logic/logpunkt'
 import Log from '../../log'
@@ -22,11 +22,13 @@ const Block = styled.span`
 const isRequest = point => logpointDirection(point) === 'request'
 
 const DecoratedBlock = ({ point, children }) => {
+  const verticalSeparation = once(() => getConfigurationValue('presentation.logpoints.verticalSeparation') === 'true')()
+
   const Span = styled.span`
     display: inline-block;
     width: 1.5em;
     text-align: center;
-    vertical-align: ${getConfigurationValue('presentation.logpoints.verticalSeparation') === 'true' ? (isRequest(point) ? "super" : "sub") : "baseline"};
+    vertical-align: ${verticalSeparation ? (isRequest(point) ? "super" : "sub") : "baseline"};
     border-top: ${isRequest(point) ? "1px solid" : "hidden"};
     border-bottom: ${isRequest(point) ? "hidden" : "1px solid"};
     border-right: ${[8, 17, 18, 57].indexOf(point) > -1 ? "1px solid" : "hidden"};
