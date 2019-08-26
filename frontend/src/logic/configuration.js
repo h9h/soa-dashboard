@@ -5,6 +5,8 @@ import { path } from 'ramda'
 import { Validator } from 'jsonschema'
 import { CONFIGURATION_SCHEMA, DEFINITIONS } from './configurationDefinition'
 
+const CONFIG_STORE_KEY = 'esb-dashboard'
+
 store.addPlugin(defaults)
 
 const defaultConfiguration = {
@@ -71,12 +73,12 @@ const defaultConfiguration = {
 }
 
 export const getStoredConfiguration = () => {
-  store.defaults({ esbd: defaultConfiguration })
-  return store.get('esbd')
+  store.defaults({ [CONFIG_STORE_KEY]: defaultConfiguration })
+  return store.get(CONFIG_STORE_KEY)
 }
 
 export const storeConfiguration = values => {
-  store.set('esbd', values)
+  store.set(CONFIG_STORE_KEY, values)
 }
 
 export const getConfigurationValue = key => {
