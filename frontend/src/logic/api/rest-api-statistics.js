@@ -93,13 +93,13 @@ export const getStatisticsData = async (umgebung, datumVon, datumBis) => {
     }))
 
     dataArray = await iter()
-    trace('Finished rest calls', { header: dataArray[0].records.header, anzahlDataArrays: dataArray.length, noOfRecords: dataArray.map(a => a.records.rows.length) })
+    trace('Finished rest calls', { header: dataArray[0].records ? dataArray[0].records.header: [], anzahlDataArrays: dataArray.length, noOfRecords: dataArray.map(a => a.records ? a.records.rows.length : 0) })
   }
 
   const data = dataArray.reduce((acc, d) => {
-    acc.rows.push(...d.records.rows)
+    if (d.records) acc.rows.push(...d.records.rows)
     return acc
-  }, { header: dataArray[0].records.header.map(h => Object.keys(h)[0]), rows: [] })
+  }, { header: dataArray[0].records ? dataArray[0].records.header.map(h => Object.keys(h)[0]) : [], rows: [] })
   trace('Collected arrays', { data, anzahlRows: data.rows.length })
 
   const statistics = data.rows.map(row => {

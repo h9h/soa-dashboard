@@ -39,6 +39,8 @@ const InteractiveStatistics = props => {
   if (data.status === 'loading') return <WartenAnzeiger/>
 
   if (data.status === 'ready') {
+    if (!data.dims.zeit.bottom(1)[0]) return <h2>Keine Daten</h2>
+
     switch(view) {
       case VIEWS.AUFRUF:
         return <AufrufStatistik data={data} colorscheme={colorScheme} />
