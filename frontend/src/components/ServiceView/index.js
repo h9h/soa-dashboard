@@ -46,7 +46,7 @@ const ServiceView = ({data}) => {
     <>
       {jsonData && jsonData.Roh && (
         <>
-          <CopyMessageToClipboard text={jsonData.Roh['Message-XML']} />
+          <CopyMessageToClipboard textToBeCopied={jsonData.Roh['Message-XML']} />
           <hr/>
         </>
       )}

@@ -34,7 +34,7 @@ const MessageModal = (props) => {
           </>
         )}
         <>
-          <CopyMessageToClipboard text={row.row.MESSAGE} />
+          <CopyMessageToClipboard textToBeCopied={row.row.MESSAGE} />
           <hr/>
         </>
         <pre>{row.row.MESSAGE}</pre>

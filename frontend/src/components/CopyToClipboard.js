@@ -22,18 +22,24 @@ const CopyToClipboard = ({text, onCopy, children}) => {
   return React.cloneElement(elem, { onClick })
 }
 
-export const CopyMessageToClipboard = ({text}) => (
-  <CopyToClipboard text={text}
-                   onCopy={() => notification({nachricht: (
-                     <div>
-                      Nachricht in Zwischenablage kopiert
-                      <br />
-                      <Smaller>{text.length < 80 ? text : text.substr(0, 80) + '...'}</Smaller>
-                     </div>
-                   )})}>
-    <span style={{cursor: 'pointer'}}><Grey>Hier klicken, um die Nachricht in die Zwischenablage zu kopieren</Grey></span>
-  </CopyToClipboard>
+export const CopyMessageToClipboard = ({textToBeCopied, meldung = 'Nachricht in Zwischenablage kopiert', children}) => {
+  const component = children ? children : <Grey>Hier klicken, um die Nachricht in die Zwischenablage zu kopieren</Grey>
 
-)
+  return (
+    <CopyToClipboard text={textToBeCopied}
+                     onCopy={() => notification({
+                       nachricht: (
+                         <div>
+                           {meldung}
+                           <br/>
+                           <Smaller>{textToBeCopied.length < 80 ? textToBeCopied : textToBeCopied.substr(0, 80) + '...'}</Smaller>
+                         </div>
+                       )
+                     })}>
+      <span
+        style={{cursor: 'pointer'}}>{component}</span>
+    </CopyToClipboard>
 
+  )
+}
 export default CopyToClipboard
