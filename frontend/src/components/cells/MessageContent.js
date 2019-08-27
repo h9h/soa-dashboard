@@ -4,7 +4,9 @@ import { SmallX } from '../styles'
 const MessageContent = ({row}) => {
   return (
     <SmallX>
-      {row.value}
+      <div style={{ overflow: 'auto'}}>
+        {row.value}
+      </div>
     </SmallX>
   )
 }
