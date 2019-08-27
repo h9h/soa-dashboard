@@ -77,7 +77,7 @@ const PageLogin = props => {
   const validateForm = () => {
     return all(identity)(
       [
-        userId.length > 4,
+        userId.length > 3,
         password.length > 6,
         authReady
       ]
