@@ -8,6 +8,8 @@ import moment from 'moment'
 
 const log = Log('rest-api-local')
 
+export const getClientUrl = () => window.location.origin
+
 const getLocalURL = (auth) => {
   const PORT = auth ? process.env.REACT_APP_AUTHENTICATION_PORT : process.env.REACT_APP_FILE_PORT
   if (!auth || process.env.REACT_APP_USE_LOCAL_AUTHENTICATION === 'true') {

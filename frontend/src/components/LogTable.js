@@ -54,7 +54,6 @@ const getTdProps = (history, route) => {
               handleOriginal()
             }
             break
-          case 'ServiceOperation':
           case 'ORIGINATOR':
             if (rowInfo && rowInfo.row) {
               log.trace('Route to Dashboard')
