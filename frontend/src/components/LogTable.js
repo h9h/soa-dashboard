@@ -75,8 +75,8 @@ const useFetch = ({umgebung, datum, von, bis, searchType, searchValue}) => {
   })
 
   useEffect(() => {
+    setResult({status: 'loading'})
     log.trace('useEffect on filter', umgebung, datum, von, bis, searchType, searchValue)
-
     getLogpoints({umgebung, datum, von, bis, searchType, searchValue}, setResult)
   }, [umgebung, datum, von, bis, searchType, searchValue])
 
