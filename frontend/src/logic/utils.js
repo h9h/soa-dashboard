@@ -36,7 +36,7 @@ export const getDefaultFilterMethod = (pivot = false) => (filter, row) => {
     if (pivot && !row._aggregated) return true
 
     const field = row[filter.id]
-    const testField = field instanceof moment ? field.format('YYYY-MM-DDTHH:mm:ss.SSS') : field
+    const testField = filter.id === 'Zeit' ? moment(field).format('YYYY-MM-DDTHH:mm:ss.SSS') : field
 
     const pruefer = RegExp(filter.value)
     const test = pruefer.test.bind(pruefer)
