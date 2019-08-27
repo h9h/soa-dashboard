@@ -70,8 +70,10 @@ const DEFAULT_PROPS = {
     aggregate: values => values.join(','),
     filterMethod: (filter, row) => {
       if (typeof row.LOGPOINTNO === 'string') {
+        const pruefer = RegExp(filter.value)
+        const test = pruefer.test.bind(pruefer)
         // wir filtern nur auf Message-Ebene
-        return row.LOGPOINTNO.split(',').indexOf(filter.value) > -1
+        return row.LOGPOINTNO.split(',').some(test)
       } else {
         // die Einzel-Sätze wollen wir alle anzeigen
         return true
