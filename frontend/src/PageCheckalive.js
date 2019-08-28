@@ -4,11 +4,32 @@ import HeaderCheckalive from './components/HeaderCheckalive'
 import BodyArea from './components/BodyArea'
 import Log from './log'
 import { Helmet } from 'react-helmet'
+import HeaderStandalone from './components/HeaderStandalone'
+import CheckaliveRuns, { UnconnectedCheckaliveRuns } from './components/CheckaliveRuns'
 
 const log = Log('pagecheckalive')
 
-const PageStatistics = () => {
+const PageCheckalive = (props) => {
   log.trace('Mount PageCheckalive')
+
+  let header
+  let body
+
+  if (props && props.match && props.match.params) {
+    const {match: {params: {umgebung}}} = props
+    if (umgebung) {
+      log.trace('...mit Parametern', umgebung)
+      const title = <div>Checkalive-Runs auf {umgebung}</div>
+      header = <HeaderStandalone title={title}/>
+      body = <UnconnectedCheckaliveRuns umgebung={umgebung} />
+    } else {
+      header = <HeaderCheckalive/>
+      body = <CheckaliveRuns/>
+    }
+  } else {
+    header = <HeaderCheckalive/>
+    body = <CheckaliveRuns/>
+  }
 
   return (
     <>
@@ -16,13 +37,13 @@ const PageStatistics = () => {
         <title>Checkalive</title>
       </Helmet>
       <Container fluid>
-        <HeaderCheckalive/>
+        {header}
         <BodyArea>
-          Checkalive in Kürze
+          {body}
         </BodyArea>
       </Container>
     </>
   )
 }
 
-export default PageStatistics
+export default PageCheckalive
