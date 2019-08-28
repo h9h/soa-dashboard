@@ -166,6 +166,13 @@ function reducer (state = {}, action) {
       }
     }
 
+    case 'setFilterCheckalive': {
+      return {
+        ...state,
+        umgebung: action.umgebung,
+      }
+    }
+
     default:
       return state
   }

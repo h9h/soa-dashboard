@@ -36,6 +36,11 @@ export const setFilterQueues = (umgebung, database) => ({
   database,
 })
 
+export const setFilterCheckalive = (umgebung) => ({
+  type: 'setFilterCheckalive',
+  umgebung,
+})
+
 export const setFilterStatistics = (umgebung, datumStatVon, datumStatBis) => ({
   type: 'setFilterStatistics',
   umgebung,

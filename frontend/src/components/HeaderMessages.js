@@ -63,66 +63,70 @@ export const HeaderForm = props => {
   }
 
   return (
-    <Form inline>
-      <FormGroup controlId="select.umgebung">
-        <FormControl as="select" value={filter.umgebung}
-                     onChange={handleFilterChange('umgebung')}>
-          {getUmgebungen(getConfigurationValue('umgebungen'))
-            .map(umgebung => <option key={umgebung}>{umgebung}</option>)}
-        </FormControl>
-      </FormGroup>
-      <Blank/>
-      <Blank/>
-      <Form.Label>Typ: </Form.Label>
-      <Blank/>
-      <FormGroup controlId="select.messagetype">
-        <FormControl as="select" value={filter.messageType}
-                     onChange={handleFilterChange('messageType')}>
-          {OptionenMessageTypes}
-        </FormControl>
-      </FormGroup>
-      <Blank/>
-      <Blank/>
-      <FormGroup>
-        <Form.Label>Von: </Form.Label>
+    <>
+      <Form inline>
+        <FormGroup controlId="select.umgebung">
+          <FormControl as="select" value={filter.umgebung}
+                       onChange={handleFilterChange('umgebung')}>
+            {getUmgebungen(getConfigurationValue('umgebungen'))
+              .map(umgebung => <option key={umgebung}>{umgebung}</option>)}
+          </FormControl>
+        </FormGroup>
         <Blank/>
-        <FormControl
-          as={Datum}
-          date={filter.datumVon}
-          maxDate={moment(filter.datumBis, 'YYYY-MM-DD').format('DD.MM.YYYY')}
-          setDate={handleFilterChange('datumVon')}
-        />
-      </FormGroup>
-      <Blank/>
-      <Blank/>
-      <FormGroup>
-        <Form.Label>Bis: </Form.Label>
         <Blank/>
-        <FormControl
-          as={Datum}
-          date={filter.datumBis}
-          maxDate={today}
-          setDate={handleFilterChange('datumBis')}
-        />
-      </FormGroup>
-      {filter.messageType && filter.datumVon && filter.datumBis && (
-        <>
+      </Form>
+      <Form inline>
+        <FormGroup controlId="select.messagetype">
+          <Form.Label>Typ: </Form.Label>
           <Blank/>
+          <FormControl as="select" value={filter.messageType}
+                       onChange={handleFilterChange('messageType')}>
+            {OptionenMessageTypes}
+          </FormControl>
+        </FormGroup>
+        <Blank/>
+        <Blank/>
+      </Form>
+      <Form inline>
+        <FormGroup controlId="datum.von">
+          <Form.Label>Von: </Form.Label>
           <Blank/>
-          <ButtonWithTip
-            title="Nachrichten"
-            description="Lade Nachrichten"
-            glyph="execute"
-            handleClick={() => {
-              withExplanation({
-                nachricht: 'Nachrichten werden geladen',
-                fn: () => props.setFilterMessages(filter.umgebung, filter.messageType, filter.datumVon, filter.datumBis),
-              })
-            }}
+          <FormControl
+            as={Datum}
+            date={filter.datumVon}
+            maxDate={moment(filter.datumBis, 'YYYY-MM-DD').format('DD.MM.YYYY')}
+            setDate={handleFilterChange('datumVon')}
           />
-        </>
-      )}
-    </Form>
+        </FormGroup>
+        <Blank/>
+        <Blank/>
+        <FormGroup controlId="datum.bis">
+          <Form.Label>Bis: </Form.Label>
+          <Blank/>
+          <FormControl
+            as={Datum}
+            date={filter.datumBis}
+            maxDate={today}
+            setDate={handleFilterChange('datumBis')}
+          />
+        </FormGroup>
+        {filter.messageType && filter.datumVon && filter.datumBis && (
+          <>
+            <ButtonWithTip
+              title="Nachrichten"
+              description="Lade Nachrichten"
+              glyph="execute"
+              handleClick={() => {
+                withExplanation({
+                  nachricht: 'Nachrichten werden geladen',
+                  fn: () => props.setFilterMessages(filter.umgebung, filter.messageType, filter.datumVon, filter.datumBis),
+                })
+              }}
+            />
+          </>
+        )}
+      </Form>
+    </>
   )
 }
 

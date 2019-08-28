@@ -79,6 +79,8 @@ const HeaderStatistics = props => {
             <SelectReportview views={VIEWS} value={view} onChange={props.setView} ohneTitel={true}/>
             <Blank/>
             <Blank/>
+          </Form>
+          <Form inline>
             <FormGroup controlId="select.umgebung">
               <FormControl as="select" value={filter.umgebung}
                            onChange={handleFilterChange('umgebung')}>
@@ -88,7 +90,9 @@ const HeaderStatistics = props => {
             </FormGroup>
             <Blank/>
             <Blank/>
-            <FormGroup>
+          </Form>
+          <Form inline>
+            <FormGroup controlId="datum.von">
               <Form.Label>Von: </Form.Label>
               <Blank/>
               <FormControl
@@ -101,7 +105,7 @@ const HeaderStatistics = props => {
             </FormGroup>
             <Blank/>
             <Blank/>
-            <FormGroup>
+            <FormGroup controlId="datum.bis">
               <Form.Label>Bis: </Form.Label>
               <Blank/>
               <FormControl
@@ -112,7 +116,7 @@ const HeaderStatistics = props => {
               />
             </FormGroup>
             {filter.datumVon && filter.datumBis && (
-              <>
+              <Form inline>
                 <Blank/>
                 <ButtonWithTip
                   title="Statistik"
@@ -120,10 +124,12 @@ const HeaderStatistics = props => {
                   glyph="execute"
                   handleClick={() => refresh(filter)}
                 />
-              </>
+              </Form>
             )}
             <Blank/>
             <Blank/>
+          </Form>
+          <Form inline>
             <ButtonWithTip
               title="Charts"
               description="Setze Charts zurück, lösche alle Filter"

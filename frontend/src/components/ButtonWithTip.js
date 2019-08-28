@@ -19,7 +19,7 @@ const ButtonWithTip = ({
                          ...props
                        }) => {
   return (
-    <FormGroup>
+    <FormGroup controlId={title}>
       <Tipp title={title} content={description} {...props}>
         <ButtonToolbar>
           <Button onClick={handleClick} {...props} variant={variant}>

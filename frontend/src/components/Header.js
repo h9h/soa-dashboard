@@ -55,7 +55,7 @@ const LRUs = Object.keys(LOG_SEARCH_TYPES).reduce((acc, key) => {
 
 export const HeaderForm = ({setFilter, actualise, ...rest}) => {
   log.trace('Mount Headerform', rest)
-  const { width } = useWindowSize()
+  const {width} = useWindowSize()
 
   // setzte lokale Daten auf Props beim ersten Render
   const {umgebung, datum, bis, searchType, searchValue} = rest
@@ -99,7 +99,7 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
   }
 
   const getRoute = filter => {
-    const { von, bis } = getDuration(getConfigurationValue('time.duration'))(moment(filter.bis, TIME_FORMAT))
+    const {von, bis} = getDuration(getConfigurationValue('time.duration'))(moment(filter.bis, TIME_FORMAT))
 
     return getDashboardRoute(filter.umgebung, filter.datum, von, bis)(filter.searchType, filter.searchValue)
   }
@@ -110,7 +110,8 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
       fn: actualise
     })
   }
-  const umgebungen = getUmgebungen(getConfigurationValue('umgebungen')).map(umgebung => <option key={umgebung}>{umgebung}</option>)
+  const umgebungen = getUmgebungen(getConfigurationValue('umgebungen')).map(umgebung => <option
+    key={umgebung}>{umgebung}</option>)
   const searchTypes = Object.keys(LOG_SEARCH_TYPES).map(k => <option key={k}>{LOG_SEARCH_TYPES[k]}</option>)
   const propagateLocalFilter = () => {
     LRUs[localFilter.searchType].store(localFilter.searchValue)
@@ -125,76 +126,84 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
   }
 
   return (
-    <Form inline>
-      <ButtonWithTip
-        glyph="actualise"
-        title="Aktualisiere Selektion"
-        description="Aktualisiere auf das aktuelle Datum und Uhrzeit und selektiere Logpunkte"
-        handleClick={aktualisiere}
-      />
-      <FormGroup controlId="select.umgebung">
-        <FormControl as="select" value={localFilter.umgebung} onChange={handleFilterChange('umgebung')}>
-          {umgebungen}
-        </FormControl>
-      </FormGroup>
-      <Blank />
-      <Blank />
-      <Blank />
-      <FormGroup>
-        <FormControl
-          as={Datum}
-          date={localFilter.datum}
-          maxDate={today}
-          minDate={twoWeeksAgo}
-          setDate={handleFilterChange('datum')}
+    <>
+      <Form inline>
+        <ButtonWithTip
+          glyph="actualise"
+          title="Aktualisiere Selektion"
+          description="Aktualisiere auf das aktuelle Datum und Uhrzeit und selektiere Logpunkte"
+          handleClick={aktualisiere}
         />
+      </Form>
+      <Form inline>
+        <FormGroup controlId="select.umgebung">
+          <FormControl as="select" value={localFilter.umgebung} onChange={handleFilterChange('umgebung')}>
+            {umgebungen}
+          </FormControl>
+        </FormGroup>
         <Blank/>
-      </FormGroup>
-      <Blank/>
-      <FormGroup>
-        Bis:
         <Blank/>
-        <FormControl
-          as={Zeit}
-          date={localFilter.bis}
-          setDate={handleFilterChange('bis')}
-        />
         <Blank/>
-      </FormGroup>
-      <Blank/>
-      <FormGroup>
-        <Blank/>
-        <FormControl as="select" value={localFilter.searchType} onChange={handleFilterChange('searchType')}>
-          {searchTypes}
-        </FormControl>
-        <div style={{ width: `${width > 1600 ? '600' : '260'}px` }}>
-          <AutosuggestBox
-            provider={LRUs[localFilter.searchType]}
-            onChange={handleFilterChange('searchValue')}
-            value={localFilter.searchValue}
+      </Form>
+      <Form inline>
+        <FormGroup controlId="select.datum">
+          <FormControl
+            as={Datum}
+            date={localFilter.datum}
+            maxDate={today}
+            minDate={twoWeeksAgo}
+            setDate={handleFilterChange('datum')}
           />
-        </div>
-      </FormGroup>
-      <ButtonWithTip
-        title="Selektiere Log-Punkte"
-        description={`Selektiert die Logpunkte entsprechend den Filter-Kriterien. 
+          <Blank/>
+        </FormGroup>
+        <Blank/>
+        <FormGroup controlId="select.bis">
+          Bis:
+          <Blank/>
+          <FormControl
+            as={Zeit}
+            date={localFilter.bis}
+            setDate={handleFilterChange('bis')}
+          />
+          <Blank/>
+          <Blank/>
+          <Blank/>
+        </FormGroup>
+      </Form>
+      <Form inline>
+        <FormGroup controlId="select.suchtyp">
+          <FormControl as="select" value={localFilter.searchType} onChange={handleFilterChange('searchType')}>
+            {searchTypes}
+          </FormControl>
+          <div style={{width: `${width > 1600 ? '600' : '260'}px`}}>
+            <AutosuggestBox
+              provider={LRUs[localFilter.searchType]}
+              onChange={handleFilterChange('searchValue')}
+              value={localFilter.searchValue}
+            />
+          </div>
+        </FormGroup>
+        <ButtonWithTip
+          title="Selektiere Log-Punkte"
+          description={`Selektiert die Logpunkte entsprechend den Filter-Kriterien. 
         Es wird nur eine limitierte Anzahl an Logpunkten zurückgegeben.
         
         Da zu einem Servicecall in der Regel mehrere Logpunkte existieren, ist die Anzahl der Servicecalls entsprechend geringer.
         `}
-        glyph="execute"
-        handleClick={propagateLocalFilter}
-      />
-      <Separator />
-      <Link id="snapshot" to={getRoute(localFilter)} target="_blank" />
-      <ButtonWithTip
-        glyph="snapshot"
-        title="Snapshot"
-        description="Öffne die aktuelle Selektion unter einer dedizierten URL in einem neuen Tab"
-        handleClick={gotoSnapshot}
-      />
-      <Blank/>
-    </Form>
+          glyph="execute"
+          handleClick={propagateLocalFilter}
+        />
+        <Separator/>
+        <Link id="snapshot" to={getRoute(localFilter)} target="_blank"/>
+        <ButtonWithTip
+          glyph="snapshot"
+          title="Snapshot"
+          description="Öffne die aktuelle Selektion unter einer dedizierten URL in einem neuen Tab"
+          handleClick={gotoSnapshot}
+        />
+        <Blank/>
+      </Form>
+    </>
   )
 }
 
