@@ -121,3 +121,18 @@ export const doNotFindMessage = async (umgebung, messageType, id) => {
   const fehler = success ? {} : { fehlermeldung: result.fehlermeldung || result }
   return { success, result: result.result, ...fehler }
 }
+
+export const getCheckaliveRuns = async (umgebung) => {
+  const url = `${getEsbUrl(umgebung)}/dashboard/CheckAliveRuns`
+  const data = await get(url)
+
+  if (!data.success) {
+    return { success: false, result: 'Keine Checkalive Runs vorhanden' }
+  }
+
+  if (!data.result.rows || data.result.rows.length < 1) return { success: false, result: 'Keine Checkalive Runs vorhanden' }
+
+  const result = data.result.rows.map(r => moment(r[0], 'YYYY-MM-DDTHH:mm:ss.SSSZ'))
+
+  return { success: true, result }
+}

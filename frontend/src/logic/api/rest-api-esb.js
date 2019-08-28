@@ -89,10 +89,11 @@ export const API = {
   QUEUES: 'Queues',
   QUEUED_MESSAGES: 'Queued Messages',
   MESSAGES: 'Messages',
+  CHECKALIVE_RUNS: 'CheckAliveRuns'
 }
 
 function evolveData (api, dataRow, annotations) {
-  dataRow.filter = annotations
+  if (annotations) dataRow.filter = annotations
 
   switch (api) {
     case API.LOGPOINT:
@@ -105,6 +106,7 @@ function evolveData (api, dataRow, annotations) {
     case API.MESSAGES:
     case API.DATABASE:
     case API.QUEUES:
+    case API.CHECKALIVE_RUNS:
       // nix
       break
     case API.QUEUED_MESSAGES:
@@ -154,6 +156,21 @@ function getMockData (api, url) {
     default:
       new Error('Mock für API ' + api + ' fehlt')
   }
+}
+
+export const makeObjectFromHeaderAndRows = (records, api, annotations) => {
+  const keys = records.header.map(o => Object.keys(o)[0])
+
+  const result = {keys}
+  result.data = records.rows.map(row => {
+      // Wandle Array in Object um : [v1,...vn] => { k1: v1, ..., kn: vn }
+      const dataRow = keysAndRowToObject(keys, row)
+      evolveData(api, dataRow, annotations)
+
+      return dataRow
+    },
+  )
+  return result
 }
 
 /**
@@ -208,17 +225,7 @@ export async function getData (api, url, cb, annotations) {
     return
   }
 
-  const keys = records.header.map(o => Object.keys(o)[0])
-
-  const result = {keys}
-  result.data = records.rows.map(row => {
-      // Wandle Array in Object um : [v1,...vn] => { k1: v1, ..., kn: vn }
-      const dataRow = keysAndRowToObject(keys, row)
-      evolveData(api, dataRow, annotations)
-
-      return dataRow
-    },
-  )
+  const result = makeObjectFromHeaderAndRows(records, api, annotations)
 
   result.status = 'ready'
 

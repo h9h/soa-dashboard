@@ -64,7 +64,8 @@ const App = () => {
             {/* Öffentlich zugänglich */}
             <Route path="/help" component={PageHelp}/>
             <Route path="/profile" component={PageProfile}/>
-            <Route path="/checkalive" component={PageCheckalive}/>
+            <Route exact path="/checkalive" component={PageCheckalive}/>
+            <Route path="/checkalive/:umgebung" component={PageCheckalive}/>
 
             {/* Ziel falls nicht eingeloggt und Zugriff auf geschützte Seite gewollt */}
             <RouteUnauthenticated path="/login" component={PageLogin} />
