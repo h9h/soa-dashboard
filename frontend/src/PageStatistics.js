@@ -5,11 +5,13 @@ import BodyArea from './components/BodyArea'
 import Log from './log'
 import InteractiveStatistics from './components/InteractiveStatistics'
 import { Helmet } from 'react-helmet'
+import useWindowSize from './components/useWindowSize'
 
 const log = Log('pagestatistics')
 
 const PageStatistics = () => {
-  log.trace('Mount PageStatistics2')
+  log.trace('Mount PageStatistics')
+  const { width } = useWindowSize()
 
   return (
     <>
@@ -19,7 +21,7 @@ const PageStatistics = () => {
       <Container fluid>
         <HeaderStatistics/>
         <BodyArea>
-          <InteractiveStatistics/>
+          <InteractiveStatistics width={width}/>
         </BodyArea>
       </Container>
     </>

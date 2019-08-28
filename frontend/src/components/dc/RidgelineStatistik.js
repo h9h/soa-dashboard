@@ -65,7 +65,7 @@ const UnconnectedRidgelineStatistik = (props) => {
   const histBus = useMemo(() => render(renderBarChartTiming(TIMINGS.BUS)), [render])
 
   return (
-    <>
+    <div style={{ width: props.width }}>
         <Row>
           <Col xs={9}>
             <Row>
@@ -126,7 +126,7 @@ const UnconnectedRidgelineStatistik = (props) => {
             </Row>
           </Col>
         </Row>
-    </>
+    </div>
   )
 }
 

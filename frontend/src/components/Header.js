@@ -24,6 +24,7 @@ import AutosuggestBox from './suggestions/AutosuggestBox'
 import { LOG_SEARCH_TYPES } from '../logic/store'
 import { LRUProvider } from './suggestions/lruProvider'
 import { getConfigurationValue } from '../logic/configuration'
+import useWindowSize from './useWindowSize'
 
 const log = Log('header')
 
@@ -54,6 +55,7 @@ const LRUs = Object.keys(LOG_SEARCH_TYPES).reduce((acc, key) => {
 
 export const HeaderForm = ({setFilter, actualise, ...rest}) => {
   log.trace('Mount Headerform', rest)
+  const { width } = useWindowSize()
 
   // setzte lokale Daten auf Props beim ersten Render
   const {umgebung, datum, bis, searchType, searchValue} = rest
@@ -165,7 +167,7 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
         <FormControl as="select" value={localFilter.searchType} onChange={handleFilterChange('searchType')}>
           {searchTypes}
         </FormControl>
-        <div style={{ width: `${rest.width || (window.innerWidth > 1600 ? '600' : '260')}px` }}>
+        <div style={{ width: `${width > 1600 ? '600' : '260'}px` }}>
           <AutosuggestBox
             provider={LRUs[localFilter.searchType]}
             onChange={handleFilterChange('searchValue')}

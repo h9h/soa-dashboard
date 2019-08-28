@@ -4,7 +4,7 @@ import * as d3 from 'd3'
 import { TIMING_BREAKPOINTS, TIMING_BUS_BREAKPOINTS } from '../../logic/api/rest-api-statistics'
 import { legendTiming, TIMINGS } from './utils'
 
-const cx = (div) => div.clientHeight/2
+const cx = (div) => div.clientWidth/4
 
 const createPieChart = (div, colorScheme, legend = d => d.name) => {
   const colors = getColorFunction(colorScheme)

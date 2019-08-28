@@ -15,20 +15,20 @@ import { BrushCol, Listing, MainCol, SelectorCol, HighSelectorCol } from './dcSt
 export function AufrufStatistik (props) {
   const render = useMemo(() => renderPlot(props.data, props.colorscheme), [props.data, props.colorscheme])
 
-  const brush = useMemo(() => render(renderChartBrush()), [render])
-  const lineAnzahl = useMemo(() => render(renderLineChartAnzahlCalls), [render])
-  const lineTiming = useMemo(() => render(renderLineChartTimingCalls), [render])
-  const rowService = useMemo(() => render(renderRowChartListServices), [render])
+  const brush = render(renderChartBrush())
+  const lineAnzahl = render(renderLineChartAnzahlCalls)
+  const lineTiming = render(renderLineChartTimingCalls)
+  const rowService = render(renderRowChartListServices)
 
-  const pieDomain = useMemo(() => render(renderPieChartDomain), [render])
-  const sunDomain = useMemo(() => render(renderSunburstChart), [render])
-  const barDomain = useMemo(() => render(renderBarChartDomain), [render])
-  const histGesamt = useMemo(() => render(renderBarChartTiming(TIMINGS.GESAMT)), [render])
-  const histBus = useMemo(() => render(renderBarChartTiming(TIMINGS.BUS)), [render])
+  const pieDomain = render(renderPieChartDomain)
+  const sunDomain = render(renderSunburstChart)
+  const barDomain = render(renderBarChartDomain)
+  const histGesamt = render(renderBarChartTiming(TIMINGS.GESAMT))
+  const histBus = render(renderBarChartTiming(TIMINGS.BUS))
 
-  return <>
+  return <div style={{ width: props.width }}>
     <Row>
-      <Col xs={9}>
+      <Col xs={12} lg={9}>
         <Row>
           <BrushCol>
             {brush}
@@ -56,7 +56,7 @@ export function AufrufStatistik (props) {
           </Listing>
         </Row>
       </Col>
-      <Col xs={3}>
+      <Col xs={12} lg={3}>
         <Row>
           <Col>
             <Centered>
@@ -91,7 +91,7 @@ export function AufrufStatistik (props) {
         </Row>
       </Col>
     </Row>
-  </>
+  </div>
 }
 
 AufrufStatistik.propTypes = {

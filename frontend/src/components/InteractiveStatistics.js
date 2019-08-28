@@ -43,15 +43,15 @@ const InteractiveStatistics = props => {
 
     switch(view) {
       case VIEWS.AUFRUF:
-        return <AufrufStatistik data={data} colorscheme={colorScheme} />
+        return <AufrufStatistik data={data} colorscheme={colorScheme} width={props.width}/>
       case VIEWS.SERVICECALLS:
-        return <ServicecallStatistik data={data} colorscheme={colorScheme} />
+        return <ServicecallStatistik data={data} colorscheme={colorScheme} width={props.width}/>
       case VIEWS.RIDGELINE:
-        return <RidgelineStatistik data={data} colorscheme={colorScheme}/>
+        return <RidgelineStatistik data={data} colorscheme={colorScheme} width={props.width}/>
       case VIEWS.DATA:
         return <StatistikData data={data} />
       default:
-        return <AllgemeineStatistik data={data} colorscheme={colorScheme}/>
+        return <AllgemeineStatistik data={data} colorscheme={colorScheme} width={props.width}/>
     }
   }
 

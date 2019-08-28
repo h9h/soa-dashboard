@@ -15,9 +15,9 @@ import { BrushCol, MainCol, Listing } from './dcStyles'
 export function ServicecallStatistik (props) {
   const render = renderPlot(props.data, props.colorscheme)
 
-  return <>
+  return <div style={{ width: props.width }}>
     <Row>
-      <Col xs={9}>
+      <Col xs={12} lg={9}>
         <Row>
           <BrushCol>
               {render(renderChartBrush())}
@@ -40,7 +40,7 @@ export function ServicecallStatistik (props) {
           </Col>
         </Row>
       </Col>
-      <Col xs={3}>
+      <Col xs={12} lg={3}>
         <ChartsVerteilung render={render}/>
       </Col>
     </Row>
@@ -49,7 +49,7 @@ export function ServicecallStatistik (props) {
         {render(renderRowChartListServices)}
       </Listing>
     </Row>
-  </>
+  </div>
 }
 
 ServicecallStatistik.propTypes = {

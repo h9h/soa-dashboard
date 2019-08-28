@@ -18,9 +18,9 @@ const NFault = 10
 export function AllgemeineStatistik (props) {
   const render = renderPlot(props.data, props.colorscheme)
 
-  return <>
+  return <div style={{ width: props.width }}>
     <Row>
-      <Col xs={4}>
+      <Col xs={12} lg={4}>
         <Centered>
           <h3>Verteilung</h3>
         </Centered>
@@ -45,7 +45,7 @@ export function AllgemeineStatistik (props) {
           </SelectorCol>
         </Row>
       </Col>
-      <Col xs={4}>
+      <Col xs={12} lg={4}>
         <Row>
           <Col xs={12} style={{height: '350px'}}>
             <Centered>
@@ -62,7 +62,7 @@ export function AllgemeineStatistik (props) {
           </Col>
         </Row>
       </Col>
-      <Col xs={4}>
+      <Col xs={12} lg={4}>
         <Row>
           <Col xs={12}>
             <Centered>
@@ -81,7 +81,7 @@ export function AllgemeineStatistik (props) {
         </Row>
       </Col>
     </Row>
-  </>
+  </div>
 }
 
 AllgemeineStatistik.propTypes = {

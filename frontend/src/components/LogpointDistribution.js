@@ -7,8 +7,10 @@ import DataContext from './dc/DataContext'
 import { renderBarChartLogpoints } from './dc/barCharts'
 import { withNotification } from '../logic/notification'
 import { getConfigurationValue } from '../logic/configuration'
+import useWindowSize from './useWindowSize'
 
 const LogpointDistribution = React.memo(({ isEmpty, statistik, setBis }) => {
+  const { width } = useWindowSize()
   if (isEmpty) return null
 
   const barchartHeight = parseInt(getConfigurationValue('presentation.distribution.heightInPx'), 10)
@@ -30,7 +32,7 @@ const LogpointDistribution = React.memo(({ isEmpty, statistik, setBis }) => {
 
   return (
     <Row>
-      <Col style={{ height: `${barchartHeight}px` }}>
+      <Col style={{ height: `${barchartHeight}px`, width: `${width}px` }}>
         <DataContext dimensions={dimensions} renderChart={renderBarChartLogpoints} setBis={doSetBis}/>
       </Col>
     </Row>
