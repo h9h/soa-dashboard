@@ -5,6 +5,10 @@ import { connect } from 'react-redux'
 import WartenAnzeiger from './WartenAnzeiger'
 import Inspector from 'react-inspector'
 import { THEME } from './ServiceView/theme'
+import moment from 'moment'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Checkalive from './Checkalive'
 
 const log = Log('checkaliveruns')
 
@@ -47,26 +51,44 @@ const calculateCluster = moments => {
 
     const hour = m.format('HH')
     if (!cluster[year][month][day][hour]) cluster[year][month][day][hour] = []
-    cluster[year][month][day][hour].push(m.format('HH:mm:ss') + ' / ' + m._i)
+    cluster[year][month][day][hour].push(m._i)
   })
 
   return cluster
 }
 
+const nodeRenderer = fn => ({root, depth, name, data}) => {
+  if (depth === 5) return (
+    <span
+      style={{ cursor: 'pointer' }}
+      onClick={() => {
+      fn(data.replace(/[+]/, '%2B'))
+    }}>{moment(data).format('HH:mm:ssZ')}</span>
+  )
+  if (depth > 5) return ''
+  return <span>{name}</span>
+}
+
 export const UnconnectedCheckaliveRuns = ({umgebung}) => {
   log.trace('Mounting CheckaliveRuns', umgebung)
   const result = useFetch({umgebung})
+  const [run, setRun] = useState(null)
 
   if (result.status === 'loading') return <WartenAnzeiger />
   if (result.status === 'error') return <h2>{result.data}</h2>
 
   const cluster = calculateCluster(result.data)
   return (
-    <>
-      <div>
-        <Inspector name="Runs" data={cluster} theme={THEME}/>
-      </div>
-    </>
+    <Row>
+      <Col xs={2}>
+        <Inspector name="Runs" data={cluster} theme={THEME} nodeRenderer={nodeRenderer(setRun)}/>
+      </Col>
+      <Col xs={10}>
+        {run && (
+          <Checkalive umgebung={umgebung} run={run} />
+        )}
+      </Col>
+    </Row>
   )
 }
 

@@ -123,6 +123,12 @@ export const doNotFindMessage = async (umgebung, messageType, id) => {
 }
 
 export const getCheckaliveRuns = async (umgebung) => {
+  const MOCK = getConfigurationValue('mock.doMock') === 'true'
+  if (MOCK) return {
+    success: true,
+    result: ['2019-08-28T12:11:10.111+02:00', '2019-07-28T12:11:10.111+02:00'].map(m => moment(m, 'YYYY-MM-DDTHH:mm:ss.SSSZ'))
+  }
+
   const url = `${getEsbUrl(umgebung)}/dashboard/CheckAliveRuns`
   const data = await get(url)
 
@@ -133,6 +139,27 @@ export const getCheckaliveRuns = async (umgebung) => {
   if (!data.result.rows || data.result.rows.length < 1) return { success: false, result: 'Keine Checkalive Runs vorhanden' }
 
   const result = data.result.rows.map(r => moment(r[0], 'YYYY-MM-DDTHH:mm:ss.SSSZ'))
+
+  return { success: true, result }
+}
+
+export const getCheckaliveRun = async (umgebung, run) => {
+  const MOCK = getConfigurationValue('mock.doMock') === 'true'
+  if (MOCK) return {
+    success: true,
+    result: ['2019-08-28T12:11:10.111+02:00', '2019-07-28T12:11:10.111+02:00'].map(m => moment(m, 'YYYY-MM-DDTHH:mm:ss.SSSZ'))
+  }
+
+  const url = `${getEsbUrl(umgebung)}/dashboard/CheckAliveRuns/${run}`
+  const data = await get(url)
+
+  if (!data.success) {
+    return { success: false, result: 'Keine Daten zum Checkalive Runs vorhanden' }
+  }
+
+  if (!data.result.rows || data.result.rows.length < 1) return { success: false, result: 'Keine Daten zum Checkalive Runs vorhanden' }
+
+  const result = data.result.rows
 
   return { success: true, result }
 }
