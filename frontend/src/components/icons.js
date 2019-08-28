@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  FaBroadcastTower,
   FaChalkboardTeacher,
   FaChartLine,
   FaChartPie,
@@ -38,6 +39,8 @@ const log = Log('icons')
 
 export const Icon = ({ glyph, ...rest }) => {
   switch(glyph) {
+    case 'checkalive':
+      return <FaBroadcastTower/>
     case 'clearFilters':
       return <MdClearAll />
     case 'cancel':

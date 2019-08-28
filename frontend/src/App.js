@@ -35,7 +35,8 @@ const PageDashboard = lazy(() => import('./PageDashboard'))
 const PageQueues = lazy(() => import('./PageQueues'))
 const PageMessages = lazy(() => import('./PageMessages'))
 const PageJobs = lazy(() => import('./PageJobs'))
-const PageStatistics2 = lazy(() => import('./PageStatistics'))
+const PageStatistics = lazy(() => import('./PageStatistics'))
+const PageCheckalive = lazy(() => import('./PageCheckalive'))
 const PageQueuetables = lazy(() => import('./PageQueuedMessages'))
 const PageProfile = lazy(() => import('./PageProfile'))
 const PageHelp = lazy(() => import('./PageHelp'))
@@ -63,6 +64,7 @@ const App = () => {
             {/* Öffentlich zugänglich */}
             <Route path="/help" component={PageHelp}/>
             <Route path="/profile" component={PageProfile}/>
+            <Route path="/checkalive" component={PageCheckalive}/>
 
             {/* Ziel falls nicht eingeloggt und Zugriff auf geschützte Seite gewollt */}
             <RouteUnauthenticated path="/login" component={PageLogin} />
@@ -76,7 +78,7 @@ const App = () => {
             <RouteAuthenticated path="/messages" component={PageMessages}/>
             <RouteAuthenticated path="/jobs" component={PageJobs}/>
             <RouteAuthenticated path="/message/:umgebung/:datum/:von/:bis/:messageId" component={PageServicecall}/>
-            <RouteAuthenticated path="/statistics" component={PageStatistics2}/>
+            <RouteAuthenticated path="/statistics" component={PageStatistics}/>
             <RouteAuthenticated path="/" component={PageDashboard}/>
           </Switch>
 
