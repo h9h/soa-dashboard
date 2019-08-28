@@ -81,7 +81,13 @@ export const UnconnectedCheckaliveRuns = ({umgebung}) => {
   return (
     <Row>
       <Col xs={2}>
-        <Inspector name="Runs" data={cluster} theme={THEME} nodeRenderer={nodeRenderer(setRun)}/>
+        <Inspector
+          name="Checkalive Runs nach Datum"
+          data={cluster}
+          theme={THEME}
+          nodeRenderer={nodeRenderer(setRun)}
+          expandLevel={3}
+        />
       </Col>
       <Col xs={10}>
         {run && (
