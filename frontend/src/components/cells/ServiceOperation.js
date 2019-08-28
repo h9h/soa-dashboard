@@ -9,10 +9,6 @@ import { once } from 'ramda'
 const url = once(() => getClientUrl())()
 
 const ServiceOperation = ({row}) => {
-  const values = row.aggregated ? row.subRows[0] : row.row
-  const { umgebung, datum, von, bis } = values.filter
-  const route = getDashboardRoute(umgebung, datum, von, bis)(LOG_SEARCH_TYPES.MESSAGEID, values.MESSAGEID)
-
   const so = Array.isArray(row.value) ? row.value : row.value.split(':').map(t => t.trim())
   const component = (
     <>
@@ -21,6 +17,12 @@ const ServiceOperation = ({row}) => {
       <Smaller key={1}>{so[1]}</Smaller>
     </>
   )
+
+  const values = row.aggregated ? row.subRows[0] : row.row
+  if (!values.filter) return component
+
+  const { umgebung, datum, von, bis } = values.filter
+  const route = getDashboardRoute(umgebung, datum, von, bis)(LOG_SEARCH_TYPES.MESSAGEID, values.MESSAGEID)
 
   return (
     <CopyMessageToClipboard
