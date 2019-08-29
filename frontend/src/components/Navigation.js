@@ -41,6 +41,7 @@ const NavElement = variant => ({to, description, title}) => (
 export const NavigationForm = ({page, user, logout, haveJobsApi}) => {
   const variant = whichPage => page === whichPage ? 'link' : 'light'
   const Target = NavElement(variant)
+  const Span = ({children}) => <div style={{ marginLeft: '25px' }}>{children}</div>
 
   return (
     <>
@@ -59,8 +60,8 @@ export const NavigationForm = ({page, user, logout, haveJobsApi}) => {
             ...
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item as={Link} to="/help">Hilfe</Dropdown.Item>
-            <Dropdown.Item as={Link} to="profile">Einstellungen</Dropdown.Item>
+            <Dropdown.Item as={Span}><Link to="/help">Hilfe</Link></Dropdown.Item>
+            <Dropdown.Item as={Span}><Link to="/profile">Einstellungen</Link></Dropdown.Item>
             {user && (
               <>
                 <Dropdown.Divider/>
