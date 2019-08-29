@@ -127,6 +127,23 @@ export const DEFINITIONS = {
     required: ["pageSizes", "defaultSize"],
     additionalProperties: false
   },
+  checkalivetable: {
+    id: "/Checkalivetable",
+    type: "object",
+    properties: {
+      pageSizes: {type: "array", "items": { anyOf: [
+            { type: "string", pattern: "^\\d{1,3}$" },
+            { type: "null" },
+          ]}
+        ,
+        uniqueItems: true,
+        minItems: 1
+      },
+      defaultSize: {type: "string", pattern: "^\\d{1,3}$" }
+    },
+    required: ["pageSizes", "defaultSize"],
+    additionalProperties: false
+  },
   timeline: {
     id: "/Timeline",
     type: "object",
@@ -230,6 +247,7 @@ export const CONFIGURATION_SCHEMA = {
     messagetable: {"$ref": "/Messagetable"},
     queuetable: {"$ref": "/Queuetable"},
     queuetabletable: {"$ref": "/Queuetabletable"},
+    checkalivetable: {"$ref": "/Checkalivetable"},
     presentation: {"$ref": "/Presentation"},
     mock: {"$ref": "/Mock"},
     advanced: {"$ref": "/Advanced"},

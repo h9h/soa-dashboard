@@ -39,6 +39,10 @@ const defaultConfiguration = {
     pageSizes: ["6", "10", "12", "50", "100"],
     defaultSize: "10"
   },
+  checkalivetable: {
+    pageSizes: ["6", "12", "18", "50", "100"],
+    defaultSize: "18"
+  },
   presentation: {
     timeline: {
       alignFlag: "left"

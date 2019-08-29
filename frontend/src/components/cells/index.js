@@ -18,6 +18,8 @@ import MsgID from './MsgID'
 import MessageContent from './MessageContent'
 import moment from 'moment'
 import Dauer from './Dauer'
+import { Smaller } from '../styles'
+import IsAlive from './IsAlive'
 
 const pk = key => {
   switch(key){
@@ -81,6 +83,13 @@ export const cellFactory = onClick => key => {
     case 'DURCHSCHNITT_BUS_ZEIT':
     case 'DURCHSCHNITT_PROVIDER_ZEIT':
       return row => <Dauer row={row} partitionKey={pk(key)} />
+    case 'USINGPORTFQN':
+    case 'PROVIDINGPORTFQN':
+      return row => <Smaller>{row.value}</Smaller>
+    case 'ISALIVE':
+      return row => <IsAlive row={row} />
+    case 'RESPONSE':
+      return row => <MessageContent row={row} />
     case 'DUMP':
       return row => <div style={{ wordBreak: 'normal', overflow: 'auto'}}>{JSON.stringify(row)}</div>
     default:

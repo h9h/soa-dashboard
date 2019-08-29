@@ -154,12 +154,12 @@ export const getCheckaliveRun = async (umgebung, run) => {
   const data = await get(url)
 
   if (!data.success) {
-    return { success: false, result: 'Keine Daten zum Checkalive Runs vorhanden' }
+    return { success: false, result: 'Keine Daten zum Checkalive Run vorhanden' }
   }
 
-  if (!data.result.rows || data.result.rows.length < 1) return { success: false, result: 'Keine Daten zum Checkalive Runs vorhanden' }
+  if (!data.result.rows || data.result.rows.length < 1) return { success: false, result: 'Keine Daten zum Checkalive Run vorhanden' }
 
-  const result = data.result.rows
+  const result = { rows: data.result.rows, header: data.result.header }
 
   return { success: true, result }
 }

@@ -14,6 +14,7 @@ export const TABLE_COLUMNS = {
   Statistic: ['Zeit', 'Domain', 'DURATION', 'ORIGINATOR', 'OPERATION', 'SERVICE', 'MEP', 'ANZAHLGESAMT', 'ANZAHLFAULT', 'DURCHSCHNITT_GESAMT_ZEIT', 'DURCHSCHNITT_PROVIDER_ZEIT', 'DURCHSCHNITT_BUS_ZEIT'],
   Queues: ['QUEUE_NAME', 'QUEUE_TABLE', 'QUEUE_TYPE', 'EXPIRATION', 'USER_COMMENT', 'WAITING', 'READY', 'EXPIRED'],
   Queuetable: ['QUEUE_NAME', 'QUEUE_TABLE', 'MSGID', 'ENQ_TIME', 'MESSAGE', 'MessageSize', 'MessageContent'],
+  Checkalive: ['USINGPORTFQN', 'PROVIDINGPORTFQN', 'ISALIVE', 'RESPONSE']
 }
 
 const filterOnParity = ({
@@ -242,6 +243,37 @@ const DEFAULT_PROPS = {
     Header: 'Domäne',
     width: 150,
     ordnung: 12
+  },
+  USINGPORTFQN: {
+    Header: 'Consumer',
+    accessor: item => item.USINGPORTFQN.substring(20),
+    width: 500,
+    ordnung: 1
+  },
+  PROVIDINGPORTFQN: {
+    Header: 'Provider',
+    accessor: item => item.PROVIDINGPORTFQN.substring(20),
+    width: 500,
+    ordnung: 2
+  },
+  ISALIVE: {
+    Header: 'isAlive',
+    width: 100,
+    ordnung: 3,
+    accessor: item => item.ISALIVE === 1,
+    Filter: ({filter, onChange}) =>
+      <select
+        onChange={event => onChange(event.target.value)}
+        style={{width: '100%'}}
+        value={filter ? filter.value : ''}
+      >
+        {[['', 'alle'], [ false, 'dead'], [true, 'alive']].map(([value, text]) => <option key={value} value={value}>{text}</option>)}
+      </select>,
+  },
+  RESPONSE: {
+    Header: 'Response',
+    minWidth: 350,
+    ordnung: 4
   }
 }
 

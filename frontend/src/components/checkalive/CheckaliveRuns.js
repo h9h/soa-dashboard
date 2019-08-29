@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { getCheckaliveRuns } from '../logic/api/api-dashboard'
-import Log from '../log'
+import { getCheckaliveRuns } from '../../logic/api/api-dashboard'
+import Log from '../../log'
 import { connect } from 'react-redux'
-import WartenAnzeiger from './WartenAnzeiger'
+import WartenAnzeiger from '../WartenAnzeiger'
 import Inspector from 'react-inspector'
-import { THEME } from './ServiceView/theme'
+import { THEME } from '../ServiceView/theme'
 import moment from 'moment'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -86,7 +86,7 @@ export const UnconnectedCheckaliveRuns = ({umgebung}) => {
           data={cluster}
           theme={THEME}
           nodeRenderer={nodeRenderer(setRun)}
-          expandLevel={3}
+          expandLevel={2}
         />
       </Col>
       <Col xs={10}>

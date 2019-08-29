@@ -5,7 +5,7 @@ import BodyArea from './components/BodyArea'
 import Log from './log'
 import { Helmet } from 'react-helmet'
 import HeaderStandalone from './components/HeaderStandalone'
-import CheckaliveRuns, { UnconnectedCheckaliveRuns } from './components/CheckaliveRuns'
+import CheckaliveRuns, { UnconnectedCheckaliveRuns } from './components/checkalive/CheckaliveRuns'
 
 const log = Log('pagecheckalive')
 
