@@ -3,7 +3,6 @@ import { filter } from 'ramda'
 import { Red } from '../styles'
 
 const CheckaliveSummary = ({ data }) => {
-  console.log(data)
   const success = filter(r => r.ISALIVE === 1, data)
   const fail = filter(r => !r || r.ISALIVE !== 1, data)
 

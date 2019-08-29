@@ -19,7 +19,7 @@ const useFetch = ({umgebung, run}) => {
     setResult({status: 'loading'})
     log.trace('useEffect on filter', umgebung, run)
     const fetchData = async () => {
-      const data = await getCheckaliveRun(umgebung, run)
+      const data = await getCheckaliveRun(umgebung, run._i.replace(/[+]/, '%2B'))
 
       if (data.success) {
         setResult({ status: 'ready', data: data.result })
@@ -35,6 +35,7 @@ const useFetch = ({umgebung, run}) => {
 }
 
 const Checkalive = ({ umgebung, run }) => {
+  log.trace('Mount Checkalive', umgebung, run)
   const { status, data } = useFetch({ umgebung, run })
 
   if (status === 'loading') return <WartenAnzeiger />
@@ -48,6 +49,9 @@ const Checkalive = ({ umgebung, run }) => {
 
   return (
     <Row>
+      <Col xs={12}>
+        <h3>{caData[0].RUN}</h3>
+      </Col>
       <Col xs={12}>
         <CheckaliveSummary data={caData}/>
       </Col>
