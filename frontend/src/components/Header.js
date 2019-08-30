@@ -15,7 +15,7 @@ import { connect } from 'react-redux'
 import Log from '../log'
 import { getDashboardRoute } from '../logic/routes'
 import Separator from './Separator'
-import { getDuration, TIME_FORMAT } from '../logic/time'
+import { getDuration, TIME_FORMAT, widenTime } from '../logic/time'
 import moment from 'moment'
 import Datum from './datetime/Datum'
 import Zeit from './datetime/Zeit'
@@ -99,9 +99,14 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
   }
 
   const getRoute = filter => {
-    const {von, bis} = getDuration(getConfigurationValue('time.duration'))(moment(filter.bis, TIME_FORMAT))
+    let {von, bis} = getDuration(getConfigurationValue('time.duration'))(moment(filter.bis, TIME_FORMAT))
 
-    return getDashboardRoute(filter.umgebung, filter.datum, von, bis)(filter.searchType, encodeURIComponent(filter.searchValue))
+    if (filter.searchValue) {
+      const {von: vonNeu, bis: bisNeu} = widenTime(getConfigurationValue('filter.widenFilter'))(von, bis)
+      return getDashboardRoute(filter.umgebung, filter.datum, vonNeu, bisNeu)(filter.searchType, encodeURIComponent(filter.searchValue))
+    } else {
+      return getDashboardRoute(filter.umgebung, filter.datum, von, bis)(null, null)
+    }
   }
 
   const aktualisiere = () => {
