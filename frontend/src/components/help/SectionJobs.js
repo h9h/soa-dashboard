@@ -19,6 +19,9 @@ export default () => {
         </Paragraph>
       )}
       <Paragraph>
+        Stellen Sie bitte sicher, dass Sie die aktuelle Zuordnungs-JSON SenderFQN2QueueName lokal gespeichert haben.
+      </Paragraph>
+      <Paragraph>
         Die Seite Jobs ist in zwei Spalten unterteilt: Links ist die "Eingabe", rechts die "Ausgabe".
       </Paragraph>
       <Paragraph>

@@ -20,18 +20,6 @@ import {
 
 const log = Log('messages')
 
-const getDefaultFilterMethod = (filter, row) => {
-  try {
-    const testField = row[filter.id]
-    const pruefer = RegExp(filter.value)
-    const test = pruefer.test.bind(pruefer)
-    return test(testField)
-  } catch (_) {
-    // Fehler hier interessieren nicht, z.B. noch unvollständige RegExps
-    return true
-  }
-}
-
 const getDefaultSorted = [{id: 'LOGTIMESTAMP'}]
 
 const getTdProps = setRow => (state, rowInfo, column) => {
@@ -196,11 +184,11 @@ const Messages = props => {
             <ReactTable
               columns={columns}
               data={filteredMessages}
+              filterable={!haveJobsApi}
               defaultSorted={getDefaultSorted}
               pageSizeOptions={sizeOptions}
               onPageSizeChange={handlePageSizeChange}
               defaultPageSize={props.defaultPageSize}
-              defaultFilterMethod={getDefaultFilterMethod}
               getTdProps={getTdProps(setRow)}
             />
           </Col>

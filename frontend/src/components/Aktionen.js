@@ -8,8 +8,8 @@ import ButtonWithTip from './ButtonWithTip'
 
 export const AKTIONEN = {
   NUR_LOG: 'Nur Log-Durchlauf',
-  RESEND: 'Re-Send Messages',
-  RESEND_JOBDATA: 'Re-Send Messages (Nachricht aus Job)'
+  RESEND: 'Re-Send Messages (Nachricht aus Queue)',
+  RESEND_JOBDATA: 'Re-Send Messages (Nachricht aus lokaler Datei)'
 }
 
 const OptionenAktion = () => (

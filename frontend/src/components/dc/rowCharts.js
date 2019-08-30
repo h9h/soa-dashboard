@@ -1,10 +1,9 @@
-import { getColorFunction } from './dcUtils'
 import { ZAHL_FORMAT } from './utils'
 import dc from 'dc'
 import * as d3 from 'd3'
 
 const createRowChart = (div, colorScheme, withAxis = true) => {
-  const colors = getColorFunction(colorScheme)
+  const colors = ['#4E79A7']
 
   const chart = dc.rowChart(div)
 
@@ -35,8 +34,6 @@ const createRowChart = (div, colorScheme, withAxis = true) => {
       d.key,
       'Anzahl Calls: ' + ZAHL_FORMAT(d.value)
     ].join('\n')))
-
-  d3.select(div).select('g.row').select('text').attr('fill', 'black')
 
   return chart
 }

@@ -166,7 +166,7 @@ const executeAction = async (name, config, jobname, setStatus, setResults, setLo
       onClick={() => {
         closeToast()
       }}
-      variant="outline-danger"
+      variant="outline-primary"
     >
       <Icon glyph="cancel"/> Job abbrechen
     </Button>

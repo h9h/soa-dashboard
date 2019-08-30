@@ -134,7 +134,7 @@ const MessageFilter = ({row, defaultFilter, handleFilter}) => {
               <Blank/>
               <ButtonWithTip
                 title="Filter"
-                description="Filtere Nachrichten"
+                description="Filtere Nachrichten. Diese Filterung ist dann auch für die Speicherung des Jobs relevant."
                 glyph="filter"
                 handleClick={() => {
                   handleFilter(filter)
