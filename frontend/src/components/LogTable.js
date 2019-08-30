@@ -135,11 +135,15 @@ const UnconnectedLogpointTable = ({ logs, defaultPageSize, pageSizes, setPageSiz
 
   log.trace('calculate statistic')
   const {statistik, isEmpty} = useMemo(() => getStatistik(logs.data, 'Timestamp'), [logs.data])
-  const distribution = useMemo(() => <LogpointDistribution isEmpty={isEmpty} statistik={statistik} setBis={props.setBis}/>,
-    [isEmpty, props.setBis, statistik]
-  )
+  const oneMessageOnly = searchValue && (searchType === LOG_SEARCH_TYPES.MESSAGEID || searchType === LOG_SEARCH_TYPES.REFERENCE)
 
-  const oneMessageOnly = searchValue && searchType === LOG_SEARCH_TYPES.MESSAGEID
+  const distribution = useMemo(() => (oneMessageOnly ? (
+      <span />
+    ) : (
+      <LogpointDistribution isEmpty={isEmpty} statistik={statistik} setBis={props.setBis}/>
+    )),
+    [oneMessageOnly, isEmpty, props.setBis, statistik]
+  )
 
   const tableOptions = {
     pivotBy: ['MESSAGEID'],
