@@ -85,7 +85,8 @@ const useFetch = ({umgebung, datum, von, bis, searchType, searchValue}) => {
 export const UnconnectedLogTable = withRouter((props) => {
   log.trace('Mount UnconnectedLogTable', props)
   const {umgebung, datum, von, bis, searchType, searchValue} = props
-  const result = useFetch({umgebung, datum, von, bis, searchType, searchValue})
+  const decodedSearchValue = decodeURIComponent(searchValue)
+  const result = useFetch({umgebung, datum, von, bis, searchType, searchValue: decodedSearchValue})
 
   if (result.status === 'loading') return <WartenAnzeiger/>
   if (result.status === 'error') return (

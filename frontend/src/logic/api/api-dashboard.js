@@ -35,7 +35,7 @@ export const getLogpoints = (filter, cb) => {
 
   if (searchValue && searchValue.length > 0) {
     const searchTypeUrl = searchType === LOG_SEARCH_TYPES.MESSAGEID ? 'messageId' : searchType === LOG_SEARCH_TYPES.REFERENCE ? 'reference' : 'senderFQN'
-    url = `${url}&${searchTypeUrl}=${searchValue}`
+    url = `${url}&${searchTypeUrl}=${encodeURIComponent(searchValue)}`
   }
 
   getData(API.LOGPOINT, url, cb, filter)

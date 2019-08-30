@@ -101,7 +101,7 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
   const getRoute = filter => {
     const {von, bis} = getDuration(getConfigurationValue('time.duration'))(moment(filter.bis, TIME_FORMAT))
 
-    return getDashboardRoute(filter.umgebung, filter.datum, von, bis)(filter.searchType, filter.searchValue)
+    return getDashboardRoute(filter.umgebung, filter.datum, von, bis)(filter.searchType, encodeURIComponent(filter.searchValue))
   }
 
   const aktualisiere = () => {

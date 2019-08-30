@@ -20,7 +20,7 @@ const PageDashboard = props => {
 
       const title = <div>
         Nachrichten auf {umgebung} am {moment(datum, 'YYYY-MM-DD').format('DD.MM.YYYY')}
-        {searchValue ? ` für ${searchType} ${searchValue}` :  ` von ${von} bis ${bis}`}
+        {searchValue ? ` für ${searchType} ${decodeURIComponent(searchValue)}` :  ` von ${von} bis ${bis}`}
       </div>
 
       return (
