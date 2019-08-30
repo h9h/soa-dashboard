@@ -102,7 +102,7 @@ export const UnconnectedCheckaliveRuns = ({umgebung}) => {
           theme={THEME}
           nodeRenderer={nodeRenderer(setRun)}
           expandLevel={2}
-          sortObjectKeys={(a,b) => b.localeCompare(a)}
+          sortObjectKeys={(a,b) => a.valueOf ? b.valueOf() - a.valueOf() : b.localeCompare(a)}
           expandPaths={paths}
           showNonenumerable={false}
         />
