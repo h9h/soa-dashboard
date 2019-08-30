@@ -62,6 +62,7 @@ const App = () => {
         <Router>
           <Switch>
             {/* Öffentlich zugänglich */}
+            <Route exact path="/statistics/:umgebung/aktuell" component={PageStatistics}/>
             <Route path="/help" component={PageHelp}/>
             <Route path="/profile" component={PageProfile}/>
             <Route exact path="/checkalive" component={PageCheckalive}/>
@@ -79,6 +80,7 @@ const App = () => {
             <RouteAuthenticated path="/messages" component={PageMessages}/>
             <RouteAuthenticated path="/jobs" component={PageJobs}/>
             <RouteAuthenticated path="/message/:umgebung/:datum/:von/:bis/:messageId" component={PageServicecall}/>
+            <RouteAuthenticated exact path="/statistics/:umgebung/:datumVon/:datumBis" component={PageStatistics}/>
             <RouteAuthenticated path="/statistics" component={PageStatistics}/>
             <RouteAuthenticated path="/" component={PageDashboard}/>
           </Switch>

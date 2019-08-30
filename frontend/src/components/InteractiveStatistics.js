@@ -13,8 +13,8 @@ import { StatistikData } from './dc/StatistikData'
 
 const log = Log('statistics')
 
-const InteractiveStatistics = props => {
-  const {umgebung, datumVon, datumBis, view, colorScheme} = props
+export const UnconnectedInteractiveStatistics = props => {
+  const { umgebung, datumVon, datumBis, view = 'default', colorScheme = 'Tableau20' } = props
   log.trace('Interactive Statistics for', umgebung, datumVon, datumBis, view)
 
   const [data, setData] = useState({status: 'loading'})
@@ -66,4 +66,4 @@ export default connect(
     view: state.view,
     colorScheme: state.colorScheme,
   })
-)(InteractiveStatistics)
+)(UnconnectedInteractiveStatistics)
