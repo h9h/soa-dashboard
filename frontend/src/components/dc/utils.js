@@ -170,28 +170,6 @@ export const COLOR_SCHEMES = {
     '#959c9e',
     '#027b8e',
     '#9f8f12'],
-  Greens9: [
-    '#f7fcf5',
-    '#e5f5e0',
-    '#c7e9c0',
-    '#a1d99b',
-    '#74c476',
-    '#41ab5d',
-    '#238b45',
-    '#006d2c',
-    '#00441b'
-  ],
-  Reds9: [
-    '#fff5f0',
-    '#fee0d2',
-    '#fcbba1',
-    '#fc9272',
-    '#fb6a4a',
-    '#ef3b2c',
-    '#cb181d',
-    '#a50f15',
-    '#67000d'
-  ],
   GreenRed10: [
     '#006d2c',
     '#238b45',
@@ -203,7 +181,6 @@ export const COLOR_SCHEMES = {
     '#ef3b2c',
     '#cb181d',
     '#a50f15',
-
   ],
   RedBlueBrown12: [
     '#466f9d',
@@ -238,14 +215,6 @@ export const COLOR_SCHEMES = {
     '#a26dc2',
     '#7873c0',
     '#4f7cba'],
-  RedGreen7: [
-    '#a3123a',
-    '#e33f43',
-    '#f8816b',
-    '#ced7c3',
-    '#73ba67',
-    '#44914e',
-    '#24693d'],
   GreenBlue7: [
     '#24693d',
     '#45934d',
@@ -254,22 +223,6 @@ export const COLOR_SCHEMES = {
     '#77a9cf',
     '#4e7fab',
     '#2a5783'],
-  RedBlue7: [
-    '#a90c38',
-    '#e03b42',
-    '#f87f69',
-    '#dfd4d1',
-    '#7eaed3',
-    '#5383af',
-    '#2e5a87'],
-  Temperature7: [
-    '#529985',
-    '#6c9e6e',
-    '#99b059',
-    '#dbcf47',
-    '#ebc24b',
-    '#e3a14f',
-    '#c26b51'],
   BlueGreen7: [
     '#feffd9',
     '#f2fabf',
@@ -278,17 +231,45 @@ export const COLOR_SCHEMES = {
     '#94d6b7',
     '#69c5be',
     '#41b7c4'],
-  Blue10: [
-    '#b9ddf1',
-    '#a5cfe9',
-    '#92c0df',
-    '#80b0d5',
-    '#72a3c9',
-    '#6394be',
-    '#5485b2',
-    '#4878a6',
-    '#3d6a98',
-    '#305d8a'],
+  ColorpickerGreenRed10: [
+    '#35C445',
+    '#6ABF2E',
+    '#8DBA1A',
+    '#A9B30C',
+    '#C1AC12',
+    '#D5A421',
+    '#E59C33',
+    '#F19545',
+    '#F99056',
+    '#FD8C68'
+  ], // http://tristen.ca/hcl-picker/#/hcl/10/1/35C445/FD8C68
+  ColorBlind25: [
+    "#d67b2b",
+    "#a65cd1",
+    "#49c058",
+    "#d4499c",
+    "#85b937",
+    "#5971cb",
+    "#d5a32d",
+    "#8c529b",
+    "#b1b23a",
+    "#bd91d8",
+    "#438530",
+    "#d6425a",
+    "#51c2a1",
+    "#d84d2c",
+    "#4fa7d6",
+    "#a7472f",
+    "#7db96d",
+    "#9c4664",
+    "#37845f",
+    "#dd809f",
+    "#697329",
+    "#de8268",
+    "#a3ae68",
+    "#8f672b",
+    "#d1a360"
+  ] // https://medialab.github.io/iwanthue/
 }
 
 export const legendTiming = breakpoints => d => {
