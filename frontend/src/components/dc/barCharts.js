@@ -8,6 +8,7 @@ import moment from 'moment'
 const cx = (div) => div.clientHeight
 const widthLegend = 250
 const marginLegend = 20
+const minWidthForLegend = 400
 
 export const HISTOGRAMM_COLORS = ['#dddddd', ...COLOR_SCHEMES.GreenRed10.slice(1)]
 
@@ -16,7 +17,7 @@ const createBarChart = (div, colorScheme, legend) => {
   const chart = dc.barChart(div)
 
   chart.margins().left = 30
-  chart.margins().right = widthLegend
+  chart.margins().right = div.clientWidth < minWidthForLegend ? 20 : widthLegend
 
   chart.xAxis(d3.axisBottom())
 
@@ -25,9 +26,9 @@ const createBarChart = (div, colorScheme, legend) => {
     .colorAccessor(d => d.key)
     .height(height)
     .width(div.clientWidth)
+    .title(legend)
     .x(d3.scaleBand())
     .xUnits(dc.units.ordinal)
-    .title(legend)
     .yAxisLabel('Prozent')
     .elasticY(true)
 
@@ -35,10 +36,12 @@ const createBarChart = (div, colorScheme, legend) => {
 }
 
 function setChartTitle (div, title, text, colors) {
+  if (div.clientWidth < minWidthForLegend) return
+
   d3.select(div)
     .select('svg')
     .append('text')
-    .text('Histogramm: ' + title)
+    .text(title)
     .attr('x', div.clientWidth - widthLegend + marginLegend)
     .attr('y', 20)
     .attr('style', 'font-weight: bold')
@@ -140,7 +143,7 @@ export const renderBarChartDomain = ({div, dimensions, colorScheme}) => {
   const chart = dc.barChart(div)
 
   chart.margins().left = 60
-  chart.margins().right = widthLegend
+  chart.margins().right = div.clientWidth < minWidthForLegend ? 20 : widthLegend
 
   chart.ordinalColors(colors)
 
@@ -159,6 +162,8 @@ export const renderBarChartDomain = ({div, dimensions, colorScheme}) => {
 
   chart.render()
 
-  const text = d3.range(all.length).map(d => all[d].key).sort()
-  chart.on('postRender', () => setChartTitle(div, 'Domänen', text, colors))
+  if (div.clientWidth >= minWidthForLegend) {
+    const text = d3.range(all.length).map(d => all[d].key).sort()
+    chart.on('postRender', () => setChartTitle(div, 'Domänen', text, colors))
+  }
 }

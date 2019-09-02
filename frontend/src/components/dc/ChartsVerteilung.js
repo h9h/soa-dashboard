@@ -5,6 +5,7 @@ import { renderPieChartMep, renderPieChartWelcherBus } from './pieCharts'
 import { renderBarChartTiming} from './barCharts'
 import React from 'react'
 import { TIMINGS } from './utils'
+import { SelectorCol } from './dcStyles'
 
 const HeightSpace = ({children}) => <Col style={{height: '160', marginBottom: '15px', marginTop: '0px', marginLeft: '0px'}}>{children}</Col>
 
@@ -18,14 +19,14 @@ const ChartsVerteilung = ({render}) => (
       </Col>
     </Row>
     <Row>
-      <HeightSpace>
+      <SelectorCol>
         {render(renderPieChartWelcherBus)}
-      </HeightSpace>
+      </SelectorCol>
     </Row>
     <Row>
-      <HeightSpace>
+      <SelectorCol>
         {render(renderPieChartMep)}
-      </HeightSpace>
+      </SelectorCol>
     </Row>
     <Row>
       <HeightSpace>

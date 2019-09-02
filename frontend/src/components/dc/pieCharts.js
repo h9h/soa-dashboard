@@ -4,21 +4,23 @@ import * as d3 from 'd3'
 import { TIMING_BREAKPOINTS, TIMING_BUS_BREAKPOINTS } from '../../logic/api/rest-api-statistics'
 import { legendTiming, TIMINGS } from './utils'
 
-const cx = (div) => div.clientWidth/4
+const cx = (div) => div.clientWidth/3
 
 const createPieChart = (div, colorScheme, legend = d => d.name) => {
   const colors = getColorFunction(colorScheme)
 
   const centre = cx(div)
+  const radius = Math.min(centre, div.clientHeight/2)
+  const xLegend = centre + radius + 20
 
   const chart = dc.pieChart(div)
   chart
     .ordinalColors(colors)
     .innerRadius(Math.min(50, centre/2))
-    .radius(Math.min(centre, div.clientHeight/2))
+    .radius(radius)
     .externalRadiusPadding(0)
     .cx(centre)
-    .legend(dc.legend().itemHeight(13).gap(4).x(centre * 2 + 20).legendText(legend))
+    .legend(dc.legend().itemHeight(13).gap(4).x(xLegend).legendText(legend))
 
   return chart
 }
