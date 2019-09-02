@@ -6,7 +6,8 @@ import { COLOR_SCHEMES, legendTiming, TIMINGS } from './utils'
 import moment from 'moment'
 
 const cx = (div) => div.clientHeight
-const stretchFactor = 1.2
+const widthLegend = 250
+const marginLegend = 20
 
 export const HISTOGRAMM_COLORS = ['#dddddd', ...COLOR_SCHEMES.GreenRed10.slice(1)]
 
@@ -15,7 +16,7 @@ const createBarChart = (div, colorScheme, legend) => {
   const chart = dc.barChart(div)
 
   chart.margins().left = 30
-  chart.margins().right = div.clientWidth - stretchFactor * height
+  chart.margins().right = widthLegend
 
   chart.xAxis(d3.axisBottom())
 
@@ -38,7 +39,7 @@ function setChartTitle (div, title, text, colors) {
     .select('svg')
     .append('text')
     .text('Histogramm: ' + title)
-    .attr('x', stretchFactor * cx(div) + 20)
+    .attr('x', div.clientWidth - widthLegend + marginLegend)
     .attr('y', 20)
     .attr('style', 'font-weight: bold')
 
@@ -52,14 +53,14 @@ function setChartTitle (div, title, text, colors) {
       .attr('style', 'font-size: 12px')
       .attr('color', colors[i])
       .attr('stroke', 'currentColor')
-      .attr('x', stretchFactor * cx(div) + 20)
+      .attr('x', div.clientWidth - widthLegend + marginLegend)
       .attr('y', 40 + 14 * i)
 
     svg
       .append('text')
       .text(t)
       .attr('style', 'font-size: 12px')
-      .attr('x', stretchFactor * cx(div) + 50)
+      .attr('x', div.clientWidth - widthLegend + marginLegend + 30)
       .attr('y', 40 + 14 * i)
   })
 }
@@ -139,7 +140,7 @@ export const renderBarChartDomain = ({div, dimensions, colorScheme}) => {
   const chart = dc.barChart(div)
 
   chart.margins().left = 60
-  chart.margins().right = div.clientWidth - height
+  chart.margins().right = widthLegend
 
   chart.ordinalColors(colors)
 

@@ -6,7 +6,7 @@ import { renderBarChartTiming} from './barCharts'
 import React from 'react'
 import { TIMINGS } from './utils'
 
-const Pie = ({children}) => <Col style={{height: '200px', marginBottom: '10px', marginTop: '10px', marginLeft: '0px'}}>{children}</Col>
+const HeightSpace = ({children}) => <Col style={{height: '160', marginBottom: '15px', marginTop: '0px', marginLeft: '0px'}}>{children}</Col>
 
 const ChartsVerteilung = ({render}) => (
   <>
@@ -18,24 +18,29 @@ const ChartsVerteilung = ({render}) => (
       </Col>
     </Row>
     <Row>
-      <Pie>
+      <HeightSpace>
         {render(renderPieChartWelcherBus)}
-      </Pie>
+      </HeightSpace>
     </Row>
     <Row>
-      <Pie>
+      <HeightSpace>
         {render(renderPieChartMep)}
-      </Pie>
+      </HeightSpace>
     </Row>
     <Row>
-      <Pie>
+      <HeightSpace>
         {render(renderBarChartTiming(TIMINGS.GESAMT))}
-      </Pie>
+      </HeightSpace>
     </Row>
     <Row>
-      <Pie>
+      <HeightSpace>
         {render(renderBarChartTiming(TIMINGS.BUS))}
-      </Pie>
+      </HeightSpace>
+    </Row>
+    <Row>
+      <HeightSpace>
+        {render(renderBarChartTiming(TIMINGS.PROVIDER))}
+      </HeightSpace>
     </Row>
   </>
 )

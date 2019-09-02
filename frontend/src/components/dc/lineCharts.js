@@ -17,7 +17,7 @@ const createCompositeChart = (div, colorScheme, dimensions) => {
   const maxDate = moment(zeitDim.top(1)[0].Date).endOf('day').toDate()
 
   chart.margins().left = 75 // damit y-Axis Labels nicht abgeschnitten werden
-  chart.margins().right = 75 // damit y-Axis Labels nicht abgeschnitten werden
+  chart.margins().right = 0 // damit y-Axis Labels nicht abgeschnitten werden
   chart.ordinalColors(colors)
 
 
@@ -53,7 +53,7 @@ const createLineChart = chart => {
   return lineChart
 }
 
-export const renderChartBrush = (margins = {left: 75, right: 70}, setRange = () => {}) => ({ div, dimensions, zeitDomain }) => {
+export const renderChartBrush = (margins = {left: 75, right: 0 }, setRange = () => {}) => ({ div, dimensions, zeitDomain }) => {
   const zeitDim = dimensions.zeit
   const anzahl = zeitDim.group().reduceSum(dc.pluck('ANZAHLGESAMT'))
 
