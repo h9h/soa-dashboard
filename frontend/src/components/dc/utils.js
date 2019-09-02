@@ -280,9 +280,9 @@ export const legendTiming = breakpoints => d => {
 }
 
 export const TIMINGS = {
-  GESAMT: {key: 'timingGesamt', title: 'Zeit Gesamt'},
-  PROVIDER: {key: 'timingProvider', title: 'Zeit Provider'},
-  BUS: {key: 'timingBus', title: 'Zeit Bus'},
+  GESAMT: {key: 'timingGesamt', title: 'Antwortzeit'},
+  PROVIDER: {key: 'timingProvider', title: 'Verarbeitungszeit'},
+  BUS: {key: 'timingBus', title: 'Bus-Zeit'},
 }
 
 export const ZAHL_FORMAT = Intl.NumberFormat('de-DE').format
