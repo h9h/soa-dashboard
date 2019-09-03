@@ -39,7 +39,7 @@ const Code = styled(Smaller)`
 const SELECTION_VALUES = [
   { value: 'row', description: 'Hilfsmittel zum Untersuchen der verfügbaren Attribute' },
   { value: `row.MESSAGEID==="M-..."`, description: 'Der Satz zur angegebenen Message-Id' },
-  { value: `row.SENDERFQN.indexOf(".icis.") > 0`, description: 'Alle Sätze in deren SenderFQN der Text vorkommt' },
+  { value: `row.SENDERFQN.indexOf("icis") > -1`, description: 'Alle Sätze in deren SenderFQN der Text vorkommt' },
   { value: 'row.ERRORCODE.indexOf("error...") > -1', description: 'Alle Sätze mit einem bestimmten Fehler'},
   { value: 'index < 10', description: 'Die ersten 10 Sätze (kann auch eine beliebige andere Zahl sein)'},
 ]
@@ -98,7 +98,7 @@ const MessageFilter = ({row, defaultFilter, handleFilter}) => {
     <>
       <Row>
         <Col>
-          <Form inline>
+          <Form inline onSubmit={() => false}>
             <FormGroup>
               <Tipp title="Filter" content={(
                 <>
