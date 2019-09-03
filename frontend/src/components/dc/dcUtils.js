@@ -5,6 +5,7 @@ import { range } from 'ramda'
 import DataContext from './DataContext'
 import React from 'react'
 import moment from 'moment'
+import { json2string } from '../../logic/utils'
 
 const formatMillisecond = d3.timeFormat('.%L')
 const formatSecond = d3.timeFormat(':%S')
@@ -32,7 +33,7 @@ export const printFilter = (filter, top = 10) => {
   if (f.top) { f = f.top(top) }
   if (f.dimension) {f = f.dimension(() => '').top(top) }
   return (filter + '(' + f.length + ') = '
-    + JSON.stringify(f)
+    + json2string(f)
       .replace('[', '[\n\t')
       .replace(/},/g, '},\n\t')
       .replace(']', '\n]'))

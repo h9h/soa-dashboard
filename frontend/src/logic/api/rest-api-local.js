@@ -5,6 +5,7 @@ import { endsWith } from 'ramda'
 import { notification } from '../notification'
 import { toast } from 'react-toastify'
 import moment from 'moment'
+import { json2string } from '../utils'
 
 const log = Log('rest-api-local')
 
@@ -76,7 +77,7 @@ export const logToFile = destination => content => {
 
 export const saveJob = async (jobname, job, cb) => {
   try {
-    let data = JSON.stringify(job)
+    let data = json2string(job)
     const size = 65536
     let i = 0
     do {
@@ -94,7 +95,7 @@ export const saveJob = async (jobname, job, cb) => {
     } while (data.length > i * size)
     cb({result: 'ok'})
   } catch (e) {
-    cb({result: e.message})
+    cb({result: `Fehler beim Speichen des Jobs ${jobname}: ` + json2string(e)})
   }
 }
 

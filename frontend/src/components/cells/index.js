@@ -20,6 +20,7 @@ import moment from 'moment'
 import Dauer from './Dauer'
 import { Smaller } from '../styles'
 import IsAlive from './IsAlive'
+import { json2string } from '../../logic/utils'
 
 const pk = key => {
   switch(key){
@@ -91,7 +92,7 @@ export const cellFactory = onClick => key => {
     case 'RESPONSE':
       return row => <MessageContent row={row} />
     case 'DUMP':
-      return row => <div style={{ wordBreak: 'normal', overflow: 'auto'}}>{JSON.stringify(row)}</div>
+      return row => <div style={{ wordBreak: 'normal', overflow: 'auto'}}>{json2string(row)}</div>
     default:
       return row => {
         return <Default row={row} />

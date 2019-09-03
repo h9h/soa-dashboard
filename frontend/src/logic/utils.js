@@ -50,3 +50,20 @@ export const getDefaultFilterMethod = (pivot = false) => (filter, row) => {
     return true
   }
 }
+
+const getCircularReplacer = () => {
+  const seen = new WeakSet()
+  return (key, value) => {
+    if (typeof value === "object" && value !== null) {
+      if (seen.has(value)) {
+        return
+      }
+      seen.add(value)
+    }
+    return value
+  }
+}
+
+export const json2string = json => {
+  return JSON.stringify(json, getCircularReplacer)
+}

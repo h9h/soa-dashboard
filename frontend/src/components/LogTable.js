@@ -21,7 +21,7 @@ import {
 import { withRouter } from 'react-router-dom'
 import { getDashboardRoute } from '../logic/routes'
 import { LOG_SEARCH_TYPES } from '../logic/store'
-import { getDefaultFilterMethod } from '../logic/utils'
+import { getDefaultFilterMethod, json2string } from '../logic/utils'
 
 const log = Log('logtable')
 
@@ -92,7 +92,7 @@ export const UnconnectedLogTable = withRouter((props) => {
   if (result.status === 'error') return (
     <div>
       <h2>Error</h2>
-      <p>{JSON.stringify(result)}</p>
+      <p>{json2string(result)}</p>
     </div>
   )
 
