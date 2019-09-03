@@ -229,9 +229,10 @@ export const DEFINITIONS = {
     type: "object",
     properties: {
       colorSchemes: {type: "object"},
-      uniqueItems: true,
+      nrOfCalls: {type: "string", pattern: "^\\d{1,3}$"},
+      nrOfFaults: {type: "string", pattern: "^\\d{1,3}$"},
     },
-    required: ["colorSchemes"],
+    required: ["colorSchemes", "nrOfCalls", "nrOfFaults"],
     additionalProperties: false
   },
 }

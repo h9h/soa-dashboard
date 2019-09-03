@@ -11,12 +11,12 @@ import { renderSunburstChart } from './sunburstChart'
 import { renderPieChartDomain, renderPieChartMep, renderPieChartWelcherBus } from './pieCharts'
 import { renderLineChartAnzahlCalls, renderLineChartTimingCalls } from './lineCharts'
 import { Centered } from '../styles'
-
-const N = 50
-const NFault = 10
+import { getConfigurationValue } from '../../logic/configuration'
 
 export function AllgemeineStatistik (props) {
   const render = renderPlot(props.data, props.colorscheme)
+  const N = parseInt(getConfigurationValue('statistics.nrOfCalls'), 10)
+  const NFault = parseInt(getConfigurationValue('statistics.nrOfFaults'), 10)
 
   return <div style={{ width: props.width }}>
     <Row>
@@ -47,13 +47,13 @@ export function AllgemeineStatistik (props) {
       </Col>
       <Col xs={12} lg={4}>
         <Row>
-          <Col xs={12} style={{height: '350px'}}>
+          <Col xs={12} style={{height: (NFault * 25 + 50) + 'px'}}>
             <Centered>
               <h3>Faults - Top {NFault}</h3>
             </Centered>
             {render(renderRowChartFaultsTopN(NFault))}
           </Col>
-          <Col xs={12} style={{height: '750px'}}>
+          <Col xs={12} style={{height: (N * 25 + 50) + 'px'}}>
             <Centered>
               <br />
               <h3>Gesamtanzahl Calls - Top {N}</h3>
@@ -70,14 +70,14 @@ export function AllgemeineStatistik (props) {
             </Centered>
           </Col>
           <SelectorCol xs={12}>
+            {render(renderBarChartDomain)}
+          </SelectorCol>
+          <SelectorCol xs={12}>
             {render(renderPieChartDomain)}
           </SelectorCol>
           <VeryHighSelectorCol>
             {render(renderSunburstChart)}
           </VeryHighSelectorCol>
-          <SelectorCol xs={12}>
-            {render(renderBarChartDomain)}
-          </SelectorCol>
         </Row>
       </Col>
     </Row>

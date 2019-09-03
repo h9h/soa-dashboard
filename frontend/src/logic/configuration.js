@@ -70,7 +70,9 @@ const defaultConfiguration = {
     level: "1"
   },
   statistics: {
-    colorSchemes: {}
+    colorSchemes: {},
+    nrOfCalls: "50",
+    nrOfFaults: "10",
   }
 }
 
