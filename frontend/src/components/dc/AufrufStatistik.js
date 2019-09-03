@@ -66,6 +66,11 @@ export function AufrufStatistik (props) {
         </Row>
         <Row>
           <SelectorCol>
+            {barDomain}
+          </SelectorCol>
+        </Row>
+        <Row>
+          <SelectorCol>
             {pieDomain}
           </SelectorCol>
         </Row>
@@ -73,11 +78,6 @@ export function AufrufStatistik (props) {
           <HighSelectorCol>
             {sunDomain}
           </HighSelectorCol>
-        </Row>
-        <Row>
-          <SelectorCol>
-            {barDomain}
-          </SelectorCol>
         </Row>
         <Row>
           <SelectorCol>

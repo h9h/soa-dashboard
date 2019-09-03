@@ -35,36 +35,55 @@ const createBarChart = (div, colorScheme, legend) => {
   return chart
 }
 
-function setChartTitle (div, title, text, colors) {
+function setChartTitleAndLegend (div, title, text, colors, colorSquare = false) {
   if (div.clientWidth < minWidthForLegend) return
 
-  d3.select(div)
-    .select('svg')
-    .append('text')
-    .text(title)
-    .attr('x', div.clientWidth - widthLegend + marginLegend)
-    .attr('y', 20)
-    .attr('style', 'font-weight: bold')
+  const haveTitle = !!title
+  const yOffset = haveTitle ? 40 : 10
+
+  if (haveTitle) {
+    d3.select(div)
+      .select('svg')
+      .append('text')
+      .text(title)
+      .attr('x', div.clientWidth - widthLegend + marginLegend)
+      .attr('y', 20)
+      .attr('style', 'font-weight: bold')
+  }
+
+  const marginText = colorSquare ? 15 : 30
+  const xText = div.clientWidth - widthLegend + marginLegend
 
   text.forEach((t,i) => {
-    const svg = d3.select(div)
+    const g = d3.select(div)
       .select('svg')
+      .append('g')
 
-    svg
-      .append('text')
-      .text(`[ ${i} ]`)
-      .attr('style', 'font-size: 12px')
-      .attr('color', colors[i])
-      .attr('stroke', 'currentColor')
-      .attr('x', div.clientWidth - widthLegend + marginLegend)
-      .attr('y', 40 + 14 * i)
+    if (colorSquare) {
+      g
+        .append('rect')
+        .attr('width', 13)
+        .attr('height', 13)
+        .attr('fill', colors[i])
+        .attr('x', xText)
+        .attr('y', yOffset - 10 + 14 * i)
+    } else {
+      g
+        .append('text')
+        .text(`[ ${i} ]`)
+        .attr('style', 'font-size: 11px')
+        .attr('color', colors[i])
+        .attr('stroke', 'currentColor')
+        .attr('x', xText)
+        .attr('y', yOffset + 14 * i)
+    }
 
-    svg
+    g
       .append('text')
       .text(t)
-      .attr('style', 'font-size: 12px')
-      .attr('x', div.clientWidth - widthLegend + marginLegend + 30)
-      .attr('y', 40 + 14 * i)
+      .attr('style', 'font-size: 11px')
+      .attr('x', xText + marginText)
+      .attr('y', yOffset + 14 * i)
   })
 }
 
@@ -84,7 +103,7 @@ export const renderBarChartTiming = timingKey => ({div, dimensions, colorScheme}
   chart.render()
 
   const text = d3.range(breakpoints.length + 1).map(bp => legend(bp))
-  chart.on('postRender', () => setChartTitle(div, timingKey.title, text, HISTOGRAMM_COLORS))
+  chart.on('postRender', () => setChartTitleAndLegend(div, timingKey.title, text, HISTOGRAMM_COLORS))
 }
 
 export const renderBarChartLogpoints = ({div, dimensions, setBis}) => {
@@ -164,6 +183,6 @@ export const renderBarChartDomain = ({div, dimensions, colorScheme}) => {
 
   if (div.clientWidth >= minWidthForLegend) {
     const text = d3.range(all.length).map(d => all[d].key).sort()
-    chart.on('postRender', () => setChartTitle(div, 'Domänen', text, colors))
+    chart.on('postRender', () => setChartTitleAndLegend(div, null, text, colors, true))
   }
 }

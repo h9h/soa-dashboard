@@ -20,7 +20,7 @@ const createPieChart = (div, colorScheme, legend = d => d.name) => {
     .radius(radius)
     .externalRadiusPadding(0)
     .cx(centre)
-    .legend(dc.legend().itemHeight(13).gap(4).x(xLegend).legendText(legend))
+    .legend(dc.legend().itemHeight(13).gap(1).x(xLegend).legendText(legend))
 
   return chart
 }
