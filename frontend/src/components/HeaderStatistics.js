@@ -116,7 +116,7 @@ const HeaderStatistics = props => {
               />
             </FormGroup>
             {filter.datumVon && filter.datumBis && (
-              <Form inline>
+              <>
                 <Blank/>
                 <ButtonWithTip
                   title="Statistik"
@@ -124,7 +124,7 @@ const HeaderStatistics = props => {
                   glyph="execute"
                   handleClick={() => refresh(filter)}
                 />
-              </Form>
+              </>
             )}
             <Blank/>
             <Blank/>
