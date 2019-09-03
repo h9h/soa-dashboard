@@ -107,7 +107,7 @@ function reducer (state = {}, action) {
       let datumStatVon = action.datumStatVon < action.datumStatBis ? action.datumStatVon : action.datumStatBis
       const datumStatBis = action.datumStatVon < action.datumStatBis ? action.datumStatBis : action.datumStatVon
       if (moment(datumStatVon, 'YYYY-MM-DD').add(31, 'days').valueOf() < moment(datumStatBis, 'YYYY-MM-DD').valueOf()) {
-        datumStatVon = moment(datumStatBis, 'YYYY-MM-DD').subtract(31, 'days')
+        datumStatVon = moment(datumStatBis, 'YYYY-MM-DD').subtract(31, 'days').format('YYYY-MM-DD')
       }
       return {
         ...state,
@@ -134,12 +134,17 @@ function reducer (state = {}, action) {
       }
 
     case 'setFilterMessages': {
+      let datumVon = action.datumVon < action.datumBis ? action.datumVon : action.datumBis
+      const datumBis = action.datumVon < action.datumBis ? action.datumBis : action.datumVon
+      if (moment(datumVon, 'YYYY-MM-DD').add(7, 'days').valueOf() < moment(datumBis, 'YYYY-MM-DD').valueOf()) {
+        datumVon = moment(datumBis, 'YYYY-MM-DD').subtract(7, 'days').format('YYYY-MM-DD')
+      }
       return {
         ...state,
         umgebung: action.umgebung,
         messageType: action.messageType,
-        datumVon: action.datumVon < action.datumBis ? action.datumVon : action.datumBis,
-        datumBis: action.datumVon < action.datumBis ? action.datumBis : action.datumVon,
+        datumVon,
+        datumBis,
       }
     }
 

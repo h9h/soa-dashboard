@@ -94,7 +94,7 @@ export const HeaderForm = props => {
           <FormControl
             as={Datum}
             date={filter.datumVon}
-            maxDate={moment(filter.datumBis, 'YYYY-MM-DD').format('DD.MM.YYYY')}
+            maxDate={today}
             setDate={handleFilterChange('datumVon')}
           />
         </FormGroup>
