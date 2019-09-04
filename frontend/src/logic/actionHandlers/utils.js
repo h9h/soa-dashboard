@@ -3,7 +3,7 @@ import jp from 'jsonpath'
 import { getModelvalue, MODELS } from './models'
 
 /**
- * Nehme eine Message entgegen und fülle die Werte des Objects fields mit den Werten aus der Message.
+ * Nehme eine Message entgegen und gebe ein Object mit den Werten des zum Array fields aus der Message zurück.
  * Genommen wird unabhängig von Position in der Message der Wert des ersten Tags, der mit dem jeweiligen
  * Objekt-Key übereinstimmt.
  *
@@ -13,11 +13,11 @@ import { getModelvalue, MODELS } from './models'
 export const parseMessage = (message, fields) => {
   const json = parse(message)
 
-  Object.keys(fields).map(key => {
+  return fields.reduce((acc, key) => {
     const values = jp.query(json, `$..${key}`)
-    fields[key] = values.length > 0 ? values[0] : null
-    return values
-  })
+    acc[key] = values.length > 0 ? values[0] : null
+    return acc
+  }, {})
 }
 
 function getFehlermeldung (senderFQN, SENDERFQN) {
@@ -26,8 +26,13 @@ function getFehlermeldung (senderFQN, SENDERFQN) {
 }
 
 export async function getQueuename (execute, MESSAGE, OPERATION, SENDERFQN) {
-  const fields = {senderFQN: null}
-  parseMessage(MESSAGE, fields)
+  let fields
+  try {
+    fields = parseMessage(MESSAGE, ['senderFQN'])
+  } catch (_) {
+    fields = { senderFQN: MESSAGE.senderFQN}
+  }
+
   if (fields.senderFQN) {
     const queuename = await getModelvalue(MODELS.SENDERFQN_2_QUEUENAME, fields.senderFQN)
     if (queuename) {
