@@ -2,10 +2,12 @@ import React from 'react'
 import axios from 'axios'
 import Log from '../../log'
 import { endsWith } from 'ramda'
-import { notification } from '../notification'
+import { notification, withProgressNotification } from '../notification'
 import { toast } from 'react-toastify'
 import moment from 'moment'
 import { json2string } from '../utils'
+import Button from 'react-bootstrap/Button'
+import { Icon } from '../../components/icons'
 
 const log = Log('rest-api-local')
 
@@ -76,27 +78,83 @@ export const logToFile = destination => content => {
 }
 
 export const saveJob = async (jobname, job, cb) => {
+  const size = 65536
+  let data = json2string(job)
+  const anzahl = Math.floor(data.length / size + 1)
+
+  const nachricht = () => {
+    const starttime = moment().valueOf()
+
+    return index => {
+      const spent = moment().valueOf() - starttime
+      const eta = moment().add( Math.floor((spent/index) * (anzahl - index)), 'ms')
+      return (
+        <div>
+          <p>Speichern von {jobname}:</p>
+          <p>Fortschritt {Math.floor(index/anzahl*100)}%, erwartete Ankunft um {eta.format('HH:mm')}</p>
+        </div>
+      )
+    }
+  }
+
+  const Stopbutton = ({closeToast}) => (
+    <Button
+      onClick={() => {
+        closeToast()
+      }}
+      variant="outline-primary"
+    >
+      <Icon glyph="cancel"/> Speichern abbrechen
+    </Button>
+  )
+
+  const myUpdateNachricht = nachricht()
+  let index = 0
+  let doContinue = true
+
+  const updateProgress = withProgressNotification({
+    nachricht: myUpdateNachricht(index),
+    closeButton: <Stopbutton />,
+    onClose: () => doContinue = false
+  })
+
+  log.trace('saveJob', jobname, job.filteredMessages.length)
+
   try {
     let data = json2string(job)
     const size = 65536
-    let i = 0
     do {
-      const chunk = data.substr(i * size, size)
-      await file({
-        method: 'post',
-        url: '/job/save',
-        data: {
-          jobname,
-          chunk,
-          append: i !== 0
-        }
-      })
-      i++
-    } while (data.length > i * size)
-    cb({result: 'ok'})
+      const chunk = data.substr(index * size, size)
+      log.trace('chunk', index, chunk.length)
+      try {
+        await file({
+          method: 'post',
+          url: '/job/save',
+          data: {
+            jobname,
+            chunk,
+            append: index !== 0
+          }
+        })
+        log.trace('saved chunk', index)
+        if (index % 10 === 0) updateProgress(myUpdateNachricht(index))
+        index++
+      } catch (e) {
+        log.error('caught error', e)
+        cb({ result: `Fehler beim Speichern des Jobs ${jobname} (Chunk): ` + json2string(e)})
+      }
+    } while (doContinue && data.length > index * size)
+    if (doContinue) {
+      cb({result: 'ok'})
+    } else {
+      cb({result: 'Abbruch durch Nutzer'})
+    }
   } catch (e) {
+    log.error('caught outer error', e)
     cb({result: `Fehler beim Speichen des Jobs ${jobname}: ` + json2string(e)})
   }
+
+  updateProgress(null)
 }
 
 const fetchData = async (url, cb, log) => {

@@ -51,19 +51,11 @@ export const getDefaultFilterMethod = (pivot = false) => (filter, row) => {
   }
 }
 
-const getCircularReplacer = () => {
-  const seen = new WeakSet()
-  return (key, value) => {
-    if (typeof value === "object" && value !== null) {
-      if (seen.has(value)) {
-        return
-      }
-      seen.add(value)
-    }
-    return value
-  }
-}
-
 export const json2string = json => {
-  return JSON.stringify(json, getCircularReplacer)
+  try {
+    return JSON.stringify(json)
+  } catch (e) {
+    console.log('error in json2string', e)
+    return json
+  }
 }
