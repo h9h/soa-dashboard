@@ -3,7 +3,11 @@ import copy from 'copy-to-clipboard';
 import { notification } from '../logic/notification'
 import { Grey, Smaller } from './styles'
 
-const CopyToClipboard = ({text, onCopy, children}) => {
+const defaultOnCopy = () => notification({
+  nachricht: 'Inhalt wurde in die Zwischenablage kopiert'
+})
+
+const CopyToClipboard = ({text, onCopy = defaultOnCopy, children}) => {
   const elem = React.Children.only(children);
 
   const onClick = event => {

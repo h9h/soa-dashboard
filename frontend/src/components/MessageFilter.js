@@ -123,7 +123,7 @@ const MessageFilter = ({row, defaultFilter, handleFilter}) => {
                 <Form.Label>Filter: </Form.Label>
               </Tipp>
               <Blank/>
-              <div style={{width: '500px'}}>
+              <div style={{width: '800px'}}>
                 <AutosuggestBox
                   provider={new FilterProvider()}
                   onChange={handleFilterChange}

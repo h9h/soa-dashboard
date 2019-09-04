@@ -1,10 +1,11 @@
 import React from 'react'
 import { Smaller } from '../styles'
-import { CopyMessageToClipboard } from '../CopyToClipboard'
+import CopyToClipboard from '../CopyToClipboard'
 import { getDashboardRoute } from '../../logic/routes'
 import { LOG_SEARCH_TYPES } from '../../logic/store'
 import { getClientUrl } from '../../logic/api/rest-api-local'
 import { once } from 'ramda'
+import { notification } from '../../logic/notification'
 
 const url = once(() => getClientUrl())()
 
@@ -19,18 +20,26 @@ const ServiceOperation = ({row}) => {
   )
 
   const values = row.aggregated ? row.subRows[0] : row.row
-  if (!values.filter) return component
+  if (!values.filter) return (
+    <CopyToClipboard text={so[0]} onCopy={() => notification({
+      nachricht: 'Service-Name in Zwischenablage kopiert'
+    })}>
+      {component}
+    </CopyToClipboard>
+  )
 
   const { umgebung, datum, von, bis } = values.filter
   const route = getDashboardRoute(umgebung, datum, von, bis)(LOG_SEARCH_TYPES.MESSAGEID, values.MESSAGEID)
 
   return (
-    <CopyMessageToClipboard
-      textToBeCopied={`${url}/#${route}`}
-      meldung="Link zum Call in Zwischenablage kopiert"
+    <CopyToClipboard
+      text={`${url}/#${route}`}
+      onCopy={() => notification({
+        nachricht: 'Link zum Call in Zwischenablage kopiert'
+      })}
     >
       {component}
-    </CopyMessageToClipboard>
+    </CopyToClipboard>
   )
 }
 
