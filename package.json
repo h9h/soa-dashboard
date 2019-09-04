@@ -31,7 +31,7 @@
 
     "prepkg:server:dashboard": "yarn build",
     "pkg:server:dashboard": "pkg . --target node10-win-x64 --output esb-dashboard.exe --debug > output-dashboard-win-pkg.log",
-    "pkg:server:file": "pkg ./backend-jobs/server.js --target node10-win-x64 --output esb-jobs.exe --debug > output-jobs-windows-pkg.log",
+    "pkg:server:file": "pkg ./backend-jobs/server.js --options max_old_space_size=4096 --target node10-win-x64 --output esb-jobs.exe --debug > output-jobs-windows-pkg.log",
     "pkg:all": "yarn pkg:server:dashboard && yarn pkg:server:file",
     "build:all": "yarn pkg:all && yarn ncc:build",
     "postbuild:all": "cpy ./dist/auth/index.js ./frontend/build --rename=auth.js",
