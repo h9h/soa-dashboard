@@ -33,21 +33,37 @@ const PreSmall = styled.pre`
   padding-top: 10px;
 `
 
+const MessageContent = ({ message }) => {
+  if (!message) return null
+  if (!message.MESSAGE) return null
+  try {
+    return (
+      <PreSmall>
+        {format(message.MESSAGE, {stripComments: false}).replace(/\s*\n/g, '\n')}
+      </PreSmall>
+    )
+  } catch (_) {
+    return null
+  }
+}
+
 const ZeigeSaetze = ({messages, satzNr, setSatzNr}) => {
+  if (!messages) return null
+  if (!satzNr && satzNr !== 0) return null
+
   const onChangeSatzNr = v => setSatzNr(v)
 
   return (
     <>
-      <NumberPicker title={`Anzahl Sätze: ${messages.length} - Satz Nr.: `} defaultValue={satzNr}
-                    onChange={onChangeSatzNr} min={0} max={messages.length - 1}/>
-      {messages && (satzNr || satzNr === 0) && messages[satzNr] && messages[satzNr].MESSAGE && (
-        <PreSmall>
-          {format(messages[satzNr].MESSAGE, {stripComments: false}).replace(/\s*\n/g, '\n')}
-        </PreSmall>
-      )}
-      {messages && (satzNr || satzNr === 0) && (
+      <NumberPicker
+        title={`Anzahl Sätze: ${messages.length} - Satz Nr.: `}
+        defaultValue={satzNr}
+        onChange={onChangeSatzNr}
+        min={0}
+        max={messages.length - 1}
+      />
+        <MessageContent message={messages[satzNr]} />
         <ReactJson src={messages[satzNr]} name={null} collapsed={0}/>
-      )}
     </>
   )
 }
@@ -217,7 +233,7 @@ const Jobs = (props) => {
         try {
           const {filteredMessages: messages, ...job} = JSON.parse(result.data.job)
           setJob(job)
-          setMessages(messages)
+          setMessages(messages.filter(m => !m.anzahl))
         } catch (err) {
           setJob({
             nachricht: 'Fehler beim parsen der Datei',
@@ -245,11 +261,13 @@ const Jobs = (props) => {
     })
   }
 
+  const anzahlMessages = messages ? messages.length : 0
+
   return (
     <>
       <Row>
         <Col xs={6}>
-          <Aktionen onClickAktion={onClickAktion}/>
+          <Aktionen anzahlMessages={anzahlMessages} onClickAktion={onClickAktion}/>
           <hr/>
           <h4>Filterkriterien</h4>
           <ReactJson src={job} name={null} collapsed={1}/>

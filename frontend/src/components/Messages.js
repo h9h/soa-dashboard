@@ -162,7 +162,7 @@ const Messages = props => {
       props.setPageSize(e)
     }
 
-    const anzahl = messages.length
+    const anzahl = messages ? messages.length : 0
 
     return (
       <>
