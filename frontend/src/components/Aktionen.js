@@ -5,6 +5,7 @@ import FormGroup from 'react-bootstrap/FormGroup'
 import FormControl from 'react-bootstrap/FormControl'
 import Blank from './Blank'
 import ButtonWithTip from './ButtonWithTip'
+import { getConfigurationValue } from '../logic/configuration'
 
 export const AKTIONEN = {
   NUR_LOG: 'Nur Log-Durchlauf',
@@ -12,14 +13,14 @@ export const AKTIONEN = {
   RESEND_JOBDATA: 'Re-Send Messages (Nachricht aus lokaler Datei)'
 }
 
-const OptionenAktion = () => (
+const OptionenAktion = ({anzahlMessages}) => (
   <>
     <option key={'-'} value={''}>keine Aktion gewählt</option>
-    {Object.entries(AKTIONEN).map(([key, val]) => <option key={key} value={val}>{val}</option>)}
+    {Object.entries(AKTIONEN).filter(([key]) => anzahlMessages > parseInt(getConfigurationValue('advanced.maxQueuedMessagesWithMessagecontent'), 10) ? key !== 'RESEND_JOBDATA' : true).map(([key, val]) => <option key={key} value={val}>{val}</option>)}
   </>
 )
 
-export const Aktionen = ({onClickAktion}) => {
+export const Aktionen = ({anzahlMessages, onClickAktion}) => {
   const [aktion, setAktion] = useState({name: '-', config: DEFAULT_CONFIG})
 
   const onChangeAktionName = e => setAktion({...aktion, name: e.target.value})
@@ -38,7 +39,7 @@ export const Aktionen = ({onClickAktion}) => {
                        onChange={onChangeAktionName}
                        style={{width: '300px'}}
           >
-            <OptionenAktion/>
+            <OptionenAktion anzahlMessages={anzahlMessages}/>
           </FormControl>
           <Blank/>
           <Blank/>

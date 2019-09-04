@@ -200,14 +200,16 @@ export const DEFINITIONS = {
       millisAutoCloseNotification: {type: "string", pattern: "^\\d{4,5}$"},
       notificationPositionHorizontal: {type: "string", enum: ['left', 'center', 'right']},
       notificationPositionVertical: {type: "string", enum: ['top', 'bottom']},
-      sliceFetchStatisticsHours: {type: "string", pattern: "^\\d{1,2}$"}
+      sliceFetchStatisticsHours: {type: "string", pattern: "^\\d{1,2}$"},
+      maxQueuedMessagesWithMessagecontent: {type: "string", pattern: "^\\d{1,3}$"},
     },
     required: [
       "millisPreExecutionOnNotification",
       "millisAutoCloseNotification",
       "notificationPositionHorizontal",
       "notificationPositionVertical",
-      "sliceFetchStatisticsHours"
+      "sliceFetchStatisticsHours",
+      "maxQueuedMessagesWithMessagecontent"
     ],
     additionalProperties: false
   },

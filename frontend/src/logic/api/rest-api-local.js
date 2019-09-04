@@ -1,13 +1,15 @@
 import React from 'react'
 import axios from 'axios'
 import Log from '../../log'
-import { endsWith } from 'ramda'
+import { endsWith, omit } from 'ramda'
 import { notification, withProgressNotification } from '../notification'
 import { toast } from 'react-toastify'
 import moment from 'moment'
 import { json2string } from '../utils'
 import Button from 'react-bootstrap/Button'
 import { Icon } from '../../components/icons'
+import { parseMessage } from '../actionHandlers/utils'
+import { getConfigurationValue } from '../configuration'
 
 const log = Log('rest-api-local')
 
@@ -77,10 +79,32 @@ export const logToFile = destination => content => {
   }
 }
 
+async function writeChunk (jobname, chunk) {
+  try {
+    const size = 65536
+    let i = 0
+    do {
+      const chunkPart = chunk.substr(i * size, size)
+      await file({
+        method: 'post',
+        url: '/job/save',
+        data: {
+          jobname,
+          chunk: chunkPart,
+          append: true
+        }
+      })
+      i++
+    } while (chunk.length > i * size)
+    return true
+  } catch (e) {
+    return false
+  }
+}
+
 export const saveJob = async (jobname, job, cb) => {
-  const size = 65536
-  let data = json2string(job)
-  const anzahl = Math.floor(data.length / size + 1)
+  const { filteredMessages, ...rest } = job
+  const anzahl = filteredMessages.length
 
   const nachricht = () => {
     const starttime = moment().valueOf()
@@ -118,33 +142,58 @@ export const saveJob = async (jobname, job, cb) => {
     onClose: () => doContinue = false
   })
 
-  log.trace('saveJob', jobname, job.filteredMessages.length)
+  log.trace('saveJob', jobname, anzahl)
+
+  const parameters = json2string(rest)
 
   try {
-    let data = json2string(job)
-    const size = 65536
+    // Write parameters:
+    await file({
+      method: 'post',
+      url: '/job/save',
+      data: {
+        jobname,
+        chunk: parameters.substr(0, parameters.length - 1) + ', "filteredMessages" :[',
+        append: false
+      }
+    })
+
+    // Bei vielen Calls müüsen wir wegen Größe der Daten auf den Messageinhalt verzichten.
+    // Wir brauchen dann allerdings daraus den senderFQN.
+    const omitFields = filteredMessages.length > parseInt(getConfigurationValue('advanced.maxQueuedMessagesWithMessagecontent'), 10) ? ['MESSAGE', 'Sender', 'Timestamp', 'ServiceOperation'] : ['Sender', 'Timestamp', 'ServiceOperation', 'MessageSize']
     do {
-      const chunk = data.substr(index * size, size)
+      const message = filteredMessages[index]
+      const stripped = omit(omitFields, message)
+      if (omitFields.indexOf('MESSAGE') > -1) {
+        stripped.MESSAGE = parseMessage(message.MESSAGE, ['senderFQN'])
+      }
+
+      const chunk = json2string(stripped)
       log.trace('chunk', index, chunk.length)
       try {
-        await file({
-          method: 'post',
-          url: '/job/save',
-          data: {
-            jobname,
-            chunk,
-            append: index !== 0
-          }
-        })
-        log.trace('saved chunk', index)
-        if (index % 10 === 0) updateProgress(myUpdateNachricht(index))
+        const success = await writeChunk(jobname, chunk + ',')
+        if (!success) {
+          cb({ result: `Fehler bei writeChunk des Jobs ${jobname} (Chunk): ` + chunk.length})
+        }
+        log.trace('saved chunk', index, success)
+        if (index % 10 === 1) updateProgress(myUpdateNachricht(index))
         index++
       } catch (e) {
         log.error('caught error', e)
         cb({ result: `Fehler beim Speichern des Jobs ${jobname} (Chunk): ` + json2string(e)})
+        return
       }
-    } while (doContinue && data.length > index * size)
+    } while (doContinue && index < anzahl)
     if (doContinue) {
+      await file({
+        method: 'post',
+        url: '/job/save',
+        data: {
+          jobname,
+          chunk: `{ "anzahl": "${anzahl}"}]}`,
+          append: true
+        }
+      })
       cb({result: 'ok'})
     } else {
       cb({result: 'Abbruch durch Nutzer'})
