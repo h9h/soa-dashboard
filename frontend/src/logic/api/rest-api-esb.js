@@ -133,7 +133,6 @@ function evolveData (api, dataRow, annotations) {
 
   if (dataRow.MESSAGE) {
     dataRow.MessageSize = dataRow.MESSAGE.length
-    dataRow.MessageContent = dataRow.MESSAGE
   }
 }
 

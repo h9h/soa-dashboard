@@ -139,7 +139,8 @@ const DEFAULT_PROPS = {
   },
   MessageContent: {
     Header: 'Nachrichteninhalt',
-    ordnung: 11
+    ordnung: 11,
+    accessor: item => item.MESSAGE,
   },
   MESSAGE: {
     show: false
