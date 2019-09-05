@@ -14,7 +14,8 @@ const log = Log('store')
 export const LOG_SEARCH_TYPES = {
   REFERENCE: 'Referenz',
   SENDERFQN: 'Sender-FQN',
-  MESSAGEID: 'Message-Id'
+  MESSAGEID: 'Message-Id',
+  SERVICE: 'Service-Namespace'
 }
 
 export const initialState = () => {

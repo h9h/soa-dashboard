@@ -21,6 +21,22 @@ export const getEsbUrl = umgebung => {
   return umgebungURL
 }
 
+const getSearchTypeUrl = searchType => {
+  switch(searchType) {
+    case LOG_SEARCH_TYPES.MESSAGEID:
+      return 'messageId'
+    case LOG_SEARCH_TYPES.REFERENCE:
+      return 'reference'
+    case LOG_SEARCH_TYPES.SENDERFQN:
+      return 'senderFQN'
+    case LOG_SEARCH_TYPES.SERVICE:
+      return 'serviceNamespace'
+    default:
+      alert('Programmierfehler: URL für' + searchType + ' fehlt')
+      return '___URL___'
+  }
+}
+
 export const getLogpoints = (filter, cb) => {
   const sec = TIME_FORMAT === 'HH:mm' ? ':00' : ''
   const {umgebung, datum, von, bis, searchType, searchValue} = filter
@@ -34,7 +50,7 @@ export const getLogpoints = (filter, cb) => {
   let url = `${getEsbUrl(umgebung)}/dashboard/LogPoints/${datum}?from=${adjustedVon}${sec}&to=${bis}${sec}`
 
   if (searchValue && searchValue.length > 0) {
-    const searchTypeUrl = searchType === LOG_SEARCH_TYPES.MESSAGEID ? 'messageId' : searchType === LOG_SEARCH_TYPES.REFERENCE ? 'reference' : 'senderFQN'
+    const searchTypeUrl = getSearchTypeUrl(searchType)
     url = `${url}&${searchTypeUrl}=${encodeURIComponent(searchValue)}`
   }
 
