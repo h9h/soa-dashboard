@@ -7,6 +7,9 @@ import Log from '../log'
 const log = Log('tableconflog')
 
 const spezial = cell => ({
+  Aktionen: {
+    Aggregated: cell('Aktionen'),
+  },
   MESSAGEID: {
     PivotValue: cell('MESSAGEID'),
   },
@@ -100,16 +103,6 @@ const decorator = showFunction => columnObject => {
     id: 'filter',
     accessor: 'filter',
     show: false
-  }
-
-  columnObject.Aktionen = {
-    Header: 'Aktionen',
-    id: 'Aktionen',
-    accessor: 'MESSAGEID',
-    width: 100,
-    ordnung: 99,
-    sortable: false,
-    filterable: false,
   }
 
   const s = spezial(cellFactory(showFunction))
