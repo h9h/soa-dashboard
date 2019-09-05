@@ -7,7 +7,7 @@ const MessageId = ({row}) => {
   if (!messageId) return null
 
   return (
-    <CopyToClipboard text={messageId}>
+    <CopyToClipboard text={messageId} notificationText="MessageID">
       <Smaller style={{ cursor: 'pointer' }}>
         {messageId.substring(0, 16)}
         <br />

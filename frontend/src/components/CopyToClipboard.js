@@ -7,23 +7,33 @@ const defaultOnCopy = () => notification({
   nachricht: 'Inhalt wurde in die Zwischenablage kopiert'
 })
 
-const CopyToClipboard = ({text, onCopy = defaultOnCopy, children}) => {
+const CopyToClipboard = ({text, onCopy, notificationText, children}) => {
   const elem = React.Children.only(children);
 
   const onClick = event => {
     const result = copy(text);
 
+    if (notificationText) {
+      notification({
+        nachricht: notificationText.indexOf(' ') < 0 ? <div>{`${notificationText} wurde in die Zwischenablage kopiert:`}<br />{text}</div> : notificationText
+      })
+    }
+
     if (onCopy) {
-      onCopy(text, result);
+      onCopy(text, result)
+    }
+
+    if(!notificationText && !onCopy) {
+      defaultOnCopy()
     }
 
     // Bypass onClick if it was present
     if (elem && elem.props && typeof elem.props.onClick === 'function') {
-      elem.props.onClick(event);
+      elem.props.onClick(event)
     }
   }
 
-  return React.cloneElement(elem, { onClick })
+  return React.cloneElement(elem, { onClick, style: { cursor: 'copy' } })
 }
 
 export const CopyMessageToClipboard = ({textToBeCopied, meldung = 'Nachricht in Zwischenablage kopiert', children}) => {

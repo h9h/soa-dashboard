@@ -49,11 +49,6 @@ const getTdProps = (history, route) => {
       onClick: (e, handleOriginal) => {
         log.trace('Click on column', column.id)
         switch (column.id) {
-          case 'MESSAGEID':
-            if (handleOriginal) {
-              handleOriginal()
-            }
-            break
           case 'ORIGINATOR':
             if (rowInfo && rowInfo.row) {
               log.trace('Route to Dashboard')
@@ -61,7 +56,9 @@ const getTdProps = (history, route) => {
             }
             break
           default:
-            // do nothing
+            if (handleOriginal) {
+              handleOriginal()
+            }
         }
       }
     }
