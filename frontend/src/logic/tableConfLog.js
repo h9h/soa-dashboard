@@ -102,6 +102,16 @@ const decorator = showFunction => columnObject => {
     show: false
   }
 
+  columnObject.Aktionen = {
+    Header: 'Aktionen',
+    id: 'Aktionen',
+    accessor: 'MESSAGEID',
+    width: 100,
+    ordnung: 99,
+    sortable: false,
+    filterable: false,
+  }
+
   const s = spezial(cellFactory(showFunction))
 
   Object.keys(s).forEach(key => {
@@ -122,7 +132,8 @@ export const getColumns = (showFunction, keys) => {
     'Sender',
     'ServiceOperation',
     'filter',
-    'Timing'
+    'Timing',
+    'Aktionen'
   ])
 
   return columnFactory(cellFactory(showFunction), decorator(showFunction), allKeys)
