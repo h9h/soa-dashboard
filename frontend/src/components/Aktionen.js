@@ -37,7 +37,7 @@ export const Aktionen = ({anzahlMessages, onClickAktion}) => {
           <FormControl as="select"
                        value={aktion.name}
                        onChange={onChangeAktionName}
-                       style={{width: '300px'}}
+                       style={{width: '500px'}}
           >
             <OptionenAktion anzahlMessages={anzahlMessages}/>
           </FormControl>

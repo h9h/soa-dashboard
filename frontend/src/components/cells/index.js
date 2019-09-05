@@ -21,6 +21,7 @@ import Dauer from './Dauer'
 import { Smaller } from '../styles'
 import IsAlive from './IsAlive'
 import { json2string } from '../../logic/utils'
+import RowAktionen from './RowAktionen'
 
 const pk = key => {
   switch(key){
@@ -37,6 +38,8 @@ const pk = key => {
 
 export const cellFactory = onClick => key => {
   switch (key) {
+    case 'Aktionen':
+      return row => <RowAktionen row={row} />
     case 'Timing':
       return row => <Timing row={row} onClick={onClick} />
     case 'LOGPOINTNO':

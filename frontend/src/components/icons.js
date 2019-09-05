@@ -8,6 +8,7 @@ import {
   FaCoins,
   FaEnvelope,
   FaExclamationTriangle,
+  FaExternalLinkAlt,
   FaFilter,
   FaGithub,
   FaList,
@@ -29,7 +30,7 @@ import {
   IoMdCloseCircleOutline,
   IoMdWarning
 } from 'react-icons/io'
-import { MdHelp, MdTimeline, MdClearAll } from 'react-icons/md'
+import { MdHelp, MdTimeline, MdClearAll, MdContentCopy } from 'react-icons/md'
 import { GoAlert } from 'react-icons/go'
 import { TiCancel } from 'react-icons/ti'
 import { Large, Larger } from './styles'
@@ -118,6 +119,10 @@ export const Icon = ({ glyph, ...rest }) => {
       return <FaReact />
     case 'github':
       return <FaGithub />
+    case 'routeToCall':
+      return <FaExternalLinkAlt />
+    case 'copyRoute':
+      return <MdContentCopy />
     default:
       log.warn('Fix glyph: ' + glyph)
       return <FaQuestion />
