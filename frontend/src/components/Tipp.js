@@ -16,7 +16,7 @@ const Tipp = ({ title, content, children, disabled = false }) => {
   // see https://github.com/react-bootstrap/react-bootstrap/issues/2208#issuecomment-301737531
   return (
     <OverlayTrigger trigger={['hover', 'focus']} key={title} placement="bottom" overlay={popover}>
-      <span>{children}</span>
+      <span  style={{ cursor: 'help' }}>{children}</span>
     </OverlayTrigger>
   )
 }
