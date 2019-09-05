@@ -153,7 +153,8 @@ const PageLogin = props => {
                   type="text"
                   value={userId}
                   onChange={handleChange(setUserId)}
-                  autoComplete="username"
+                  autoComplete="on"
+                  name="username"
                 />
               </FormGroup>
               <FormGroup controlId="password">
@@ -162,7 +163,7 @@ const PageLogin = props => {
                   value={password}
                   onChange={handleChange(setPassword)}
                   type="password"
-                  autoComplete="password"
+                  autoComplete="off"
                 />
               </FormGroup>
               <Blank/>
