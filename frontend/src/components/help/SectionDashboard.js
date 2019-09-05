@@ -1,6 +1,5 @@
 import React from 'react'
 import Section from './Section'
-import { HeaderForm } from '../Header'
 import moment from 'moment'
 import IconExplanation from './IconExplanation'
 import ComponentExplanation from './ComponentExplanation'
@@ -9,7 +8,6 @@ import { getUmgebungen } from '../../logic/api/api-dashboard'
 import Datum from '../datetime/Datum'
 import Zeit from '../datetime/Zeit'
 import { Paragraph } from './styles'
-import { LOG_SEARCH_TYPES } from '../../logic/store'
 import { getConfigurationValue } from '../../logic/configuration'
 
 const noop = () => {}
@@ -62,19 +60,8 @@ export default () => (
       sich aus dem für die Seite
       spezifischen Teil links und der allgemeinen Navigation rechts zusammen.
     </Paragraph>
-    <Paragraph>Hier ist der spezifische Teil:</Paragraph>
     <Paragraph>
-      <HeaderForm setFilter={noop}
-                  actualise={noop}
-                  datum={datum}
-                  bis={'12:00'}
-                  searchType={LOG_SEARCH_TYPES.MESSAGEID}
-                  searchValue={''}
-                  width={200}
-      />
-    </Paragraph>
-    <Paragraph>
-      Die Elemente im einzelnen:
+      Die Elemente des spezifischen Teils im einzelnen:
     </Paragraph>
     <IconExplanation glyph="actualise">
       aktualisiere die Selektionszeit auf Jetzt und lade die neuen Logpunkte
@@ -86,7 +73,9 @@ export default () => (
       das Datum, zu dem die Logpunkte selektiert werden sollen
     </ComponentExplanation>
     <ComponentExplanation component={zeitInput}>
-      die Ende-Zeit, bis zu der Logpunkte selektiert werden sollen.
+      die Ende-Zeit, bis zu der Logpunkte selektiert werden sollen. Im Default wird über einen Zeitraum von 10 Minuten
+      gesucht. In Produktion unter Tage sind die 10.000 Logpunkte, die bei einem einzelnen Query geliefert werden,
+      innerhalb weniger Sekunden aufgebraucht.
     </ComponentExplanation>
     <ComponentExplanation component={selection2}>
       Optionale Suchkriterien. Zur Verfügung stehen:
@@ -96,6 +85,7 @@ export default () => (
         <li>
           Referenz - Suche nach einer fachlichen Referenz (Vertragsnummer, Schadennnummer etc)
         </li>
+        <li>Service-Namespace - Suche nach einem Service, z.B. <i>http://svi.de/service/partner/kontovw/PartnerSepaMandatAuskunft1</i></li>
       </ul>
       Wenn hiermit gesucht wird, dann wird der Suchzeitraum auf eine Stunde ausgedehnt. Daher kann die Suche ein paar Sekunden dauern.
     </ComponentExplanation>
