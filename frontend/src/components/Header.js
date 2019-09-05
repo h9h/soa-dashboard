@@ -55,7 +55,8 @@ const LRUs = Object.keys(LOG_SEARCH_TYPES).reduce((acc, key) => {
 
 export const HeaderForm = ({setFilter, actualise, ...rest}) => {
   log.trace('Mount Headerform', rest)
-  const {width} = useWindowSize()
+  const {windowWidth} = useWindowSize()
+  const width = rest.width || windowWidth
 
   // setzte lokale Daten auf Props beim ersten Render
   const {umgebung, datum, bis, searchType, searchValue} = rest
