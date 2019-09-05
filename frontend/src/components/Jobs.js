@@ -5,7 +5,6 @@ import Button from 'react-bootstrap/Button'
 import { connect } from 'react-redux'
 import WartenAnzeiger from './WartenAnzeiger'
 import Log from '../log'
-import ReactJson from 'react-json-view'
 import { Icon } from './icons'
 import { withExplanation, withProgressNotification } from '../logic/notification'
 import { fileListener, getJobLogName, Job } from '../logic/transactions/Job'
@@ -19,6 +18,8 @@ import { getJob } from '../logic/api/rest-api-local'
 import { Bold, Red, Smaller } from './styles'
 import { AKTIONEN, Aktionen } from './Aktionen'
 import moment from 'moment'
+import Inspector from 'react-inspector'
+import { THEME } from './ServiceView/theme'
 
 const STATUS = {
   IDLE: 'Idle',
@@ -28,10 +29,81 @@ const STATUS = {
 
 const log = Log('jobs')
 
+const ObjectValue = ({ object }) => {
+  switch (typeof object) {
+    case 'number':
+    case 'boolean':
+      return <span>{String(object)}</span>;
+    case 'string':
+      return <span>"{object}"</span>;
+    case 'undefined':
+      return <span>undefined</span>;
+    case 'object':
+      if (object === null) {
+        return <span>null</span>;
+      }
+      if (object instanceof Date) {
+        return <span>{object.toString()}</span>;
+      }
+      if (object instanceof RegExp) {
+        return (
+          <span>{object.toString()}</span>
+        );
+      }
+      if (Array.isArray(object)) {
+        return <span>{`Array(${object.length})`}</span>;
+      }
+      if (!object.constructor) {
+        return <span/>;
+      }
+      if (
+        typeof object.constructor.isBuffer === 'function' &&
+        object.constructor.isBuffer(object)
+      ) {
+        return <span>{`Buffer[${object.length}]`}</span>;
+      }
+
+      return <span/>;
+    case 'function':
+      return (
+        <span>
+          <span>ƒ&nbsp;</span>
+          <span>
+            {object.name}()
+          </span>
+        </span>
+      );
+    case 'symbol':
+      return (
+        <span>{object.toString()}</span>
+      );
+    default:
+      return <span />;
+  }
+};
+
+const MyObjectLabel = ({ name, data }) => {
+  return (
+    <span>
+      {name === 'FEHLER' ? (
+        <span style={{ color: 'red' }}>{name}: </span>
+      ) : (
+        <span style={{ color: 'darkblue' }}>{name}: </span>
+      )}
+      <ObjectValue object={data} />
+    </span>
+  );
+};
+
+const nodeRenderer = ({ depth, name, data }) =>
+  depth === 0 ? null : <MyObjectLabel name={name} data={data} />
+
 const PreSmall = styled.pre`
   font-size: smaller;
   padding-top: 10px;
 `
+
+const JsonViewer = props => <Inspector theme={THEME} nodeRenderer={nodeRenderer} showNonenumerable={false} {...props} />
 
 const MessageContent = ({ message }) => {
   if (!message) return null
@@ -63,7 +135,11 @@ const ZeigeSaetze = ({messages, satzNr, setSatzNr}) => {
         max={messages.length - 1}
       />
         <MessageContent message={messages[satzNr]} />
-        <ReactJson src={messages[satzNr]} name={null} collapsed={0}/>
+        <JsonViewer
+          name="Checkalive Runs nach Datum"
+          data={messages[satzNr]}
+          expandLevel={2}
+        />
     </>
   )
 }
@@ -90,13 +166,11 @@ const ErgebnisColumns = setNr => ([
     accessor: 'result',
     minWidth: 200,
     Cell: props => props.value ? (
-      <ReactJson src={props.value}
-                 name={null}
-                 shouldCollapse={field => {
-                   if (!field.name) return false
-                   return field.name !== 'FEHLER'
-                 }}
-                 collapseStringsAfterLength={60}
+      <JsonViewer
+        name={null}
+        data={props.value}
+        expandLevel={1}
+        expandPaths={['$.FEHLER']}
       />
     ) : '-'
   },
@@ -270,7 +344,11 @@ const Jobs = (props) => {
           <Aktionen anzahlMessages={anzahlMessages} onClickAktion={onClickAktion}/>
           <hr/>
           <h4>Filterkriterien</h4>
-          <ReactJson src={job} name={null} collapsed={1}/>
+          <JsonViewer
+            name={null}
+            data={job}
+            expandLevel={2}
+          />
           <hr/>
           <h4>Nachrichten</h4>
           <ZeigeSaetze messages={messages} satzNr={satzNr} setSatzNr={setSatzNr}/>

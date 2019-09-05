@@ -64,7 +64,7 @@ const HeaderJobs = props => {
                 <FormControl as="select"
                              value={props.jobname}
                              onChange={handleJobname}
-                             style={{width: '350px'}}
+                             style={{width: '600px'}}
                 >
                   <OptionenJobs jobs={jobs} />
                 </FormControl>
