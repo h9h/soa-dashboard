@@ -5003,6 +5003,11 @@ get-caller-file@^1.0.1:
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-1.0.3.tgz#f978fa4c90d1dfe7ff2d6beda2a515e713bdcf4a"
   integrity sha512-3t6rVToeoZfYSGd8YoLFR2DJkiQrIiUrGcjvFX2mDw3bn6k2OtwHN0TNCLbBO+w8qTvimhDkv+LSscbJY1vE6w==
 
+get-input-selection@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/get-input-selection/-/get-input-selection-1.1.4.tgz#2c622bbd994f8d7f8d6bfb60d634cc73ee775a81"
+  integrity sha1-LGIrvZlPjX+Na/tg1jTMc+53WoE=
+
 get-own-enumerable-property-symbols@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/get-own-enumerable-property-symbols/-/get-own-enumerable-property-symbols-3.0.0.tgz#b877b49a5c16aefac3655f2ed2ea5b684df8d203"
@@ -8956,6 +8961,15 @@ react-app-polyfill@^1.0.1:
     regenerator-runtime "0.13.2"
     whatwg-fetch "3.0.0"
 
+react-autocomplete-input@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/react-autocomplete-input/-/react-autocomplete-input-1.0.12.tgz#d4784fc8fab2ad8d8f395c5c99e1ffd18a9f62d2"
+  integrity sha512-fF+3FTuDXWq7QJYsC/j+9F14hYIym/eQ8HnJBEa1fe+OUlD+8Ksx0doU4LzzLka2kuHN0JiosAtSrvs3MJ+FaQ==
+  dependencies:
+    get-input-selection "^1.1.4"
+    prop-types "^15.6.2"
+    textarea-caret "^3.0.2"
+
 react-autosuggest@^9.4.3:
   version "9.4.3"
   resolved "https://registry.yarnpkg.com/react-autosuggest/-/react-autosuggest-9.4.3.tgz#eb46852422a48144ab9f39fb5470319222f26c7c"
@@ -10583,6 +10597,11 @@ text-table@0.2.0, text-table@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
+
+textarea-caret@^3.0.2:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/textarea-caret/-/textarea-caret-3.1.0.tgz#5d5a35bb035fd06b2ff0e25d5359e97f2655087f"
+  integrity sha512-cXAvzO9pP5CGa6NKx0WYHl+8CHKZs8byMkt3PCJBCmq2a34YA9pO1NrQET5pzeqnBjBdToF5No4rrmkDUgQC2Q==
 
 throat@^4.0.0:
   version "4.1.0"

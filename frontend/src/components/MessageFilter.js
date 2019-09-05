@@ -8,10 +8,8 @@ import ReactJson from 'react-json-view'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Tipp from './Tipp'
-import { Smaller } from './styles'
-import AutosuggestBox from './suggestions/AutosuggestBox'
-import { SuggestionProvider } from './suggestions/provider'
 import moment from 'moment'
+import MessageFilterInput from './MessageFilterInput'
 
 const FilterExample = styled.div`
   color: grey;
@@ -19,45 +17,6 @@ const FilterExample = styled.div`
   padding-top: 10px;
   padding-bottom: 10px;
 `
-
-const Beschreibung =styled.div`
-  color: darkblue;
-  padding: 5px;
-`
-const Code = styled(Smaller)`
-  background-color: black;
-  color: white;
-  &:before {
-    content: "> ";
-  }
-  &:after {
-    content: " ";
-  }
-  padding: 5px;
-`
-
-const SELECTION_VALUES = [
-  { value: 'row', description: 'Hilfsmittel zum Untersuchen der verfügbaren Attribute' },
-  { value: `row.MESSAGEID==="M-..."`, description: 'Der Satz zur angegebenen Message-Id' },
-  { value: `row.SENDERFQN.indexOf("icis") > -1`, description: 'Alle Sätze in deren SenderFQN der Text vorkommt' },
-  { value: 'row.ERRORCODE.indexOf("error...") > -1', description: 'Alle Sätze mit einem bestimmten Fehler'},
-  { value: 'index < 10', description: 'Die ersten 10 Sätze (kann auch eine beliebige andere Zahl sein)'},
-]
-
-class FilterProvider extends SuggestionProvider {
-  constructor(values = SELECTION_VALUES) {
-    super(values)
-  }
-
-  getSuggestionValue = suggestion => suggestion.value
-
-  renderComponent = suggestion => (
-    <>
-      <Beschreibung>{suggestion.description}</Beschreibung>
-      <Code>{suggestion.value}</Code>
-    </>
-  )
-}
 
 const checkFilter = filter => {
   const result = []
@@ -98,6 +57,7 @@ const MessageFilter = ({row, defaultFilter, handleFilter}) => {
     <>
       <Row>
         <Col>
+          <div>
           <Form inline onSubmit={() => false}>
             <FormGroup>
               <Tipp title="Filter" content={(
@@ -110,8 +70,10 @@ const MessageFilter = ({row, defaultFilter, handleFilter}) => {
                   <div>
                     Beispiele
                     <ul>
-                      <li>row.MESSAGEID === '...'</li>
-                      <li>row.SENDERFQN.indexOf('SAP-CML') > -1</li>
+                      <li><code>row.MESSAGEID === '...'</code> - Nachricht mit dieser MessageID</li>
+                      <li><code>row.SENDERFQN.indexOf('SAP-CML') > -1</code> - SenderFQN enthält 'SAP-CML'</li>
+                      <li><code>row.Timestamp.valueOf() > Date.now() - 1000*60*60*2</code> - jünger als 2 Stunden</li>
+                      <li><code>Ausdruck1 && Ausdruck2</code> - Ausdruck1 und Ausdruck2 sind wahr</li>
                     </ul>
                   </div>
                   <div>
@@ -123,13 +85,11 @@ const MessageFilter = ({row, defaultFilter, handleFilter}) => {
                 <Form.Label>Filter: </Form.Label>
               </Tipp>
               <Blank/>
-              <div style={{width: '800px'}}>
-                <AutosuggestBox
-                  provider={new FilterProvider()}
-                  onChange={handleFilterChange}
-                  value={filter}
-                />
-              </div>
+              <MessageFilterInput
+                row={row}
+                onChange={handleFilterChange}
+                value={filter}
+              />
               <Blank/>
               <Blank/>
               <ButtonWithTip
@@ -143,6 +103,7 @@ const MessageFilter = ({row, defaultFilter, handleFilter}) => {
               />
             </FormGroup>
           </Form>
+          </div>
         </Col>
       </Row>
       <FilterExample>
