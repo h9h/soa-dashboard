@@ -21,6 +21,10 @@ import moment from 'moment'
 import Inspector from 'react-inspector'
 import { THEME } from './ServiceView/theme'
 
+const ScrollDiv = styled.div`
+  overflow: auto;
+`
+
 const STATUS = {
   IDLE: 'Idle',
   RUNNING: 'Running',
@@ -166,12 +170,14 @@ const ErgebnisColumns = setNr => ([
     accessor: 'result',
     minWidth: 200,
     Cell: props => props.value ? (
-      <JsonViewer
-        name={null}
-        data={props.value}
-        expandLevel={1}
-        expandPaths={['$.FEHLER']}
-      />
+      <ScrollDiv>
+        <JsonViewer
+          name={null}
+          data={props.value}
+          expandLevel={1}
+          expandPaths={['$.FEHLER']}
+        />
+      </ScrollDiv>
     ) : '-'
   },
 ])
