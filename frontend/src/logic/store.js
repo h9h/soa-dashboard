@@ -39,6 +39,8 @@ export const initialState = () => {
     bis,
     logSearchType: LOG_SEARCH_TYPES.MESSAGEID,
     logSearchValue: '',
+    messageSearchType: LOG_SEARCH_TYPES.SENDERFQN,
+    messageSearchValue: '',
     messageId: '',
     jobname: '',
     datumVon: moment().subtract(0, 'days').format('YYYY-MM-DD'),

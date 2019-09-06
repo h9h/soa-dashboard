@@ -72,8 +72,8 @@ const evaluateFilterexpression = (filter, row, index) => {
 }
 
 const Messages = props => {
-  const {umgebung, messageType, datumVon, datumBis} = props
-  log.trace('Messages for', umgebung, messageType, datumVon, datumBis)
+  const {umgebung, messageType, datumVon, datumBis, searchType, searchValue} = props
+  log.trace('Messages for', umgebung, messageType, datumVon, datumBis, searchType, searchValue)
   const [haveJobsApi, setHaveJobsApi] = useState(false)
 
   useEffect(() => {
@@ -103,15 +103,15 @@ const Messages = props => {
 
   useEffect(() => {
     if (!messageType || !datumVon || !datumBis) return
-    log.trace('in useEffect', umgebung, messageType, datumVon, datumBis)
+    log.trace('in useEffect', umgebung, messageType, datumVon, datumBis, searchType, searchValue)
     setMessages(null)
     setStatus('loading')
     const cb = ({status, data}) => {
       setMessages(data)
       setStatus(status)
     }
-    getMessages({umgebung, messageType, datumVon, datumBis}, cb)
-  }, [umgebung, messageType, datumVon, datumBis])
+    getMessages({umgebung, messageType, datumVon, datumBis, searchType, searchValue}, cb)
+  }, [umgebung, messageType, datumVon, datumBis, searchType, searchValue])
 
   useEffect(() => {
     if (!messages) return
@@ -208,7 +208,9 @@ export default connect(
     datumBis: state.datumBis,
     user: state.user,
     pageSizes: state.configuration.messagetable.pageSizes,
-    defaultPageSize: parseInt(state.configuration.messagetable.defaultSize, 10)
+    defaultPageSize: parseInt(state.configuration.messagetable.defaultSize, 10),
+    searchType: state.messageSearchType,
+    searchValue: state.messageSearchValue
   }),
   dispatch => ({
     setPageSize: size => dispatch(updateConfiguration({ messagetable: { defaultSize: '' + size }}))

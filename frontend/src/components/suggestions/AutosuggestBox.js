@@ -16,7 +16,7 @@ const useSuggestions = provider => {
 }
 
 const AutosuggestBox = props => {
-  const { values, value, onChange, provider, placeholder, ...rest} = props
+  const { values, value, onChange, provider, placeholder, disabled = false, ...rest} = props
   const p = provider ? provider : new SuggestionProvider(values)
   const suggestionProvider = useSuggestions(p)
 
@@ -26,7 +26,8 @@ const AutosuggestBox = props => {
       if (newValue == null) return
       onChange(newValue)
     },
-    placeholder
+    placeholder,
+    disabled
   }
 
   return (

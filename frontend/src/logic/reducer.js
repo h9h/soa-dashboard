@@ -145,6 +145,8 @@ function reducer (state = {}, action) {
         messageType: action.messageType,
         datumVon,
         datumBis,
+        messageSearchType: action.messageSearchType,
+        messageSearchValue: action.messageSearchValue
       }
     }
 

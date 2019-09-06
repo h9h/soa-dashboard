@@ -4,6 +4,7 @@ import { LOG_SEARCH_TYPES } from '../store'
 import moment from 'moment'
 import { getConfigurationValue } from '../configuration'
 import { notification } from '../notification'
+import { MESSAGE_TYPES_NAMES } from '../tableConfMessages'
 
 export const getUmgebungen = umgebungen => {
   return Object.keys(umgebungen)
@@ -87,9 +88,16 @@ export const getQueuedMessages = (filter, cb) => {
 }
 
 export const getMessages = (filter, cb) => {
-  const {umgebung, messageType, datumVon, datumBis} = filter
+  const {umgebung, messageType, datumVon, datumBis, searchType, searchValue} = filter
   const url = `${getEsbUrl(umgebung)}/dashboard/${messageType}Messages?from=${datumVon}T00:00:00&to=${datumBis}T23:59:59`
-  getData(API.MESSAGES, url, cb, filter)
+
+  let search = ''
+  if (searchType && searchValue && messageType !== MESSAGE_TYPES_NAMES.REJECTED) {
+    const searchTypeUrl = getSearchTypeUrl(searchType)
+    search = `&${searchTypeUrl}=${encodeURIComponent(searchValue)}`
+  }
+
+  getData(API.MESSAGES, url + search, cb, filter)
 }
 
 export const resendMessage = async (umgebung, mep, operation, queuename, message) => {

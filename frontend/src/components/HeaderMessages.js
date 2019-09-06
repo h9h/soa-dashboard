@@ -12,23 +12,36 @@ import Log from '../log'
 import Navigation from './Navigation'
 import { connect } from 'react-redux'
 import { setFilterMessages } from '../logic/actions'
-import { OptionenMessageTypes } from '../logic/tableConfMessages'
+import { MESSAGE_TYPES_NAMES, OptionenMessageTypes } from '../logic/tableConfMessages'
 import { calculateNewDates } from '../logic/time'
 import Datum from './datetime/Datum'
 import moment from 'moment'
 import { getConfigurationValue } from '../logic/configuration'
+import AutosuggestBox from './suggestions/AutosuggestBox'
+import useWindowSize from './useWindowSize'
+import { LOG_SEARCH_TYPES } from '../logic/store'
+import { LRUProvider } from './suggestions/lruProvider'
 
 const today = moment().format('DD.MM.YYYY')
 
 const log = Log('headermessages')
 
+const LRUs = Object.keys(LOG_SEARCH_TYPES).reduce((acc, key) => {
+  acc[LOG_SEARCH_TYPES[key]] = new LRUProvider(LOG_SEARCH_TYPES[key])
+  return acc
+}, {})
+
 export const HeaderForm = props => {
-  const {umgebung, messageType, datumVon, datumBis} = props
-  const [filter, changeFilter] = useState({umgebung, messageType, datumVon, datumBis})
+  const width = props.width || 1600
+
+  const {umgebung, messageType, datumVon, datumBis, searchType, searchValue} = props
+  const [filter, changeFilter] = useState({umgebung, messageType, datumVon, datumBis, searchType, searchValue})
+
+  const searchTypes = [<option key={'SENDERFQN'}>{LOG_SEARCH_TYPES['SENDERFQN']}</option>] //Object.keys(LOG_SEARCH_TYPES).map(k => <option key={k}>{LOG_SEARCH_TYPES[k]}</option>)
 
   useEffect(() => {
-    changeFilter({umgebung, messageType, datumVon, datumBis})
-  }, [umgebung, messageType, datumVon, datumBis])
+    changeFilter({umgebung, messageType, datumVon, datumBis, searchType, searchValue})
+  }, [umgebung, messageType, datumVon, datumBis, searchType, searchValue])
 
   const handleFilterChange = key => event => {
     const value = event.target ? event.target.value : event
@@ -54,7 +67,7 @@ export const HeaderForm = props => {
       if (key === 'umgebung' || key === 'messageType') {
         withExplanation({
           nachricht: 'Nachrichten werden geladen',
-          fn: () => props.setFilterMessages(newFilter.umgebung, newFilter.messageType, newFilter.datumVon, newFilter.datumBis)
+          fn: () => props.setFilterMessages(newFilter.umgebung, newFilter.messageType, newFilter.datumVon, newFilter.datumBis, newFilter.searchType, newFilter.searchValue)
         })
       }
 
@@ -109,6 +122,22 @@ export const HeaderForm = props => {
             maxDate={today}
             setDate={handleFilterChange('datumBis')}
           />
+          <Blank/>
+          <Blank/>
+          <Blank/>
+        </FormGroup>
+        <FormGroup controlId="select.suchtyp">
+          <FormControl as="select" value={filter.searchType} onChange={handleFilterChange('searchType')} disabled={messageType === MESSAGE_TYPES_NAMES.REJECTED}>
+            {searchTypes}
+          </FormControl>
+          <div style={{width: `${width > 1600 ? '600' : '185'}px`}}>
+            <AutosuggestBox
+              provider={LRUs[filter.searchType]}
+              onChange={handleFilterChange('searchValue')}
+              value={filter.searchValue}
+              disabled={messageType === MESSAGE_TYPES_NAMES.REJECTED}
+            />
+          </div>
         </FormGroup>
         {filter.messageType && filter.datumVon && filter.datumBis && (
           <>
@@ -119,7 +148,7 @@ export const HeaderForm = props => {
               handleClick={() => {
                 withExplanation({
                   nachricht: 'Nachrichten werden geladen',
-                  fn: () => props.setFilterMessages(filter.umgebung, filter.messageType, filter.datumVon, filter.datumBis),
+                  fn: () => props.setFilterMessages(filter.umgebung, filter.messageType, filter.datumVon, filter.datumBis, filter.searchType, filter.searchValue),
                 })
               }}
             />
@@ -131,15 +160,16 @@ export const HeaderForm = props => {
 }
 
 const HeaderMessages = props => {
+  const {width} = useWindowSize()
   return (
     <Navbar bg="light" expand="lg" key="navbar" fixed="top">
       <Navbar.Brand href="/">
-        Messages
+        {width > 1600 ? 'Messages' : 'M'}
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav"/>
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <HeaderForm {...props} />
+          <HeaderForm width={width} {...props} />
         </Nav>
         <Nav className="justify-content-end">
           <Navigation page="messages"/>
@@ -155,8 +185,10 @@ export default connect(
     messageType: state.messageType,
     datumVon: state.datumVon,
     datumBis: state.datumBis,
+    searchType: state.messageSearchType,
+    searchValue: state.messageSearchValue
   }),
   dispatch => ({
-    setFilterMessages: (umgebung, messageType, datumVon, datumBis) => dispatch(setFilterMessages(umgebung, messageType, datumVon, datumBis))
+    setFilterMessages: (umgebung, messageType, datumVon, datumBis, searchType, searchValue) => dispatch(setFilterMessages(umgebung, messageType, datumVon, datumBis, searchType, searchValue))
   })
 )(HeaderMessages)

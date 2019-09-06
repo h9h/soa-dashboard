@@ -58,12 +58,14 @@ export const setColorScheme = (colorScheme) => ({
   colorScheme,
 })
 
-export const setFilterMessages = (umgebung, messageType, datumVon, datumBis) => ({
+export const setFilterMessages = (umgebung, messageType, datumVon, datumBis, messageSearchType, messageSearchValue) => ({
   type: 'setFilterMessages',
   umgebung,
   messageType,
   datumVon,
-  datumBis
+  datumBis,
+  messageSearchType,
+  messageSearchValue
 })
 
 export const setBis = bis => ({
