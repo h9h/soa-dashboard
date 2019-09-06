@@ -144,6 +144,9 @@ const ZeigeSaetze = ({messages, satzNr, setSatzNr}) => {
           data={messages[satzNr]}
           expandLevel={2}
         />
+        {/* damit nicht die untersten Zeilen hinter der Statusleiste verschwinden noch ein paar Leerzeilen: */}
+        <br />
+        <br />
     </>
   )
 }
