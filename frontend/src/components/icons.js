@@ -20,7 +20,7 @@ import {
   FaShare,
   FaSync,
 } from 'react-icons/fa'
-import { GoStop } from 'react-icons/go'
+import { GoAlert, GoStop, GoBug, GoNote } from 'react-icons/go'
 import {
   IoIosLogOut,
   IoIosLogIn,
@@ -31,7 +31,6 @@ import {
   IoMdWarning
 } from 'react-icons/io'
 import { MdHelp, MdTimeline, MdClearAll, MdContentCopy } from 'react-icons/md'
-import { GoAlert } from 'react-icons/go'
 import { TiCancel } from 'react-icons/ti'
 import { Large, Larger } from './styles'
 
@@ -119,6 +118,10 @@ export const Icon = ({ glyph, ...rest }) => {
       return <FaReact />
     case 'github':
       return <FaGithub />
+    case 'bug':
+      return <GoBug />
+    case 'feature':
+      return <GoNote />
     case 'routeToCall':
       return <FaExternalLinkAlt />
     case 'copyRoute':

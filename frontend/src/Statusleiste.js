@@ -10,6 +10,7 @@ import { Icon } from './components/icons'
 import { rightToViewProps } from './logic/authorization'
 import LinkButton from './components/LinkButton'
 import Logo from './Logo'
+import Tipp from './components/Tipp'
 
 const Impressum = ({ version }) => {
   const copyright = process.env.REACT_APP_COPYRIGHT
@@ -28,6 +29,8 @@ const Statusleiste = (props) => {
   const recipient = process.env.REACT_APP_FEEDBACK_MAIL
   const mail = `mailto://${recipient}?subject=Feedback zum ESB-Dashboard - v ${version}&body=`
   const repo = "https://github.com/h9h/soa-dashboard"
+  const bug = "https://github.com/h9h/soa-dashboard/issues/new?template=bug_report.md&title=%5BBUG%5D"
+  const feature = "https://github.com/h9h/soa-dashboard/issues/new?&template=feature_request.md&title=%5BFEATURE%5D"
 
   const [show, setShow] = useState(false)
   const doShow = () => setShow(true)
@@ -50,15 +53,23 @@ const Statusleiste = (props) => {
             </Nav.Item>
           </Nav>
           <Nav className="justify-content-end">
-            {rightToViewProps(props.user) ? (
+            {rightToViewProps(props.user) && (
               <Button onClick={doShow} variant="light">
                 <Icon glyph='dev'/>
               </Button>
-            ) : (
-              <LinkButton href="https://facebook.github.io/create-react-app/" glyph="dev"/>
             )}
-            <LinkButton href={repo} glyph="github"/>
-            <LinkButton href={mail} text="Feedback"/>
+            <Tipp title="Github" content="Zu den Sourcen" placement="top">
+              <LinkButton href={repo} glyph="github" />
+            </Tipp>
+            <Tipp title="Bug" content="Lege einen Bug-Report an" placement="top">
+              <LinkButton href={bug} glyph="bug" />
+            </Tipp>
+            <Tipp title="Feature" content="Lege ein Feature-Request an" placement="top">
+              <LinkButton href={feature} glyph="feature" />
+            </Tipp>
+            <Tipp title="Email" content="Sonstiges Feedback" placement="top">
+              <LinkButton href={mail} text="Feedback" />
+            </Tipp>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
