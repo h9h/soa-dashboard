@@ -119,6 +119,7 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
   const umgebungen = getUmgebungen(getConfigurationValue('umgebungen')).map(umgebung => <option
     key={umgebung}>{umgebung}</option>)
   const searchTypes = Object.keys(LOG_SEARCH_TYPES).map(k => <option key={k}>{LOG_SEARCH_TYPES[k]}</option>)
+
   const propagateLocalFilter = () => {
     LRUs[localFilter.searchType].store(localFilter.searchValue)
     propagateFilter(localFilter)

@@ -43,6 +43,13 @@ export const HeaderForm = props => {
     changeFilter({umgebung, messageType, datumVon, datumBis, searchType, searchValue})
   }, [umgebung, messageType, datumVon, datumBis, searchType, searchValue])
 
+  const propagateFilter = filter => {
+    withExplanation({
+      nachricht: 'Nachrichten werden geladen',
+      fn: () => props.setFilterMessages(filter.umgebung, filter.messageType, filter.datumVon, filter.datumBis, filter.searchType, filter.searchValue)
+    })
+  }
+
   const handleFilterChange = key => event => {
     const value = event.target ? event.target.value : event
     log.trace('filter change', key, value)
@@ -65,14 +72,16 @@ export const HeaderForm = props => {
       }
 
       if (key === 'umgebung' || key === 'messageType') {
-        withExplanation({
-          nachricht: 'Nachrichten werden geladen',
-          fn: () => props.setFilterMessages(newFilter.umgebung, newFilter.messageType, newFilter.datumVon, newFilter.datumBis, newFilter.searchType, newFilter.searchValue)
-        })
+        propagateFilter(newFilter)
       }
 
       return newFilter
     })
+  }
+
+  const propagateLocalFilter = () => {
+    LRUs[filter.searchType].store(filter.searchValue)
+    propagateFilter(filter)
   }
 
   return (
@@ -148,7 +157,7 @@ export const HeaderForm = props => {
               handleClick={() => {
                 withExplanation({
                   nachricht: 'Nachrichten werden geladen',
-                  fn: () => props.setFilterMessages(filter.umgebung, filter.messageType, filter.datumVon, filter.datumBis, filter.searchType, filter.searchValue),
+                  fn: () => propagateLocalFilter(),
                 })
               }}
             />
