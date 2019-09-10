@@ -12,8 +12,8 @@ import copy from 'copy-to-clipboard'
 const url = once(() => getClientUrl())()
 
 const RowAktionen = ({ row }) => {
-  if (row.aggregated) return <RowAktionenAggregated row={row} />
-  return <RowAktionenEinzel row={row} />
+  const buttons = row.aggregated ? [copyRoute, routeToCall] : []
+  return <ButtonRow row={row} buttons={buttons} />
 }
 
 export default RowAktionen
@@ -36,7 +36,6 @@ const routeToCall = row => {
 const copyRoute = row => {
   const values = row.aggregated ? row.subRows[0] : row.row
   if (!values.filter) return null
-
   const { umgebung, datum, von, bis } = values.filter
   const route = getDashboardRoute(umgebung, datum, von, bis)(LOG_SEARCH_TYPES.MESSAGEID, values.MESSAGEID)
 
@@ -45,20 +44,16 @@ const copyRoute = row => {
     title: 'Link',
     description: 'Kopiere Link zum Service-Call',
     handleClick: () => () => withNotification({
-      nachricht: 'Link wurde in die Zwischenablage kopiert',
-      fn: copy(`${url}/#${route}`)
+      nachricht: (
+        <div>
+          Link wurde in die Zwischenablage kopiert
+          <br />
+          {url}#{route}
+        </div>
+      ),
+      fn: copy(`${url}#${route}`)
     })
   }
-}
-
-const RowAktionenAggregated = ({ row }) => {
-  const buttons = [copyRoute, routeToCall]
-
-  return <ButtonRow row={row} buttons={buttons} />
-}
-
-const RowAktionenEinzel = ({ row }) => {
-  return <ButtonRow row={row} buttons={[]} />
 }
 
 const WrappedAktion = withRouter(({ button, history }) => (

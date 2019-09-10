@@ -12,8 +12,14 @@ import { parseMessage } from '../actionHandlers/utils'
 import { getConfigurationValue } from '../configuration'
 
 const log = Log('rest-api-local')
+log.trace('Window location: ', window.location)
 
-export const getClientUrl = () => window.location.origin
+export const getClientUrl = () => {
+  const href = window.location.href
+  const hash = window.location.hash
+  if (href.endsWith(hash)) return href.substring(0, href.length - hash.length)
+  return href
+}
 
 const getLocalURL = (auth) => {
   const PORT = auth ? process.env.REACT_APP_AUTHENTICATION_PORT : process.env.REACT_APP_FILE_PORT
