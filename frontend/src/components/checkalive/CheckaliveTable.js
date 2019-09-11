@@ -6,8 +6,10 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import ReactTable from 'react-table'
 import React from 'react'
+import useWindowSize from '../useWindowSize'
 
 const UnconnectedCheckaliveTable = ({data, ...props}) => {
+  const { height } = useWindowSize()
   const columns = getColumns()
   const sizeOptions = sort((a, b) => a - b, props.pageSizes.filter(s => !!s).map(s => parseInt(s, 10)))
 
@@ -25,6 +27,7 @@ const UnconnectedCheckaliveTable = ({data, ...props}) => {
             pageSizeOptions={sizeOptions}
             onPageSizeChange={props.setPageSize}
             defaultPageSize={props.defaultPageSize}
+            style={{ height: (height - 250) + 'px'}}
           />
         </Col>
       </Row>
