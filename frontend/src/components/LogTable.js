@@ -106,6 +106,8 @@ const UnconnectedLogpointTable = ({ logs, defaultPageSize, pageSizes, setPageSiz
   let barchartHeight = parseInt(getConfigurationValue('presentation.distribution.heightInPx'), 10)
   if (barchartHeight < 20) barchartHeight = 0
 
+  const menuHeight = navigator.userAgent.indexOf('Firefox') > -1 ? 180 : 120
+
   const [modal, setModal] = useState({show: false})
 
   const hideModal = () => {
@@ -172,7 +174,7 @@ const UnconnectedLogpointTable = ({ logs, defaultPageSize, pageSizes, setPageSiz
           onPageSizeChange={setPageSize}
           defaultPageSize={defaultPageSize}
           SubComponent={getSubComponent}
-          style={{height: (height - barchartHeight - 120) + 'px'}}
+          style={{height: (height - barchartHeight - menuHeight) + 'px'}}
           {...tableOptions}
         />
       </Col>

@@ -16,7 +16,6 @@ const formatDatum = d => moment(d, 'YYYY-MM-DD').format('DD.MM.YYYY')
 const PageStatistics = (props) => {
   log.trace('Mount PageStatistics')
   const { width } = useWindowSize()
-  console.log('width', width)
 
   if (props && props.match && props.match.params) {
     let {match: {params: { umgebung, datumVon, datumBis }}} = props

@@ -31,6 +31,7 @@ import { getDefaultFilterMethod } from './logic/utils'
 const log = Log('index')
 log.info('Log Level', getConfigurationValue('debug.level'))
 log.info('Umgebungsvariablen: ', process.env)
+log.info('Browser', navigator.userAgent)
 
 // Konfiguriere deutsche Zeit/Datumsformate für d3
 const locale = {
