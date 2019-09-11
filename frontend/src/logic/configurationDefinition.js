@@ -59,93 +59,8 @@ export const DEFINITIONS = {
     required: ["umgebung", "widenFilter"],
     additionalProperties: false
   },
-  logtable: {
-    id: "/Logtable",
-    type: "object",
-    properties: {
-      pageSizes: {type: "array", "items": { anyOf: [
-            { type: "string", pattern: "^\\d{1,3}$" },
-            { type: "null" },
-          ]}
-        ,
-        uniqueItems: true,
-        minItems: 1
-      },
-      defaultSize: {type: "string", pattern: "^\\d{1,3}$" }
-    },
-    required: ["pageSizes", "defaultSize"],
-    additionalProperties: false
-  },
-  messagetable: {
-    id: "/Messagetable",
-    type: "object",
-    properties: {
-      pageSizes: {type: "array", "items": { anyOf: [
-            { type: "string", pattern: "^\\d{1,3}$" },
-            { type: "null" },
-          ]}
-        ,
-        uniqueItems: true,
-        minItems: 1
-      },
-      defaultSize: {type: "string", pattern: "^\\d{1,3}$" }
-    },
-    required: ["pageSizes", "defaultSize"],
-    additionalProperties: false
-  },
-  queuetable: {
-    id: "/Queuetable",
-    type: "object",
-    properties: {
-      pageSizes: {type: "array", "items": { anyOf: [
-            { type: "string", pattern: "^\\d{1,3}$" },
-            { type: "null" },
-          ]}
-        ,
-        uniqueItems: true,
-        minItems: 1
-      },
-      defaultSize: {type: "string", pattern: "^\\d{1,3}$" }
-    },
-    required: ["pageSizes", "defaultSize"],
-    additionalProperties: false
-  },
-  queuetabletable: {
-    id: "/Queuetabletable",
-    type: "object",
-    properties: {
-      pageSizes: {type: "array", "items": { anyOf: [
-            { type: "string", pattern: "^\\d{1,3}$" },
-            { type: "null" },
-          ]}
-        ,
-        uniqueItems: true,
-        minItems: 1
-      },
-      defaultSize: {type: "string", pattern: "^\\d{1,3}$" }
-    },
-    required: ["pageSizes", "defaultSize"],
-    additionalProperties: false
-  },
-  statistikdata: {
-    id: "/Statistikdata",
-    type: "object",
-    properties: {
-      pageSizes: {type: "array", "items": { anyOf: [
-            { type: "string", pattern: "^\\d{1,3}$" },
-            { type: "null" },
-          ]}
-        ,
-        uniqueItems: true,
-        minItems: 1
-      },
-      defaultSize: {type: "string", pattern: "^\\d{1,3}$" }
-    },
-    required: ["pageSizes", "defaultSize"],
-    additionalProperties: false
-  },
-  checkalivetable: {
-    id: "/Checkalivetable",
+  table: {
+    id: "/Table",
     type: "object",
     properties: {
       pageSizes: {type: "array", "items": { anyOf: [
@@ -263,12 +178,12 @@ export const CONFIGURATION_SCHEMA = {
     umgebungen: {"$ref": "/Umgebungen"},
     time: {"$ref": "/Time"},
     filter: {"$ref": "/Filter"},
-    logtable: {"$ref": "/Logtable"},
-    messagetable: {"$ref": "/Messagetable"},
-    queuetable: {"$ref": "/Queuetable"},
-    queuetabletable: {"$ref": "/Queuetabletable"},
-    checkalivetable: {"$ref": "/Checkalivetable"},
-    statistikdata: {"$ref": "/Statistikdata"},
+    logtable: {"$ref": "/Table"},
+    messagetable: {"$ref": "/Table"},
+    queuetable: {"$ref": "/Table"},
+    queuetabletable: {"$ref": "/Table"},
+    checkalivetable: {"$ref": "/Table"},
+    statistikdata: {"$ref": "/Table"},
     presentation: {"$ref": "/Presentation"},
     mock: {"$ref": "/Mock"},
     advanced: {"$ref": "/Advanced"},
