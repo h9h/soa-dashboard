@@ -22,6 +22,8 @@ import { withRouter } from 'react-router-dom'
 import { getDashboardRoute } from '../logic/routes'
 import { LOG_SEARCH_TYPES } from '../logic/store'
 import { getDefaultFilterMethod, json2string } from '../logic/utils'
+import useWindowSize from './useWindowSize'
+import { getConfigurationValue } from '../logic/configuration'
 
 const log = Log('logtable')
 
@@ -100,6 +102,9 @@ export const UnconnectedLogTable = withRouter((props) => {
 
 const UnconnectedLogpointTable = ({ logs, defaultPageSize, pageSizes, setPageSize, ...props}) => {
   const {umgebung, datum, von, bis, searchType, searchValue} = props
+  const { height } = useWindowSize()
+  let barchartHeight = parseInt(getConfigurationValue('presentation.distribution.heightInPx'), 10)
+  if (barchartHeight < 20) barchartHeight = 0
 
   const [modal, setModal] = useState({show: false})
 
@@ -167,6 +172,7 @@ const UnconnectedLogpointTable = ({ logs, defaultPageSize, pageSizes, setPageSiz
           onPageSizeChange={setPageSize}
           defaultPageSize={defaultPageSize}
           SubComponent={getSubComponent}
+          style={{height: (height - barchartHeight - 120) + 'px'}}
           {...tableOptions}
         />
       </Col>

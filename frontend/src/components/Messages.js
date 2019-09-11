@@ -17,6 +17,7 @@ import moment from 'moment'
 import {
   updateConfiguration,
 } from '../logic/actions'
+import useWindowSize from './useWindowSize'
 
 const log = Log('messages')
 
@@ -75,6 +76,9 @@ const Messages = props => {
   const {umgebung, messageType, datumVon, datumBis, searchType, searchValue} = props
   log.trace('Messages for', umgebung, messageType, datumVon, datumBis, searchType, searchValue)
   const [haveJobsApi, setHaveJobsApi] = useState(false)
+
+  const { height } = useWindowSize()
+  const jobsHeight = haveJobsApi ? 160 : 0
 
   useEffect(() => {
     checkAliveFile(props.user).then((have) => setHaveJobsApi(have))
@@ -190,6 +194,7 @@ const Messages = props => {
               onPageSizeChange={handlePageSizeChange}
               defaultPageSize={props.defaultPageSize}
               getTdProps={getTdProps(setRow)}
+              style={{height: (height - jobsHeight - 120) + 'px'}}
             />
           </Col>
         </Row>

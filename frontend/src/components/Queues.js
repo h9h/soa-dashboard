@@ -10,12 +10,15 @@ import Log from '../log'
 import { connect } from 'react-redux'
 import { setFilterQueues, updateConfiguration } from '../logic/actions'
 import { sort } from 'ramda'
+import useWindowSize from './useWindowSize'
 
 const log = Log('queues')
 
 const Queues = props => {
   const {umgebung, database} = props
   log.trace('Queues for', umgebung, database)
+
+  const { height } = useWindowSize()
 
   const [queues, setQueues] = useState({status: 'loading'})
   const columns = getColumns()
@@ -75,6 +78,7 @@ const Queues = props => {
                   }
                 }
               }}
+              style={{height: (height - 120) + 'px'}}
             />
           </Col>
         </Row>

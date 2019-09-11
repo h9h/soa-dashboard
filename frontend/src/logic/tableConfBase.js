@@ -64,7 +64,7 @@ const DEFAULT_PROPS = {
   },
   Sender: {
     Header: 'Sender',
-    width: 220,
+    width: 200,
     aggregate: values => {
       return values.filter((v, i, a) => a.indexOf(v) === i).sort((a,) => a.indexOf('user') > 0 ? -1 : 1)
     },
@@ -112,7 +112,7 @@ const DEFAULT_PROPS = {
   },
   ServiceOperation: {
     Header: 'Service - Operation',
-    minWidth: 300,
+    minWidth: 250,
     ordnung: 25
   },
   SERVICE: {

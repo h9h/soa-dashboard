@@ -182,7 +182,7 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
           <FormControl as="select" value={localFilter.searchType} onChange={handleFilterChange('searchType')}>
             {searchTypes}
           </FormControl>
-          <div style={{width: `${width > 1600 ? '600' : '260'}px`}}>
+          <div style={{width: `${width > 1600 ? '700' : '260'}px`}}>
             <AutosuggestBox
               provider={LRUs[localFilter.searchType]}
               onChange={handleFilterChange('searchValue')}

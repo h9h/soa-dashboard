@@ -9,7 +9,7 @@ import { ServicecallStatistik } from './dc/ServicecallStatistik'
 import { AufrufStatistik } from './dc/AufrufStatistik'
 import dc from 'dc'
 import { RidgelineStatistik } from './dc/RidgelineStatistik'
-import { StatistikData } from './dc/StatistikData'
+import StatistikData from './dc/StatistikData'
 
 const log = Log('statistics')
 

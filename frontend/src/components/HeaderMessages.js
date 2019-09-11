@@ -139,7 +139,7 @@ export const HeaderForm = props => {
           <FormControl as="select" value={filter.searchType} onChange={handleFilterChange('searchType')} disabled={messageType === MESSAGE_TYPES_NAMES.REJECTED}>
             {searchTypes}
           </FormControl>
-          <div style={{width: `${width > 1600 ? '600' : '185'}px`}}>
+          <div style={{width: `${width > 1600 ? '600' : '145'}px`}}>
             <AutosuggestBox
               provider={LRUs[filter.searchType]}
               onChange={handleFilterChange('searchValue')}
