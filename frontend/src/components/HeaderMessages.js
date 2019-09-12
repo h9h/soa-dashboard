@@ -109,7 +109,7 @@ export const HeaderForm = props => {
         <Blank/>
         <Blank/>
       </Form>
-      <Form inline>
+      <Form inline onSubmit={e => e.preventDefault()}>
         <FormGroup controlId="datum.von">
           <Form.Label>Von: </Form.Label>
           <Blank/>

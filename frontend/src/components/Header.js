@@ -177,7 +177,7 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
           <Blank/>
         </FormGroup>
       </Form>
-      <Form inline>
+      <Form inline onSubmit={e => e.preventDefault()}>
         <FormGroup controlId="select.suchtyp">
           <FormControl as="select" value={localFilter.searchType} onChange={handleFilterChange('searchType')}>
             {searchTypes}
