@@ -115,12 +115,19 @@ export const getStatisticsData = async (umgebung, datumVon, datumBis) => {
   const partBus = partition(TIMING_BUS_BREAKPOINTS)
 
   statistics.forEach(row => {
-    if (row.SERVICE.endsWith('/')) row.SERVICE = row.SERVICE.substring(0, row.SERVICE.length - 1)
-    const shortService = row.SERVICE.substring(22) // schneide "http://svi.de/service/" weg
-    row.ShortName = row.SERVICE.substring(row.SERVICE.lastIndexOf('/') + 1)
-    row.ServiceOperation = shortService + ': ' + row.OPERATION
-    row.Domain = getDomain(shortService.split('/')[0])
-    row.ServiceTree = (shortService + '/' + row.OPERATION).split('/')
+    if (!row.SERVICE) {
+      row.ShortName = 'n.a.'
+      row.ServiceOperation = 'n.a.'
+      row.Domain = 'n.a.'
+      row.ServiceTree = ['n.a.', 'n.a.']
+    } else {
+      if (row.SERVICE.endsWith('/')) row.SERVICE = row.SERVICE.substring(0, row.SERVICE.length - 1)
+      const shortService = row.SERVICE.substring(22) // schneide "http://svi.de/service/" weg
+      row.ShortName = row.SERVICE.substring(row.SERVICE.lastIndexOf('/') + 1)
+      row.ServiceOperation = shortService + ': ' + row.OPERATION
+      row.Domain = getDomain(shortService.split('/')[0])
+      row.ServiceTree = (shortService + '/' + row.OPERATION).split('/')
+    }
     // bei negativen Werten müsste es sich um asynchrone Calls handeln, dann ist Gesamtzeit ein geeigneter Anhaltspunkt
     row.DURCHSCHNITT_BUS_ZEIT = (row.DURCHSCHNITT_GESAMT_ZEIT - row.DURCHSCHNITT_PROVIDER_ZEIT) < 0 ? row.DURCHSCHNITT_GESAMT_ZEIT : (row.DURCHSCHNITT_GESAMT_ZEIT - row.DURCHSCHNITT_PROVIDER_ZEIT)
     row.PartitionGesamtZeit = part(row.DURCHSCHNITT_GESAMT_ZEIT)
