@@ -11,10 +11,13 @@ import { sort } from 'ramda'
 import MessageModal from './MessageModal'
 import { connect } from 'react-redux'
 import { updateConfiguration } from '../logic/actions'
+import useWindowSize from './useWindowSize'
 const log = Log('queuedmessages')
 
 const QueuedMessages = ({ umgebung, database, queuetable, queue, ...props }) => {
   log.trace('QueuedMessages for', umgebung, database, queuetable, queue)
+
+  const { height } = useWindowSize()
 
   const [messages, setMessages] = useState({status: 'loading'})
   const [modal, setModal] = useState({show: false})
@@ -77,6 +80,7 @@ const QueuedMessages = ({ umgebung, database, queuetable, queue, ...props }) => 
                 }
               }
             }}
+            style={{ height: (height - 120) + 'px' }}
           />
         </Col>
       </Row>
