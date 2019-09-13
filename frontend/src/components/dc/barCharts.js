@@ -110,6 +110,7 @@ export const renderBarChartLogpoints = ({div, dimensions, setBis}) => {
   const chart = dc.barChart(d3.select(div));
 
   chart.margins().left = 100
+  chart.margins().bottom = 18
 
   const dimTime = dimensions.time
   const minDate = moment(dimTime.bottom(1)[0].time, 'YYYY-MM-DDTHH:mm:ss').toDate()
