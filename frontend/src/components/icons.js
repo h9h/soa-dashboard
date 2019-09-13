@@ -9,6 +9,8 @@ import {
   FaEnvelope,
   FaExclamationTriangle,
   FaExternalLinkAlt,
+  FaFastBackward,
+  FaFastForward,
   FaFilter,
   FaGithub,
   FaList,
@@ -18,6 +20,8 @@ import {
   FaReact,
   FaRegSave,
   FaShare,
+  FaStepBackward,
+  FaStepForward,
   FaSync,
 } from 'react-icons/fa'
 import { GoAlert, GoStop, GoBug, GoNote } from 'react-icons/go'
@@ -39,6 +43,14 @@ const log = Log('icons')
 
 export const Icon = ({ glyph, ...rest }) => {
   switch(glyph) {
+    case 'backwards':
+      return <FaStepBackward/>
+    case 'fast-backwards':
+      return <FaFastBackward/>
+    case 'forwards':
+      return <FaStepForward/>
+    case 'fast-forwards':
+      return <FaFastForward/>
     case 'checkalive':
       return <FaBroadcastTower/>
     case 'clearFilters':
