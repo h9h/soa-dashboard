@@ -1,6 +1,6 @@
 {
   "name": "soa-dashboard-frontend",
-  "version": "1.2.51",
+  "version": "1.2.52",
   "homepage": ".",
   "license": "MIT",
   "dependencies": {
