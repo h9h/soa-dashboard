@@ -5,6 +5,7 @@ const Router = require('koa-router')
 const bodyParser = require('koa-bodyparser')
 const cors = require('@koa/cors')
 const moment = require('moment')
+const version = require('../frontend/package.json').version
 
 const createApp = (router) => {
   const app = new Koa()
@@ -50,7 +51,8 @@ const createRouter = (config) => {
       result: true,
       env: config,
       'process-start': starttime.from(now),
-      'uptime-in-ms': now.valueOf() - starttime.valueOf()
+      'uptime-in-ms': now.valueOf() - starttime.valueOf(),
+      version
     }
   })
   return router
