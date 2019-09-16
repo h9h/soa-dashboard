@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import moment from 'moment'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -9,7 +9,32 @@ import { withNotification } from '../logic/notification'
 import { getConfigurationValue } from '../logic/configuration'
 import ButtonWithTip from './ButtonWithTip'
 import Form from 'react-bootstrap/Form'
-import Blank from './Blank'
+
+const PlayButton = ({title, description, glyph, setFilter, newTime}) => {
+  const [disabled, setDisabled] = useState(true)
+
+  useEffect(() => {
+    let interval = setInterval(() => {
+      const now = moment()
+      if (now.valueOf() > newTime.valueOf()) {
+        clearInterval(interval)
+        interval = null
+        setDisabled(false)
+      }
+    }, 1000);
+    return () => interval && clearInterval(interval);
+  }, [newTime, setFilter]);
+
+  return <ButtonWithTip
+    title={title}
+    description={description}
+    glyph={glyph}
+    variant="light"
+    size="sm"
+    disabled={disabled}
+    handleClick={() => setFilter(newTime.format('HH:mm:ss'))}
+  />
+}
 
 const LogpointDistribution = React.memo(({isEmpty, statistik, setBis}) => {
   if (isEmpty) return null
@@ -33,16 +58,15 @@ const LogpointDistribution = React.memo(({isEmpty, statistik, setBis}) => {
 
   const minDate = moment(dimensions.time.bottom(1)[0].time, 'YYYY-MM-DDTHH:mm:ss')
   const maxDate = moment(dimensions.time.top(1)[0].time, 'YYYY-MM-DDTHH:mm:ss')
-  const diffToNow = moment().diff(maxDate, 'minutes')
-
-  const setFilterBis = (duration) => () => {
-    const bis = (duration === 0 ? moment(minDate) : moment(duration < 0 ? minDate : maxDate).add(duration, 'minutes')).format('HH:mm:ss')
-    doSetBis(bis)
-  }
+  const { anzahl, unit } = getConfigurationValue('time.duration')
+  const timeFastBackwards = moment(minDate).subtract(anzahl, unit)
+  const timeBackwards = moment(minDate)
+  const timeForwards = moment(maxDate).add(maxDate.diff(minDate, 'seconds'), 'seconds')
+  const timeFastForwards = moment(maxDate).add(anzahl, unit)
 
   return (
-    <Row style={{ paddingBottom: '5px' }}>
-      <Col xs={1} style={{ backgroundColor: '#f8f9fa' }}>
+    <Row style={{paddingBottom: '5px'}}>
+      <Col xs={1} style={{backgroundColor: '#f8f9fa'}}>
         <Row>
           <Col>
             Logpunkte
@@ -67,43 +91,33 @@ const LogpointDistribution = React.memo(({isEmpty, statistik, setBis}) => {
         <Row>
           <Col>
             <Form inline>
-              <ButtonWithTip
-                title='Zurück 1h'
-                description='gehe eine Stunde zurück'
+              <PlayButton
+                title='Zurück 10m'
+                description={`gehe zu ${timeFastBackwards.format('HH:mm:ss')}`}
                 glyph='fast-backwards'
-                variant="light"
-                size="sm"
-                handleClick={setFilterBis(-60)}
+                setFilter={doSetBis}
+                newTime={timeFastBackwards}
               />
-              <Blank/>
-              <ButtonWithTip
+              <PlayButton
                 title='Zurück'
-                description='gehe zurück in der Zeit (vor "von")'
+                description='schiebe Intervall zurück'
                 glyph='backwards'
-                variant="light"
-                size="sm"
-                handleClick={setFilterBis(0)}
+                setFilter={doSetBis}
+                newTime={timeBackwards}
               />
-              <Blank/>
-              <Blank/>
-              <ButtonWithTip
+              <PlayButton
                 title='Vorwärts'
-                description='gehe vor in der Zeit (nach "bis")'
+                description='schiebe Intervall vor'
                 glyph='forwards'
-                variant="light"
-                size="sm"
-                disabled={diffToNow < 2}
-                handleClick={setFilterBis(1)}
+                setFilter={doSetBis}
+                newTime={timeForwards}
               />
-              <Blank/>
-              <ButtonWithTip
-                title='Vorwärts 1h'
-                description='gehe eine Stunde vor'
+              <PlayButton
+                title='Vorwärts 10m'
+                description={`gehe zu ${timeFastForwards.format('HH:mm:ss')}`}
                 glyph='fast-forwards'
-                variant="light"
-                size="sm"
-                disabled={diffToNow < 60}
-                handleClick={setFilterBis(60)}
+                setFilter={doSetBis}
+                newTime={timeFastForwards}
               />
             </Form>
           </Col>

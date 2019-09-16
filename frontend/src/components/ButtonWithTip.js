@@ -22,7 +22,7 @@ const ButtonWithTip = ({
     <FormGroup controlId={title}>
       <Tipp title={title} content={description} {...props}>
         <ButtonToolbar>
-          <Button onClick={handleClick} {...props} variant={variant} style={{ cursor: 'help' }}>
+          <Button onClick={handleClick} {...props} variant={variant} style={{ cursor: props.disabled ? 'default' : 'help' }}>
             {glyph && <Icon glyph={glyph} />}
             {glyph && text && <Blank/>}
             {text && text}
