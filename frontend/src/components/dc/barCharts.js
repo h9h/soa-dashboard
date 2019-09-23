@@ -110,6 +110,7 @@ export const renderBarChartLogpoints = ({div, dimensions, setBis}) => {
   const chart = dc.barChart(d3.select(div));
 
   chart.margins().left = 100
+  chart.margins().right = 10
   chart.margins().bottom = 18
 
   const dimTime = dimensions.time
@@ -122,7 +123,7 @@ export const renderBarChartLogpoints = ({div, dimensions, setBis}) => {
   chart
     .width(div.clientWidth)
     .height(div.clientHeight)
-    .x(d3.scaleTime().domain([minDate, maxDate]))
+    .x(d3.scaleTime().domain([minDate, maxDate]).nice())
     .legend(dc.legend().x(30).y(20).itemHeight(13).gap(5))
     .renderHorizontalGridLines(true)
     .dimension(dimTime)

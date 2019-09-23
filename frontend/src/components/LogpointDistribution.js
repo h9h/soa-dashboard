@@ -9,6 +9,7 @@ import { withNotification } from '../logic/notification'
 import { getConfigurationValue } from '../logic/configuration'
 import ButtonWithTip from './ButtonWithTip'
 import Form from 'react-bootstrap/Form'
+import useWindowSize from './useWindowSize'
 
 const PlayButton = ({title, description, glyph, setFilter, newTime}) => {
   const [disabled, setDisabled] = useState(true)
@@ -21,9 +22,9 @@ const PlayButton = ({title, description, glyph, setFilter, newTime}) => {
         interval = null
         setDisabled(false)
       }
-    }, 1000);
-    return () => interval && clearInterval(interval);
-  }, [newTime, setFilter]);
+    }, 1000)
+    return () => interval && clearInterval(interval)
+  }, [newTime, setFilter])
 
   return <ButtonWithTip
     title={title}
@@ -38,6 +39,7 @@ const PlayButton = ({title, description, glyph, setFilter, newTime}) => {
 
 const LogpointDistribution = React.memo(({isEmpty, statistik, setBis}) => {
   if (isEmpty) return null
+  const { width } = useWindowSize()
 
   const barchartHeight = parseInt(getConfigurationValue('presentation.distribution.heightInPx'), 10)
   if (barchartHeight < 20) return null
@@ -58,38 +60,51 @@ const LogpointDistribution = React.memo(({isEmpty, statistik, setBis}) => {
 
   const minDate = moment(dimensions.time.bottom(1)[0].time, 'YYYY-MM-DDTHH:mm:ss')
   const maxDate = moment(dimensions.time.top(1)[0].time, 'YYYY-MM-DDTHH:mm:ss')
-  const { anzahl, unit } = getConfigurationValue('time.duration')
+  const {anzahl, unit} = getConfigurationValue('time.duration')
   const timeFastBackwards = moment(minDate).subtract(anzahl, unit)
   const timeBackwards = moment(minDate)
   const timeForwards = moment(maxDate).add(maxDate.diff(minDate, 'seconds'), 'seconds')
   const timeFastForwards = moment(maxDate).add(anzahl, unit)
 
+  const nrColsControls = width < 1400 ? 2 : 1
+
   return (
-    <Row style={{paddingBottom: '5px'}}>
-      <Col xs={1} style={{backgroundColor: '#f8f9fa'}}>
+    <Row style={{marginTop: '0', marginLeft: '0', paddingBottom: "5px" }}>
+      <Col xs={nrColsControls} style={{border: '1px solid black', padding: '2px 5px 0px 5px'}}>
         <Row>
-          <Col>
-            Logpunkte
+          <Col style={{
+            textAlign: 'center',
+            paddingBottom: '5px',
+            paddingTop: '5px',
+            backgroundColor: '#f8f9fa',
+            margin: '0 10px 0 10px',
+            fontWeight: "bolder"
+          }}>
+            Range(Logs)
           </Col>
         </Row>
-        <Row>
-          <Col xs={3}>
-            von:
+        <Row style={{ paddingTop: "5px" }}>
+          <Col xs={4}>
+            Von:
           </Col>
-          <Col xs={9}>
+          <Col xs={8}>
             {minDate.format('HH:mm:ss')}
           </Col>
         </Row>
-        <Row>
-          <Col xs={3}>
-            bis:
+        <Row style={{paddingBottom: '5px'}}>
+          <Col xs={4}>
+            Bis:
           </Col>
-          <Col xs={9}>
+          <Col xs={8}>
             {maxDate.format('HH:mm:ss')}
           </Col>
         </Row>
-        <Row>
-          <Col>
+        <Row style={{ marginBottom: "0" }}>
+          <Col style={{
+            backgroundColor: '#f8f9fa',
+            margin: '0 10px 0 10px',
+            padding: "0"
+          }}>
             <Form inline>
               <PlayButton
                 title='Zurück 10m'
@@ -123,7 +138,7 @@ const LogpointDistribution = React.memo(({isEmpty, statistik, setBis}) => {
           </Col>
         </Row>
       </Col>
-      <Col xs={11} style={{height: `${barchartHeight}px`}}>
+      <Col xs={12 - nrColsControls} style={{height: `${barchartHeight}px`}}>
         <DataContext dimensions={dimensions} renderChart={renderBarChartLogpoints} setBis={doSetBis}/>
       </Col>
     </Row>
