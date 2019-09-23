@@ -63,6 +63,7 @@ const App = () => {
           <Switch>
             {/* Öffentlich zugänglich */}
             <Route exact path="/statistics/:umgebung/aktuell" component={PageStatistics}/>
+            <Route exact path="/statistics/:umgebung/:datumVon" component={PageStatistics}/>
             <Route path="/help" component={PageHelp}/>
             <Route path="/profile" component={PageProfile}/>
             <Route exact path="/checkalive" component={PageCheckalive}/>

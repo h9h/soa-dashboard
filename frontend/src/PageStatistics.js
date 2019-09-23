@@ -23,6 +23,9 @@ const PageStatistics = (props) => {
       datumVon = moment().subtract(1, 'days').format('YYYY-MM-DD')
       datumBis = datumVon
     }
+    if (datumVon && !datumBis) {
+      datumBis = datumVon
+    }
 
     if (umgebung) {
       log.trace('...mit Parametern', umgebung, datumVon, datumBis)
