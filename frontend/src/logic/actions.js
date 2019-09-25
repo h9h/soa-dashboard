@@ -41,11 +41,12 @@ export const setFilterCheckalive = (umgebung) => ({
   umgebung,
 })
 
-export const setFilterStatistics = (umgebung, datumStatVon, datumStatBis) => ({
+export const setFilterStatistics = (umgebung, datumStatVon, datumStatBis, statisticFlags) => ({
   type: 'setFilterStatistics',
   umgebung,
   datumStatVon,
   datumStatBis,
+  statisticFlags,
 })
 
 export const setView = (view) => ({

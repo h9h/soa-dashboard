@@ -42,7 +42,7 @@ const PageStatistics = (props) => {
           <Container fluid>
             <HeaderStandalone title={title}/>
             <BodyArea>
-              <UnconnectedInteractiveStatistics umgebung={umgebung} datumVon={datumVon} datumBis={datumBis} width={width}/>
+              <UnconnectedInteractiveStatistics umgebung={umgebung} datumVon={datumVon} datumBis={datumBis} width={width} statisticFlags={[]}/>
             </BodyArea>
           </Container>
         </>

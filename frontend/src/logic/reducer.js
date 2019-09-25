@@ -114,6 +114,7 @@ function reducer (state = {}, action) {
         umgebung: action.umgebung,
         datumStatVon,
         datumStatBis,
+        statisticFlags: action.statisticFlags
       }
     }
 

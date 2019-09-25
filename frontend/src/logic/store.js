@@ -47,6 +47,7 @@ export const initialState = () => {
     datumBis: moment().format('YYYY-MM-DD'),
     datumStatVon: moment().subtract(1, 'days').format('YYYY-MM-DD'),
     datumStatBis: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+    statisticFlags: [],
     messageType: MESSAGE_TYPES_NAMES.UNDELIVERED,
     view: defaultView,
     colorScheme: configuration.statistics.colorSchemes[defaultView] || 'Tableau10',

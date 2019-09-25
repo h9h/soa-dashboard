@@ -20,21 +20,27 @@ import { VIEWS } from '../logic/statistics'
 import SelectColorScheme from './dc/SelectColorScheme'
 import dc from 'dc'
 import { getConfigurationValue } from '../logic/configuration'
+import ButtonToolbar from 'react-bootstrap/ButtonToolbar'
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
+import ToggleButton from 'react-bootstrap/ToggleButton'
+import Tipp from './Tipp'
+import { Icon } from './icons'
+import { symmetricDifference } from 'ramda'
 
 const log = Log('headerstatistics')
 
 const HeaderStatistics = props => {
-  const {umgebung, datumVon, datumBis, view, colorScheme} = props
-  const [filter, changeFilter] = useState({umgebung, datumVon, datumBis})
+  const {umgebung, datumVon, datumBis, statisticFlags, view, colorScheme} = props
+  const [filter, changeFilter] = useState({umgebung, datumVon, datumBis, statisticFlags})
 
   useEffect(() => {
-    changeFilter({umgebung, datumVon, datumBis})
-  }, [umgebung, datumVon, datumBis])
+    changeFilter({umgebung, datumVon, datumBis, statisticFlags})
+  }, [umgebung, datumVon, datumBis, statisticFlags])
 
   const refresh = newFilter => {
     withNotification({
       nachricht: `Statistik wird für Umgebung ${newFilter.umgebung} geladen`,
-      fn: () => props.setFilterStatistics(newFilter.umgebung, newFilter.datumVon, newFilter.datumBis)
+      fn: () => props.setFilterStatistics(newFilter.umgebung, newFilter.datumVon, newFilter.datumBis, newFilter.statisticFlags)
     })
   }
 
@@ -44,8 +50,13 @@ const HeaderStatistics = props => {
 
     changeFilter(filter => {
       let newFilter
-
-      if (key === 'datumVon' || key === 'datumBis') {
+      if (key === 'flag') {
+        const flagValue = value.length > 0 ? symmetricDifference(filter.statisticFlags, value) : []
+        newFilter = {
+          ...filter,
+          statisticFlags: flagValue
+        }
+      } else if (key === 'datumVon' || key === 'datumBis') {
         const {datumVon, datumBis} = calculateNewDates(filter, key, value)
         newFilter = {
           ...filter,
@@ -59,7 +70,7 @@ const HeaderStatistics = props => {
         }
       }
 
-      if (key === 'umgebung') {
+      if (key === 'umgebung' || key === 'flag') {
         refresh(newFilter)
       }
 
@@ -118,6 +129,39 @@ const HeaderStatistics = props => {
             {filter.datumVon && filter.datumBis && (
               <>
                 <Blank/>
+                <FormGroup>
+                  <ButtonToolbar>
+                    <ToggleButtonGroup
+                      type="checkbox"
+                      name="properties"
+                      value={filter.statisticFlags}
+                      onChange={handleFilterChange('flag')}
+                    >
+                      <ToggleButton
+                        value="daylight"
+                        variant="light"
+                      >
+                        <Tipp
+                          title="Nur Tagsüber"
+                          content="Zeige nur Zeiten zwischen 06:00 und 20:00"
+                        >
+                          <Icon glyph="daylight"/>
+                        </Tipp>
+                      </ToggleButton>
+                      <ToggleButton
+                        value="night"
+                        variant="light"
+                      >
+                        <Tipp
+                          title="Nur Nachts"
+                          content="Zeige nur Zeiten zwischen 20:00 und 05:00"
+                        >
+                          <Icon glyph="night"/>
+                        </Tipp>
+                      </ToggleButton>
+                    </ToggleButtonGroup>
+                  </ButtonToolbar>
+                </FormGroup>
                 <ButtonWithTip
                   title="Statistik"
                   description="Lade Statistik"
@@ -160,11 +204,12 @@ export default connect(
     umgebung: state.umgebung,
     datumVon: state.datumStatVon,
     datumBis: state.datumStatBis,
+    statisticFlags: state.statisticFlags,
     view: state.view,
     colorScheme: state.colorScheme,
   }),
   dispatch => ({
-    setFilterStatistics: (umgebung, datumVon, datumBis) => dispatch(setFilterStatistics(umgebung, datumVon, datumBis)),
+    setFilterStatistics: (umgebung, datumVon, datumBis, statisticFlags) => dispatch(setFilterStatistics(umgebung, datumVon, datumBis, statisticFlags)),
     setView: view => dispatch(setView(view)),
     setColorScheme: colorScheme => dispatch(setColorScheme(colorScheme)),
   })

@@ -14,8 +14,8 @@ import StatistikData from './dc/StatistikData'
 const log = Log('statistics')
 
 export const UnconnectedInteractiveStatistics = props => {
-  const { umgebung, datumVon, datumBis, view = 'default', colorScheme = 'Tableau20' } = props
-  log.trace('Interactive Statistics for', umgebung, datumVon, datumBis, view)
+  const { umgebung, datumVon, datumBis, statisticFlags, view = 'default', colorScheme = 'Tableau20' } = props
+  log.trace('Interactive Statistics for', umgebung, datumVon, datumBis, statisticFlags, view)
 
   const [data, setData] = useState({status: 'loading'})
 
@@ -23,11 +23,11 @@ export const UnconnectedInteractiveStatistics = props => {
     setData({status: 'loading'})
     // hole daten
     const getData = async () => {
-      const { cf, dims } = await getStatisticsData(umgebung, datumVon, datumBis)
+      const { cf, dims } = await getStatisticsData(umgebung, datumVon, datumBis, statisticFlags)
       setData({ status: 'ready', cf, dims, datumVon, datumBis })
     }
     getData()
-  }, [umgebung, datumVon, datumBis])
+  }, [umgebung, datumVon, datumBis, statisticFlags])
 
   useEffect(() => {
     dc.filterAll()
@@ -65,5 +65,6 @@ export default connect(
     datumBis: state.datumStatBis,
     view: state.view,
     colorScheme: state.colorScheme,
+    statisticFlags: state.statisticFlags,
   })
 )(UnconnectedInteractiveStatistics)

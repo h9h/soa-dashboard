@@ -36,6 +36,7 @@ import {
 } from 'react-icons/io'
 import { MdHelp, MdTimeline, MdClearAll, MdContentCopy } from 'react-icons/md'
 import { TiCancel } from 'react-icons/ti'
+import { WiDaySunnyOvercast, WiMoonWaningCrescent2 } from 'react-icons/wi'
 import { Large, Larger } from './styles'
 
 import Log from '../log'
@@ -138,6 +139,10 @@ export const Icon = ({ glyph, ...rest }) => {
       return <FaExternalLinkAlt />
     case 'copyRoute':
       return <MdContentCopy />
+    case 'daylight':
+      return <WiDaySunnyOvercast />
+    case 'night':
+      return <WiMoonWaningCrescent2 />
     default:
       log.warn('Fix glyph: ' + glyph)
       return <FaQuestion />

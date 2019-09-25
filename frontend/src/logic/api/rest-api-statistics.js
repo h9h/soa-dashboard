@@ -62,9 +62,20 @@ const getDomain = text => {
   }
 }
 
-export const getStatisticsData = async (umgebung, datumVon, datumBis) => {
+const nullObject = o => ({
+  ...o,
+  DURCHSCHNITT_GESAMT_ZEIT: null,
+  DURCHSCHNITT_PROVIDER_ZEIT: null,
+  ANZAHLGESAMT: null,
+  ANZAHLFAULT: null
+})
+
+export const getStatisticsData = async (umgebung, datumVon, datumBis, statisticFlags) => {
   const trace = timeSpent(log.trace)
   const MOCK = getConfigurationValue('mock.doMock') === 'true'
+
+  const flagDaytime = statisticFlags === 'daylight' || statisticFlags.indexOf('daylight') > -1
+  const flagNighttime = statisticFlags === 'night' || statisticFlags.indexOf('night') > -1
 
   let dataArray
 
@@ -103,12 +114,17 @@ export const getStatisticsData = async (umgebung, datumVon, datumBis) => {
   trace('Collected arrays', { data, anzahlRows: data.rows.length })
 
   const statistics = data.rows.map(row => {
-    const object = keysAndRowToObject(data.header, row)
+    let object = keysAndRowToObject(data.header, row)
     const mom = moment(object.STARTTIMESTAMP, 'YYYY-MM-DDTHH:mm:SSZ')
     object.Zeit = mom.valueOf()
     object.Date = mom.toDate()
+
+    if (flagNighttime && (object.Date.getHours() > 5 && object.Date.getHours() < 21)) object = nullObject(object)
+    if (flagDaytime && (object.Date.getHours() <6 || object.Date.getHours() > 20)) object = nullObject(object)
+
     return object
   })
+
   trace('Created object', { beispiel: statistics[0], anzahlRows: statistics.length })
 
   const part = partition(TIMING_BREAKPOINTS)
