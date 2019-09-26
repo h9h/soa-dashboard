@@ -37,14 +37,18 @@ export default () => (
              src="./images/logtable.png"/>
       </li>
     </ul>
-    <Paragraph>Durch Klick auf den Spaltenkopf wird die jeweilige Spalte
+    <Paragraph>
+      Durch Klick auf den Spaltenkopf wird die jeweilige Spalte
       sortiert. Ein zweiter Klick kehrt die Sortierung um. Unterhalb des
       Spaltenkopfes besteht die Möglichkeit ein Filterkriterium
-      einzugeben.</Paragraph>
+      einzugeben.
+    </Paragraph>
     <Paragraph>Weitere Interaktionen sind mit den Zellen der Tabelle möglich,
-      dies ist im folgenden erläutert:</Paragraph>
-    <ComponentExplanation component={<MessageId
-      row={{value: messageId}}/>}>
+      dies ist im folgenden erläutert:
+    </Paragraph>
+    <ComponentExplanation component={
+      <MessageId row={{value: messageId}}/>
+    }>
       Eine einzelne Zeile der Tabelle stellt einen Servicecall dar. Zu einem
       Servicecall werden i.d.R. mehrere Logpunkte geschrieben. Die Tabellenzeile
       aggregiert daher über eine Message-ID. Bei Klick auf die Message-ID wird
@@ -78,5 +82,9 @@ export default () => (
       Netzwerkstrecke an.<br/>Bei Klick auf diese Zelle wird der Servicecall in
       einem separaten Browser-Tab mit einer teilbaren URL dargestellt.
     </ComponentExplanation>
+    <Paragraph>
+      Überall dort, wo der Mauszeiger durch ein kleines "+" annotiert wird, kopiert ein Mausklick
+      den entsprechenden Inhalt in für die Weiterverwendung geeigneter Form in die Zwischenablage.
+    </Paragraph>
   </Section>
 )

@@ -18,9 +18,13 @@ export default () => (
       Nachrichten analysiert werden, die nicht richtig verarbeitet wurden.
     </Paragraph>
     <Paragraph>
-      Schließlich gibt es noch die Seite "Statistik" - <Icon
+      Dann gibt es noch die Seite "Statistik" - <Icon
       glyph={'statistics'}/> - die verschiedene Sichten auf die Verteilung der
       Servicecalls darstellt.
+    </Paragraph>
+    <Paragraph>
+      Schließlich gibt es noch die Seite "Checkalive" - <Icon
+      glyph={'checkalive'}/> - die die Ergebnisse des Checkalive-Bursts darstellt.
     </Paragraph>
     <Paragraph>
       Falls die Jobs-API verfügbar ist, gibt es auch dazu eine Seite - <Icon

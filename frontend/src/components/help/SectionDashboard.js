@@ -89,6 +89,12 @@ export default () => (
       </ul>
       Wenn hiermit gesucht wird, dann wird der Suchzeitraum auf eine Stunde ausgedehnt. Daher kann die Suche ein paar Sekunden dauern.
     </ComponentExplanation>
+    <IconExplanation glyph="daylight">
+      Zeigt nur die Tagesdaten an (06:00 - 20:00).
+    </IconExplanation>
+    <IconExplanation glyph="night">
+      Zeigt nur die Daten der Nachtverarbeitung an (21:00 - 5:00).
+    </IconExplanation>
     <IconExplanation glyph="execute">
       führt die Selektion mit den eingegebenen Kriterien aus.
     </IconExplanation>
