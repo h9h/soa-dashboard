@@ -36,6 +36,10 @@ export const Bold = styled.span`
   font-weight: bold;
 `
 
+export const Bolder = styled.span`
+  font-weight: 600;
+`
+
 export const Small = styled.span`
   font-size: xx-small;
 `

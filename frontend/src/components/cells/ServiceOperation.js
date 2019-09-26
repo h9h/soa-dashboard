@@ -1,5 +1,5 @@
 import React from 'react'
-import { Smaller } from '../styles'
+import { Smaller, Bolder } from '../styles'
 import CopyToClipboard from '../CopyToClipboard'
 
 const ServiceOperation = ({row}) => {
@@ -12,7 +12,7 @@ const ServiceOperation = ({row}) => {
       </CopyToClipboard>
       <br/>
       <CopyToClipboard text={so[1]} notificationText="Operation">
-        <Smaller key={1}>{so[1]}</Smaller>
+        <Smaller key={1}><Bolder>{so[1]}</Bolder></Smaller>
       </CopyToClipboard>
     </>
   )
