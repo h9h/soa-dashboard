@@ -6,7 +6,7 @@ import { legendTiming, TIMINGS } from './utils'
 
 const cx = (div) => div.clientWidth/3
 
-const createPieChart = (div, colorScheme, legend = d => d.name) => {
+const createPieChart = ({ div, colorScheme, legend = d => d.name, onlyLegend = false }) => {
   const colors = getColorFunction(colorScheme)
 
   const centre = cx(div)
@@ -16,7 +16,7 @@ const createPieChart = (div, colorScheme, legend = d => d.name) => {
   const chart = dc.pieChart(div)
   chart
     .ordinalColors(colors)
-    .innerRadius(Math.min(50, centre/2))
+    .innerRadius(onlyLegend ? radius : Math.min(50, centre/2))
     .radius(radius)
     .externalRadiusPadding(0)
     .cx(centre)
@@ -25,11 +25,11 @@ const createPieChart = (div, colorScheme, legend = d => d.name) => {
   return chart
 }
 
-export const renderPieChartDomain = ({div, dimensions, colorScheme}) => {
+export const renderPieChartDomain = ({div, dimensions, colorScheme, onlyLegend = false}) => {
   const dimension = dimensions.domain
   const anzahl = dimension.group().reduce(...reduceIdentity())
 
-  const chart = createPieChart(div, colorScheme)
+  const chart = createPieChart({ div, colorScheme, onlyLegend })
   chart
     .dimension(dimension)
     .group(anzahl)
@@ -37,7 +37,7 @@ export const renderPieChartDomain = ({div, dimensions, colorScheme}) => {
 
   chart.render()
 
-  chart.on('postRender', () => setChartTitle(div, 'Domäne'))
+  if (!onlyLegend) chart.on('postRender', () => setChartTitle(div, 'Domäne'))
 }
 
 function setChartTitle (div, text) {
@@ -56,7 +56,7 @@ export const renderPieChartWelcherBus = ({div, dimensions, colorScheme}) => {
   const busDim = dimensions.bus
   const anzahl = busDim.group().reduceSum(dc.pluck('ANZAHLGESAMT'))
 
-  const chart = createPieChart(div, colorScheme)
+  const chart = createPieChart({ div, colorScheme })
   chart
     .dimension(busDim)
     .group(anzahl)
@@ -68,7 +68,7 @@ export const renderPieChartWelcherBus = ({div, dimensions, colorScheme}) => {
 
 export const renderPieChartTiming = timingKey => ({div, dimensions, colorScheme}) => {
   const breakpoints = timingKey === TIMINGS.BUS ? TIMING_BUS_BREAKPOINTS : TIMING_BREAKPOINTS
-  const chart = createPieChart(div, colorScheme, legendTiming(breakpoints))
+  const chart = createPieChart({ div, colorScheme, legend: legendTiming(breakpoints) })
 
   const timingDim = dimensions[timingKey.key]
   const anzahl = timingDim.group().reduceCount()
@@ -84,7 +84,7 @@ export const renderPieChartTiming = timingKey => ({div, dimensions, colorScheme}
 }
 
 export const renderPieChartMep = ({div, dimensions, colorScheme}) => {
-  const chart = createPieChart(div, colorScheme)
+  const chart = createPieChart({ div, colorScheme })
 
   const mepDim = dimensions.mep
   const anzahl = mepDim.group().reduceSum(dc.pluck('ANZAHLGESAMT'))

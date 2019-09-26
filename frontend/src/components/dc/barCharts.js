@@ -4,6 +4,7 @@ import * as d3 from 'd3'
 import { TIMING_BREAKPOINTS, TIMING_BUS_BREAKPOINTS } from '../../logic/api/rest-api-statistics'
 import { COLOR_SCHEMES, legendTiming, TIMINGS } from './utils'
 import moment from 'moment'
+import { renderPieChartDomain } from './pieCharts'
 
 const cx = (div) => div.clientHeight
 const widthLegend = 250
@@ -157,20 +158,21 @@ export const renderBarChartLogpoints = ({div, dimensions, setBis}) => {
 export const renderBarChartDomain = ({div, dimensions, colorScheme}) => {
   const dimension = dimensions.domain
   const domains = dimension.group().reduceSum(dc.pluck('ANZAHLGESAMT'))
-  const all = domains.top(Infinity)
   const colors = getColorFunction(colorScheme)
   const height = cx(div)
+  const withLegend = div.clientWidth >= minWidthForLegend
 
-  const chart = dc.barChart(div)
+  const leftDiv = d3.select(div).append('div').attr('style', withLegend ? 'float: left; width: 66%;' : 'width: 100%;')
+  const chart = dc.barChart(leftDiv)
 
   chart.margins().left = 60
-  chart.margins().right = div.clientWidth < minWidthForLegend ? 20 : widthLegend
+  chart.margins().right = 20
 
   chart.ordinalColors(colors)
 
   chart
     .colorAccessor(d => d.key)
-    .width(div.clientWidth)
+    .width(leftDiv.clientWidth)
     .height(height)
     .x(d3.scaleBand())
     .xUnits(dc.units.ordinal)
@@ -183,8 +185,8 @@ export const renderBarChartDomain = ({div, dimensions, colorScheme}) => {
 
   chart.render()
 
-  if (div.clientWidth >= minWidthForLegend) {
-    const text = d3.range(all.length).map(d => all[d].key).sort()
-    chart.on('postRender', () => setChartTitleAndLegend(div, null, text, colors, true))
+  if (withLegend) {
+    const rightDiv = d3.select(div).append('div').attr('style', 'float: left; width: 33%;')
+    renderPieChartDomain({ div: rightDiv, dimensions, colorScheme, onlyLegend: true })
   }
 }

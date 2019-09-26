@@ -1,7 +1,7 @@
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { Centered } from '../styles'
-import { renderPieChartMep, renderPieChartWelcherBus } from './pieCharts'
+import { renderPieChartMep } from './pieCharts'
 import { renderBarChartTiming} from './barCharts'
 import React from 'react'
 import { TIMINGS } from './utils'
@@ -17,11 +17,6 @@ const ChartsVerteilung = ({render}) => (
           <h3>Verteilungen</h3>
         </Centered>
       </Col>
-    </Row>
-    <Row>
-      <SelectorCol>
-        {render(renderPieChartWelcherBus)}
-      </SelectorCol>
     </Row>
     <Row>
       <SelectorCol>

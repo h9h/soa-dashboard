@@ -8,7 +8,7 @@ import { SelectorCol, VeryHighSelectorCol } from './dcStyles'
 import { renderBarChartDomain, renderBarChartTiming } from './barCharts'
 import { TIMINGS } from './utils'
 import { renderSunburstChart } from './sunburstChart'
-import { renderPieChartDomain, renderPieChartMep, renderPieChartWelcherBus } from './pieCharts'
+import { renderPieChartMep, renderPieChartWelcherBus } from './pieCharts'
 import { renderLineChartAnzahlCalls, renderLineChartTimingCalls } from './lineCharts'
 import { Centered } from '../styles'
 import { getConfigurationValue } from '../../logic/configuration'
@@ -71,9 +71,6 @@ export function AllgemeineStatistik (props) {
           </Col>
           <SelectorCol xs={12}>
             {render(renderBarChartDomain)}
-          </SelectorCol>
-          <SelectorCol xs={12}>
-            {render(renderPieChartDomain)}
           </SelectorCol>
           <VeryHighSelectorCol>
             {render(renderSunburstChart)}

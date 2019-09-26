@@ -112,7 +112,7 @@ export const renderLineChartAnzahlCalls = ({div, dimensions, colorScheme}) => {
 export const renderLineChartTimingCalls = ({div, dimensions, colorScheme}) => {
   const chart = createCompositeChart(div, colorScheme, dimensions)
   chart
-    .yAxisLabel('Durchschnittliche Antwortzeit (ms)')
+    .yAxisLabel('Durchschnitt Antwort (ms)')
     .compose([
       createChartAntwortzeit(chart, dimensions),
       createChartVerarbeitungszeit(chart, dimensions)

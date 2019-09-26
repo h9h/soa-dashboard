@@ -10,8 +10,8 @@ import FormControl from 'react-bootstrap/FormControl'
 import Blank from '../Blank'
 import styled from 'styled-components'
 import { renderSunburstChart } from './sunburstChart'
-import { renderPieChartDomain, renderPieChartMep } from './pieCharts'
-import { renderBarChartTiming } from './barCharts'
+import { renderPieChartMep } from './pieCharts'
+import { renderBarChartDomain, renderBarChartTiming } from './barCharts'
 import { connect } from 'react-redux'
 import { setRidgelineDimension, setRidgelineWert } from '../../logic/actions'
 import { renderChartBrush } from './lineCharts'
@@ -58,7 +58,7 @@ const UnconnectedRidgelineStatistik = (props) => {
   const render = useMemo(() => renderPlot(props.data, props.colorscheme), [props.data, props.colorscheme])
 
   const brush = useMemo(() => render(renderChartBrush({left: 235, right: 38}, setRange)), [render])
-  const pieDomain = useMemo(() => render(renderPieChartDomain), [render])
+  const barDomain = useMemo(() => render(renderBarChartDomain), [render])
   const sunDomain = useMemo(() => render(renderSunburstChart), [render])
   const pieMep = useMemo(() => render(renderPieChartMep), [render])
   const histGesamt = useMemo(() => render(renderBarChartTiming(TIMINGS.GESAMT)), [render])
@@ -101,7 +101,7 @@ const UnconnectedRidgelineStatistik = (props) => {
           <Col xs={3}>
             <Row>
               <SelectorCol>
-                {pieDomain}
+                {barDomain}
               </SelectorCol>
             </Row>
             <Row>

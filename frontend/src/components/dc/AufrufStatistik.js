@@ -5,7 +5,6 @@ import * as PropTypes from 'prop-types'
 import { Centered } from '../styles'
 import { renderChartBrush, renderLineChartAnzahlCalls, renderLineChartTimingCalls, } from './lineCharts'
 import { renderPlot } from './dcUtils'
-import { renderPieChartDomain } from './pieCharts'
 import { renderSunburstChart } from './sunburstChart'
 import { renderRowChartListServices } from './rowCharts'
 import { renderBarChartDomain, renderBarChartTiming } from './barCharts'
@@ -20,7 +19,6 @@ export function AufrufStatistik (props) {
   const lineTiming = render(renderLineChartTimingCalls)
   const rowService = render(renderRowChartListServices)
 
-  const pieDomain = render(renderPieChartDomain)
   const sunDomain = render(renderSunburstChart)
   const barDomain = render(renderBarChartDomain)
   const histGesamt = render(renderBarChartTiming(TIMINGS.GESAMT))
@@ -67,11 +65,6 @@ export function AufrufStatistik (props) {
         <Row>
           <SelectorCol>
             {barDomain}
-          </SelectorCol>
-        </Row>
-        <Row>
-          <SelectorCol>
-            {pieDomain}
           </SelectorCol>
         </Row>
         <Row>
