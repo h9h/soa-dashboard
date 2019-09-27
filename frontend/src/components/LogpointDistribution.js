@@ -77,7 +77,7 @@ const LogpointDistribution = React.memo(({isEmpty, statistik, setBis}) => {
             paddingBottom: '5px',
             paddingTop: '5px',
             backgroundColor: '#f8f9fa',
-            margin: '0 10px 0 10px',
+            margin: '0 10px 0 11px',
             fontWeight: "bolder"
           }}>
             Range(Logs)
@@ -102,7 +102,7 @@ const LogpointDistribution = React.memo(({isEmpty, statistik, setBis}) => {
         <Row style={{ marginBottom: "0" }}>
           <Col style={{
             backgroundColor: '#f8f9fa',
-            margin: '0 10px 0 10px',
+            margin: '0 10px 0 11px',
             padding: "0"
           }}>
             <Form inline>
