@@ -51,7 +51,7 @@ export const checkValidUser = (user) => {
   try {
     if (!user.timestamp) return false
 
-    if (moment().subtract(1, 'hours').valueOf() > user.timestamp) {
+    if (moment().subtract(12, 'hours').valueOf() > user.timestamp) {
       log.trace('invalidating expired session')
       return false
     }
