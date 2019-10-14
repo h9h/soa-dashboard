@@ -15,7 +15,8 @@ export const LOG_SEARCH_TYPES = {
   REFERENCE: 'Referenz',
   SENDERFQN: 'Sender-FQN',
   MESSAGEID: 'Message-Id',
-  SERVICE: 'Service-Namespace'
+  SERVICE: 'Service-Namespace',
+  PROCESS_INSTANCE_ID: 'ProcessInstance-Id'
 }
 
 export const initialState = () => {

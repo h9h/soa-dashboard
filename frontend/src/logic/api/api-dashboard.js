@@ -32,6 +32,8 @@ const getSearchTypeUrl = searchType => {
       return 'senderFQN'
     case LOG_SEARCH_TYPES.SERVICE:
       return 'serviceNamespace'
+    case LOG_SEARCH_TYPES.PROCESS_INSTANCE_ID:
+      return 'processInstanceId'
     default:
       alert('Programmierfehler: URL für' + searchType + ' fehlt')
       return '___URL___'
