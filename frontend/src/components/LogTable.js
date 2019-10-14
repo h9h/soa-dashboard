@@ -87,17 +87,26 @@ export const UnconnectedLogTable = withRouter((props) => {
   const decodedSearchValue = decodeURIComponent(searchValue)
   const result = useFetch({umgebung, datum, von, bis, searchType, searchValue: decodedSearchValue})
 
-  if (result.status === 'loading') return <WartenAnzeiger/>
-  if (result.status === 'error') return (
-    <div>
-      <h2>Error</h2>
-      <p>{json2string(result)}</p>
-    </div>
-  )
-
-  if (result.status === 'ready') return <LogpointTable logs={result} {...props} />
-
-  return <div>Unbekannter Zustand</div>
+  switch(result.status) {
+    case 'ready':
+      return <LogpointTable logs={result} {...props} />
+    case 'loading':
+      return <WartenAnzeiger />
+    case 'error':
+      return (
+        <div>
+          <h2>Error</h2>
+          <p>{json2string(result)}</p>
+        </div>
+      )
+    default:
+      return (
+        <div>
+          <h2>Unbekannter Zustand</h2>
+          <p>{json2string(result)}</p>
+        </div>
+      )
+  }
 })
 
 const UnconnectedLogpointTable = ({ logs, defaultPageSize, pageSizes, setPageSize, ...props}) => {
