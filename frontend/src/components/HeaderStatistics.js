@@ -78,6 +78,8 @@ const HeaderStatistics = props => {
     })
   }
 
+  const handleClickExportCsv = props.onClickExportCsv || (() => {})
+
   return (
     <Navbar bg="light" expand="lg" key="navbar" fixed="top">
       <Navbar.Brand href="/">
@@ -183,6 +185,14 @@ const HeaderStatistics = props => {
                 dc.filterAll()
                 dc.renderAll()
               }}
+            />
+            <Blank/>
+            <Blank/>
+            <ButtonWithTip
+              title="CSV"
+              description="Exportiere Daten als CSV"
+              glyph="exportCsv"
+              handleClick={handleClickExportCsv}
             />
           </Form>
         </Nav>

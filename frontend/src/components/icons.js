@@ -11,6 +11,7 @@ import {
   FaExternalLinkAlt,
   FaFastBackward,
   FaFastForward,
+  FaFileCsv,
   FaFilter,
   FaGithub,
   FaList,
@@ -56,6 +57,8 @@ export const Icon = ({ glyph, ...rest }) => {
       return <FaBroadcastTower/>
     case 'clearFilters':
       return <MdClearAll />
+    case 'exportCsv':
+      return <FaFileCsv/>
     case 'cancel':
       return <TiCancel />
     case 'danger':

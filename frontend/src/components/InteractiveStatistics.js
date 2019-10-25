@@ -1,8 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import WartenAnzeiger from './WartenAnzeiger'
-import { connect } from 'react-redux'
-import { getStatisticsData } from '../logic/api/rest-api-statistics'
-import Log from '../log'
 import { AllgemeineStatistik } from './dc/AllgemeineStatistik'
 import { VIEWS } from '../logic/statistics'
 import { ServicecallStatistik } from './dc/ServicecallStatistik'
@@ -11,23 +8,8 @@ import dc from 'dc'
 import { RidgelineStatistik } from './dc/RidgelineStatistik'
 import StatistikData from './dc/StatistikData'
 
-const log = Log('statistics')
-
-export const UnconnectedInteractiveStatistics = props => {
-  const { umgebung, datumVon, datumBis, statisticFlags, view = 'default', colorScheme = 'Tableau20' } = props
-  log.trace('Interactive Statistics for', umgebung, datumVon, datumBis, statisticFlags, view)
-
-  const [data, setData] = useState({status: 'loading'})
-
-  useEffect(() => {
-    setData({status: 'loading'})
-    // hole daten
-    const getData = async () => {
-      const { cf, dims } = await getStatisticsData(umgebung, datumVon, datumBis, statisticFlags)
-      setData({ status: 'ready', cf, dims, datumVon, datumBis })
-    }
-    getData()
-  }, [umgebung, datumVon, datumBis, statisticFlags])
+const InteractiveStatistics = props => {
+  const { data, datumVon, datumBis, view, colorScheme } = props
 
   useEffect(() => {
     dc.filterAll()
@@ -58,13 +40,4 @@ export const UnconnectedInteractiveStatistics = props => {
   return null
 }
 
-export default connect(
-  state => ({
-    umgebung: state.umgebung,
-    datumVon: state.datumStatVon,
-    datumBis: state.datumStatBis,
-    view: state.view,
-    colorScheme: state.colorScheme,
-    statisticFlags: state.statisticFlags,
-  })
-)(UnconnectedInteractiveStatistics)
+export default InteractiveStatistics

@@ -1,22 +1,21 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Container from 'react-bootstrap/Container'
 import HeaderStatistics from './components/HeaderStatistics'
 import BodyArea from './components/BodyArea'
 import Log from './log'
-import InteractiveStatistics, { UnconnectedInteractiveStatistics } from './components/InteractiveStatistics'
+import InteractiveStatistics from './components/InteractiveStatistics'
 import { Helmet } from 'react-helmet'
 import useWindowSize from './components/useWindowSize'
 import moment from 'moment'
 import HeaderStandalone from './components/HeaderStandalone'
+import { connect } from 'react-redux'
+import { getStatisticsData } from './logic/api/rest-api-statistics'
 
 const log = Log('pagestatistics')
 
 const formatDatum = d => moment(d, 'YYYY-MM-DD').format('DD.MM.YYYY')
 
 const PageStatistics = (props) => {
-  log.trace('Mount PageStatistics')
-  const { width } = useWindowSize()
-
   if (props && props.match && props.match.params) {
     let {match: {params: { umgebung, datumVon, datumBis }}} = props
     if (window.location.href.endsWith('/aktuell')) {
@@ -35,30 +34,70 @@ const PageStatistics = (props) => {
       </div>
 
       return (
-        <>
-          <Helmet>
-            <title>Statistik {umgebung}</title>
-          </Helmet>
-          <Container fluid>
-            <HeaderStandalone title={title}/>
-            <BodyArea>
-              <UnconnectedInteractiveStatistics umgebung={umgebung} datumVon={datumVon} datumBis={datumBis} width={width} statisticFlags={[]}/>
-            </BodyArea>
-          </Container>
-        </>
+        <InnerPageStatistics
+          header={() => <HeaderStandalone title={title}/>}
+          umgebung={umgebung}
+          datumVon={datumVon}
+          datumBis={datumBis}
+          statisticFlags={[]}
+        />
       )
     }
+  }
+
+  const ConnectedInnerPageStatistics = connect(
+    state => ({
+      umgebung: state.umgebung,
+      datumVon: state.datumStatVon,
+      datumBis: state.datumStatBis,
+      view: state.view,
+      colorScheme: state.colorScheme,
+      statisticFlags: state.statisticFlags,
+    })
+  )(InnerPageStatistics)
+
+
+  return (
+    <ConnectedInnerPageStatistics header={handleClick => <HeaderStatistics onClickExportCsv={handleClick} />}/>
+  )
+}
+
+const InnerPageStatistics = (props) => {
+  log.trace('Mount InnerPageStatistics')
+  const { umgebung, datumVon, datumBis, statisticFlags, view = 'default', colorScheme = 'Tableau20' } = props
+  const { width } = useWindowSize()
+
+  const [data, setData] = useState({status: 'loading'})
+
+  useEffect(() => {
+    setData({status: 'loading'})
+    // hole daten
+    const getData = async () => {
+      const { cf, dims } = await getStatisticsData(umgebung, datumVon, datumBis, statisticFlags)
+      setData({ status: 'ready', cf, dims, datumVon, datumBis })
+    }
+    getData()
+  }, [umgebung, datumVon, datumBis, statisticFlags])
+
+  const handleClickExportCsv = () => {
+    alert('exportCsv geclickt ' + data.status)
   }
 
   return (
     <>
       <Helmet>
-        <title>Statistik</title>
+        <title>Statistik {umgebung}</title>
       </Helmet>
       <Container fluid>
-        <HeaderStatistics/>
+        {props.header(handleClickExportCsv)}
         <BodyArea>
-          <InteractiveStatistics width={width}/>
+          <InteractiveStatistics
+            data={data}
+            datumVon={datumVon}
+            datumBis={datumBis}
+            width={width}
+            view={view}
+            colorScheme={colorScheme}/>
         </BodyArea>
       </Container>
     </>
