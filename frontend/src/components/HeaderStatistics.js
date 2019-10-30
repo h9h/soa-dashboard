@@ -193,6 +193,7 @@ const HeaderStatistics = props => {
               description="Exportiere Daten als CSV"
               glyph="exportCsv"
               handleClick={handleClickExportCsv}
+              disabled={true}
             />
           </Form>
         </Nav>
