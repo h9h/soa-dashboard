@@ -6,6 +6,7 @@ import crossfilter from 'crossfilter2'
 import { STATISTIC } from '../mock/statistic'
 import { getConfigurationValue } from '../configuration'
 import { getEsbUrl } from './api-dashboard'
+import { sendInfo } from '../../App'
 
 const log = Log('rest-api-statistics')
 
@@ -95,7 +96,9 @@ export const getStatisticsData = async (umgebung, datumVon, datumBis, statisticF
       const endeWert = moment(ende).subtract(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
       ende.subtract(sliceFetchStatisticsHours, 'hours')
       const beginnWert = moment.max(ende, beginn).format('YYYY-MM-DDTHH:mm:ss')
-      urls.push(`${getEsbUrl(umgebung)}/dashboard/Statistic?from=${beginnWert}&to=${endeWert}`)
+      const url = `${getEsbUrl(umgebung)}/dashboard/Statistic?from=${beginnWert}&to=${endeWert}`
+      sendInfo(`API Statistik: ${url}`)
+      urls.push(url)
     }
     trace(urls.length + ' calls', { urls })
 
@@ -154,6 +157,7 @@ export const getStatisticsData = async (umgebung, datumVon, datumBis, statisticF
 
   const cf = crossfilter(statistics)
   trace('Created crossfilter', { cfSize: cf.size() })
+  sendInfo(`Anzahl Statistiksätze: ${cf.size()}`)
 
   const dims = {
     zeit: cf.dimension(d => d.Date),

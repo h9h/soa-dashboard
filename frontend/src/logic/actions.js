@@ -94,3 +94,8 @@ export const updateConfiguration = (values) => ({
   type: 'updateConfiguration',
   values
 })
+
+export const sendStatusInfo = info => ({
+  type: 'sendStatusInfo',
+  info
+})

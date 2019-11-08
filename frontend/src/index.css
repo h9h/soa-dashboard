@@ -171,3 +171,8 @@ textarea {
     background-color: #337ab7;
     color: #fff;
 }
+
+.smallfont {
+    font-size: 12px;
+    background-color: transparent;
+}

@@ -25,6 +25,7 @@ import { initialState } from './logic/store'
 
 import Log from './log'
 import { getConfigurationValue } from './logic/configuration'
+import { sendStatusInfo } from './logic/actions'
 const log = Log('app')
 
 // Lazy Load die einzelnen Seiten
@@ -43,6 +44,8 @@ const PageHelp = lazy(() => import('./PageHelp'))
 const PageServicecall = lazy(() => import('./PageServicecall'))
 const Statusleiste = lazy(() => import('./Statusleiste'))
 
+export let sendInfo = () => {}
+
 const App = () => {
   log.info('Render ESB-Dashboard')
   const store = createStore(
@@ -52,6 +55,8 @@ const App = () => {
       trace: getConfigurationValue('mock.doMock') === 'true'
     })
   )
+
+  sendInfo = info => store.dispatch(sendStatusInfo(info))
 
   return (
     <Provider store={store}>

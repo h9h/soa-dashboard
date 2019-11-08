@@ -11,10 +11,22 @@ import { rightToViewProps } from './logic/authorization'
 import LinkButton from './components/LinkButton'
 import Logo from './Logo'
 import Tipp from './components/Tipp'
+import Form from 'react-bootstrap/Form'
+import FormControl from 'react-bootstrap/FormControl'
+import useWindowSize from './components/useWindowSize'
 
-const Impressum = ({ version }) => {
+const Impressum = ({version, width}) => {
+  if (width < 1600) {
+    return (
+      <span style={{position: 'absolute', margin: '0', top: '30%'}}>
+      v{version}
+    </span>
+    )
+  }
+
   const copyright = process.env.REACT_APP_COPYRIGHT
   const jahr = moment().format('YYYY')
+
   return (
     <span style={{position: 'absolute', margin: '0', top: '30%'}}>
       SOA-Dashboard {jahr} v{version} {`made with 💜 and ☕ by ${copyright}`}
@@ -25,16 +37,19 @@ const Impressum = ({ version }) => {
 const LogoSmall = () => <Logo style={{height: '35px', paddingRight: '50px'}}/>
 
 const Statusleiste = (props) => {
+  const {width} = useWindowSize()
   const version = process.env.REACT_APP_VERSION
   const recipient = process.env.REACT_APP_FEEDBACK_MAIL
   const mail = `mailto://${recipient}?subject=Feedback zum ESB-Dashboard - v ${version}&body=`
-  const repo = "https://github.com/h9h/soa-dashboard"
-  const bug = "https://github.com/h9h/soa-dashboard/issues/new?template=bug_report.md&title=%5BBUG%5D"
-  const feature = "https://github.com/h9h/soa-dashboard/issues/new?&template=feature_request.md&title=%5BFEATURE%5D"
+  const repo = 'https://github.com/h9h/soa-dashboard'
+  const bug = 'https://github.com/h9h/soa-dashboard/issues/new?template=bug_report.md&title=%5BBUG%5D'
+  const feature = 'https://github.com/h9h/soa-dashboard/issues/new?&template=feature_request.md&title=%5BFEATURE%5D'
 
   const [show, setShow] = useState(false)
   const doShow = () => setShow(true)
   const handleHide = () => setShow(false)
+
+  const infoItems = props.infos.slice(0,10).map(info => <option key={info}>{info.length > 100 ? `...${info.substring(info.length - 100)}` : info}</option>)
 
   return (
     <>
@@ -47,28 +62,35 @@ const Statusleiste = (props) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav"/>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <LogoSmall />
+            <LogoSmall/>
             <Nav.Item>
-              <Impressum version={version} />
+              <Impressum version={version} width={width}/>
             </Nav.Item>
           </Nav>
+          <Form inline>
+            <FormControl className="smallfont" as="select" value={props.infos[0]}>
+              {infoItems}
+            </FormControl>
+          </Form>
           <Nav className="justify-content-end">
             {rightToViewProps(props.user) && (
-              <Button onClick={doShow} variant="light">
-                <Icon glyph='dev'/>
-              </Button>
+              <Form inline>
+                <Button onClick={doShow} variant="light">
+                  <Icon glyph='dev'/>
+                </Button>
+              </Form>
             )}
             <Tipp title="Github" content="Zu den Sourcen" placement="top">
-              <LinkButton href={repo} glyph="github" />
+              <LinkButton href={repo} glyph="github"/>
             </Tipp>
             <Tipp title="Bug" content="Lege einen Bug-Report an" placement="top">
-              <LinkButton href={bug} glyph="bug" />
+              <LinkButton href={bug} glyph="bug"/>
             </Tipp>
             <Tipp title="Feature" content="Lege ein Feature-Request an" placement="top">
-              <LinkButton href={feature} glyph="feature" />
+              <LinkButton href={feature} glyph="feature"/>
             </Tipp>
             <Tipp title="Email" content="Sonstiges Feedback" placement="top">
-              <LinkButton href={mail} text="Feedback" />
+              <LinkButton href={mail} text="Feedback"/>
             </Tipp>
           </Nav>
         </Navbar.Collapse>

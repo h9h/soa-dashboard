@@ -181,6 +181,13 @@ function reducer (state = {}, action) {
       }
     }
 
+    case 'sendStatusInfo': {
+      return {
+        ...state,
+        infos: [action.info].concat(state.infos),
+      }
+    }
+
     default:
       return state
   }

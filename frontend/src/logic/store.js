@@ -54,6 +54,7 @@ export const initialState = () => {
     colorScheme: configuration.statistics.colorSchemes[defaultView] || 'Tableau10',
     ridgelineDimension: 'operation',
     ridgelineWert: 'anzahlGesamt',
-    database: 'ME'
+    database: 'ME',
+    infos: ['Anwendung initialisiert']
   }
 }

@@ -57,24 +57,24 @@ export const getLogpoints = (filter, cb) => {
     url = `${url}&${searchTypeUrl}=${encodeURIComponent(searchValue)}`
   }
 
-  getData(API.LOGPOINT, url, cb, filter)
+  getData(API.LOGPOINT, url, cb, filter, `Zeitraum von ${adjustedVon} bis ${bis}`)
 }
 
 export const getService = (filter, cb) => {
   const {umgebung, id} = filter
   const url = `${getEsbUrl(umgebung)}/dashboard/Messages/${id}`
-  getData(API.MESSAGE, url, cb, filter)
+  getData(API.MESSAGE, url, cb, filter, '')
 }
 
 export const getDatabases = (filter, cb) => {
   const url = `${getEsbUrl(filter.umgebung)}/me/Databases`
-  getData(API.DATABASE, url, cb, filter)
+  getData(API.DATABASE, url, cb, filter, '')
 }
 
 export const getQueues = (filter, cb) => {
   const {umgebung, database} = filter
   const url = `${getEsbUrl(umgebung)}/me/Databases/${database}/Queues`
-  getData(API.QUEUES, url, cb, filter)
+  getData(API.QUEUES, url, cb, filter, '')
 }
 
 const getQueuedMessagesUrl = filter => {
@@ -86,7 +86,7 @@ const getQueuedMessagesUrl = filter => {
 
 export const getQueuedMessages = (filter, cb) => {
   const url = getQueuedMessagesUrl(filter)
-  getData(API.QUEUED_MESSAGES, url, cb, filter)
+  getData(API.QUEUED_MESSAGES, url, cb, filter, '')
 }
 
 export const getMessages = (filter, cb) => {
@@ -99,7 +99,7 @@ export const getMessages = (filter, cb) => {
     search = `&${searchTypeUrl}=${encodeURIComponent(searchValue)}`
   }
 
-  getData(API.MESSAGES, url + search, cb, filter)
+  getData(API.MESSAGES, url + search, cb, filter, `Selektion von ${datumVon} bis ${datumBis}`)
 }
 
 export const resendMessage = async (umgebung, mep, operation, queuename, message) => {

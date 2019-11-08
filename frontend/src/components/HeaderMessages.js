@@ -172,9 +172,11 @@ const HeaderMessages = props => {
   const {width} = useWindowSize()
   return (
     <Navbar bg="light" expand="lg" key="navbar" fixed="top">
-      <Navbar.Brand href="/">
-        {width > 1600 ? 'Messages' : 'M'}
-      </Navbar.Brand>
+      {width > 1600 && (
+        <Navbar.Brand href="/">
+          Messages
+        </Navbar.Brand>
+      )}
       <Navbar.Toggle aria-controls="basic-navbar-nav"/>
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">

@@ -158,7 +158,8 @@ const DEFAULT_PROPS = {
   ERRORCODE: {
     Header: 'Errorcode',
     width: 300,
-    ordnung: 15
+    ordnung: 15,
+    style: { 'whiteSpace': 'unset' }
   },
   REASON: {
     Header: 'Ursache',

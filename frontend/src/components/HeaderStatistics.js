@@ -26,10 +26,13 @@ import ToggleButton from 'react-bootstrap/ToggleButton'
 import Tipp from './Tipp'
 import { Icon } from './icons'
 import { symmetricDifference } from 'ramda'
+import useWindowSize from './useWindowSize'
 
 const log = Log('headerstatistics')
 
 const HeaderStatistics = props => {
+  const {width} = useWindowSize()
+
   const {umgebung, datumVon, datumBis, statisticFlags, view, colorScheme} = props
   const [filter, changeFilter] = useState({umgebung, datumVon, datumBis, statisticFlags})
 
@@ -82,9 +85,11 @@ const HeaderStatistics = props => {
 
   return (
     <Navbar bg="light" expand="lg" key="navbar" fixed="top">
-      <Navbar.Brand href="/">
-        Statistik
-      </Navbar.Brand>
+      {width > 1600 && (
+        <Navbar.Brand href="/">
+          Statistik
+        </Navbar.Brand>
+      )}
       <Navbar.Toggle aria-controls="basic-navbar-nav"/>
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">

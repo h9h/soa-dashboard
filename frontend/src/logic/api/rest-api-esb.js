@@ -15,6 +15,7 @@ import Log from '../../log'
 import { logToFile } from './rest-api-local'
 import { keysAndRowToObject } from '../utils'
 import { getConfigurationValue } from '../configuration'
+import { sendInfo } from '../../App'
 
 const log = Log('rest-api-esb')
 log.file = logToFile('rest-api-esb')
@@ -179,15 +180,18 @@ export const makeObjectFromHeaderAndRows = (records, api, annotations) => {
  * @param url die URL zum REST Service
  * @param cb der Callback über den die Daten bzw. Status zurückgegeben werden
  * @param annotations optionale zusätzliche Daten um die Sätze zu annotieren
+ * @param info zusätzliche Daten für Information an Nutzer
  * @returns {Promise<void>}
  */
-export async function getData (api, url, cb, annotations) {
+export async function getData (api, url, cb, annotations, info) {
   const now = new Date()
   const logLabel = 'fetch: "' + url + '"'
   log.time(logLabel)
   const MOCK = getConfigurationValue('mock.doMock') === 'true'
 
   let records
+
+  sendInfo(`API ${api}: ${decodeURIComponent(url)}`)
 
   if (MOCK) {
     records = getMockData(api, url)
@@ -229,11 +233,15 @@ export async function getData (api, url, cb, annotations) {
   result.status = 'ready'
 
   log.timeEnd(logLabel)
+  const nachricht = `Daten-Call brauchte ${(new Date() - now).toLocaleString('de-DE')} ms`
+  sendInfo(nachricht)
+  sendInfo(`Ergebnis: ${result.data.length} Datensätze. ${info}`)
+
   notification({
     nachricht: (
       <div>
         <div>
-          Daten-Call brauchte {(new Date() - now).toLocaleString('de-DE')} ms
+          {nachricht}
         </div>
         <div>
           <Small>
