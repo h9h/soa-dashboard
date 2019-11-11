@@ -49,7 +49,7 @@ const Statusleiste = (props) => {
   const doShow = () => setShow(true)
   const handleHide = () => setShow(false)
 
-  const infoItems = props.infos.slice(0,10).map(info => <option key={info}>{info.length > 100 ? `...${info.substring(info.length - 100)}` : info}</option>)
+  const infoItems = props.infos.slice(0,10).map((info, i) => <option key={i}>{info.length > 100 ? `...${info.substring(info.length - 100)}` : info}</option>)
 
   return (
     <>
