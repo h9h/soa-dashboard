@@ -10,7 +10,8 @@ import { getConfigurationValue } from '../logic/configuration'
 export const AKTIONEN = {
   NUR_LOG: 'Nur Log-Durchlauf',
   RESEND: 'Re-Send Messages (Nachricht aus Queue)',
-  RESEND_JOBDATA: 'Re-Send Messages (Nachricht aus lokaler Datei)'
+  RESEND_JOBDATA: 'Re-Send Messages (Nachricht aus lokaler Datei)',
+  DELETE: 'Lösche Messages'
 }
 
 const OptionenAktion = ({anzahlMessages}) => (

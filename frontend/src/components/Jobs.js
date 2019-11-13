@@ -10,6 +10,7 @@ import { withExplanation, withProgressNotification } from '../logic/notification
 import { fileListener, getJobLogName, Job } from '../logic/transactions/Job'
 import { resendMessages } from '../logic/actionHandlers/resendMessages'
 import { nurLog } from '../logic/actionHandlers/nurLog'
+import { deleteMessages } from '../logic/actionHandlers/deleteMessage'
 import NumberPicker from './NumberPicker'
 import format from 'xml-formatter'
 import styled from 'styled-components'
@@ -226,6 +227,10 @@ const executeAction = async (name, config, jobname, setStatus, setResults, setLo
     case AKTIONEN.RESEND_JOBDATA:
       handler = resendMessages(false)
       aktionName = 'RESEND_JOBDATA'
+      break
+    case AKTIONEN.DELETE:
+      handler = deleteMessages
+      aktionName = 'DELETE'
       break
     default:
       handler = null
