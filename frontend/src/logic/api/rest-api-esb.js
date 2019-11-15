@@ -121,9 +121,14 @@ function evolveData (api, dataRow, annotations) {
 
   // MEP sync sollte eigentlich requestReply sein
   if (dataRow.MEP && dataRow.MEP === 'sync') dataRow.MEP = 'requestReply'
-  // Kürze Sender-FQN um unnötige Teile
-  if (dataRow.SENDERFQN) dataRow.Sender = dataRow.SENDERFQN.substring(20)
-    .replace(/:[A-z]+Port\d+/i, '')
+
+  // Kürze Sender-FQN um unnötige Teile // TODO: Abfrage weg, wenn Altservices RL-konform abgelöst
+  if (dataRow.SENDERFQN) {
+    dataRow.Sender = dataRow.SENDERFQN.startsWith('de.svi.altservice') ?
+      dataRow.SENDERFQN.substring(18)
+    : dataRow.SENDERFQN.substring(20).replace(/:[A-z]+Port\d+/i, '')
+  }
+
   // Manche Systeme stellen keine Milli-Sekunden zur Verfügung, daher vereinheitlichen
   if (dataRow.LOGTIMESTAMP) {
     dataRow.Timestamp = convertToMoment(dataRow.LOGTIMESTAMP)
