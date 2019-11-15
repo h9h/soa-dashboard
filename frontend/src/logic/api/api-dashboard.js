@@ -5,6 +5,7 @@ import moment from 'moment'
 import { getConfigurationValue } from '../configuration'
 import { notification } from '../notification'
 import { MESSAGE_TYPES_NAMES } from '../tableConfMessages'
+import { sendInfo } from '../../App'
 
 export const getUmgebungen = umgebungen => {
   return Object.keys(umgebungen)
@@ -156,16 +157,22 @@ export const getCheckaliveRuns = async (umgebung) => {
   }
 
   const url = `${getEsbUrl(umgebung)}/dashboard/CheckAliveRuns`
+  sendInfo(`API CheckAliveRuns: ${url}`)
   const data = await get(url)
 
   if (!data.success) {
+    sendInfo('Keine Daten vorhanden')
     return { success: false, result: 'Keine Checkalive Runs vorhanden' }
   }
 
-  if (!data.result.rows || data.result.rows.length < 1) return { success: false, result: 'Keine Checkalive Runs vorhanden' }
+  if (!data.result.rows || data.result.rows.length < 1) {
+    sendInfo('Keine Daten vorhanden')
+    return { success: false, result: 'Keine Checkalive Runs vorhanden' }
+  }
 
   const result = data.result.rows.map(r => moment(r[0], 'YYYY-MM-DDTHH:mm:ss.SSSZ'))
 
+  sendInfo(`Anzahl CheckAliveRuns: ${result.length}`)
   return { success: true, result }
 }
 
@@ -177,6 +184,7 @@ export const getCheckaliveRun = async (umgebung, run) => {
   }
 
   const url = `${getEsbUrl(umgebung)}/dashboard/CheckAliveRuns/${run}`
+  sendInfo(`API CheckAliveRuns/${run}: ${url}`)
   const data = await get(url)
 
   if (!data.success) {
