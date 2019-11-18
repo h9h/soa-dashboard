@@ -8,6 +8,8 @@ These files required:
 
 1: File: **authentication.config.js**
 
+If you use provided LDAP-Authentication, you need this file:
+
 ```
 const parameters = {
   URL_LDAP: "ldap://ldap.server.name",
@@ -21,12 +23,25 @@ module.exports = parameters
 
 2: File (optional): **resend-users.config.js**
 
-```
-module.exports = []
-```
-
 Array of user-names in capital letters who may resend messages.
 If not given, all authenticated users can resend messages.
+
+3: File: **authenticationImplementation.js**
+
+Redirect to provided LDAP-Authentication-Implementation:
+```
+const auth = require('../backend-auth/ldap/ldapAuthentication')
+
+module.exports = {
+  getDN: auth.getDN,
+  checkLogin: auth.checkLogin,
+  config: auth.config
+}
+
+```
+
+or create your own by implementing getDN and checkLogin. The export of config 
+is just for showing in console, could be empty object.
 
 ### Jobs Customisation
 
