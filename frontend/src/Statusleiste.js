@@ -29,7 +29,7 @@ const Impressum = ({version, width}) => {
 
   return (
     <span style={{position: 'absolute', margin: '0', top: '30%'}}>
-      SOA-Dashboard {jahr} v{version} {`made with 💜 and ☕ by ${copyright}`}
+      SOA-Dashboard {jahr} v{version} {copyright}
     </span>
   )
 }
