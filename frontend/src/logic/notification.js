@@ -2,6 +2,7 @@ import { toast } from 'react-toastify'
 import { getConfigurationValue } from './configuration'
 
 import Log from '../log'
+import { sendInfo } from '../App'
 const log = Log('notification')
 
 const getMillisNotificationAutoClose = () => {
@@ -51,6 +52,14 @@ Zeige Notification solange Funktion ausgeführt wird
  */
 export const withExplanation = ({ nachricht, fn, ...props }) => {
   log.trace('withExplanation', nachricht)
+  const timeClose = getMillisNotificationAutoClose()
+  if (timeClose < 10) {
+    // falls Millis bis Toast geschlossen < 10 setze Infosatz ab und zeige keinen Toast
+    sendInfo(nachricht)
+    fn()
+    return
+  }
+
   const toastId = toast(nachricht, {
     ...toastConfiguration(),
     autoClose: false,
@@ -67,6 +76,14 @@ Zeige Notification bis autoClose abgelaufen
  */
 export const withNotification = ({ nachricht, fn, ...props }) => {
   log.trace('withNotification', nachricht)
+  const timeClose = getMillisNotificationAutoClose()
+  if (timeClose < 10) {
+    // falls Millis bis Toast geschlossen < 10 setze Infosatz ab und zeige keinen Toast
+    sendInfo(nachricht)
+    fn()
+    return
+  }
+
   const toastId = toast(nachricht, {
     ...toastConfiguration(),
     ...props
@@ -76,6 +93,12 @@ export const withNotification = ({ nachricht, fn, ...props }) => {
 }
 
 export const notification = ({ nachricht, ...props }) => {
+  const timeClose = getMillisNotificationAutoClose()
+  if (timeClose < 10) {
+    // falls Millis bis Toast geschlossen < 10 zeige keinen Toast
+    return
+  }
+
   return toast(nachricht, {
     ...toastConfiguration(),
     ...props

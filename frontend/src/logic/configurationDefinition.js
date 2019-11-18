@@ -129,7 +129,7 @@ export const DEFINITIONS = {
     type: "object",
     properties: {
       millisPreExecutionOnNotification: {type: "string", pattern: "^\\d{1,3}$"},
-      millisAutoCloseNotification: {type: "string", pattern: "^\\d{4,5}$"},
+      millisAutoCloseNotification: {type: "string", pattern: "^\\d{1,4}$"},
       notificationPositionHorizontal: {type: "string", enum: ['left', 'center', 'right']},
       notificationPositionVertical: {type: "string", enum: ['top', 'bottom']},
       sliceFetchStatisticsHours: {type: "string", pattern: "^\\d{1,2}$"},
