@@ -26,6 +26,10 @@ module.exports = parameters
 Array of user-names in capital letters who may resend messages.
 If not given, all authenticated users can resend messages.
 
+```
+module.exports = []
+```
+
 3: File: **authenticationImplementation.js**
 
 Redirect to provided LDAP-Authentication-Implementation:
