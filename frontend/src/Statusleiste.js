@@ -40,7 +40,7 @@ const Statusleiste = (props) => {
   const {width} = useWindowSize()
   const version = process.env.REACT_APP_VERSION
   const recipient = process.env.REACT_APP_FEEDBACK_MAIL
-  const mail = `mailto://${recipient}?subject=Feedback zum ESB-Dashboard - v ${version}&body=`
+  const mail = `mailto:${recipient}?subject=Feedback zum ESB-Dashboard - v ${version}&body=`
   const repo = 'https://github.com/h9h/soa-dashboard'
   const bug = 'https://github.com/h9h/soa-dashboard/issues/new?template=bug_report.md&title=%5BBUG%5D'
   const feature = 'https://github.com/h9h/soa-dashboard/issues/new?&template=feature_request.md&title=%5BFEATURE%5D'
