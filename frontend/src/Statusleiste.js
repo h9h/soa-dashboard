@@ -9,7 +9,7 @@ import Button from 'react-bootstrap/Button'
 import { Icon } from './components/icons'
 import { rightToViewProps } from './logic/authorization'
 import LinkButton from './components/LinkButton'
-import Logo from './Logo'
+import {LogoUnsized} from './Logo'
 import Tipp from './components/Tipp'
 import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
@@ -34,7 +34,7 @@ const Impressum = ({version, width}) => {
   )
 }
 
-const LogoSmall = () => <Logo style={{height: '35px', paddingRight: '50px'}}/>
+const LogoSmall = () => <LogoUnsized style={{height: '35px', paddingRight: '50px'}}/>
 
 const Statusleiste = (props) => {
   const {width} = useWindowSize()

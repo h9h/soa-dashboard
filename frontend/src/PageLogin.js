@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Button from 'react-bootstrap/Button'
 import FormGroup from 'react-bootstrap/FormGroup'
 import Form from 'react-bootstrap/Form'
@@ -40,6 +40,7 @@ const HelpAuthenticator = ({show}) => {
 
 const PageLogin = props => {
   log.trace('PageLogin')
+  const logoParent = useRef(null)
   const [appIsCurrent, setAppIsCurrent] = useState(false)
   const [authReady, setAuthReady] = useState(false)
   const [userId, setUserId] = useState('')
@@ -128,11 +129,11 @@ const PageLogin = props => {
       </Helmet>
       <Container>
         <Row>
-          <Col xs={{ offset: 4, span: 4 }}>
+          <Col xs={{ offset: 4, span: 4 }} ref={logoParent}>
             <Centered>
               <br/>
               <Centered>
-                <Logo />
+                <Logo element={logoParent}/>
                 <hr />
                 <h1 style={{ marginTop: '50px', fontWeight: 'bold' }}>ESB Dashboard</h1>
               </Centered>

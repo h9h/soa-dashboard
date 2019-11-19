@@ -23,8 +23,6 @@
     "ncc:server:auth": "ncc run server.js",
     "ncc:server:file": "ncc run backend-jobs/server",
     "ncc:build": "ncc build server.js -o dist/auth && ncc build backend-jobs/server.js -o dist/jobs",
-    "copy:logo": "cpy \"./frontend/src/customisation/*.*\" \"!./frontend/src/customisation/*.js\" \"!./frontend/src/customisation/*.md\" ./frontend/public/customisation",
-    "prebuild": "yarn copy:logo",
     "build": "cd frontend && yarn build",
     "prepkg:server:dashboard": "yarn build",
     "pkg:server:dashboard": "pkg . --target node10-win-x64 --output esb-dashboard.exe --debug > output-dashboard-win-pkg.log",

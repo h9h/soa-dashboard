@@ -25,7 +25,7 @@ export const getDoMock = 'false'
 "getDoMock" is usually 'false', unless you want to mock the data. In that case, set it to ```'true'```. Then the data will 
 not be obtained from your api, but will be mocked.
 
-2: File: **logo.svg**
+2: File: **logo.png**
 
 Your logo.
 
