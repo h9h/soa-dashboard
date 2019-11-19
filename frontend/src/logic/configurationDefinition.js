@@ -6,16 +6,12 @@ export const DEFINITIONS = {
   umgebungen: {
     id: "/Umgebungen",
     type: "object",
-    properties: {
-      "EW": {type: "string", format: 'uri'},
-    },
     patternProperties: {
       "^[-a-zA-Z0-9]{1,10}$": { anyOf: [
           { type: "uri" },
           { type: "null" },
         ]}
     },
-    required: ["EW"],
     minProperties: 1,
     additionalProperties: false
   },
