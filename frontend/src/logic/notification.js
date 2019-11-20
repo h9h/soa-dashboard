@@ -47,62 +47,62 @@ const toastConfiguration = () => {
 
 toast.configure(toastConfiguration())
 
+/* Prüfe, ob Notification tatsächlich gezeigt werden soll */
+const shouldShowNotification = (props, nachricht, fn = () => {}) => {
+  const timeClose = getMillisNotificationAutoClose()
+  if (timeClose < 10 && !props.hasOwnProperty('autoClose')) {
+    // falls Millis bis Toast geschlossen < 10 zeige keinen Toast
+    sendInfo(nachricht)
+    fn()
+    return false
+  }
+
+  return true
+}
+
 /*
 Zeige Notification solange Funktion ausgeführt wird
  */
 export const withExplanation = ({ nachricht, fn, ...props }) => {
-  log.trace('withExplanation', nachricht)
-  const timeClose = getMillisNotificationAutoClose()
-  if (timeClose < 10) {
-    // falls Millis bis Toast geschlossen < 10 setze Infosatz ab und zeige keinen Toast
-    sendInfo(nachricht)
-    fn()
-    return
-  }
+  if (shouldShowNotification(props, nachricht, fn)) {
+    log.trace('withExplanation', nachricht)
 
-  const toastId = toast(nachricht, {
-    ...toastConfiguration(),
-    autoClose: false,
-    ...props
-  })
-  setTimeout(() => {
-    fn()
-    toast.dismiss(toastId)
-  }, getMillisPreExecutionOnNotification())
+    const toastId = toast(nachricht, {
+      ...toastConfiguration(),
+      autoClose: false,
+      ...props
+    })
+    setTimeout(() => {
+      fn()
+      toast.dismiss(toastId)
+    }, getMillisPreExecutionOnNotification())
+  }
 }
 
 /*
 Zeige Notification bis autoClose abgelaufen
  */
 export const withNotification = ({ nachricht, fn, ...props }) => {
-  log.trace('withNotification', nachricht)
-  const timeClose = getMillisNotificationAutoClose()
-  if (timeClose < 10) {
-    // falls Millis bis Toast geschlossen < 10 setze Infosatz ab und zeige keinen Toast
-    sendInfo(nachricht)
-    fn()
-    return
+  if (shouldShowNotification(props, nachricht, fn)) {
+    log.trace('withNotification', nachricht)
+    const toastId = toast(nachricht, {
+      ...toastConfiguration(),
+      ...props
+    })
+    setTimeout(fn, getMillisPreExecutionOnNotification())
+    return toastId
   }
 
-  const toastId = toast(nachricht, {
-    ...toastConfiguration(),
-    ...props
-  })
-  setTimeout(fn, getMillisPreExecutionOnNotification())
-  return toastId
+  return null
 }
 
 export const notification = ({ nachricht, ...props }) => {
-  const timeClose = getMillisNotificationAutoClose()
-  if (timeClose < 10) {
-    // falls Millis bis Toast geschlossen < 10 zeige keinen Toast
-    return
+  if (shouldShowNotification(props, nachricht)) {
+    return toast(nachricht, {
+      ...toastConfiguration(),
+      ...props
+    })
   }
-
-  return toast(nachricht, {
-    ...toastConfiguration(),
-    ...props
-  })
 }
 
 export const withProgressNotification = ({ nachricht, ...props }) => {

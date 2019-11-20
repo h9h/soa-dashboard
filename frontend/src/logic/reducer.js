@@ -182,9 +182,11 @@ function reducer (state = {}, action) {
     }
 
     case 'sendStatusInfo': {
+      const newInfo = typeof action.info === 'string' ? action.info : null
+      if (!newInfo) return state
       return {
         ...state,
-        infos: [action.info].concat(state.infos),
+        infos: [newInfo].concat(state.infos),
       }
     }
 
