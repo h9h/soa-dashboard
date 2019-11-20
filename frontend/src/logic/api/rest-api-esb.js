@@ -126,7 +126,7 @@ function evolveData (api, dataRow, annotations) {
   if (dataRow.SENDERFQN) {
     dataRow.Sender = dataRow.SENDERFQN.startsWith('de.svi.altservice') ?
       dataRow.SENDERFQN.substring(18)
-    : dataRow.SENDERFQN.substring(20).replace(/:[A-z]+Port\d+/i, '')
+    : dataRow.SENDERFQN.replace(/de\..*\.architecture\./, '').replace(/:[A-z]+Port\d+/i, '')
   }
 
   // Manche Systeme stellen keine Milli-Sekunden zur Verfügung, daher vereinheitlichen
