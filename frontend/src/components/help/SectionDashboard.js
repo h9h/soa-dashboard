@@ -85,7 +85,7 @@ export default () => (
         <li>
           Referenz - Suche nach einer fachlichen Referenz (Vertragsnummer, Schadennnummer etc)
         </li>
-        <li>Service-Namespace - Suche nach einem Service, z.B. <i>http://svi.de/service/partner/kontovw/PartnerSepaMandatAuskunft1</i></li>
+        <li>Service-Namespace - Suche nach einem Service, z.B. <i>http://example.com/service/domian/subdomain/PartnerAuskunft1</i></li>
       </ul>
       Wenn hiermit gesucht wird, dann wird der Suchzeitraum auf eine Stunde ausgedehnt. Daher kann die Suche ein paar Sekunden dauern.
     </ComponentExplanation>

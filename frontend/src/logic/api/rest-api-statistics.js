@@ -145,8 +145,9 @@ export const getStatisticsData = async (umgebung, datumVon, datumBis, statisticF
       row.ServiceTree = ['n.a.', 'n.a.']
     } else {
       if (row.SERVICE.endsWith('/')) row.SERVICE = row.SERVICE.substring(0, row.SERVICE.length - 1)
-      // schneide "http://.../" weg, hinterer Teil für Altservices - TODO: entfernen, wenn Alt-Services umgestellt auf RL-konform
-      const shortService = row.SERVICE.startsWith('http://svi.de/service/') ? row.SERVICE.substring(22) : row.SERVICE.substring(32)
+      // schneide "http://.../service/" weg. Hinterer Teil ist für Altservices - TODO: entfernen, wenn Alt-Services umgestellt auf RL-konform
+      const regexService = RegExp('^http://.*/service/.+')
+      const shortService = regexService.test(row.SERVICE) ? row.SERVICE.replace(/http:\/\/.*\/service\//, '') : row.SERVICE.substring(32)
       row.ShortName = row.SERVICE.substring(row.SERVICE.lastIndexOf('/') + 1)
       row.ServiceOperation = shortService + ': ' + row.OPERATION
       row.Domain = getDomain(shortService.split('/')[0])
