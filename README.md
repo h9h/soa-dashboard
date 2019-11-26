@@ -1,4 +1,9 @@
-## ESB-Dashboard
+# SOA-Dashboard
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fh9h%2Fsoa-dashboard.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fh9h%2Fsoa-dashboard?ref=badge_large)
+
+
+## Überblick
 
 Das Projekt besteht aus zwei Teilen:
 - einem React Frontend
@@ -147,6 +152,3 @@ Daher dieser Workaround:
 1. Benenne den Anfang der Datei um von "uploaded-v2.6-node-" zu "fetched"
 1. Lösche Datei mit '.downloading'
 1. Versuche pkg Skript noch einmal, sollte dann funktionieren
-
-
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fh9h%2Fsoa-dashboard.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fh9h%2Fsoa-dashboard?ref=badge_large)
