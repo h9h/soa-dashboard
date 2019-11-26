@@ -4,7 +4,7 @@ import { getColumns } from '../../logic/tableConfCheckalive'
 import { sort } from 'ramda'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import ReactTable from 'react-table'
+import ReactTable from 'react-table-6'
 import React from 'react'
 import useWindowSize from '../useWindowSize'
 

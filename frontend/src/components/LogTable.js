@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import ReactTable from 'react-table'
+import ReactTable from 'react-table-6'
 import ReactJson from 'react-json-view'
 import { sort } from 'ramda'
 import { getColumns } from '../logic/tableConfLog'

@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactTable from 'react-table'
+import ReactTable from 'react-table-6'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { getColumns } from '../../logic/tableConfStatistik'
