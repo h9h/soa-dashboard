@@ -85,7 +85,7 @@ const SaveJob = ({job, ...props}) => {
           <Blank/>
           <ButtonWithTip
             title="Speichern"
-            description="Der Job muss gespeicht werden, um dann damit arbeiten zu können."
+            description="Der Job muss gespeichert werden, um dann damit arbeiten zu können."
             glyph="save"
             handleClick={handleClick}
             disabled={jobname === ''}
