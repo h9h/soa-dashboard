@@ -23,7 +23,7 @@ const CONTENT = {
   'Die Startseite des Dashboards': <SectionDashboard/>,
   'Umgang mit Servicecalls und Logpunkten': <SectionDashboardBody/>,
   'Nicht zugestellte Nachrichten': <SectionUndeliveredMessages />,
-  'Jobs (Resend etc.)': <SectionJobs/>
+  'Jobs (Resend, Löschen etc.)': <SectionJobs/>
 }
 
 export default () => {
