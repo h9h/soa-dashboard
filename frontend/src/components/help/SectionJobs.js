@@ -25,7 +25,17 @@ export default () => {
         Die Seite Jobs ist in zwei Spalten unterteilt: Links ist die "Eingabe", rechts die "Ausgabe".
       </Paragraph>
       <Paragraph>
-      <img alt="Darstellung der Jobs-Seite" src="./images/PageJobs.png" width="75%"/>
+      <img alt="Darstellung der Jobs-Seite" src="./images/PageJobs.png" width="75%"/>l
+      </Paragraph>
+      <Paragraph>
+        Um Jobs über gequeuete Nachrichten laufen zu lassen, müssen diese Nachrichten selektiert und lokal gespeichert
+        werden. Die erfolgt bis zu einer Maximal-Anzahl inklusive der tatsächlichen Message der Nachricht. Wenn die
+        Selektion größer ist, wird die eigentliche Nachricht nicht mehr gespeichert, sondern nur noch die Metadaten.
+        Diese Größe kann über den Einstellungsparameter "maxQueuedMessagesWithMessagecontent" gesteuert werden.
+        Auch ohne eigentlichen Nachrichteninhalt können alle Jobs außer "Resend Message (Message aus Job-Data)"
+        weiterhin vorgenommen werden.
+        Nur für den Job "Resend Message (Message aus Job-Data)" braucht man ja den eigentlichen Nachrichteninhalt, um
+        ihn lokal modifizieren zu können.
       </Paragraph>
     </Section>
   )
