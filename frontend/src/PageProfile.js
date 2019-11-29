@@ -111,6 +111,10 @@ const Hilfe = () => (
       <header>
         <h2>Erläuterungen</h2>
       </header>
+      <p>
+        <em>Hinweis: </em>Alle Werte in der Konfiguration sind Strings, daher bitte immer als String speichen
+        (<em>oberer, größerer</em> grüner Haken, falls zwei Haken angeboten werden. Neben dem roten Kreuz.).
+      </p>
       <section>
         <header>
           <h3>Konfiguration "Umgebungen"</h3>
