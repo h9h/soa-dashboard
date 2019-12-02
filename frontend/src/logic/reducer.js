@@ -137,8 +137,8 @@ function reducer (state = {}, action) {
     case 'setFilterMessages': {
       let datumVon = action.datumVon < action.datumBis ? action.datumVon : action.datumBis
       const datumBis = action.datumVon < action.datumBis ? action.datumBis : action.datumVon
-      if (moment(datumVon, 'YYYY-MM-DD').add(7, 'days').valueOf() < moment(datumBis, 'YYYY-MM-DD').valueOf()) {
-        datumVon = moment(datumBis, 'YYYY-MM-DD').subtract(7, 'days').format('YYYY-MM-DD')
+      if (moment(datumVon, 'YYYY-MM-DD').add(28, 'days').valueOf() < moment(datumBis, 'YYYY-MM-DD').valueOf()) {
+        datumVon = moment(datumBis, 'YYYY-MM-DD').subtract(28, 'days').format('YYYY-MM-DD')
       }
       return {
         ...state,
