@@ -3,8 +3,9 @@ import { filter } from 'ramda'
 import { Red } from '../styles'
 
 const CheckaliveSummary = ({ data }) => {
-  const success = filter(r => r.ISALIVE === 1, data)
-  const fail = filter(r => !r || r.ISALIVE !== 1, data)
+  const success = filter(r => r.ISALIVE === 'alive', data)
+  const fail = filter(r => r.ISALIVE === 'dead', data)
+  const na = filter(r => r.ISALIVE === '-', data)
 
   return (
     <div>
@@ -16,6 +17,7 @@ const CheckaliveSummary = ({ data }) => {
           <span>Dead: {fail.length}</span>
         )}
       </div>
+      <div>N.A.: {na.length}</div>
       <div>Gesamt: {data.length}</div>
     </div>
   )

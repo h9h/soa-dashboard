@@ -280,14 +280,13 @@ const DEFAULT_PROPS = {
     Header: 'isAlive',
     width: 100,
     ordnung: 3,
-    accessor: item => item.ISALIVE === 1,
     Filter: ({filter, onChange}) =>
       <select
         onChange={event => onChange(event.target.value)}
         style={{width: '100%'}}
         value={filter ? filter.value : ''}
       >
-        {[['', 'alle'], [ false, 'dead'], [true, 'alive']].map(([value, text]) => <option key={value} value={value}>{text}</option>)}
+        {[['', 'alle'], [ 'dead', 'dead'], ['alive', 'alive'], ['-', 'n.a.']].map(([value, text]) => <option key={value} value={value}>{text}</option>)}
       </select>,
   },
   RESPONSE: {

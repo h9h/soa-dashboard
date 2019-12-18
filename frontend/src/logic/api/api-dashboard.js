@@ -170,9 +170,9 @@ export const getCheckaliveRuns = async (umgebung) => {
     return { success: false, result: 'Keine Checkalive Runs vorhanden' }
   }
 
-  const result = data.result.rows.map(r => moment(r[0], 'YYYY-MM-DDTHH:mm:ss.SSSZ'))
+  sendInfo(`Anzahl CheckAliveRuns: ${data.result.rows.length}`)
 
-  sendInfo(`Anzahl CheckAliveRuns: ${result.length}`)
+  const result = data.result.rows.map(r => moment(r[0], 'YYYY-MM-DDTHH:mm:ss.SSSZ'))
   return { success: true, result }
 }
 
@@ -193,7 +193,17 @@ export const getCheckaliveRun = async (umgebung, run) => {
 
   if (!data.result.rows || data.result.rows.length < 1) return { success: false, result: 'Keine Daten zum Checkalive Run vorhanden' }
 
-  const result = { rows: data.result.rows, header: data.result.header }
+  const rows = data.result.rows
+  rows.forEach(row => {
+    if (row[6] == null) {
+      row[6] = '-'
+    } else if (row[6] === 0) {
+      row[6] = 'dead'
+    } else {
+      row[6] = 'alive'
+    }
+  })
+  const result = { rows, header: data.result.header }
 
   return { success: true, result }
 }

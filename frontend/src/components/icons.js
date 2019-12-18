@@ -19,6 +19,7 @@ import {
   FaPlay,
   FaQuestion,
   FaReact,
+  FaRegCircle,
   FaRegSave,
   FaShare,
   FaStepBackward,
@@ -67,6 +68,8 @@ export const Icon = ({ glyph, ...rest }) => {
       return <IoMdCheckmarkCircleOutline style={{ color: 'green' }}/>
     case 'fail':
       return <IoMdCloseCircleOutline style={{ color: 'red' }}/>
+    case 'dontknow':
+      return <FaRegCircle style={{ color: 'grey' }}/>
     case 'stop':
       return <GoStop />
     case 'login':

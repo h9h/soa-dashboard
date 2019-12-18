@@ -110,7 +110,7 @@ function evolveData (api, dataRow, annotations) {
       // nix
       break
     case API.QUEUES:
-      if (!dataRow.hasOwnProperty('SCHEDULE_DISABLED')) {
+      if (!dataRow.SCHEDULE_DISABLED) {
         dataRow.SCHEDULE_DISABLED = ''
       } else {
         dataRow.SCHEDULE_DISABLED = dataRow.SCHEDULE_DISABLED === 'N' ? 'enabled' : 'disabled'
