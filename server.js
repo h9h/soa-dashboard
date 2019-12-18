@@ -12,12 +12,13 @@ const haveFrontend = process.argv && process.argv[0] && process.argv[0].indexOf(
 const router = serve.createRouter(parameters)
 
 router.get('/dn/:user', async ctx => {
-  const { dn, isAuthorized, result } = await getDN(ctx.params.user)
+  const { dn, isAuthorized, result, canResend } = await getDN(ctx.params.user)
 
   ctx.body = {
     dn,
     isAuthorized,
-    result
+    result,
+    canResend
   }
 })
 

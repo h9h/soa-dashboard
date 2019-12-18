@@ -63,7 +63,7 @@ async function getDN (userId) {
   const dn = results[0].dn
   if (!dn) return negativeResult('Finding DN for user failed', results, userId)
 
-  return { dn, isAuthorized: ldap.isAuthorized(dn), results }
+  return { dn, isAuthorized: ldap.isAuthorized(dn), results, canResend: (resendUsers && resendUsers.indexOf(userId.toUpperCase()) > -1) || !resendUsers }
 }
 
 async function checkLogin (userId, password) {
