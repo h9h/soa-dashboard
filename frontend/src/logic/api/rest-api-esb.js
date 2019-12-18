@@ -106,9 +106,15 @@ function evolveData (api, dataRow, annotations) {
     case API.MESSAGE:
     case API.MESSAGES:
     case API.DATABASE:
-    case API.QUEUES:
     case API.CHECKALIVE_RUNS:
       // nix
+      break
+    case API.QUEUES:
+      if (!dataRow.hasOwnProperty('SCHEDULE_DISABLED')) {
+        dataRow.SCHEDULE_DISABLED = ''
+      } else {
+        dataRow.SCHEDULE_DISABLED = dataRow.SCHEDULE_DISABLED === 'N' ? 'enabled' : 'disabled'
+      }
       break
     case API.QUEUED_MESSAGES:
       dataRow.QUEUE_NAME = annotations.queue

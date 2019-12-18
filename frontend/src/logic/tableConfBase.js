@@ -12,7 +12,7 @@ export const TABLE_COLUMNS = {
   ...MESSAGE_TYPE_COLUMNS,
   LogPoints: ['INTERNALLOGID', 'Timestamp', 'DESCRIPTION', 'LOGPOINTNO', 'MESSAGEID', 'Sender', 'PROCESSINSTANCEID', 'SENDERTIMESTAMP', 'ENVIRONMENT', 'ORIGINATOR', 'OPERATION', 'SERVICE', 'MEP', 'PARENTPROCESSINSTANCEID', 'RELATESTOMESSAGEID', 'Aktionen'],
   Statistic: ['Zeit', 'Domain', 'DURATION', 'ORIGINATOR', 'OPERATION', 'SERVICE', 'MEP', 'ANZAHLGESAMT', 'ANZAHLFAULT', 'DURCHSCHNITT_GESAMT_ZEIT', 'DURCHSCHNITT_PROVIDER_ZEIT', 'DURCHSCHNITT_BUS_ZEIT'],
-  Queues: ['QUEUE_NAME', 'QUEUE_TABLE', 'QUEUE_TYPE', 'EXPIRATION', 'USER_COMMENT', 'WAITING', 'READY', 'EXPIRED'],
+  Queues: ['QUEUE_NAME', 'QUEUE_TABLE', 'QUEUE_TYPE', 'EXPIRATION', 'USER_COMMENT', 'WAITING', 'READY', 'EXPIRED', 'SCHEDULE_DISABLED'],
   Queuetable: ['QUEUE_NAME', 'QUEUE_TABLE', 'MSGID', 'ENQ_TIME', 'MESSAGE', 'MessageSize', 'MessageContent'],
   Checkalive: ['USINGPORTFQN', 'PROVIDINGPORTFQN', 'ISALIVE', 'RESPONSE']
 }
@@ -210,6 +210,19 @@ const DEFAULT_PROPS = {
     width: 100,
     ...filterOnParity,
     ordnung: 28
+  },
+  SCHEDULE_DISABLED: {
+    Header: 'Scheduler',
+    width: 100,
+    ordnung: 29,
+    Filter: ({filter, onChange}) =>
+      <select
+        onChange={event => onChange(event.target.value)}
+        style={{width: '100%'}}
+        value={filter ? filter.value : ''}
+      >
+        {[['', 'alle'], [ 'disabled', 'disabled'], ['enabled', 'enabled']].map(([value, text]) => <option key={value} value={value}>{text}</option>)}
+      </select>,
   },
   ENQ_TIME: {
     Header: 'Enqueue-Zeitpunkt',

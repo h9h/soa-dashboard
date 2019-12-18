@@ -22,6 +22,7 @@ import { Smaller } from '../styles'
 import IsAlive from './IsAlive'
 import { json2string } from '../../logic/utils'
 import RowAktionen from './RowAktionen'
+import Scheduler from './Scheduler'
 
 const pk = key => {
   switch(key){
@@ -81,6 +82,8 @@ export const cellFactory = onClick => key => {
     case 'ANZAHLGESAMT':
     case 'ANZAHLFAULT':
       return row => <Anzahl row={row} />
+    case 'SCHEDULE_DISABLED':
+      return row => <Scheduler row={row} />
     case 'REASON':
       return row => <Ursache row={row} />
     case 'DURCHSCHNITT_GESAMT_ZEIT':
