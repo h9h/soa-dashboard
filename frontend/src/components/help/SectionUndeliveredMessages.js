@@ -2,7 +2,6 @@ import React from 'react'
 import Section from './Section'
 import IconExplanation from './IconExplanation'
 import { Paragraph } from './styles'
-import { HeaderForm } from '../HeaderMessages'
 import ComponentExplanation from './ComponentExplanation'
 import FormControl from 'react-bootstrap/FormControl'
 import { getUmgebungen } from '../../logic/api/api-dashboard'
@@ -12,6 +11,7 @@ import { OptionenMessageTypes } from '../../logic/tableConfMessages'
 import MessageFilter from '../MessageFilter'
 import { Icon } from '../icons'
 import { getConfigurationValue } from '../../logic/configuration'
+import { LOG_SEARCH_TYPES } from '../../logic/store'
 
 const noop = () => {}
 
@@ -40,6 +40,13 @@ const messageTyp = (
     onChange={noop}
   >
     {OptionenMessageTypes}
+  </FormControl>
+)
+
+const searchTypes = [<option key={'SENDERFQN'}>{LOG_SEARCH_TYPES['SENDERFQN']}</option>]
+const searchType = (
+  <FormControl as="select" value='SENDERFQN' onChange={noop} disabled={false}>
+    {searchTypes}
   </FormControl>
 )
 
@@ -88,12 +95,8 @@ const row =     {
       </ul>
     </Paragraph>
     <Paragraph>
-      Über die Kopfzeile können Sie die Auswahl der Nachrichten beeinflussen:
+      Über die Kopfzeile können Sie die Auswahl der Nachrichten beeinflussen. Die Elemente im einzelnen:
     </Paragraph>
-    <Paragraph>
-      <HeaderForm umgebung="EW" messageType="Undelivered" datumVon="2019-06-15" datumBis="2019-07-01" setFilterMessages={noop}/>
-    </Paragraph>
-    <Paragraph>Die Elemente im einzelnen:</Paragraph>
     <ComponentExplanation component={selection}>
       Auswahl der Umgebung
     </ComponentExplanation>
@@ -105,6 +108,9 @@ const row =     {
     </ComponentExplanation>
     <ComponentExplanation component={datuminput(bis)}>
       das Datum, bis zum dem die Nachrichten selektiert werden sollen (inklusive)
+    </ComponentExplanation>
+    <ComponentExplanation component={searchType}>
+      die Suche kann wenn nötig über eine SenderFQN eingeschränkt werden (nicht möglich bei Rejected Messages)
     </ComponentExplanation>
     <IconExplanation glyph="execute">
       führt die Selektion mit den eingegebenen Kriterien aus.

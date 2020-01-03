@@ -99,7 +99,7 @@ export default () => (
       führt die Selektion mit den eingegebenen Kriterien aus.
     </IconExplanation>
     <IconExplanation glyph="snapshot">
-      öffnet einen neuen Brower-Tab mit der gewünschten Selektion. Der Link
+      öffnet einen neuen Browser-Tab mit der gewünschten Selektion. Der Link
       dieses Tabs
       ist auch zur Weitergabe an weitere Personen geeignet.
     </IconExplanation>
