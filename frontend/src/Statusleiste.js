@@ -68,7 +68,7 @@ const Statusleiste = (props) => {
             </Nav.Item>
           </Nav>
           <Form inline>
-            <FormControl className="smallfont" as="select" value={props.infos[0]}>
+            <FormControl className="smallfont" as="select" value={props.infos[0]} readOnly>
               {infoItems}
             </FormControl>
           </Form>
