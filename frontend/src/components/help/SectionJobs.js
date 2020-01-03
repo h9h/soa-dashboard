@@ -44,7 +44,7 @@ export default () => {
               <br/>
               <code>C:\DashboardModel\SenderFQN2QueueName.json</code>
               <br/>gespeichert haben. Diese finden Sie <a
-              href="http://ceiser.pr.sv.loc/ceiser.interfaces/SenderFQN2QueueName.json">hier</a>.
+              href="http://ceiser.pr.sv.loc/ceiser.interfaces/SenderFQN2QueueName.json" target="_blank" rel="noopener noreferrer">hier</a>.
             </li>
           </ul>
         </Paragraph>
