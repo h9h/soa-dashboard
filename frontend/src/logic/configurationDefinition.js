@@ -7,7 +7,7 @@ export const DEFINITIONS = {
     id: "/Umgebungen",
     type: "object",
     patternProperties: {
-      "^[-a-zA-Z0-9]{1,10}$": { anyOf: [
+      "^.+$": { anyOf: [
           { type: "uri" },
           { type: "null" },
         ]}
@@ -49,7 +49,7 @@ export const DEFINITIONS = {
     id: "/Filter",
     type: "object",
     properties: {
-      umgebung: {type: "string", pattern: "^(EW)|([A-Z]{2,3}-SV[S]?)$" },
+      umgebung: {type: "string", pattern: "^.+$" },
       widenFilter: {"$ref": "/WidenFilter"}
     },
     required: ["umgebung", "widenFilter"],
