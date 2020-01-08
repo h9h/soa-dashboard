@@ -46,6 +46,18 @@ const Statusleiste = lazy(() => import('./Statusleiste'))
 
 export let sendInfo = () => {}
 
+const getStartpage = () => {
+  const startpage = getConfigurationValue('startpage')
+  switch (startpage) {
+    case 'dashboard':
+      return PageDashboard
+    case 'statistics':
+      return PageStatistics
+    default:
+      return PageDashboard
+  }
+}
+
 const App = () => {
   log.info('Render ESB-Dashboard')
   const store = createStore(
@@ -57,6 +69,8 @@ const App = () => {
   )
 
   sendInfo = info => store.dispatch(sendStatusInfo(info))
+
+  const component = getStartpage()
 
   return (
     <Provider store={store}>
@@ -88,7 +102,7 @@ const App = () => {
             <RouteAuthenticated path="/message/:umgebung/:datum/:von/:bis/:messageId" component={PageServicecall}/>
             <RouteAuthenticated exact path="/statistics/:umgebung/:datumVon/:datumBis" component={PageStatistics}/>
             <RouteAuthenticated path="/statistics" component={PageStatistics}/>
-            <RouteAuthenticated path="/" component={PageDashboard}/>
+            <RouteAuthenticated path="/" component={component}/>
           </Switch>
 
           {/* Unabhängig von Route (aber brauchen Router-Context wegen Navigation) */}

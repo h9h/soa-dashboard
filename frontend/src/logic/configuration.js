@@ -9,6 +9,7 @@ const CONFIG_STORE_KEY = 'esb-dashboard'
 const defaultConfiguration = {
   version: 4,
   umgebungen: getDefaultUmgebungen,
+  startpage: 'dashboard',
   time: {
     duration: {
       anzahl: "10",

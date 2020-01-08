@@ -3,6 +3,11 @@ export const DEFINITIONS = {
     id: "/Version",
     type: "number"
   },
+  startpage: {
+    id: "/Startpage",
+    type: "string",
+    enum: ['dashboard', 'statistics']
+  },
   umgebungen: {
     id: "/Umgebungen",
     type: "object",
@@ -171,6 +176,7 @@ export const CONFIGURATION_SCHEMA = {
   id: "/Configuration",
   type: "object",
   properties: {
+    startpage: {"$ref": "/Startpage"},
     umgebungen: {"$ref": "/Umgebungen"},
     time: {"$ref": "/Time"},
     filter: {"$ref": "/Filter"},
