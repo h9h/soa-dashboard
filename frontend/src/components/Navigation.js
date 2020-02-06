@@ -8,6 +8,7 @@ import { logout } from '../logic/actions'
 import { checkAliveFile } from '../logic/api/rest-api-local'
 import Log from '../log'
 import Dropdown from 'react-bootstrap/Dropdown'
+import { getConfigurationValue } from '../logic/configuration'
 
 const log = Log('navigation')
 
@@ -42,6 +43,7 @@ export const NavigationForm = ({page, user, logout, haveJobsApi}) => {
   const variant = whichPage => page === whichPage ? 'link' : 'light'
   const Target = NavElement(variant)
   const Span = ({children}) => <div style={{ marginLeft: '25px' }}>{children}</div>
+  const links = getConfigurationValue('links')
 
   return (
     <>
@@ -62,6 +64,14 @@ export const NavigationForm = ({page, user, logout, haveJobsApi}) => {
           <Dropdown.Menu>
             <Dropdown.Item as={Span}><Link to="/help">Hilfe</Link></Dropdown.Item>
             <Dropdown.Item as={Span}><Link to="/profile">Einstellungen</Link></Dropdown.Item>
+            {links && (
+              <>
+                {Object.keys(links).map(key => (
+                  <Dropdown.Item key={key} as={Span}><a href={links[key]} target="blank">{key}</a></Dropdown.Item>
+                ))
+                }
+              </>
+            )}
             {user && (
               <>
                 <Dropdown.Divider/>

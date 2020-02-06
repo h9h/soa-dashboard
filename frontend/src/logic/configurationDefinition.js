@@ -170,6 +170,17 @@ export const DEFINITIONS = {
     required: ["colorSchemes", "nrOfCalls", "nrOfFaults"],
     additionalProperties: false
   },
+  links: {
+    id: "/Links",
+    type: "object",
+    patternProperties: {
+      "^.+$": { anyOf: [
+          { type: "uri" },
+          { type: "null" },
+        ]}
+    },
+    additionalProperties: false
+  },
 }
 
 export const CONFIGURATION_SCHEMA = {
@@ -190,6 +201,7 @@ export const CONFIGURATION_SCHEMA = {
     mock: {"$ref": "/Mock"},
     advanced: {"$ref": "/Advanced"},
     debug: {"$ref": "/Debug"},
-    statistics: {"$ref": "/Statistics"}
+    statistics: {"$ref": "/Statistics"},
+    links: {"$ref": "/Links"}
   }
 }

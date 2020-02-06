@@ -1,4 +1,4 @@
-import { getDefaultUmgebungen, getDefaultUmgebungKey, getDoMock } from '../customisation/configuration.config'
+import { getDefaultUmgebungen, getDefaultUmgebungKey, getDoMock, getLinks } from '../customisation/configuration.config'
 import store from 'store'
 import { path, mergeDeepRight } from 'ramda'
 import { Validator } from 'jsonschema'
@@ -79,7 +79,8 @@ const defaultConfiguration = {
     colorSchemes: {},
     nrOfCalls: "50",
     nrOfFaults: "10",
-  }
+  },
+  links: getLinks
 }
 
 export const getStoredConfiguration = () => {
