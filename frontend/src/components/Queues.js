@@ -14,79 +14,81 @@ import useWindowSize from './useWindowSize'
 
 const log = Log('queues')
 
+const fetchData = (database, setQueues, umgebung) => {
+  if (!database) return
+  setQueues({status: 'loading'})
+  getQueues({umgebung, database}, setQueues)
+}
+
 const Queues = props => {
   const {umgebung, database} = props
   log.trace('Queues for', umgebung, database)
 
   const { height } = useWindowSize()
 
-  const [queues, setQueues] = useState({status: 'loading'})
+  const [queues, setQueues] = useState({status: 'loading', queues: { data: [] }})
   const columns = getColumns()
 
   useEffect(() => {
-    if (!database) return
-    setQueues({status: 'loading'})
-    getQueues({umgebung, database}, setQueues)
+    fetchData(database, setQueues, umgebung)
   }, [umgebung, database])
 
   if (!database) return null
 
-  if (queues.status === 'loading') return <WartenAnzeiger/>
+  const sizeOptions = sort((a,b) => a-b, props.pageSizes.filter(s => !!s).map(s => parseInt(s,10)))
+  log.trace('SizeOptions', sizeOptions)
 
-  if (queues.status === 'ready') {
-    const sizeOptions = sort((a,b) => a-b, props.pageSizes.filter(s => !!s).map(s => parseInt(s,10)))
-    log.trace('SizeOptions', sizeOptions)
-
-    const handlePageSizeChange = e => {
-      props.setPageSize(e)
-    }
-
-    return (
-      <>
-        <Row>
-          <Col>
-            <ReactTable
-              columns={columns}
-              data={queues.data}
-              defaultSorted={[
-                {id: 'QUEUE_NAME'},
-              ]}
-              pageSizeOptions={sizeOptions}
-              onPageSizeChange={handlePageSizeChange}
-              defaultPageSize={props.defaultPageSize}
-              getTdProps={(state, rowInfo, column) => {
-                return {
-                  onClick: (e, handleOriginal) => {
-                    log.trace('Click on column', column.id)
-                    switch (column.id) {
-                      case 'EXPIRATION':
-                      case 'WAITING':
-                      case 'READY':
-                      case 'EXPIRED':
-                        log.trace('TBD-1: handle click in cell (c,r)', column.id, rowInfo, rowInfo && rowInfo.row ? rowInfo.row[column.id] : '-')
-                        break
-                      case 'QUEUE_NAME':
-                      case 'QUEUE_TABLE':
-                        log.trace('TBD-2: handle click in cell (c,r)', column.id, rowInfo, rowInfo && rowInfo.row ? rowInfo.row[column.id] : '-')
-                        break
-                      default:
-                        if (handleOriginal) {
-                          handleOriginal()
-                          return
-                        }
-                    }
-                  }
-                }
-              }}
-              style={{height: (height - 120) + 'px'}}
-            />
-          </Col>
-        </Row>
-      </>
-    )
+  const handlePageSizeChange = e => {
+    props.setPageSize(e)
   }
 
-  return null
+  return (
+    <>
+      {queues.status === 'loading' && (
+        <WartenAnzeiger />
+      )}
+      <Row>
+        <Col>
+          <ReactTable
+            columns={columns}
+            data={queues.data}
+            defaultSorted={[
+              {id: 'QUEUE_NAME'},
+            ]}
+            pageSizeOptions={sizeOptions}
+            onPageSizeChange={handlePageSizeChange}
+            defaultPageSize={props.defaultPageSize}
+            getTdProps={(state, rowInfo, column) => {
+              return {
+                onClick: (e, handleOriginal) => {
+                  log.trace('Click on column', column.id)
+                  switch (column.id) {
+                    case 'EXPIRATION':
+                    case 'WAITING':
+                    case 'READY':
+                    case 'EXPIRED':
+                      log.trace('TBD-1: handle click in cell (c,r)', column.id, rowInfo, rowInfo && rowInfo.row ? rowInfo.row[column.id] : '-')
+                      fetchData(database, setQueues, umgebung)
+                      break
+                    case 'QUEUE_NAME':
+                    case 'QUEUE_TABLE':
+                      log.trace('TBD-2: handle click in cell (c,r)', column.id, rowInfo, rowInfo && rowInfo.row ? rowInfo.row[column.id] : '-')
+                      break
+                    default:
+                      if (handleOriginal) {
+                        handleOriginal()
+                        return
+                      }
+                  }
+                }
+              }
+            }}
+            style={{height: (height - 120) + 'px'}}
+          />
+        </Col>
+      </Row>
+    </>
+  )
 }
 
 export default connect(
