@@ -52,7 +52,9 @@ export async function getQueuename (execute, MESSAGE, OPERATION, SENDERFQN) {
       execute.setValue('topicname', values.TopicName)
     }
 
-    if (!values.QueueName && !values.TopicName) return getFehlermeldung(fields.senderFQN, SENDERFQN, 'Queue-/Topicname nicht modelliert')
+    if (!values.QueueName && !values.TopicName) {
+      return getFehlermeldung(fields.senderFQN, SENDERFQN, 'Queue-/Topicname nicht modelliert')
+    }
 
     return {
       success: true,

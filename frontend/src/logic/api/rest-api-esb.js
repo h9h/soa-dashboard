@@ -289,10 +289,10 @@ function axiosErrorHandler (err) {
       success: false,
       result: err.request,
       response: 'client',
-      fehlermeldung: err.response,
+      fehlermeldung: err.request,
     }
   }
-  return {success: false, result: err.message, fehlermeldung: err.response}
+  return {success: false, result: err.message, fehlermeldung: err.message}
 }
 
 export const postDataXml = async (url, data) => {
