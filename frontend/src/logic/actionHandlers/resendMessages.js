@@ -33,7 +33,15 @@ export const resendMessages = withQueueMessage => async (record) => {
     }
 
     /* 2/3 */
-    await execute.step('resend Message', () => resendMessage(ENVIRONMENT, mep, OPERATION, execute.getValue('queuename'), execute.getValue('message')))
+    await execute.step('resend Message', () => resendMessage(
+      ENVIRONMENT,
+      mep,
+      OPERATION,
+      {
+        queuename: execute.getValue('queuename'),
+        topicname: execute.getValue('topicname'),
+      },
+      execute.getValue('message')))
 
     /* 3/4 */
     await execute.step('delete Message', () => deleteMessage(ENVIRONMENT, messageType, ID))

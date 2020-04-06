@@ -103,9 +103,13 @@ export const getMessages = (filter, cb) => {
   getData(API.MESSAGES, url + search, cb, filter, `Selektion von ${datumVon} bis ${datumBis}`)
 }
 
-export const resendMessage = async (umgebung, mep, operation, queuename, message) => {
+export const resendMessage = async (umgebung, mep, operation, { queuename, topicname }, message) => {
   if (!message) return { success: false, result: 'Message is null', fehlermeldung: 'Es wurde keine Message übergeben' }
-  const url = `${getEsbUrl(umgebung)}/me/Databases/ME/Queues?MEP=${mep}&operation=${operation}&QueueName=${queuename}`
+
+  const url = queuename ?
+    `${getEsbUrl(umgebung)}/me/Databases/ME/Queues?MEP=${mep}&operation=${operation}&QueueName=${queuename}` :
+    `${getEsbUrl(umgebung)}/me/Databases/ME/Queues?MEP=${mep}&operation=${operation}&TopicName=${topicname}`
+
   const { success, result } = await postDataXml(url, message)
   if (!result.JMSMessageID) {
     return { success: false, result, fehlermeldung: 'Keine JMSMessageID erhalten --> Enqueueing fehlgeschlagen'}
