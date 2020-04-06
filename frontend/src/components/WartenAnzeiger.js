@@ -4,8 +4,10 @@ import styled from 'styled-components'
 import Navbar from 'react-bootstrap/Navbar'
 
 const TopSpace = styled.div`
-  padding-top: 180px;
-  padding-bottom: 30px;
+  position: absolute;
+  top: 250px;
+  left: 50%;
+  z-index: 9;
 `
 
 const WartenAnzeiger = ({nachricht = null, withHeader = false}) => (
