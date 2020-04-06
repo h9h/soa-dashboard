@@ -20,8 +20,8 @@ export const parseMessage = (message, fields) => {
   }, {})
 }
 
-function getFehlermeldung (senderFQN, SENDERFQN) {
-  const fehlermeldung = `Failed to get Queue-/Topicname for "${senderFQN}"/"${SENDERFQN}"`
+function getFehlermeldung (senderFQN, SENDERFQN, meldung) {
+  const fehlermeldung = `${meldung} für SenderFQN "${senderFQN}"/"${SENDERFQN}"`
   return {success: false, result: fehlermeldung, fehlermeldung}
 }
 
@@ -32,34 +32,34 @@ export async function getQueuename (execute, MESSAGE, OPERATION, SENDERFQN) {
   } catch (_) {
     fields = {senderFQN: MESSAGE.senderFQN}
   }
+  if (!fields.senderFQN) return getFehlermeldung(fields.senderFQN, SENDERFQN, 'senderFQN nicht ermittelbar')
 
-  if (fields.senderFQN) {
-    const values = await getModelvalue(MODELS.SENDERFQN_2_QUEUENAME, fields.senderFQN)
+  const values = await getModelvalue(MODELS.SENDERFQN_2_QUEUENAME, fields.senderFQN)
+  if (!values) return getFehlermeldung(fields.senderFQN, SENDERFQN, 'Keine Werte zu SenderFQN modelliert')
 
-    if (values) {
-      if (typeof values === 'string')
-        execute.setValue('queuename', values)
-      return {success: true, result: {operation: OPERATION, senderFQN: SENDERFQN, queuename: values}}
-    } else {
-      if (values.queuename) {
-        execute.setValue('queuename', values.queuename)
-      }
-      if (values.topicname) {
-        execute.setValue('topicname', values.topicname)
-      }
-      return {
-        success: true,
-        result: {
-          operation: OPERATION,
-          senderFQN: SENDERFQN,
-          queuename: values.queuename,
-          topicname: values.topicname
-        }
+  if (typeof values === 'string') {
+    execute.setValue('queuename', values)
+    return {success: true, result: {operation: OPERATION, senderFQN: SENDERFQN, queuename: values}}
+  } else {
+    if (values.queuename) {
+      execute.setValue('queuename', values.queuename)
+    }
+    if (values.topicname) {
+      execute.setValue('topicname', values.topicname)
+    }
+
+    if (!values.queuename && !values.topicname) return getFehlermeldung(fields.senderFQN, SENDERFQN, 'Queue-/Topicname nicht modelliert')
+
+    return {
+      success: true,
+      result: {
+        operation: OPERATION,
+        senderFQN: SENDERFQN,
+        queuename: values.queuename,
+        topicname: values.topicname
       }
     }
   }
-
-  return getFehlermeldung(fields.senderFQN, SENDERFQN)
 }
 
 export const errorHandler = async (execute, err) => {
