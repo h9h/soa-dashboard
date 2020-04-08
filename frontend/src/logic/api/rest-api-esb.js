@@ -277,6 +277,8 @@ export async function getData (api, url, cb, annotations, info) {
 }
 
 function axiosErrorHandler (err) {
+  console.log('Error aus Axios', err)
+
   if (err.response) {
     return {
       success: false,
