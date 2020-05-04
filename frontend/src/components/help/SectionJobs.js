@@ -18,11 +18,20 @@ export default () => {
           Auslieferung.
         </Paragraph>
         {process.env.REACT_APP_MAILGROUP_RIGHTS && (
-          <Paragraph>
-            Für die Resend-Funktionalität ist eine spezielle Berechtigung erforderlich. Falls sie benötigt wird,
-            bitte <a
-            href={`mailto://${recipient}?subject=Antrag auf Berechtigung zur Resend-Funktionalität&body=Hiermit beantrage ich die Erteilung des Rechts "resend"%0d%0a%0d%0aMeine User-ID ist: XXX%0d%0aDas Recht benötige ich, da XXX`}>hierüber</a> beantragen.
-          </Paragraph>
+          <>
+            <Paragraph>
+              Für die Resend-Funktionalität ist eine spezielle Berechtigung erforderlich. Falls sie benötigt wird,
+              bitte <a
+              href={`mailto://${recipient}?subject=Antrag auf Berechtigung zur Resend-Funktionalität&body=Hiermit beantrage ich die Erteilung des Rechts "resend"%0d%0a%0d%0aMeine User-ID ist: XXX%0d%0aDas Recht benötige ich, da XXX`}>hierüber</a> beantragen.
+            </Paragraph>
+            <Paragraph>
+              Die User-ID wird dann mit speziellen Rechten versehen. Dies wirkt allerdings erst nach einem Neustart
+              des Authentifizierungs-Backends:
+              <br />
+              <code>/opt/nodejs/bin/node /opt/wwwdata/ceiser/ceiser.report/esb-dashboard/auth.js
+              </code>
+            </Paragraph>
+          </>
         )}
         <Paragraph>
           <Header>Installation</Header>
