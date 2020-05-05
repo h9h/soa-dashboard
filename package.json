@@ -6,6 +6,7 @@
   "dependencies": {
     "@koa/cors": "^3.0.0",
     "activedirectory2": "^1.2.7",
+    "adm-zip": "^0.4.14",
     "axios": "^0.19.0",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
@@ -16,6 +17,7 @@
     "ramda": "^0.26.1"
   },
   "scripts": {
+    "backup:config": "node backupConfig.js",
     "start:auth": "node server.js",
     "start:file": "node backend-jobs/server.js",
     "start:frontend": "cd frontend && yarn start",
@@ -28,7 +30,7 @@
     "pkg:server:dashboard": "pkg . --target node10-win-x64 --output esb-dashboard.exe --debug > output-dashboard-win-pkg.log",
     "pkg:server:file": "pkg ./backend-jobs/server.js --options max_old_space_size=4096 --target node10-win-x64 --output esb-jobs.exe --debug > output-jobs-windows-pkg.log",
     "pkg:all": "yarn pkg:server:dashboard && yarn pkg:server:file",
-    "build:all": "yarn pkg:all && yarn ncc:build",
+    "build:all": "yarn backup:config && yarn pkg:all && yarn ncc:build",
     "postbuild:all": "cpy ./dist/auth/index.js ./frontend/build --rename=auth.js",
     "release-it": "cd frontend && yarn release-it && git push --follow-tags"
   },
