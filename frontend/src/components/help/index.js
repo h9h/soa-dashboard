@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { Grey } from '../styles'
+import SectionQueues from './SectionQueues'
 
 const Inhaltsverzeichnis = styled.ul`
 `
@@ -22,6 +23,7 @@ const CONTENT = {
   'Navigieren im Dashboards': <SectionNavigation/>,
   'Die Startseite des Dashboards': <SectionDashboard/>,
   'Umgang mit Servicecalls und Logpunkten': <SectionDashboardBody/>,
+  'Queues': <SectionQueues/>,
   'Nicht zugestellte Nachrichten': <SectionUndeliveredMessages />,
   'Jobs (Resend, Löschen etc.)': <SectionJobs/>
 }

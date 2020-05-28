@@ -87,7 +87,7 @@ const row =     {
   export default () => (
   <Section title="Nicht zugestellte Nachrichten">
     <Paragraph>
-      Auf der Seite ESB-Messages werden die nicht-zugestellten Nachrichten angezeigt. "Nicht zugestellte Nachrichten" können sein:
+      Auf der Seite "Nachrichten" <Icon glyph={'messages'}/> werden die nicht-zugestellten Nachrichten angezeigt. "Nicht zugestellte Nachrichten" können sein:
       <ul>
         <li><code>Undelivered</code>: Nachrichten, die nicht vom Bus an den Provider ausgeliefert werden können</li>
         <li><code>Rejected</code>: Nachrichten, die der Bus nicht weiterverarbeiten kann</li>
