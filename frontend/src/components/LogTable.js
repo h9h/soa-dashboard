@@ -160,7 +160,7 @@ const UnconnectedLogpointTable = ({ logs, defaultPageSize, pageSizes, setPageSiz
 
   const tableOptions = {
     pivotBy: ['MESSAGEID'],
-    defaultSorted: [{id: 'Timestamp'}],
+    defaultSorted: [{id: 'Timestamp', desc: true}],
     defaultFilterMethod: getDefaultFilterMethod(true),
     showPageSizeOptions: !oneMessageOnly,
     showPagination: !oneMessageOnly,
