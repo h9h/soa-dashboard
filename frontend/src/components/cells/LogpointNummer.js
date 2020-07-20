@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { equals, groupWith, once, partition } from 'ramda'
-import { Black, Blue, Centered, Red, Small, Smaller } from '../styles'
+import { Black, Blue, Centered, Red, Green, Small, Smaller } from '../styles'
 import { logpointDirection, logpointToNumber, logpointType, LP_TYPES, sortLogpunkte } from '../../logic/logpunkt'
 import Log from '../../log'
 import withLinkToTimeline from '../withLinkToTimeline'
@@ -12,7 +12,8 @@ const log = Log('logpointnummer')
 const COLORS = {
   [LP_TYPES.APPLICATION]: Black,
   [LP_TYPES.FAULT]: Red,
-  [LP_TYPES.BUS]: Blue
+  [LP_TYPES.BUS]: Blue,
+  [LP_TYPES.SEC]: Green
 }
 
 const Block = styled.span`
