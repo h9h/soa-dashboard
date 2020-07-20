@@ -53,6 +53,7 @@ const groups = [
   { id: 'application', content: 'App' },
   { id: 'bus', content: 'Bus' },
   { id: 'fault', content: 'Fault' },
+  { id: 'sep', content: 'SEP' },
 ]
 
 const Servicecall = ({umgebung, logpoints, standalone=false}) => {

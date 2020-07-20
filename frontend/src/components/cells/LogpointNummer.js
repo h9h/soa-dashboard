@@ -13,7 +13,7 @@ const COLORS = {
   [LP_TYPES.APPLICATION]: Black,
   [LP_TYPES.FAULT]: Red,
   [LP_TYPES.BUS]: Blue,
-  [LP_TYPES.SEC]: Green
+  [LP_TYPES.SEP]: Green
 }
 
 const Block = styled.span`

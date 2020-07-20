@@ -27,7 +27,9 @@ const calculateTiming = (mep, t) => {
     busProvider: t([[8, 11], [8, 53]]),
     busIn: t([2, 8]),
     busOut: t([[11, 17], [11, 57], [53, 57]]),
-    antwort: t([[2, 17], [2, 57]])
+    antwort: t([[2, 17], [2, 57]]),
+    sepIn: t([82, 84]),
+    sepOut: t([75, 77])
   }
 
   switch (mep) {
