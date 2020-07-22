@@ -4,7 +4,7 @@ export const logpointWithMessage = logpoint => {
   const no = logpointToNumber(logpoint)
   return [
     2, 4, 6, 11, 13, 15, 53, 55, 58,
-    75, 82, // Datapower Logpunkte
+    71, 73, 75, 77, 82, 84, 86, 88, // Datapower Logpunkte
   ].indexOf(no) > -1
 }
 
