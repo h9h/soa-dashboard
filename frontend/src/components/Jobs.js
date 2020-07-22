@@ -186,11 +186,13 @@ const ErgebnisColumns = setNr => ([
   },
 ])
 
+const Neutral = styled.span``
+
 const ZeigeErgebnisse = ({results, setNr}) => {
   const countFehlerhaft = results.filter(item => !item.success).length
   const countOk = results.filter(item => item.success).length
 
-  const Stil = countFehlerhaft > 0 ? Red : styled.span``
+  const Stil = countFehlerhaft > 0 ? Red : Neutral
 
   return (
     <>
