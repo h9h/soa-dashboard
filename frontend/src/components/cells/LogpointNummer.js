@@ -22,21 +22,24 @@ const Block = styled.span`
 
 const isRequest = point => logpointDirection(point) === 'request'
 
+const isEnter = point => [8, 17, 18, 57].indexOf(point) > -1
+const isExit = point => [1, 2, 11].indexOf(point) > -1
+
+const LogBlock = styled.span`
+  width: 1.5em;
+  text-align: center;
+  display: inline-block;
+  vertical-align: ${props => props.verticalSeparation ? (props.isRequest ? "super" : "sub") : "baseline"};
+  border-top: ${props => props.isRequest ? "1px solid" : "hidden"};
+  border-bottom: ${props => props.isRequest ? "hidden" : "1px solid"};
+  border-right: ${props => props.isEnter ? "1px solid" : "hidden"};
+  border-left: ${props => props.isExit ? "1px solid" : "hidden"};
+`
+
 const DecoratedBlock = ({ point, children }) => {
   const verticalSeparation = once(() => getConfigurationValue('presentation.logpoints.verticalSeparation') === 'true')()
 
-  const Span = styled.span`
-    display: inline-block;
-    width: 1.5em;
-    text-align: center;
-    vertical-align: ${verticalSeparation ? (isRequest(point) ? "super" : "sub") : "baseline"};
-    border-top: ${isRequest(point) ? "1px solid" : "hidden"};
-    border-bottom: ${isRequest(point) ? "hidden" : "1px solid"};
-    border-right: ${[8, 17, 18, 57].indexOf(point) > -1 ? "1px solid" : "hidden"};
-    border-left: ${[1, 2, 11].indexOf(point) > -1 ? "1px solid" : "hidden"};
-  `
-
-  return <Span>{children}</Span>
+  return <LogBlock verticalSeparation={verticalSeparation} isRequest={isRequest(point)} isEnter={isEnter(point)} isExit={isExit(point)}>{children}</LogBlock>
 }
 
 const LogPoint = ({ point, description = null }) => {
