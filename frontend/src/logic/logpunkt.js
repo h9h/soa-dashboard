@@ -4,7 +4,7 @@ export const logpointWithMessage = logpoint => {
   const no = logpointToNumber(logpoint)
   return [
     2, 4, 6, 11, 13, 15, 53, 55, 58,
-    71, 73, 75, 77, 82, 84, 86, 88, // Datapower Logpunkte
+    71, 73, 75, 77, 82, 84, 86, 88, 91, 92, // Datapower Logpunkte
   ].indexOf(no) > -1
 }
 
@@ -18,6 +18,7 @@ export const LP_TYPES = {
 export const logpointType = logpoint => {
   if ([1, 9, 10, 18, 58].indexOf(logpoint) > -1) return LP_TYPES.APPLICATION
   if (logpoint > 49 && logpoint < 70) return LP_TYPES.FAULT
+  if (logpoint > 90) return LP_TYPES.FAULT // Datapower Faults
   if (logpoint > 70) return LP_TYPES.SEP // Datapower
   return LP_TYPES.BUS
 }
