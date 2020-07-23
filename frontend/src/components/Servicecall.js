@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React, { useEffect, useRef, useState, useMemo } from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { DataSet, Timeline } from 'vis-timeline'
+import { DataSet, Timeline } from 'vis-timeline/standalone'
 import useComponentSize from '@rehooks/component-size'
 import { isEmpty } from 'ramda'
 import {
@@ -56,6 +56,16 @@ const groups = [
   { id: 'sep', content: 'SEP' },
 ]
 
+function initTimeline (timeline, element, data) {
+  if (!timeline.current) {
+    timeline.current = new Timeline(element.current, data, groups, {
+      align: getConfigurationValue('presentation.timeline.alignFlag'),
+      type: 'box',
+      maxHeight: '500px'
+    })
+  }
+}
+
 const Servicecall = ({umgebung, logpoints, standalone=false}) => {
   log.trace('Servicecall called', umgebung, logpoints, standalone)
 
@@ -86,19 +96,18 @@ const Servicecall = ({umgebung, logpoints, standalone=false}) => {
   const {width} = useComponentSize(element)
   const [logPoint, setLogPoint] = useState(null)
 
-  const timeline = useRef(null)
+  const timeline = useRef(null) // useMemo(() => ({ current: null }), []) // useRef(null)
+
+  useEffect(() => {
+    log.trace('useEffect on element', element)
+    if (!element) return
+
+    initTimeline(timeline, element, data)
+  }, [data, element, timeline])
 
   useEffect(() => {
     log.trace('useEffect on element and width', element, width)
     if (!element || width === 0) return
-
-    if (!timeline.current) {
-      timeline.current = new Timeline(element.current, data, groups, {
-        align: getConfigurationValue('presentation.timeline.alignFlag'),
-        type: 'box',
-        maxHeight: '500px'
-      })
-    }
 
     const onSelect = ({item}) => {
       if (!item) return
@@ -122,22 +131,32 @@ const Servicecall = ({umgebung, logpoints, standalone=false}) => {
       props.event.preventDefault()
     }
 
-    timeline.current.on('mouseUp', onSelect)
-    timeline.current.on('contextmenu', onRightClick)
+    const tref = timeline.current
+
+    tref.on('mouseUp', onSelect)
+    tref.on('contextmenu', onRightClick)
 
     return function cleanup () {
-      timeline.current.off('mouseUp', onSelect)
-      timeline.current.off('contextmenu', onRightClick)
-      timeline.current.destroy()
+      // try {
+      //   tref.off('mouseUp', onSelect)
+      //   tref.off('contextmenu', onRightClick)
+      //   tref.destroy()
+      // } catch (e) {
+      //   log.info('in timeline cleanup', e)
+      // }
     }
-  }, [data, element, width])
+  }, [data, element, timeline, width])
 
   useEffect(() => {
     if (!timeline.current || width === 0) return
     log.trace('set width', width)
-    timeline.current.setOptions({ width })
-    timeline.current.fit()
-  }, [width])
+    try {
+      timeline.current.setOptions({width})
+      timeline.current.fit()
+    } catch (e) {
+      log.info('in set width', e)
+    }
+  }, [data, timeline, width])
 
   const showDefaultLogIds = !isEmpty(defaultLogIds) && standalone
   const anzahlDefaultLogIds = Object.keys(defaultLogIds).length || 1
