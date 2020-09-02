@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { equals, groupWith, once, partition } from 'ramda'
-import { Black, Blue, Centered, Red, Green, Small, Smaller } from '../styles'
+import { Centered, Red, Small, Smaller, DeepSpace, Lava, Heroine, Armor } from '../styles'
 import { logpointDirection, logpointToNumber, logpointType, LP_TYPES, sortLogpunkte } from '../../logic/logpunkt'
 import Log from '../../log'
 import withLinkToTimeline from '../withLinkToTimeline'
@@ -10,10 +10,10 @@ import { getConfigurationValue } from '../../logic/configuration'
 const log = Log('logpointnummer')
 
 const COLORS = {
-  [LP_TYPES.APPLICATION]: Black,
-  [LP_TYPES.FAULT]: Red,
-  [LP_TYPES.BUS]: Blue,
-  [LP_TYPES.SEP]: Green
+  [LP_TYPES.APPLICATION]: DeepSpace,
+  [LP_TYPES.FAULT]: Lava,
+  [LP_TYPES.BUS]: Heroine,
+  [LP_TYPES.SEP]: Armor
 }
 
 const Block = styled.span`
@@ -22,8 +22,8 @@ const Block = styled.span`
 
 const isRequest = point => logpointDirection(point) === 'request'
 
-const isEnter = point => [8, 17, 18, 57].indexOf(point) > -1
-const isExit = point => [1, 2, 11].indexOf(point) > -1
+const isExit = point => [8, 17, 18, 57, 73, 77, 84, 88].indexOf(point) > -1
+const isEnter = point => [1, 2, 11, 71, 75, 82, 86].indexOf(point) > -1
 
 const LogBlock = styled.span`
   width: 1.5em;
@@ -32,14 +32,14 @@ const LogBlock = styled.span`
   vertical-align: ${props => props.verticalSeparation ? (props.isRequest ? "super" : "sub") : "baseline"};
   border-top: ${props => props.isRequest ? "1px solid" : "hidden"};
   border-bottom: ${props => props.isRequest ? "hidden" : "1px solid"};
-  border-right: ${props => props.isEnter ? "1px solid" : "hidden"};
-  border-left: ${props => props.isExit ? "1px solid" : "hidden"};
+  border-right: ${props => props.isExit ? "1px solid" : "hidden"};
+  border-left: ${props => props.isEnter ? "1px solid" : "hidden"};
 `
 
 const DecoratedBlock = ({ point, children }) => {
   const verticalSeparation = once(() => getConfigurationValue('presentation.logpoints.verticalSeparation') === 'true')()
 
-  return <LogBlock verticalSeparation={verticalSeparation} isRequest={isRequest(point)} isEnter={isEnter(point)} isExit={isExit(point)}>{children}</LogBlock>
+  return <LogBlock verticalSeparation={verticalSeparation} isRequest={isRequest(point)} isExit={isExit(point)} isEnter={isEnter(point)}>{children}</LogBlock>
 }
 
 const LogPoint = ({ point, description = null }) => {

@@ -31,7 +31,7 @@ export const LP_DIRECTION = {
 export const logpointDirection = logpoint => {
   const no = logpointToNumber(logpoint)
   if (no < 10) return LP_DIRECTION.REQUEST
-  if (no === 82 || no === 84) return LP_DIRECTION.REQUEST
+  if (no > 80 && no < 90) return LP_DIRECTION.REQUEST
   return LP_DIRECTION.RESPONSE
 }
 

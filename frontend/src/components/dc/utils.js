@@ -269,7 +269,21 @@ export const COLOR_SCHEMES = {
     "#a3ae68",
     "#8f672b",
     "#d1a360"
-  ] // https://medialab.github.io/iwanthue/
+  ], // https://medialab.github.io/iwanthue/
+  Sapiens: [
+    "#354147",
+    "#FF4A00",
+    "#FD7622",
+    "#969EA2",
+    "#499DF3",
+    "#13D0AB",
+    "#DADFE2",
+    "#FC1C74",
+    "#FFC43E",
+    "#5F6C72",
+    "#6061ED",
+    "#46CAEF"
+  ]
 }
 
 export const legendTiming = breakpoints => d => {

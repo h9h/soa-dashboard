@@ -1,5 +1,24 @@
 import styled from 'styled-components'
 
+export const DeepSpace = styled.span`
+  color: #354147;
+`
+export const Lava = styled.span`
+  color: #FF4A00;
+`
+export const Armor = styled.span`
+  color: #FD7622;
+`
+export const Steel = styled.span`
+  color: #969EA2;
+`
+export const Heroine = styled.span`
+  color: #499DF3;
+`
+export const Gamma = styled.span`
+  color: #13D0AB;
+`
+
 export const Green = styled.span`
   color: green;
 `
