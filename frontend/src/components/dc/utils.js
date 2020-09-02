@@ -9,7 +9,7 @@ const NoOfColors = styled.span`
 const ColorBox = styled.span`
   color: ${props => props.color};
   &::after {
-    content: "▰";
+    content: '▰';
   }
 `
 export const getLengthColors = scheme => {
@@ -244,45 +244,45 @@ export const COLOR_SCHEMES = {
     '#FD8C68'
   ], // http://tristen.ca/hcl-picker/#/hcl/10/1/35C445/FD8C68
   ColorBlind25: [
-    "#d67b2b",
-    "#a65cd1",
-    "#49c058",
-    "#d4499c",
-    "#85b937",
-    "#5971cb",
-    "#d5a32d",
-    "#8c529b",
-    "#b1b23a",
-    "#bd91d8",
-    "#438530",
-    "#d6425a",
-    "#51c2a1",
-    "#d84d2c",
-    "#4fa7d6",
-    "#a7472f",
-    "#7db96d",
-    "#9c4664",
-    "#37845f",
-    "#dd809f",
-    "#697329",
-    "#de8268",
-    "#a3ae68",
-    "#8f672b",
-    "#d1a360"
+    '#d67b2b',
+    '#a65cd1',
+    '#49c058',
+    '#d4499c',
+    '#85b937',
+    '#5971cb',
+    '#d5a32d',
+    '#8c529b',
+    '#b1b23a',
+    '#bd91d8',
+    '#438530',
+    '#d6425a',
+    '#51c2a1',
+    '#d84d2c',
+    '#4fa7d6',
+    '#a7472f',
+    '#7db96d',
+    '#9c4664',
+    '#37845f',
+    '#dd809f',
+    '#697329',
+    '#de8268',
+    '#a3ae68',
+    '#8f672b',
+    '#d1a360'
   ], // https://medialab.github.io/iwanthue/
   Sapiens: [
-    "#354147",
-    "#FF4A00",
-    "#FD7622",
-    "#969EA2",
-    "#499DF3",
-    "#13D0AB",
-    "#DADFE2",
-    "#FC1C74",
-    "#FFC43E",
-    "#5F6C72",
-    "#6061ED",
-    "#46CAEF"
+    '#354147',
+    '#FF4A00',
+    '#FD7622',
+    '#969EA2',
+    '#499DF3',
+    '#13D0AB',
+    '#DADFE2',
+    '#FC1C74',
+    '#FFC43E',
+    '#5F6C72',
+    '#6061ED',
+    '#46CAEF'
   ]
 }
 
