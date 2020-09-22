@@ -14,7 +14,7 @@
     "koa-send": "^5.0.0",
     "ldapjs": "^2.2.0",
     "moment": "^2.24.0",
-    "ramda": "^0.26.1"
+    "ramda": "^0.27.1"
   },
   "scripts": {
     "backup:config": "node backupConfig.js",
