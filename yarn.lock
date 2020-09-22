@@ -1785,6 +1785,10 @@ abstract-logging@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/abstract-logging/-/abstract-logging-1.0.0.tgz#8b7deafd310559bc28f77724dd1bb30177278c1b"
 
+abstract-logging@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/abstract-logging/-/abstract-logging-2.0.0.tgz#08a85814946c98ef06f4256ad470aba1886d4490"
+
 accepts@^1.3.5, accepts@~1.3.4, accepts@~1.3.5, accepts@~1.3.7:
   version "1.3.7"
   resolved "https://registry.yarnpkg.com/accepts/-/accepts-1.3.7.tgz#531bc726517a3b2b41f850021c6cc15eaab507cd"
@@ -2089,7 +2093,7 @@ asn1@0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/asn1/-/asn1-0.2.3.tgz#dac8787713c9966849fc8180777ebe9c1ddf3b86"
 
-asn1@~0.2.3:
+asn1@^0.2.4, asn1@~0.2.3:
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/asn1/-/asn1-0.2.4.tgz#8d2475dfab553bb33e77b54e59e880bb8ce23136"
   dependencies:
@@ -6293,7 +6297,13 @@ ldap-filter@0.2.2:
   dependencies:
     assert-plus "0.1.5"
 
-ldapjs@^1.0.1, ldapjs@^1.0.2:
+ldap-filter@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/ldap-filter/-/ldap-filter-0.3.3.tgz#2b14c68a2a9d4104dbdbc910a1ca85fd189e9797"
+  dependencies:
+    assert-plus "^1.0.0"
+
+ldapjs@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/ldapjs/-/ldapjs-1.0.2.tgz#544ff7032b7b83c68f0701328d9297aa694340f9"
   dependencies:
@@ -6308,6 +6318,19 @@ ldapjs@^1.0.1, ldapjs@^1.0.2:
     verror "^1.8.1"
   optionalDependencies:
     dtrace-provider "~0.8"
+
+ldapjs@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/ldapjs/-/ldapjs-2.2.0.tgz#c23846d35bf215b4ba4721ff22f11d3df6391e2f"
+  dependencies:
+    abstract-logging "^2.0.0"
+    asn1 "^0.2.4"
+    assert-plus "^1.0.0"
+    backoff "^2.5.0"
+    ldap-filter "^0.3.3"
+    once "^1.4.0"
+    vasync "^2.2.0"
+    verror "^1.8.1"
 
 left-pad@^1.3.0:
   version "1.3.0"
@@ -10204,6 +10227,12 @@ vasync@^1.6.4:
   resolved "https://registry.yarnpkg.com/vasync/-/vasync-1.6.4.tgz#dfe93616ad0e7ae801b332a9d88bfc5cdc8e1d1f"
   dependencies:
     verror "1.6.0"
+
+vasync@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/vasync/-/vasync-2.2.0.tgz#cfde751860a15822db3b132bc59b116a4adaf01b"
+  dependencies:
+    verror "1.10.0"
 
 vendors@^1.0.0:
   version "1.0.3"
