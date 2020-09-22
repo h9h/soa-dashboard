@@ -6,7 +6,7 @@
   "dependencies": {
     "@koa/cors": "^3.0.0",
     "activedirectory2": "^1.2.7",
-    "adm-zip": "^0.4.14",
+    "adm-zip": "^0.4.16",
     "axios": "^0.19.0",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
