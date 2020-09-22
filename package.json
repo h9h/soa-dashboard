@@ -12,7 +12,7 @@
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "koa-send": "^5.0.0",
-    "ldapjs": "^1.0.2",
+    "ldapjs": "^2.2.0",
     "moment": "^2.24.0",
     "ramda": "^0.26.1"
   },
