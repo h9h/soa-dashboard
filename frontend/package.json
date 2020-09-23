@@ -43,7 +43,7 @@
     "react-table-6": "^6.11.0",
     "react-toastify": "^5.3.2",
     "redux": "^4.0.4",
-    "regenerator-runtime": "^0.13.3",
+    "regenerator-runtime": "^0.13.7",
     "store": "^2.0.12",
     "styled-components": "^5.0.1",
     "uuid": "8.2.0",
