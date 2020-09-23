@@ -12,7 +12,7 @@
     "bootstrap": "^4.3.1",
     "copy-to-clipboard": "^3.2.0",
     "core-js": "^3.1.4",
-    "crossfilter2": "^1.4.7",
+    "crossfilter2": "^1.5.3",
     "d3": "^5.9.2",
     "dc": "^3.1.0",
     "debug": "^4.2.0",

@@ -3575,10 +3575,10 @@ cross-spawn@^6.0.0, cross-spawn@^6.0.5:
     shebang-command "^1.2.0"
     which "^1.2.9"
 
-crossfilter2@^1.4.7:
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/crossfilter2/-/crossfilter2-1.5.2.tgz#582a3c42a2ec6452768c0f5c8ed588c160d8897f"
-  integrity sha512-ImlvPlUOQ2MW+DJmoglK3anU9GwvHk2EWaqUoXczydhIKzg7ot4W+w8kPNlUAW6Onoyg2AE1QhH5fzK2gNSbYg==
+crossfilter2@^1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/crossfilter2/-/crossfilter2-1.5.3.tgz#1f59647b30bdec6d205655988b52050a661ffabc"
+  integrity sha512-6fxVLDUNmSLABVBA/VmNozXJ9KbMSGSrOIp4x8aSaJV4lccWsXnBtlTS5ENqMq2Cjjt8db6SlFDUf+xNYLeyjw==
   dependencies:
     "@ranfdev/deepobj" "1.0.2"
 
