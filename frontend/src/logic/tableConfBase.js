@@ -32,7 +32,7 @@ const filterOnParity = ({
       return true
     } else {
       try {
-        return parseInt('' + row[filter.id], 10) > 0
+        return parseInt('' + row[filter.id], 10) !== 0
       } catch (_) {
         return true
       }
