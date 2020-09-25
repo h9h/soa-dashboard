@@ -33,6 +33,7 @@ const RouteUnauthenticated = lazy(() => import('./RouteUnauthenticated'))
 const RouteAuthenticated = lazy(() => import('./RouteAuthenticated'))
 const PageLogin = lazy(() => import('./PageLogin'))
 const PageDashboard = lazy(() => import('./PageDashboard'))
+const PageDashboard2 = lazy(() => import('./PageDashboard2'))
 const PageQueues = lazy(() => import('./PageQueues'))
 const PageMessages = lazy(() => import('./PageMessages'))
 const PageJobs = lazy(() => import('./PageJobs'))
@@ -95,13 +96,20 @@ const App = () => {
             <RouteAuthenticated exact path="/dashboard" component={PageDashboard}/>
             <RouteAuthenticated path="/dashboard/:umgebung/:datum/:von/:bis/:searchType/:searchValue" component={PageDashboard}/>
             <RouteAuthenticated path="/dashboard/:umgebung/:datum/:von/:bis" component={PageDashboard}/>
+
+            <RouteAuthenticated exact path="/dashboard2" component={PageDashboard2}/>
+            <RouteAuthenticated path="/dashboard2/:umgebung/:datum/:von/:bis/:searchType/:searchValue" component={PageDashboard2}/>
+            <RouteAuthenticated path="/dashboard2/:umgebung/:datum/:von/:bis" component={PageDashboard2}/>
+
             <RouteAuthenticated exact path="/queues/:umgebung/:database/:queuetable" component={PageQueuetables}/>
             <RouteAuthenticated path="/queues" component={PageQueues}/>
             <RouteAuthenticated path="/messages" component={PageMessages}/>
             <RouteAuthenticated path="/jobs" component={PageJobs}/>
+
             <RouteAuthenticated path="/message/:umgebung/:datum/:von/:bis/:messageId" component={PageServicecall}/>
             <RouteAuthenticated exact path="/statistics/:umgebung/:datumVon/:datumBis" component={PageStatistics}/>
             <RouteAuthenticated path="/statistics" component={PageStatistics}/>
+
             <RouteAuthenticated path="/" component={component}/>
           </Switch>
 

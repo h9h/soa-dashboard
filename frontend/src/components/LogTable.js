@@ -5,9 +5,7 @@ import ReactTable from 'react-table-6'
 import ReactJson from 'react-json-view'
 import { sort } from 'ramda'
 import { getColumns } from '../logic/tableConfLog'
-import ServiceModal from './ServiceModal'
 import { getLogpoints } from '../logic/api/api-dashboard'
-import ServicecallModal from './ServicecallModal'
 import LogpointDistribution from './LogpointDistribution'
 import WartenAnzeiger from './WartenAnzeiger'
 import Log from '../log'
@@ -24,6 +22,7 @@ import { LOG_SEARCH_TYPES } from '../logic/store'
 import { getDefaultFilterMethod, json2string } from '../logic/utils'
 import useWindowSize from './useWindowSize'
 import { getConfigurationValue } from '../logic/configuration'
+import { Modal, useModal } from './LogpointModals'
 
 const log = Log('logtable')
 
@@ -117,31 +116,7 @@ const UnconnectedLogpointTable = ({ logs, defaultPageSize, pageSizes, setPageSiz
 
   const menuHeight = navigator.userAgent.indexOf('Firefox') > -1 ? 180 : 120
 
-  const [modal, setModal] = useState({show: false})
-
-  const hideModal = () => {
-    setModal({show: false})
-  }
-
-  const showModal = (props) => {
-    setModal({show: true, onHide: hideModal, ...props})
-  }
-
-  const Modal = props => {
-    if (!modal.show) return null
-
-    const type = modal.component
-    if (!type) return null
-
-    switch (type) {
-      case 'Timestamp':
-        return <ServiceModal {...props} />
-      case 'LogpointAction':
-        return <ServicecallModal {...props} />
-      default:
-        throw new Error('Unbekannter Type "' + type + '" in Modalem Dialog in LogTable')
-    }
-  }
+  const [modal, showModal, hideModal] = useModal()
 
   log.trace('setColumns', logs.keys)
   const columns = getColumns(showModal, logs.keys)
