@@ -7,7 +7,7 @@ import CopyToClipboard from '../CopyToClipboard'
 const Sender = ({row}) => {
   if (!row.aggregated) {
     return (
-      <CopyToClipboard text={row.original.SENDERFQN} notificationText="SenderFQN">
+      <CopyToClipboard text={row.original ? row.original.SENDERFQN : ""} notificationText="SenderFQN">
         <Smaller>{row.value}</Smaller>
       </CopyToClipboard>
     )
