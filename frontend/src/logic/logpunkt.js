@@ -5,9 +5,9 @@ export const logpointWithMessage = logpoint => {
   return [
     2, 4, 6, 11, 13, 15, 53, 55, 58,
     71, 73, 75, 77, 82, 84, 86, 88, 91, 92, // Datapower Logpunkte
-    42, // ab zur Deadletter Queue
-    44, // ab zur Undelivered Queue
-    48 // resend aus Queue
+    // 42, // ab zur Deadletter Queue --> hat keine neuen Informationen
+    // 44, // ab zur Undelivered Queue --> nein, Nachricht in Undelivered Queue
+    48 // resend aus Queue --> könnte gepatcht sein
   ].indexOf(no) > -1
 }
 
@@ -20,6 +20,8 @@ export const LP_TYPES = {
 
 export const logpointType = logpoint => {
   if ([1, 9, 10, 18, 58].indexOf(logpoint) > -1) return LP_TYPES.APPLICATION
+  if ([48].indexOf(logpoint) > -1) return LP_TYPES.APPLICATION // Resend aus Queue
+  if (logpoint === 42 || logpoint === 44) return LP_TYPES.FAULT // Einstellen in Queue
   if (logpoint > 49 && logpoint < 70) return LP_TYPES.FAULT
   if (logpoint > 90) return LP_TYPES.FAULT // Datapower Faults
   if (logpoint > 70) return LP_TYPES.SEP // Datapower
@@ -35,7 +37,7 @@ export const logpointDirection = logpoint => {
   const no = logpointToNumber(logpoint)
   if (no < 10) return LP_DIRECTION.REQUEST
   if (no > 80 && no < 90) return LP_DIRECTION.REQUEST
-  if (no === 42) return LP_DIRECTION.REQUEST
+  if (no === 42 || no === 48) return LP_DIRECTION.REQUEST
   return LP_DIRECTION.RESPONSE
 }
 
