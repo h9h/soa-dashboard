@@ -1,4 +1,4 @@
-import { parse } from '../../logic/xml'
+import { parse } from '../xml'
 import jp from 'jsonpath'
 import { getModelvalue, MODELS } from './models'
 
@@ -33,7 +33,10 @@ export async function getQueuename (execute, MESSAGE, OPERATION, SENDERFQN) {
     fields = {senderFQN: MESSAGE.senderFQN}
   }
   if (!fields.senderFQN) {
-    return getFehlermeldung(fields.senderFQN, SENDERFQN, 'senderFQN nicht ermittelbar')
+    fields = {senderFQN: SENDERFQN}
+    if (!fields.senderFQN) {
+      return getFehlermeldung(fields.senderFQN, SENDERFQN, 'senderFQN nicht ermittelbar')
+    }
   }
 
   const values = await getModelvalue(MODELS.SENDERFQN_2_QUEUENAME, fields.senderFQN)
@@ -43,7 +46,7 @@ export async function getQueuename (execute, MESSAGE, OPERATION, SENDERFQN) {
 
   if (typeof values === 'string') {
     execute.setValue('queuename', values)
-    return {success: true, result: {operation: OPERATION, senderFQN: SENDERFQN, queuename: values}}
+    return {success: true, result: {operation: OPERATION, senderFQN: fields.senderFQN, queuename: values}}
   } else {
     if (values.QueueName) {
       execute.setValue('queuename', values.QueueName)
@@ -60,7 +63,7 @@ export async function getQueuename (execute, MESSAGE, OPERATION, SENDERFQN) {
       success: true,
       result: {
         operation: OPERATION,
-        senderFQN: SENDERFQN,
+        senderFQN: fields.senderFQN,
         queuename: values.QueueName,
         topicname: values.TopicName
       }
