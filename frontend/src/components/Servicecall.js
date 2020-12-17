@@ -158,7 +158,7 @@ const Servicecall = ({umgebung, logpoints, standalone=false}) => {
     }
   }, [data, timeline, width])
 
-  const showDefaultLogIds = !isEmpty(defaultLogIds) && standalone
+  const showDefaultLogIds = !isEmpty(defaultLogIds)// && standalone
   const anzahlDefaultLogIds = Object.keys(defaultLogIds).length || 1
 
   log.trace('render')
