@@ -141,7 +141,7 @@ const UnconnectedLogpointTable = ({ logs, defaultPageSize, pageSizes, setPageSiz
     showPagination: !oneMessageOnly,
     pageSizeOptions: sort((a, b) => a - b, pageSizes.filter(s => !!s).map(s => parseInt(s, 10))),
     filterable: !oneMessageOnly,
-    minRows: oneMessageOnly ? 1 : undefined,
+    minRows: oneMessageOnly ? 1 : 0,
     collapseOnDataChange: false,
     getTdProps: getTdProps(props.history, getDashboardRoute(umgebung, datum, von, bis)),
   }
