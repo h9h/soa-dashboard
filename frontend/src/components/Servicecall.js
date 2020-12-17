@@ -4,7 +4,6 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { DataSet, Timeline } from 'vis-timeline/standalone'
 import useComponentSize from '@rehooks/component-size'
-import { isEmpty } from 'ramda'
 import {
   logpointDirection,
   logpointType,
@@ -70,13 +69,15 @@ const Servicecall = ({umgebung, logpoints, standalone=false}) => {
   log.trace('Servicecall called', umgebung, logpoints, standalone)
 
   const [data, defaultLogIds] = useMemo(() => {
-    const defaultLogIds = {}
+    // 1: insert potentielle Logpunkte mit Nachricht, damit Reihenfolge klar ist:
+    const defaultLogIds = new Map([2, 6, 11, 53, 82, 75, 86, 71].map(key => [key, null]))
 
     const dataset = new DataSet(logpoints.map(point => {
       log.trace('Logpunkt ', {...point})
 
-      if ([2, 6, 11, 53].indexOf(point.LOGPOINTNO) > -1) {
-        defaultLogIds[point.LOGPOINTNO] = point.INTERNALLOGID
+      if ([2, 6, 11, 53, 82, 75].indexOf(point.LOGPOINTNO) > -1) {
+        // 2: setzte Inhalt für Logpunkt mit Nachricht:
+        defaultLogIds.set(point.LOGPOINTNO, point.INTERNALLOGID)
       }
 
       return {
@@ -91,6 +92,9 @@ const Servicecall = ({umgebung, logpoints, standalone=false}) => {
 
     return [dataset, defaultLogIds]
   }, [logpoints])
+
+  // 3: lösche alle Schlüssel, zu denen es doch keinen Logpunkt gab:
+  defaultLogIds.forEach((v, k, map) => !v && map.delete(k))
 
   const element = useRef(null)
   const {width} = useComponentSize(element)
@@ -158,8 +162,8 @@ const Servicecall = ({umgebung, logpoints, standalone=false}) => {
     }
   }, [data, timeline, width])
 
-  const showDefaultLogIds = !isEmpty(defaultLogIds)// && standalone
-  const anzahlDefaultLogIds = Object.keys(defaultLogIds).length || 1
+  const showDefaultLogIds = defaultLogIds.size > 0 // && standalone
+  const anzahlDefaultLogIds = defaultLogIds.size || 1
 
   log.trace('render')
   return (
@@ -181,10 +185,10 @@ const Servicecall = ({umgebung, logpoints, standalone=false}) => {
       {
         !logPoint && showDefaultLogIds && (
           <Row>
-            {Object.keys(defaultLogIds).map(key => (
-              <Col xs={12/anzahlDefaultLogIds} key={key}>
+            {Array.from(defaultLogIds).map(([key, value]) => (
+              <Col xs={12/anzahlDefaultLogIds} key={'' + key}>
                 <WordWrap>
-                  {defaultLogIds[key] && <MessageFromLogpoint umgebung={umgebung} logpointNo={parseInt(key, 10)} id={defaultLogIds[key]} /> }
+                  {value && <MessageFromLogpoint umgebung={umgebung} logpointNo={key} id={value} /> }
                 </WordWrap>
               </Col>
             ))}

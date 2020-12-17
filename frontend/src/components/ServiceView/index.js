@@ -90,6 +90,13 @@ const ServiceView = ({data}) => {
           '$.Message.*.Request.*.*.*',
           '$.Message.*.Request.*.*.*.*',
           '$.Message.*.Request.*.*.*.*.*',
+          '$.Message.Envelope',
+          '$.Message.Envelope.*',
+          '$.Message.Envelope.*.*',
+          '$.Message.Envelope.*.*.*',
+          '$.Message.Envelope.*.*.*.*',
+          '$.Message.Envelope.*.*.*.*.*',
+          '$.Message.Envelope.*.*.*.*.*.*',
         ]}
       />
     </>
