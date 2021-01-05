@@ -99,6 +99,47 @@ export default () => {
           <br/>
         </Paragraph>
       </Section>
+      <Section title="Filter - Selektieren von Nachrichten">
+        <Paragraph>
+          Im oberen linken Bereich steht ein Eingabefeld zur Verfügung, in dem der Filterausdruck für die Selektion der Nachrichten
+          eingegeben werden kann.
+        </Paragraph>
+        <Paragraph>
+          <Abbildung>
+            <img alt="Leerer Filter" src="./images/FilterFuerJobLeer.png" width="90%"/>
+          </Abbildung>
+        </Paragraph>
+        <Paragraph>
+          Der Filterausdruck muss ein valider JavaScript-Ausdruck sein, der ein boolsches Ergebnis zurück gibt. Dafür stehen
+          zwei Variablen zur Verfügung:
+          <Paragraph>
+            <li><code>row</code> - ein einzelner Datensatz</li>
+            <li><code>index</code> - die Nummer des Datensatzes in der Tabelle (beginnend mit 0)</li>
+          </Paragraph>
+          <Paragraph>
+            Um die Arbeit mit dem Filterausdruck zu erleichtern, wird der Ausdruck während der Eingabe kontinuierlich
+            mit einem Testdatensatz ausgewertet und das Ergebnis rechts unterhalb des Eingabefelds angezeigt. Der Testdatensatz
+            kann durch Click auf einen Datensatz in der Tabelle geändert werden (siehe links unterhalb des Eingabefeldes).
+          </Paragraph>
+          <Paragraph>
+            Dabei wird entweder der rohe Objektwert dargestellt (z.B. der Inhalt von <code>row</code>) oder ein eventuell bereits verfügbares Ergebnis in der Variablen "evaluated".
+          </Paragraph>
+          <Paragraph>
+            Dies kann man sich zunutze machen, um z.B. erstmal zu schauen, welche Attribute die Variable <code>row</code> denn eigentlich zur Verfügung stellt:
+          </Paragraph>
+          <Paragraph>
+            <Abbildung>
+              <img alt="Leerer Filter" src="./images/FilterFuerJobRow.png" width="90%"/>
+            </Abbildung>
+          </Paragraph>
+          <Paragraph>
+            <Header>Filter-Beispiele</Header>
+            <li><code>index &lt; 10</code> - die ersten 10 Nachrichten</li>
+            <li><code>row.MESSAGE_ID === 'M-xxxx...'</code> - filtere auf spezifische Message-ID</li>
+            <li><code>row.SERVICE.indexOf('VertragAenderungAsync1') > 0</code> - der Servicename muss die Zeichenfolge 'VertragsAenderungAsync1' enthalten</li>
+          </Paragraph>
+        </Paragraph>
+      </Section>
       <Section title="Aktionen">
         <Paragraph>
           Folgende Funktionen stehen derzeit im Bereich Jobs zur Verfügung:
@@ -143,9 +184,9 @@ export default () => {
                   <img alt="Job Log" src="./images/maxQueue.png" width="50%"/>
                 </Abbildung>
               </Paragraph>
-              Auch ohne eigentlichen Nachrichteninhalt können alle Jobs außer "Resend Message (Message aus Job-Data)"
+              Auch ohne eigentlichen Nachrichteninhalt können alle Jobs außer "Resend Message (Nachricht aus lokaler Datei)"
               weiterhin vorgenommen werden.
-              Nur für den Job "Resend Message (Message aus Job-Data)" braucht man ja den eigentlichen Nachrichteninhalt,
+              Nur für den Job "Resend Message (Nachricht aus lokaler Datei)" braucht man ja den eigentlichen Nachrichteninhalt,
               um
               ihn lokal modifizieren zu können.
             </Abbildung>
