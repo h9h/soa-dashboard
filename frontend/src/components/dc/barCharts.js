@@ -128,11 +128,11 @@ export const renderBarChartLogpoints = ({div, dimensions, setBis}) => {
     .legend(dc.legend().x(30).y(20).itemHeight(13).gap(5))
     .renderHorizontalGridLines(true)
     .dimension(dimTime)
-    .group(calls, "Calls")
+    .group(calls, "Ok")
     .brushOn(false)
     .centerBar(true)
     .xUnits(d3.timeSeconds)
-    .title(p => `${moment(p.key).format('HH:mm:ss')}:\n\nAnzahl Calls: ${p.value}`)
+    .title(p => `${moment(p.key).format('HH:mm:ss')}:\n\nAnzahl Servicecalls: ${p.value}`)
     .yAxisLabel('Anzahl/sek')
 
   chart
@@ -142,7 +142,7 @@ export const renderBarChartLogpoints = ({div, dimensions, setBis}) => {
   chart.xAxis()
     .tickFormat(multiFormat)
 
-  chart.stack(faults, 'Faults')
+  chart.stack(faults, 'Fault')
 
   chart.on('pretransition', function(chart) {
     chart.selectAll('rect.bar').on('click.esbdashboard', function(d) {

@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { isFault } from './logpunkt'
 // import crossfilter from 'crossfilter2'
 
 const TIMEFORMAT = 'YYYY-MM-DDTHH:mm:ss.SSS'
@@ -99,19 +100,9 @@ export const getStatistik = (data) => {
     return { isEmpty: true }
   }
 
-
-  /*
-  const ndx = crossfilter(data)
-
-  const dimensions = {
-    Timestamp: ndx.dimension(d => d.Timestamp),
-    second: ndx.dimension(d => moment(d.Timestamp).startOf('second')),
-    MESSAGEID: ndx.dimension(d => d.MESSAGEID)
-  }
-  */
-
   let anzahl = 0
   const messageSet = new Set()
+  const faultSet = new Set()
 
   const counted = data.reduce((acc, point) => {
     const ts = moment(point.Timestamp).startOf('second').format('YYYY-MM-DDTHH:mm:ss')
@@ -128,9 +119,14 @@ export const getStatistik = (data) => {
     }
 
     // Zähle logpoints, differenziert, ob Fault oder nicht
-    if (parseInt(point.LOGPOINTNO, 10) > 50) {
-      acc[ts].faultAnzahl++
+    if (!faultSet.has(point.MESSAGEID)) {
+      if (isFault(parseInt(point.LOGPOINTNO, 10))) {
+        faultSet.add(point.MESSAGEID)
+        acc[ts].faultAnzahl++
+        acc[ts].messageAnzahl-- // da wir den Call schon gezählt hatten
+      }
     }
+
     anzahl++
     return acc
   }, {})

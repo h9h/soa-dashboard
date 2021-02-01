@@ -18,12 +18,22 @@ export const LP_TYPES = {
   SEP: 'sep'
 }
 
+export const isApplication = logpoint => {
+  if ([1, 9, 10, 18, 58].indexOf(logpoint) > -1) return true
+  if ([48].indexOf(logpoint) > -1) return true // Resend aus Queue
+  return false
+}
+
+export const isFault = logpoint => {
+  if (logpoint === 42 || logpoint === 44) return true // Einstellen in Queue
+  if (logpoint > 49 && logpoint < 70) return true
+  if (logpoint > 90) return true // Datapower Faults
+  return false
+}
+
 export const logpointType = logpoint => {
-  if ([1, 9, 10, 18, 58].indexOf(logpoint) > -1) return LP_TYPES.APPLICATION
-  if ([48].indexOf(logpoint) > -1) return LP_TYPES.APPLICATION // Resend aus Queue
-  if (logpoint === 42 || logpoint === 44) return LP_TYPES.FAULT // Einstellen in Queue
-  if (logpoint > 49 && logpoint < 70) return LP_TYPES.FAULT
-  if (logpoint > 90) return LP_TYPES.FAULT // Datapower Faults
+  if (isApplication(logpoint)) return LP_TYPES.APPLICATION
+  if (isFault(logpoint)) return LP_TYPES.FAULT
   if (logpoint > 70) return LP_TYPES.SEP // Datapower
   return LP_TYPES.BUS
 }
