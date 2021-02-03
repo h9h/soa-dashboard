@@ -7,7 +7,7 @@ import { CONFIGURATION_SCHEMA, DEFINITIONS } from './configurationDefinition'
 const CONFIG_STORE_KEY = 'esb-dashboard'
 
 const defaultConfiguration = {
-  version: 4,
+  version: 5,
   umgebungen: getDefaultUmgebungen,
   startpage: 'dashboard',
   time: {
@@ -21,6 +21,7 @@ const defaultConfiguration = {
     widenFilter: {
       anzahlVor: "1",
       anzahlZurueck: "15",
+      anzahlMitSuchparameter: "15",
       unit: 'minutes'
     },
   },

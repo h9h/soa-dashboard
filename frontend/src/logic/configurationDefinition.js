@@ -45,9 +45,10 @@ export const DEFINITIONS = {
     properties: {
       anzahlVor: {type: "string", pattern: "^\\d{1,2}$"},
       anzahlZurueck: {type: "string", pattern: "^\\d{1,2}$"},
+      anzahlMitSuchparameter: {type: "string", pattern: "^\\d{1,2}$"},
       unit: {type: "string", enum: ['minutes']}
     },
-    required: ["anzahlVor", "anzahlZurueck", "unit"],
+    required: ["anzahlVor", "anzahlZurueck", "anzahlMitSuchparameter", "unit"],
     additionalProperties: false
   },
   filter: {
