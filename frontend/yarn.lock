@@ -3147,9 +3147,9 @@ cross-spawn@^6.0.0, cross-spawn@^6.0.5:
     shebang-command "^1.2.0"
     which "^1.2.9"
 
-crossfilter2@^1.4.7:
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/crossfilter2/-/crossfilter2-1.5.3.tgz#1f59647b30bdec6d205655988b52050a661ffabc"
+crossfilter2@^1.5.4:
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/crossfilter2/-/crossfilter2-1.5.4.tgz#855a11245d9dc18631cd49d88101dc31a2bcffce"
   dependencies:
     "@ranfdev/deepobj" "1.0.2"
 
