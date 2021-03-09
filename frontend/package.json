@@ -8,7 +8,7 @@
     "@atlaskit/select": "^9.1.0",
     "@rehooks/component-size": "^1.0.2",
     "@welldone-software/why-did-you-render": "^3.0.9",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "bootstrap": "^4.3.1",
     "copy-to-clipboard": "^3.2.0",
     "core-js": "^3.1.4",
