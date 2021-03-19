@@ -58,7 +58,7 @@ const LogpointTable = ({umgebung, datum, von, bis, searchType, searchValue}) => 
       data: result.data || []
     },
     useBlockLayout,
-    //useGroupBy,
+    // useGroupBy,
     /* useExpanded */
   )
 

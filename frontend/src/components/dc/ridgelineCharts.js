@@ -49,7 +49,7 @@ const createTooltip = (div) => {
     .style('opacity', 0)
 
   return {
-    mouseover: d => {
+    mouseover: (event, d) => {
       element.transition()
         .duration(200)
         .style('opacity', .9)
@@ -59,8 +59,8 @@ Extent: [${ZAHL_FORMAT(d3.min(d.values))}, ${ZAHL_FORMAT(d.maximum)}]<br />
 Median: ${ZAHL_FORMAT(Math.round(d3.median(d.values)))}<br />
 Durchschnitt: ${ZAHL_FORMAT(Math.round(d3.mean(d.values)))}
 `)
-        .style('left', (d3.event.pageX - 150) + 'px')
-        .style('top', (d3.event.pageY - 150) + 'px')
+        .style('left', (event.pageX - 150) + 'px')
+        .style('top', (event.pageY - 150) + 'px')
     },
 
     mouseout: () => {
@@ -100,9 +100,9 @@ const createCursorline = (div, getDate) => {
   const elementText = textDiv
     .style("opacity", "0")
 
-  const setTime = setTimeIfChanged(time => {
+  const setTime = event => setTimeIfChanged(time => {
     elementText.text(time)
-      .style("left", (d3.event.pageX) + "px")
+      .style("left", (event.pageX) + "px")
       .style("top", "1px")
   })
 
@@ -115,12 +115,12 @@ const createCursorline = (div, getDate) => {
         .duration(200)
         .style('opacity', .9)
     },
-    mousemove: function () {
-      const x = d3.event.pageX - 20
+    mousemove: function (event) {
+      const x = event.pageX - 20
       const time = moment(getDate(x)).add(30, 'minutes').startOf('hour').format('DD.MM.YYYY HH:mm')
 
       element.attr("d", () => `M${x},${height} ${x},0`)
-      setTime(time)
+      setTime(event)(time)
     },
     mouseout: () => {
       element.transition()
@@ -301,8 +301,8 @@ class RidgelineChart extends Chart {
       .attr('class', 'ridgelinePath__path')
       .attr('fill', () => nextColorArea())
       .attr('d', d => area(d.values))
-      .on('mouseover', d => {
-        tooltip.mouseover(d)
+      .on('mouseover', (event, d) => {
+        tooltip.mouseover(event, d)
         cursorLine.mouseover(d)
       })
       .on('mouseout', () => {
