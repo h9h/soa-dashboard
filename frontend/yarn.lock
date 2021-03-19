@@ -6475,9 +6475,9 @@ jsonpath@^1.0.2:
     static-eval "2.0.2"
     underscore "1.7.0"
 
-jsonschema@^1.2.4:
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/jsonschema/-/jsonschema-1.2.6.tgz#52b0a8e9dc06bbae7295249d03e4b9faee8a0c0b"
+jsonschema@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/jsonschema/-/jsonschema-1.4.0.tgz#1afa34c4bc22190d8e42271ec17ac8b3404f87b2"
 
 jsprim@^1.2.2:
   version "1.4.1"
