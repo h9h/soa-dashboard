@@ -5,6 +5,7 @@ import NodeRenderer from './NodeRenderer'
 import { parse } from '../../logic/xml'
 import { THEME } from './theme'
 import { CopyMessageToClipboard } from '../CopyToClipboard'
+import { Red } from '../styles'
 
 const toDisplayJson = json => {
   if (!json) return {}
@@ -42,11 +43,18 @@ const handleService = response => {
 
 const ServiceView = ({data}) => {
   const [messageType, jsonData] = handleService(data)
+
   return (
     <>
       {jsonData && jsonData.Roh && (
         <>
           <CopyMessageToClipboard textToBeCopied={jsonData.Roh['Message-XML']} />
+          <hr/>
+        </>
+      )}
+      {jsonData && jsonData.Roh && jsonData.Roh.Meta && jsonData.Roh.Meta.ERRORCODE && (
+        <>
+          <Red><h4>ERRORCODE: {jsonData.Roh.Meta.ERRORCODE}</h4></Red>
           <hr/>
         </>
       )}
