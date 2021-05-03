@@ -13,6 +13,11 @@ import {
 
 const log = Log('reducer')
 
+const updateStoredUmgebung = umgebung => {
+  const newConf = mergeDeepRight(getStoredConfiguration(), {filter: {umgebung}})
+  storeConfiguration(newConf)
+}
+
 function reducer (state = {}, action) {
   log.trace('reduce', {state, action})
 
@@ -51,6 +56,7 @@ function reducer (state = {}, action) {
     }
 
     case 'setFilter': {
+      updateStoredUmgebung(action.umgebung)
       const {von, bis} = getDuration(getConfigurationValue('time.duration'))(moment(action.bis, TIME_FORMAT))
       return {
         ...state,
@@ -64,6 +70,7 @@ function reducer (state = {}, action) {
     }
 
     case 'setUmgebung':
+      updateStoredUmgebung(action.umgebung)
       return {
         ...state,
         umgebung: action.umgebung
@@ -96,6 +103,7 @@ function reducer (state = {}, action) {
       }
 
     case 'setFilterQueues': {
+      updateStoredUmgebung(action.umgebung)
       return {
         ...state,
         umgebung: action.umgebung,
@@ -104,6 +112,7 @@ function reducer (state = {}, action) {
     }
 
     case 'setFilterStatistics': {
+      updateStoredUmgebung(action.umgebung)
       let datumStatVon = action.datumStatVon < action.datumStatBis ? action.datumStatVon : action.datumStatBis
       const datumStatBis = action.datumStatVon < action.datumStatBis ? action.datumStatBis : action.datumStatVon
       if (moment(datumStatVon, 'YYYY-MM-DD').add(31, 'days').valueOf() < moment(datumStatBis, 'YYYY-MM-DD').valueOf()) {
@@ -135,6 +144,7 @@ function reducer (state = {}, action) {
       }
 
     case 'setFilterMessages': {
+      updateStoredUmgebung(action.umgebung)
       let datumVon = action.datumVon < action.datumBis ? action.datumVon : action.datumBis
       const datumBis = action.datumVon < action.datumBis ? action.datumBis : action.datumVon
       if (moment(datumVon, 'YYYY-MM-DD').add(28, 'days').valueOf() < moment(datumBis, 'YYYY-MM-DD').valueOf()) {
