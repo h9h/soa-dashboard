@@ -1,6 +1,6 @@
 {
   "name": "soa-dashboard-frontend",
-  "version": "1.2.95",
+  "version": "1.2.96",
   "homepage": ".",
   "license": "MIT",
   "dependencies": {
@@ -22,7 +22,7 @@
     "jsonschema": "^1.4.0",
     "moment": "^2.24.0",
     "object.entries": "^1.1.0",
-    "pino": "^5.12.6",
+    "pino": "^6.11.3",
     "pino-pretty": "^3.1.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.14.1",
