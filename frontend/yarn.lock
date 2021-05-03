@@ -10455,9 +10455,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-vis-data@^6.6.1:
-  version "6.6.1"
-  resolved "https://registry.yarnpkg.com/vis-data/-/vis-data-6.6.1.tgz#2aa52e46c305ad46bb7abe6e7634e2eecd743b15"
+vis-data@^7.1.2:
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/vis-data/-/vis-data-7.1.2.tgz#b7d076ac79cb54f7c5e9c80f5b03b93cc8cc1fda"
 
 vis-timeline@^7.4.4:
   version "7.4.4"
