@@ -1,6 +1,6 @@
 {
   "name": "soa-dashboard-frontend",
-  "version": "1.2.95",
+  "version": "1.2.96",
   "homepage": ".",
   "license": "MIT",
   "dependencies": {
@@ -30,7 +30,7 @@
     "react": "^16.11.0",
     "react-app-polyfill": "^0.2.2",
     "react-autocomplete-input": "^1.0.12",
-    "react-autosuggest": "^10.0.3",
+    "react-autosuggest": "^10.1.0",
     "react-bootstrap": "^1.0.0-beta.16",
     "react-dom": "^16.11.0",
     "react-flatpickr": "^3.9.0",
