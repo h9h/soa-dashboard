@@ -1,6 +1,6 @@
 {
   "name": "soa-dashboard-frontend",
-  "version": "1.2.95",
+  "version": "1.2.96",
   "homepage": ".",
   "license": "MIT",
   "dependencies": {
@@ -44,7 +44,7 @@
     "react-table-6": "^6.11.0",
     "react-toastify": "^5.3.2",
     "react-virtualized-auto-sizer": "^1.0.2",
-    "react-window": "^1.8.5",
+    "react-window": "^1.8.6",
     "redux": "^4.0.4",
     "regenerator-runtime": "^0.13.3",
     "store": "^2.0.12",
