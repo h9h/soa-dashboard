@@ -17,12 +17,12 @@
     tslib "^1.9.3"
     uuid "^3.1.0"
 
-"@atlaskit/reduced-ui-pack@^11.0.0":
-  version "11.0.1"
-  resolved "https://registry.yarnpkg.com/@atlaskit/reduced-ui-pack/-/reduced-ui-pack-11.0.1.tgz#bc02bf06f003a1670e677cda874334152f145703"
+"@atlaskit/reduced-ui-pack@^13.1.1":
+  version "13.1.1"
+  resolved "https://registry.yarnpkg.com/@atlaskit/reduced-ui-pack/-/reduced-ui-pack-13.1.1.tgz#599f006e0df8a511a27b5c5c950434614f402c0a"
   dependencies:
-    "@atlaskit/theme" "^9.0.2"
-    fbjs "^1.0.0"
+    "@atlaskit/theme" "^11.0.0"
+    fbjs "^3.0.0"
 
 "@atlaskit/select@^9.1.0":
   version "9.1.10"
@@ -51,7 +51,15 @@
     react-transition-group "^2.2.1"
     tslib "^1.9.3"
 
-"@atlaskit/theme@^9.0.2", "@atlaskit/theme@^9.1.1", "@atlaskit/theme@^9.5.0", "@atlaskit/theme@^9.5.1":
+"@atlaskit/theme@^11.0.0":
+  version "11.0.3"
+  resolved "https://registry.yarnpkg.com/@atlaskit/theme/-/theme-11.0.3.tgz#6483a751eb7c28209e50307aabe255a8209bdb3b"
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    exenv "^1.2.2"
+    prop-types "^15.5.10"
+
+"@atlaskit/theme@^9.1.1", "@atlaskit/theme@^9.5.0", "@atlaskit/theme@^9.5.1":
   version "9.5.6"
   resolved "https://registry.yarnpkg.com/@atlaskit/theme/-/theme-9.5.6.tgz#fbc1068eee3af5dbb57c346276b5eb0913e89d0d"
   dependencies:
@@ -3051,7 +3059,7 @@ core-js@^1.0.0:
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
 
-core-js@^2.4.0, core-js@^2.4.1:
+core-js@^2.4.0:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.11.tgz#38831469f9922bded8ee21c9dc46985e0399308c"
 
@@ -3128,6 +3136,12 @@ create-react-context@^0.2.1:
   dependencies:
     fbjs "^0.8.0"
     gud "^1.0.0"
+
+cross-fetch@^3.0.4:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.2.tgz#ee0c2f18844c4fde36150c2a4ddc068d20c1bc41"
+  dependencies:
+    node-fetch "2.6.1"
 
 cross-spawn@7.0.1:
   version "7.0.1"
@@ -4745,13 +4759,12 @@ fbjs@^0.8.0, fbjs@^0.8.4:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.18"
 
-fbjs@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-1.0.0.tgz#52c215e0883a3c86af2a7a776ed51525ae8e0a5a"
+fbjs@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-3.0.0.tgz#0907067fb3f57a78f45d95f1eacffcacd623c165"
   dependencies:
-    core-js "^2.4.1"
+    cross-fetch "^3.0.4"
     fbjs-css-vars "^1.0.0"
-    isomorphic-fetch "^2.1.1"
     loose-envify "^1.0.0"
     object-assign "^4.1.0"
     promise "^7.1.1"
@@ -7044,6 +7057,10 @@ no-case@^3.0.3:
   dependencies:
     lower-case "^2.0.1"
     tslib "^1.10.0"
+
+node-fetch@2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
 
 node-fetch@^1.0.1:
   version "1.7.3"

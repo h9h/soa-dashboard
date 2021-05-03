@@ -4,7 +4,7 @@
   "homepage": ".",
   "license": "MIT",
   "dependencies": {
-    "@atlaskit/reduced-ui-pack": "^11.0.0",
+    "@atlaskit/reduced-ui-pack": "^13.1.1",
     "@atlaskit/select": "^9.1.0",
     "@rehooks/component-size": "^1.0.2",
     "@welldone-software/why-did-you-render": "^3.0.9",
