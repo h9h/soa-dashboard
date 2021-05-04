@@ -20,7 +20,7 @@
     "flatpickr": "^4.6.1",
     "jsonpath": "^1.1.1",
     "jsonschema": "^1.4.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.1",
     "object.entries": "^1.1.0",
     "pino": "^6.11.3",
     "pino-pretty": "^3.1.0",
