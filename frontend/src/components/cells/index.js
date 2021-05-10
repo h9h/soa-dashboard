@@ -23,6 +23,7 @@ import IsAlive from './IsAlive'
 import { json2string } from '../../logic/utils'
 import RowAktionen from './RowAktionen'
 import Scheduler from './Scheduler'
+import ProcessInstanceId from './ProcessInstanceID'
 
 const pk = key => {
   switch(key){
@@ -71,6 +72,8 @@ export const cellFactory = onClick => key => {
       return row => <MessageContent row={row} />
     case 'MESSAGETYPE':
       return row => <MessageType row={row} />
+    case 'PROCESSINSTANCEID':
+      return row => <ProcessInstanceId row={row} />
     case 'ERRORCODE':
       return row => <Errorcode row={row} />
     case 'QUEUE_NAME':

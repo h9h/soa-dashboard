@@ -51,6 +51,11 @@ const DEFAULT_PROPS = {
     width: 180,
     ordnumg: 1
   },
+  PROCESSINSTANCEID: {
+    Header: 'ProcessInstance',
+    width: 180,
+    ordnumg: 30
+  },
   Timestamp: {
     Header: 'Timestamp',
     width: 100,

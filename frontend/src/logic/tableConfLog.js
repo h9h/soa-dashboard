@@ -34,9 +34,6 @@ const spezial = cell => ({
   SENDERTIMESTAMP: {
     show: false,
   },
-  PROCESSINSTANCEID: {
-    show: false,
-  },
   PARENTPROCESSINSTANCEID: {
     show: false,
   },
@@ -53,6 +50,9 @@ const spezial = cell => ({
     show: false,
   },
   ENVIRONMENT: {
+    show: false,
+  },
+  ORIGINATOR: {
     show: false,
   },
 })
