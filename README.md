@@ -172,6 +172,8 @@ Dort ist auch der Name der Datei zu finden, die im folgenden Workaround dann man
 
 Daher dieser Workaround:
 
+(hier für v2.6, ansonsten entsprechende Version jeweils anpassen)
+
 1. gehe zu <https://github.com/zeit/pkg-fetch/releases/tag/v2.6>
 1. Download die gewünschte Version gemäß Log-Datei
 1. Gehe zum ./pkg-cache Verzeichnis (bei mir: C:\Users\\{userid}\\.pkg-cache\v2.6)

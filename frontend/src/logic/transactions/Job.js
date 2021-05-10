@@ -9,7 +9,8 @@ export const EVENTS = {
 }
 
 export function getJobLogName (jobname, aktionname) {
-  const job = jobname.indexOf('.job.json') === jobname.length - 9 ? jobname.substring(0, jobname.length - 9) : jobname
+  const indexOfExtension = jobname.indexOf('.job.json')
+  const job = indexOfExtension !== -1 && indexOfExtension === jobname.length - 9 ? jobname.substring(0, jobname.length - 9) : jobname
   return `${job}.${aktionname}.${moment().format('HHmmss')}`
 }
 

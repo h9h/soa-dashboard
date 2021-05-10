@@ -5,7 +5,7 @@ import { range } from 'ramda'
 import DataContext from './DataContext'
 import React from 'react'
 import moment from 'moment'
-import { json2string } from '../../logic/utils'
+// import { json2string } from '../../logic/utils'
 
 const formatMillisecond = d3.timeFormat('.%L')
 const formatSecond = d3.timeFormat(':%S')
@@ -25,19 +25,20 @@ export function multiFormat (date) {
               : formatYear)(date)
 }
 
-export const printFilter = (filter, top = 10) => {
-  /* eslint-disable */
-  let f = eval(filter)
-  /* eslint-enable */
+// export const printFilter = (filter, top = 10) => {
+//   /* eslint-disable */
+//   let f = eval(filter)
+//   /* eslint-enable */
+//
+//   if (f.top) { f = f.top(top) }
+//   if (f.dimension) {f = f.dimension(() => '').top(top) }
+//   return (filter + '(' + f.length + ') = '
+//     + json2string(f)
+//       .replace('[', '[\n\t')
+//       .replace(/},/g, '},\n\t')
+//       .replace(']', '\n]'))
+// }
 
-  if (f.top) { f = f.top(top) }
-  if (f.dimension) {f = f.dimension(() => '').top(top) }
-  return (filter + '(' + f.length + ') = '
-    + json2string(f)
-      .replace('[', '[\n\t')
-      .replace(/},/g, '},\n\t')
-      .replace(']', '\n]'))
-}
 export const getColorFunction = colorScheme => {
   const colorFn = getColor(colorScheme)
   return range(0, getLengthColors(colorScheme) - 1).map(colorFn)
