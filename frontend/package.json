@@ -65,7 +65,7 @@
     "extends": "react-app"
   },
   "devDependencies": {
-    "react-scripts": "3.4.3"
+    "react-scripts": "4.0.3"
   },
   "browserslist": [
     ">0.2%",
