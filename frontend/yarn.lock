@@ -4352,9 +4352,9 @@ d3@^5.15.0:
     d3-voronoi "1"
     d3-zoom "1"
 
-d3@^6.5.0:
-  version "6.5.0"
-  resolved "https://registry.yarnpkg.com/d3/-/d3-6.5.0.tgz#55cc64690cfe7bf18788d2cfbe22d911b01309f0"
+d3@^6.7.0:
+  version "6.7.0"
+  resolved "https://registry.yarnpkg.com/d3/-/d3-6.7.0.tgz#adac458597b4a2cafe8e08cf30948af0c95cd61f"
   dependencies:
     d3-array "2"
     d3-axis "2"
@@ -11826,21 +11826,19 @@ ws@^7.4.4:
   version "7.4.5"
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.4.5.tgz#a484dd851e9beb6fdb420027e3885e8ce48986c1"
 
-xml-formatter@^1.1.0:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/xml-formatter/-/xml-formatter-1.2.1.tgz#64177b767ca54572ce511dc325cde7a359028bbe"
+xml-formatter@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/xml-formatter/-/xml-formatter-2.4.0.tgz#c956ea6c5345240c0829da86a5e81d44ed4cb9c7"
   dependencies:
-    xml-parser-xo "^2.1.1"
+    xml-parser-xo "^3.1.1"
 
 xml-name-validator@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/xml-name-validator/-/xml-name-validator-3.0.0.tgz#6ae73e06de4d8c6e47f9fb181f78d648ad457c6a"
 
-xml-parser-xo@^2.1.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/xml-parser-xo/-/xml-parser-xo-2.2.1.tgz#fa096be59e2a6079011e6ff2f90f4021c28acdfb"
-  dependencies:
-    debug "^4.1.1"
+xml-parser-xo@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/xml-parser-xo/-/xml-parser-xo-3.1.1.tgz#a87d92e44fa8ad3ba7242517df96e6b0893f1f47"
 
 xmlchars@^2.2.0:
   version "2.2.0"
