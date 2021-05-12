@@ -48,12 +48,12 @@
     "redux": "^4.0.4",
     "regenerator-runtime": "^0.13.3",
     "store": "^2.0.12",
-    "styled-components": "^5.2.3",
+    "styled-components": "^5.3.0",
     "uuid": "8.3.2",
     "vis-data": "^7.1.2",
     "vis-timeline": "^7.4.4",
     "vis-util": "^4.3.3",
-    "xml-formatter": "^1.1.0"
+    "xml-formatter": "^2.4.0"
   },
   "scripts": {
     "build": "react-scripts build",
