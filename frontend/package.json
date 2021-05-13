@@ -28,7 +28,7 @@
     "query-string": "^7.0.0",
     "ramda": "^0.27.1",
     "react": "^16.14.0",
-    "react-app-polyfill": "^0.2.2",
+    "react-app-polyfill": "^2.0.0",
     "react-autocomplete-input": "^1.0.12",
     "react-autosuggest": "^10.1.0",
     "react-bootstrap": "^1.6.0",
