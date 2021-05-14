@@ -34,7 +34,7 @@
     "react-bootstrap": "^1.6.0",
     "react-dom": "^16.14.0",
     "react-flatpickr": "^3.9.0",
-    "react-helmet": "^5.2.1",
+    "react-helmet": "^6.1.0",
     "react-icons": "^4.2.0",
     "react-inspector": "^5.1.1",
     "react-json-view": "^1.19.1",
