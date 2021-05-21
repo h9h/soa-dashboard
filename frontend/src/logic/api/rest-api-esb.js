@@ -8,7 +8,7 @@ import { getMockLogpoints } from '../mock/mockData'
 import { DATABASES } from '../mock/databases'
 import { QUEUES } from '../mock/queues'
 import { UNDELIVERED } from '../mock/undelivered'
-import uuid from 'uuid/v1'
+import { v1 as uuid} from 'uuid'
 import { defaultTo, path } from 'ramda'
 
 import Log from '../../log'

@@ -4,7 +4,7 @@ import { AllgemeineStatistik } from './dc/AllgemeineStatistik'
 import { VIEWS } from '../logic/statistics'
 import { ServicecallStatistik } from './dc/ServicecallStatistik'
 import { AufrufStatistik } from './dc/AufrufStatistik'
-import dc from 'dc'
+import {filterAll, renderAll} from 'dc'
 import { RidgelineStatistik } from './dc/RidgelineStatistik'
 import StatistikData from './dc/StatistikData'
 
@@ -12,8 +12,8 @@ const InteractiveStatistics = props => {
   const { data, datumVon, datumBis, view, colorScheme } = props
 
   useEffect(() => {
-    dc.filterAll()
-    dc.renderAll()
+    filterAll()
+    renderAll()
   }, [view])
 
   if (!datumVon || !datumBis) return null

@@ -1,26 +1,26 @@
 import { getColorFunction, reduceIdentity } from './dcUtils'
-import dc from 'dc'
+import {pieChart, legend, pluck} from 'dc'
 import * as d3 from 'd3'
 import { TIMING_BREAKPOINTS, TIMING_BUS_BREAKPOINTS } from '../../logic/api/rest-api-statistics'
 import { legendTiming, TIMINGS } from './utils'
 
 const cx = (div) => div.clientWidth/3
 
-const createPieChart = ({ div, colorScheme, legend = d => d.name, onlyLegend = false }) => {
+const createPieChart = ({ div, colorScheme, legendFunction = d => d.name, onlyLegend = false }) => {
   const colors = getColorFunction(colorScheme)
 
   const centre = cx(div)
   const radius = Math.min(centre, div.clientHeight/2)
   const xLegend = centre + radius + 20
 
-  const chart = dc.pieChart(div)
+  const chart = pieChart(div)
   chart
     .ordinalColors(colors)
     .innerRadius(onlyLegend ? radius : Math.min(50, centre/2))
     .radius(radius)
     .externalRadiusPadding(0)
     .cx(centre)
-    .legend(dc.legend().itemHeight(13).gap(1).x(xLegend).legendText(legend))
+    .legend(legend().itemHeight(13).gap(1).x(xLegend).legendText(legendFunction))
 
   return chart
 }
@@ -54,7 +54,7 @@ function setChartTitle (div, text) {
 
 export const renderPieChartWelcherBus = ({div, dimensions, colorScheme}) => {
   const busDim = dimensions.bus
-  const anzahl = busDim.group().reduceSum(dc.pluck('ANZAHLGESAMT'))
+  const anzahl = busDim.group().reduceSum(pluck('ANZAHLGESAMT'))
 
   const chart = createPieChart({ div, colorScheme })
   chart
@@ -68,7 +68,7 @@ export const renderPieChartWelcherBus = ({div, dimensions, colorScheme}) => {
 
 export const renderPieChartTiming = timingKey => ({div, dimensions, colorScheme}) => {
   const breakpoints = timingKey === TIMINGS.BUS ? TIMING_BUS_BREAKPOINTS : TIMING_BREAKPOINTS
-  const chart = createPieChart({ div, colorScheme, legend: legendTiming(breakpoints) })
+  const chart = createPieChart({ div, colorScheme, legendFunction: legendTiming(breakpoints) })
 
   const timingDim = dimensions[timingKey.key]
   const anzahl = timingDim.group().reduceCount()
@@ -87,7 +87,7 @@ export const renderPieChartMep = ({div, dimensions, colorScheme}) => {
   const chart = createPieChart({ div, colorScheme })
 
   const mepDim = dimensions.mep
-  const anzahl = mepDim.group().reduceSum(dc.pluck('ANZAHLGESAMT'))
+  const anzahl = mepDim.group().reduceSum(pluck('ANZAHLGESAMT'))
 
   chart
     .dimension(mepDim)

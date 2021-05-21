@@ -1,6 +1,6 @@
 import { all, split, zip } from 'ramda'
 import moment from 'moment'
-import uuid from 'uuid/v1'
+import { v1 as uuid} from 'uuid'
 
 export const isVersionOk = (thisVersion, officialVersion) => {
   const tv = split('.', thisVersion)

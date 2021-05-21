@@ -1,6 +1,6 @@
 import { getColorFunction, multiFormat, reduceAverageWeighted } from './dcUtils'
 import { ZAHL_FORMAT } from './utils'
-import dc from 'dc'
+import { compositeChart, lineChart, legend, pluck } from 'dc'
 import moment from 'moment'
 import * as d3 from 'd3'
 
@@ -10,7 +10,7 @@ import * as d3 from 'd3'
 const createCompositeChart = (div, colorScheme, dimensions) => {
   const colors = getColorFunction(colorScheme)
 
-  const chart = dc.compositeChart(div)
+  const chart = compositeChart(div)
 
   const zeitDim = dimensions.zeit
   const minDate = moment(zeitDim.bottom(1)[0].Date).startOf('day').toDate()
@@ -30,7 +30,7 @@ const createCompositeChart = (div, colorScheme, dimensions) => {
     .brushOn(false)
     .renderHorizontalGridLines(true)
     .renderVerticalGridLines(true)
-    .legend(dc.legend().x(105).y(10).itemHeight(13).gap(8))
+    .legend(legend().x(105).y(10).itemHeight(13).gap(8))
     .title(d => `${moment(d.key).format('DD.MM.YYYY HH:mm')}: ${ZAHL_FORMAT(+d.value || +d.value.avg)}`)
     .renderTitle(true)
 
@@ -40,9 +40,9 @@ const createCompositeChart = (div, colorScheme, dimensions) => {
 }
 
 const createLineChart = chart => {
-  const lineChart = dc.lineChart(chart)
+  const myChart = lineChart(chart)
 
-  lineChart
+  myChart
     .curve(d3.curveMonotoneX)
     .dotRadius(10)
     .renderDataPoints({radius: 3, fillOpacity: 0.4, strokeOpacity: 0.0})
@@ -50,14 +50,14 @@ const createLineChart = chart => {
     .defined(d => d.y != null ? d.y : null)
     .xyTipsOn(true)
 
-  return lineChart
+  return myChart
 }
 
 export const renderChartBrush = (margins = {left: 75, right: 0 }, setRange = () => {}) => ({ div, dimensions, zeitDomain }) => {
   const zeitDim = dimensions.zeit
-  const anzahl = zeitDim.group().reduceSum(dc.pluck('ANZAHLGESAMT'))
+  const anzahl = zeitDim.group().reduceSum(pluck('ANZAHLGESAMT'))
 
-  const chart = dc.lineChart(div)
+  const chart = lineChart(div)
 
   chart.yAxis()
     .tickFormat(() => '')
@@ -138,12 +138,12 @@ export const renderLineChartAnzahlUndTimingCalls = ({div, dimensions, colorSchem
 
 
 const createChartGesamtanzahl = (chart, dimensions) => {
-  const anzahl = dimensions.zeit.group().reduceSum(dc.pluck('ANZAHLGESAMT'))
+  const anzahl = dimensions.zeit.group().reduceSum(pluck('ANZAHLGESAMT'))
   return createLineChart(chart).group(anzahl, 'Gesamtanzahl Calls')
 }
 
 const createChartFault = (chart, dimensions) => {
-  const anzahl = dimensions.zeit.group().reduceSum(dc.pluck('ANZAHLFAULT'))
+  const anzahl = dimensions.zeit.group().reduceSum(pluck('ANZAHLFAULT'))
   return createLineChart(chart).group(anzahl, 'davon Faults')
 }
 

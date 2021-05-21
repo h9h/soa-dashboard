@@ -1,10 +1,10 @@
 import { getColorFunction, reduceIdentity } from './dcUtils'
-import dc from 'dc'
+import {sunburstChart} from 'dc'
 
 const createSunburstChart = (div, colorScheme) => {
   const colors = getColorFunction(colorScheme)
 
-  const chart = dc.sunburstChart(div)
+  const chart = sunburstChart(div)
 
   chart.ordinalColors(colors)
 

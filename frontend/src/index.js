@@ -13,13 +13,13 @@ import 'vis-timeline/dist/vis-timeline-graph2d.min.css'
 import '@atlaskit/reduced-ui-pack/dist/bundle.css'
 import './MyReactToastify.css' // width (und dazugehörige hälftige margin-left)
 import 'flatpickr/dist/themes/light.css'
-import 'dc/dc.css'
+import 'dc/dist/style/dc.min.css'
 import './index.css'
 
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { ReactTableDefaults } from 'react-table-6'
-import dc from 'dc'
+import { config } from 'dc'
 import * as d3 from 'd3'
 import de_locale from 'moment/locale/de'
 import moment from 'moment'
@@ -56,7 +56,7 @@ moment.locale('de', de_locale)
 log.trace('Starting app', moment().format('dddd, DD.MM.YYYY'))
 
 // Konfiguriere Standard-Farbschema für dc
-dc.config.defaultColors(d3.schemeCategory10)
+config.defaultColors(d3.schemeCategory10)
 
 if (process
   && process.env

@@ -1,12 +1,12 @@
 import { getColorFunction } from './dcUtils'
-import dc from 'dc'
+import {bubbleChart, legend} from 'dc'
 import * as d3 from 'd3'
 import moment from 'moment'
 
-const createBubbleChart = (div, colorScheme, legend = d => d.name) => {
+const createBubbleChart = (div, colorScheme, legendFunction = d => d.name) => {
   const colors = getColorFunction(colorScheme)
 
-  const chart = dc.bubbleChart(div)
+  const chart = bubbleChart(div)
 
   chart.margins().left = 75 // damit y-Axis Labels nicht abgeschnitten werden
   chart.margins().right = 75 // damit y-Axis Labels nicht abgeschnitten werden
@@ -14,7 +14,7 @@ const createBubbleChart = (div, colorScheme, legend = d => d.name) => {
   chart
     .ordinalColors(colors)
     .elasticRadius(true)
-    .legend(dc.legend().itemHeight(13).gap(5).legendText(legend))
+    .legend(legend().itemHeight(13).gap(5).legendText(legendFunction))
 
   return chart
 }

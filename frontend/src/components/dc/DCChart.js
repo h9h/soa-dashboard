@@ -1,4 +1,4 @@
-import dc from 'dc'
+import {registerChart} from 'dc'
 import * as d3 from 'd3'
 
 class Chart {
@@ -7,7 +7,7 @@ class Chart {
     this._dimension = null
     this._group = null
 
-    dc.registerChart(this)
+    registerChart(this)
   }
 
   dimension(dimension) {

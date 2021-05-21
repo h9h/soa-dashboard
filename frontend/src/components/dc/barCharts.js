@@ -1,5 +1,5 @@
 import { getColorFunction, multiFormat } from './dcUtils'
-import dc from 'dc'
+import { barChart, units, pluck, legend } from 'dc'
 import * as d3 from 'd3'
 import { TIMING_BREAKPOINTS, TIMING_BUS_BREAKPOINTS } from '../../logic/api/rest-api-statistics'
 import { COLOR_SCHEMES, legendTiming, TIMINGS } from './utils'
@@ -15,7 +15,7 @@ export const HISTOGRAMM_COLORS = ['#dddddd', ...COLOR_SCHEMES.GreenRed10.slice(1
 
 const createBarChart = (div, colorScheme, legend) => {
   const height = cx(div)
-  const chart = dc.barChart(div)
+  const chart = barChart(div)
 
   chart.margins().left = 30
   chart.margins().right = div.clientWidth < minWidthForLegend ? 20 : widthLegend
@@ -29,7 +29,7 @@ const createBarChart = (div, colorScheme, legend) => {
     .width(div.clientWidth)
     .title(legend)
     .x(d3.scaleBand())
-    .xUnits(dc.units.ordinal)
+    .xUnits(units.ordinal)
     .yAxisLabel('Prozent')
     .elasticY(true)
 
@@ -108,7 +108,7 @@ export const renderBarChartTiming = timingKey => ({div, dimensions, colorScheme}
 }
 
 export const renderBarChartLogpoints = ({div, dimensions, setBis}) => {
-  const chart = dc.barChart(d3.select(div));
+  const chart = barChart(d3.select(div));
 
   chart.margins().left = 100
   chart.margins().right = 10
@@ -118,14 +118,14 @@ export const renderBarChartLogpoints = ({div, dimensions, setBis}) => {
   const minDate = moment(dimTime.bottom(1)[0].time, 'YYYY-MM-DDTHH:mm:ss').toDate()
   const maxDate = moment(dimTime.top(1)[0].time, 'YYYY-MM-DDTHH:mm:ss').toDate()
 
-  const calls = dimTime.group().reduceSum(dc.pluck('anzahlMessages'))
-  const faults = dimTime.group().reduceSum(dc.pluck('anzahlFaultpoints'))
+  const calls = dimTime.group().reduceSum(pluck('anzahlMessages'))
+  const faults = dimTime.group().reduceSum(pluck('anzahlFaultpoints'))
 
   chart
     .width(div.clientWidth)
     .height(div.clientHeight)
     .x(d3.scaleTime().domain([minDate, maxDate]).nice())
-    .legend(dc.legend().x(30).y(20).itemHeight(13).gap(5))
+    .legend(legend().x(30).y(20).itemHeight(13).gap(5))
     .renderHorizontalGridLines(true)
     .dimension(dimTime)
     .group(calls, "Ok")
@@ -157,13 +157,13 @@ export const renderBarChartLogpoints = ({div, dimensions, setBis}) => {
 
 export const renderBarChartDomain = ({div, dimensions, colorScheme}) => {
   const dimension = dimensions.domain
-  const domains = dimension.group().reduceSum(dc.pluck('ANZAHLGESAMT'))
+  const domains = dimension.group().reduceSum(pluck('ANZAHLGESAMT'))
   const colors = getColorFunction(colorScheme)
   const height = cx(div)
   const withLegend = div.clientWidth >= minWidthForLegend
 
   const leftDiv = d3.select(div).append('div').attr('style', withLegend ? 'float: left; width: 66%;' : 'width: 100%;')
-  const chart = dc.barChart(leftDiv)
+  const chart = barChart(leftDiv)
 
   chart.margins().left = 60
   chart.margins().right = 20
@@ -175,7 +175,7 @@ export const renderBarChartDomain = ({div, dimensions, colorScheme}) => {
     .width(leftDiv.clientWidth)
     .height(height)
     .x(d3.scaleBand())
-    .xUnits(dc.units.ordinal)
+    .xUnits(units.ordinal)
     .yAxisLabel('Anzahl Calls')
     .elasticY(true)
     .dimension(dimension)

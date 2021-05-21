@@ -38,8 +38,8 @@ const PlayButton = ({title, description, glyph, setFilter, newTime}) => {
 }
 
 const LogpointDistribution = React.memo(({isEmpty, statistik, setBis}) => {
-  if (isEmpty) return null
   const { width } = useWindowSize()
+  if (isEmpty) return null
 
   const barchartHeight = parseInt(getConfigurationValue('presentation.distribution.heightInPx'), 10)
   if (barchartHeight < 20) return null

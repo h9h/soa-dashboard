@@ -1,12 +1,12 @@
 import { ZAHL_FORMAT } from './utils'
-import dc from 'dc'
+import {rowChart, pluck} from 'dc'
 import * as d3 from 'd3'
 import { getColorFunction } from './dcUtils'
 
 const createRowChart = (div, color, withAxis = true) => {
   const colors = [color]
 
-  const chart = dc.rowChart(div)
+  const chart = rowChart(div)
 
   chart.margins().left = 20
   chart.margins().top = 20
@@ -41,7 +41,7 @@ const createRowChart = (div, color, withAxis = true) => {
 
 export const renderRowChartListServices = ({div, dimensions, colorScheme}) => {
   const dimension = dimensions.operation
-  const anzahl = dimension.group().reduceSum(dc.pluck('ANZAHLGESAMT'))
+  const anzahl = dimension.group().reduceSum(pluck('ANZAHLGESAMT'))
   const colors = getColorFunction(colorScheme)
 
   const chart = createRowChart(div, colors[0], false)
@@ -61,7 +61,7 @@ export const renderRowChartServicesTopN = n => ({div, dimensions, colorScheme}) 
   const chart = createRowChart(div, colors[0])
 
   const serviceDim = dimensions.operation
-  const anzahl = serviceDim.group().reduceSum(dc.pluck('ANZAHLGESAMT'))
+  const anzahl = serviceDim.group().reduceSum(pluck('ANZAHLGESAMT'))
 
   chart
     .group(anzahl)
@@ -76,7 +76,7 @@ export const renderRowChartFaultsTopN = n => ({div, dimensions, colorScheme}) =>
   const chart = createRowChart(div, colors[1])
 
   const serviceDim = dimensions.operation
-  const anzahl = serviceDim.group().reduceSum(dc.pluck('ANZAHLFAULT'))
+  const anzahl = serviceDim.group().reduceSum(pluck('ANZAHLFAULT'))
 
   chart
     .group(anzahl)
