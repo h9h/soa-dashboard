@@ -10,7 +10,7 @@ const formatDiff = (tStart, tEnd) => {
   return intFormat(diff) + ' ms'
 }
 
-export default unit => {
+const myLog = unit => {
   const debugConfiguration = getConfigurationValue('debug')
   DEBUG.enable(debugConfiguration.namespaces)
   const logLevel = parseInt(debugConfiguration.level, 10)
@@ -44,3 +44,5 @@ export default unit => {
     }
   }
 }
+
+export default myLog
