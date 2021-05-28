@@ -81,10 +81,10 @@ const row =     {
       "http://cluster/in/domaenen/EinService1",
       "eineServiceOperation"
     ],
-    "MessageSize": 1045
+    "MESSAGESIZE": 1045
   }
 
-  export default () => (
+const text = () => (
   <Section title="Nicht zugestellte Nachrichten">
     <Paragraph>
       Auf der Seite "Nachrichten" <Icon glyph={'messages'}/> werden die nicht-zugestellten Nachrichten angezeigt. "Nicht zugestellte Nachrichten" können sein:
@@ -155,3 +155,5 @@ const row =     {
     </Paragraph>
   </Section>
 )
+
+export default text

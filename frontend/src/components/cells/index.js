@@ -66,7 +66,7 @@ export const cellFactory = onClick => key => {
       return row => <MessageId row={row} />
     case 'MSGID':
       return row => <MsgID row={row} />
-    case 'MessageSize': // statt MESSAGE, damit wir nach Größe sortieren können
+    case 'MESSAGESIZE': // statt MESSAGE, damit wir nach Größe sortieren können
       return row => <Message row={row} onClick={onClick}/>
     case 'MessageContent':
       return row => <MessageContent row={row} />

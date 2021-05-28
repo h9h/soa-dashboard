@@ -23,9 +23,9 @@ const Message = ({row, onClick}) => {
       })}>
         <Icon glyph='message'/>
         <Blank/>
-        {row.row.MessageSize && (
+        {row.row.MESSAGESIZE && (
           <Smaller>
-            {sizeOf(row.row.MessageSize)}
+            {sizeOf(row.row.MESSAGESIZE)}
           </Smaller>
         )}
       </Button>

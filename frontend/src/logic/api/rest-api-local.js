@@ -166,7 +166,7 @@ export const saveJob = async (jobname, job, cb) => {
 
     // Bei vielen Calls müüsen wir wegen Größe der Daten auf den Messageinhalt verzichten.
     // Wir brauchen dann allerdings daraus den senderFQN.
-    const omitFields = filteredMessages.length > parseInt(getConfigurationValue('advanced.maxQueuedMessagesWithMessagecontent'), 10) ? ['MESSAGE', 'Sender', 'Timestamp', 'ServiceOperation'] : ['Sender', 'Timestamp', 'ServiceOperation', 'MessageSize']
+    const omitFields = filteredMessages.length > parseInt(getConfigurationValue('advanced.maxQueuedMessagesWithMessagecontent'), 10) ? ['MESSAGE', 'Sender', 'Timestamp', 'ServiceOperation'] : ['Sender', 'Timestamp', 'ServiceOperation', 'MESSAGESIZE']
     do {
       const message = filteredMessages[index]
       const stripped = omit(omitFields, message)

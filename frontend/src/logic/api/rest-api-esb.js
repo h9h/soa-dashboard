@@ -139,12 +139,16 @@ function evolveData (api, dataRow, annotations) {
   if (dataRow.LOGTIMESTAMP) {
     dataRow.Timestamp = convertToMoment(dataRow.LOGTIMESTAMP)
   }
+
   if (dataRow.OPERATION && dataRow.SERVICE) {
     dataRow.ServiceOperation = [dataRow.SERVICE, dataRow.OPERATION]
   }
 
-  if (dataRow.MESSAGE) {
-    dataRow.MessageSize = dataRow.MESSAGE.length
+  // Message-Content enthalten oder asynchron nachzuladen?
+  dataRow.featureAsyncContent = dataRow.MESSAGESIZE != null
+
+  if (dataRow.MESSAGE && !dataRow.featureAsyncContent) {
+    dataRow.MESSAGESIZE = dataRow.MESSAGE.length
   }
 }
 
