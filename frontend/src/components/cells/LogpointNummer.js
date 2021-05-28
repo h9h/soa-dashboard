@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { equals, groupWith, once, partition } from 'ramda'
-import { Centered, Red, Small, Smaller, DeepSpace, Lava, Heroine, Armor } from '../styles'
+import { Centered, Red, Small, Smaller, DeepSpace, Lava, Heroine, Gamma } from '../styles'
 import { logpointDirection, logpointToNumber, logpointType, LP_TYPES, sortLogpunkte } from '../../logic/logpunkt'
 import Log from '../../log'
 import withLinkToTimeline from '../withLinkToTimeline'
@@ -13,7 +13,7 @@ const COLORS = {
   [LP_TYPES.APPLICATION]: DeepSpace,
   [LP_TYPES.FAULT]: Lava,
   [LP_TYPES.BUS]: Heroine,
-  [LP_TYPES.SEP]: Armor
+  [LP_TYPES.SEP]: Gamma
 }
 
 const Block = styled.span`
