@@ -11,7 +11,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "copy-to-clipboard": "^3.2.0",
-    "core-js": "^3.12.0",
+    "core-js": "^3.13.0",
     "crossfilter2": "^1.5.4",
     "d3": "^6.7.0",
     "dc": "^4.2.7",
