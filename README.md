@@ -172,12 +172,12 @@ Dort ist auch der Name der Datei zu finden, die im folgenden Workaround dann man
 
 Daher dieser Workaround:
 
-(hier für v2.6, ansonsten entsprechende Version jeweils anpassen)
+(hier für v2.6, ansonsten entsprechende Version jeweils anpassen - siehe `tag` in der Logdatei)
 
-1. gehe zu <https://github.com/zeit/pkg-fetch/releases/tag/v2.6>
+1. gehe zu <https://github.com/vercel/pkg-fetch/releases/>
+1. such die passende Version gemäß der Fehlermeldung in der Logdatei `output-...-pkg.log`
 1. Download die gewünschte Version gemäß Log-Datei
 1. Gehe zum ./pkg-cache Verzeichnis (bei mir: C:\Users\\{userid}\\.pkg-cache\v2.6)
 1. Kopiere das heruntergeladene Bin
-1. Benenne den Anfang der Datei um von "uploaded-v2.6-node-..." zu "fetched-..."
-1. Lösche Datei mit '.downloading'
+1. Benenne den Anfang der Datei um zu "fetched-..."
 1. Versuche pkg Skript noch einmal, sollte dann funktionieren
