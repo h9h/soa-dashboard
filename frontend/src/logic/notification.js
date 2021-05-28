@@ -42,6 +42,7 @@ const toastConfiguration = () => {
     position: getNotificationPosition(),
     autoClose: getMillisNotificationAutoClose(),
     pauseOnFocusLoss: true,
+    style: { width: '600px' }
   }
 }
 

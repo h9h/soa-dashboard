@@ -11,7 +11,7 @@ import 'bootstrap/dist/css/bootstrap-reboot.css'
 import 'react-table-6/react-table.css'
 import 'vis-timeline/dist/vis-timeline-graph2d.min.css'
 import '@atlaskit/reduced-ui-pack/dist/bundle.css'
-import './MyReactToastify.css' // width (und dazugehörige hälftige margin-left)
+import 'react-toastify/dist/ReactToastify.css'
 import 'flatpickr/dist/themes/light.css'
 import 'dc/dist/style/dc.min.css'
 import './index.css'
