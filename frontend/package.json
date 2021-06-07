@@ -51,7 +51,7 @@
     "styled-components": "^5.3.0",
     "uuid": "8.3.2",
     "vis-data": "^7.1.2",
-    "vis-timeline": "^7.4.4",
+    "vis-timeline": "^7.4.9",
     "vis-util": "^4.3.3",
     "xml-formatter": "^2.4.0"
   },
