@@ -32,9 +32,9 @@
     "@atlaskit/theme" "^11.0.0"
     fbjs "^3.0.0"
 
-"@atlaskit/select@^14.0.0":
-  version "14.0.0"
-  resolved "https://registry.yarnpkg.com/@atlaskit/select/-/select-14.0.0.tgz#c560553b9aff74fbc9d2ddb5bc8e586e8a88e427"
+"@atlaskit/select@^14.0.1":
+  version "14.0.1"
+  resolved "https://registry.yarnpkg.com/@atlaskit/select/-/select-14.0.1.tgz#9ce79fb7a12852c7ca5bd002d3b02763e1dcdca5"
   dependencies:
     "@atlaskit/analytics-next" "^8.0.0"
     "@atlaskit/icon" "^21.6.0"
