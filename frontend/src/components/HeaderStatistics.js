@@ -18,7 +18,7 @@ import moment from 'moment'
 import SelectReportview from './SelectReportview'
 import { VIEWS } from '../logic/statistics'
 import SelectColorScheme from './dc/SelectColorScheme'
-import dc from 'dc'
+import {filterAll, renderAll} from 'dc'
 import { getConfigurationValue } from '../logic/configuration'
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar'
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
@@ -187,8 +187,8 @@ const HeaderStatistics = props => {
               text="Reset"
               glyph="clearFilters"
               handleClick={() => {
-                dc.filterAll()
-                dc.renderAll()
+                filterAll()
+                renderAll()
               }}
             />
             <Blank/>
