@@ -6,7 +6,7 @@ import { Paragraph } from './styles'
 
 const noop = () => {}
 
-export default () => (
+const page = () => (
   <Section title="Die Navigationselemente">
     <Paragraph>
       Auf jeder Seite befindet sich rechts im Seitenkopf der Navigationsbereich.
@@ -31,3 +31,5 @@ export default () => (
     </IconExplanation>
   </Section>
 )
+
+export default page

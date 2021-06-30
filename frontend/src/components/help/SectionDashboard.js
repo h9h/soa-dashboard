@@ -44,7 +44,7 @@ const zeitInput = (
   />
 )
 
-export default () => (
+const page = () => (
   <Section title="Die Dashboard-Seite">
     <Paragraph>
       Die Dashboard-Seite ist die Startseite des ESB-Dashboards. Sie bietet
@@ -105,3 +105,5 @@ export default () => (
     </IconExplanation>
   </Section>
 )
+
+export default page

@@ -3,7 +3,7 @@ import Section from './Section'
 import { Icon } from '../icons'
 import { Paragraph } from './styles'
 
-export default () => (
+const page = () => (
   <Section title="Die Seiten des Dashboards">
     <Paragraph>
       Die Standardseite - <Icon glyph={'dashboard'}/> das Dashboard an sich -
@@ -32,3 +32,5 @@ export default () => (
     </Paragraph>
   </Section>
 )
+
+export default page

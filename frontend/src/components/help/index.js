@@ -28,7 +28,7 @@ const CONTENT = {
   'Jobs (Resend, Löschen etc.)': <SectionJobs/>
 }
 
-export default () => {
+const IndexPage = () => {
   const [page, setPage] = useState(Object.keys(CONTENT)[0])
 
   const Kapitel = ({titel}) => {
@@ -58,3 +58,5 @@ export default () => {
     </>
   )
 }
+
+export default IndexPage

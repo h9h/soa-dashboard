@@ -20,7 +20,7 @@ const row = {
     {Timestamp: 118, LOGPOINTNO: 57, MESSAGEID: messageId, MEP: MEP_NAMES.requestReply },
   ],
 }
-export default () => (
+const page = () => (
   <Section title="Der Aufbau der Dashboard Seite">
     <Paragraph>
       Das Körper des Dashboards setzt sich aus zwei Bereichen zusammen:
@@ -88,3 +88,5 @@ export default () => (
     </Paragraph>
   </Section>
 )
+
+export default page

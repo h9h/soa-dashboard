@@ -5,7 +5,7 @@ import { NavigationForm } from '../Navigation'
 import { Aktionen } from '../Aktionen'
 import { Icon } from '../icons'
 
-export default () => {
+const page = () => {
   const recipient = process.env.REACT_APP_MAILGROUP_RIGHTS
 
   return (
@@ -41,12 +41,12 @@ export default () => {
           <ul>
             <li>
               <em>Einmalig bei erstmaliger Verwendung:</em>
-              <p>Anlage folgender Ordner im lokalen C:/-Laufwerk
+              <Paragraph>Anlage folgender Ordner im lokalen C:/-Laufwerk:
                 <ul>
                   <li>Dashboard</li>
                   <li>DashboardModel</li>
                 </ul>
-              </p>
+              </Paragraph>
             </li>
             <li>
               Stellen Sie bitte sicher, dass Sie die aktuelle Zuordnungs-JSON SenderFQN2QueueName lokal im Verzeichnis
@@ -208,3 +208,5 @@ export default () => {
     </>
   )
 }
+
+export default page

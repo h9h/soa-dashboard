@@ -22,7 +22,7 @@ const queues = (
   </FormControl>
 )
 
-export default () => (
+const page = () => (
   <Section title="Seite 'Queues'">
     <Paragraph>
       Auf der Seite "Queues" <Icon glyph={'queues'}/> werden Informationen zu den Queues dargestellt.
@@ -49,3 +49,5 @@ export default () => (
     </Paragraph>
   </Section>
 )
+
+export default page
