@@ -145,7 +145,7 @@ export const renderBarChartLogpoints = ({div, dimensions, setBis}) => {
   chart.stack(faults, 'Fault')
 
   chart.on('pretransition', function(chart) {
-    chart.selectAll('rect.bar').on('click.esbdashboard', function(d) {
+    chart.selectAll('rect.bar').on('click.esbdashboard', function(_, d) {
       console.log('Clicked für setBis', moment(d.data.key).format('HH:mm:ss'))
       setBis(moment(d.data.key).format('HH:mm:ss'))
     })
