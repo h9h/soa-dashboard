@@ -52,7 +52,7 @@
     "uuid": "8.3.2",
     "vis-data": "^7.1.2",
     "vis-timeline": "^7.4.9",
-    "vis-util": "^4.3.3",
+    "vis-util": "^5.0.2",
     "xml-formatter": "^2.4.0"
   },
   "scripts": {
