@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Centered, SmallX } from '../styles'
+import { Centered, Red, SmallX } from '../styles'
 import { MEP_NAMES } from '../../logic/mep'
 import { calculateTimingFromRows } from '../../logic/calltiming'
 import Rahmen from '../Rahmen'
@@ -10,6 +10,18 @@ const Millis = styled.span`
   background: ${props => props.ms === '-' ? 'inherit': props.ms > 999 ? 'red' : props.ms > 499 ? 'yellow' : 'green'};
   color: ${props => props.ms === '-' ? 'grey': props.ms > 999 ? 'white' : props.ms > 499 ? 'black' : 'white'};
 `
+
+const Verarbeitung = (props) => {
+  const { timing: { busProvider, provider }} = props
+
+  if (provider === '-') return <span>[{busProvider}]</span>
+
+  const verarbeitungText = ` [${busProvider} / ${provider}] `
+
+  if (Math.abs(busProvider - provider) > 1500) return <Red>{verarbeitungText}</Red>
+
+  return <span>{verarbeitungText}</span>
+}
 
 export const Timing = ({row}) => {
   if (!row || !row.aggregated) return null
@@ -29,7 +41,9 @@ export const Timing = ({row}) => {
       </SmallX>
       <SmallX>
         <Rahmen>
-        {` ${timing.busIn} ${requestArrow} [${timing.busProvider}${timing.provider !== '-' ? ' / ' + timing.provider : ''}] ${responseArrow} ${timing.busOut} `}
+        {` ${timing.busIn} ${requestArrow} ` }
+        <Verarbeitung timing={timing}/>
+        { ` ${responseArrow} ${timing.busOut} `}
         </Rahmen>
       </SmallX>
     </Centered>
