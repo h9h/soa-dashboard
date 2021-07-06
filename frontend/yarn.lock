@@ -2786,9 +2786,9 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
 
-bootstrap@^4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.6.0.tgz#97b9f29ac98f98dfa43bf7468262d84392552fd7"
+bootstrap@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-5.0.2.tgz#aff23d5e0e03c31255ad437530ee6556e78e728e"
 
 brace-expansion@^1.1.7:
   version "1.1.11"
@@ -3411,9 +3411,9 @@ core-js-pure@^3.0.0:
   version "3.12.1"
   resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.12.1.tgz#934da8b9b7221e2a2443dc71dfa5bd77a7ea00b8"
 
-core-js@3, core-js@^3.15.1, core-js@^3.6.5:
-  version "3.15.1"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.15.1.tgz#6c08ab88abdf56545045ccf5fd81f47f407e7f1a"
+core-js@3, core-js@^3.15.2, core-js@^3.6.5:
+  version "3.15.2"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.15.2.tgz#740660d2ff55ef34ce664d7e2455119c5bdd3d61"
 
 core-js@^2.4.0:
   version "2.6.12"
@@ -4208,9 +4208,9 @@ debug@^3.1.1, debug@^3.2.6, debug@^3.2.7:
   dependencies:
     ms "^2.1.1"
 
-debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.1.tgz#f0d229c505e0c6d8c49ac553d1b13dc183f6b2ee"
+debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.2:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.2.tgz#f0a49c18ac8779e31d4a0c6029dfb76873c7428b"
   dependencies:
     ms "2.1.2"
 
@@ -10985,9 +10985,9 @@ vis-timeline@^7.4.9:
   version "7.4.9"
   resolved "https://registry.yarnpkg.com/vis-timeline/-/vis-timeline-7.4.9.tgz#7ed225a04b521cb6c2d603e498953b1222650806"
 
-vis-util@^4.3.3:
-  version "4.3.4"
-  resolved "https://registry.yarnpkg.com/vis-util/-/vis-util-4.3.4.tgz#02319fbd909f82782b96a36d1224f1beea67f8b2"
+vis-util@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/vis-util/-/vis-util-5.0.2.tgz#47e8a31580c0805680c43d253ac7da21501990b9"
 
 vm-browserify@^1.0.1:
   version "1.1.2"
