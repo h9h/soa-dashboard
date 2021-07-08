@@ -64,7 +64,7 @@ const PageStatistics = (props) => {
 
 const InnerPageStatistics = (props) => {
   log.trace('Mount InnerPageStatistics')
-  const { umgebung, datumVon, datumBis, statisticFlags, view = 'default', colorScheme = 'Tableau20' } = props
+  const { umgebung, datumVon, datumBis, statisticFlags, view = 'default', colorScheme = 'Tableau10' } = props
   const { width } = useWindowSize()
 
   const [data, setData] = useState({status: 'loading'})
