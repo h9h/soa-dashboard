@@ -7,9 +7,9 @@ import { renderChartBrush, renderLineChartAnzahlCalls, renderLineChartTimingCall
 import { renderPlot } from './dcUtils'
 import { renderSunburstChart } from './sunburstChart'
 import { renderRowChartListServices } from './rowCharts'
-import { renderBarChartDomain, renderBarChartTiming } from './barCharts'
-import { TIMINGS } from './utils'
+import { renderBarChartDomain } from './barCharts'
 import { BrushCol, Listing, MainCol, SelectorCol, HighSelectorCol } from './dcStyles'
+import ChartsVerteilung from './ChartsVerteilung'
 
 export function AufrufStatistik (props) {
   const render = useMemo(() => renderPlot(props.data, props.colorscheme), [props.data, props.colorscheme])
@@ -21,8 +21,6 @@ export function AufrufStatistik (props) {
 
   const sunDomain = render(renderSunburstChart)
   const barDomain = render(renderBarChartDomain)
-  const histGesamt = render(renderBarChartTiming(TIMINGS.GESAMT))
-  const histBus = render(renderBarChartTiming(TIMINGS.BUS))
 
   return <div style={{ width: props.width }}>
     <Row>
@@ -72,16 +70,7 @@ export function AufrufStatistik (props) {
             {sunDomain}
           </HighSelectorCol>
         </Row>
-        <Row>
-          <SelectorCol>
-            {histGesamt}
-          </SelectorCol>
-        </Row>
-        <Row>
-          <SelectorCol>
-            {histBus}
-          </SelectorCol>
-        </Row>
+        <ChartsVerteilung render={render}/>
       </Col>
     </Row>
   </div>
