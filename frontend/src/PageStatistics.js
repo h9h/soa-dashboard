@@ -15,34 +15,40 @@ const log = Log('pagestatistics')
 
 const formatDatum = d => moment(d, 'YYYY-MM-DD').format('DD.MM.YYYY')
 
+const StaticPageStatistics = (props) => {
+  const [view, setView] = useState('default')
+
+  let {match: {params: { umgebung, datumVon, datumBis }}} = props
+  if (window.location.href.endsWith('/aktuell')) {
+    datumVon = moment().subtract(1, 'days').format('YYYY-MM-DD')
+    datumBis = datumVon
+  }
+  if (datumVon && !datumBis) {
+    datumBis = datumVon
+  }
+
+  log.trace('...mit Parametern', umgebung, datumVon, datumBis)
+
+  const title = <div>
+    Statistik auf {umgebung} vom {formatDatum(datumVon)}{datumVon !== datumBis &&
+  <span> bis {formatDatum(datumBis)}</span>}
+  </div>
+
+  return (
+    <InnerPageStatistics
+      header={() => <HeaderStandalone title={title} view={view} setView={setView}/>}
+      umgebung={umgebung}
+      datumVon={datumVon}
+      datumBis={datumBis}
+      statisticFlags={[]}
+      view={view}
+    />
+  )
+}
+
 const PageStatistics = (props) => {
-  if (props && props.match && props.match.params) {
-    let {match: {params: { umgebung, datumVon, datumBis }}} = props
-    if (window.location.href.endsWith('/aktuell')) {
-      datumVon = moment().subtract(1, 'days').format('YYYY-MM-DD')
-      datumBis = datumVon
-    }
-    if (datumVon && !datumBis) {
-      datumBis = datumVon
-    }
-
-    if (umgebung) {
-      log.trace('...mit Parametern', umgebung, datumVon, datumBis)
-
-      const title = <div>
-        Statistik auf {umgebung} vom {formatDatum(datumVon)}{datumVon !== datumBis && <span> bis {formatDatum(datumBis)}</span>}
-      </div>
-
-      return (
-        <InnerPageStatistics
-          header={() => <HeaderStandalone title={title}/>}
-          umgebung={umgebung}
-          datumVon={datumVon}
-          datumBis={datumBis}
-          statisticFlags={[]}
-        />
-      )
-    }
+  if (props && props.match && props.match.params && props.match.params.umgebung) {
+    return <StaticPageStatistics {...props} />
   }
 
   const ConnectedInnerPageStatistics = connect(
