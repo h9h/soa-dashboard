@@ -8,18 +8,18 @@
   dependencies:
     tslib "^2.0.0"
 
-"@atlaskit/analytics-next@^8.0.0":
-  version "8.1.3"
-  resolved "https://registry.yarnpkg.com/@atlaskit/analytics-next/-/analytics-next-8.1.3.tgz#e5888c2f83ac899bfa4c37f1cf2d69f59ce257bf"
+"@atlaskit/analytics-next@^8.2.0":
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/@atlaskit/analytics-next/-/analytics-next-8.2.0.tgz#f0f3a2a50c3abdb2035afbd5f9a1f11ed700a0a7"
   dependencies:
     "@atlaskit/analytics-next-stable-react-context" "1.0.1"
     "@babel/runtime" "^7.0.0"
     prop-types "^15.5.10"
     use-memo-one "^1.1.1"
 
-"@atlaskit/icon@^21.6.0":
-  version "21.6.0"
-  resolved "https://registry.yarnpkg.com/@atlaskit/icon/-/icon-21.6.0.tgz#31818372f314d64c4593ccc61e980cc69d0fc695"
+"@atlaskit/icon@^21.7.0":
+  version "21.7.0"
+  resolved "https://registry.yarnpkg.com/@atlaskit/icon/-/icon-21.7.0.tgz#ba854342c0328874d7c5a2b0519eefe490ece54f"
   dependencies:
     "@atlaskit/theme" "^11.0.0"
     "@babel/runtime" "^7.0.0"
@@ -32,12 +32,12 @@
     "@atlaskit/theme" "^11.0.0"
     fbjs "^3.0.0"
 
-"@atlaskit/select@^14.1.0":
-  version "14.1.0"
-  resolved "https://registry.yarnpkg.com/@atlaskit/select/-/select-14.1.0.tgz#016c94b676e89fd117a00b6bd35f7bb03d2127ed"
+"@atlaskit/select@^15.0.0":
+  version "15.0.0"
+  resolved "https://registry.yarnpkg.com/@atlaskit/select/-/select-15.0.0.tgz#45242abfe5f5285dbc94ace9a1334c59a244106c"
   dependencies:
-    "@atlaskit/analytics-next" "^8.0.0"
-    "@atlaskit/icon" "^21.6.0"
+    "@atlaskit/analytics-next" "^8.2.0"
+    "@atlaskit/icon" "^21.7.0"
     "@atlaskit/spinner" "^15.0.0"
     "@atlaskit/theme" "^11.2.0"
     "@babel/runtime" "^7.0.0"

@@ -5,7 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "@atlaskit/reduced-ui-pack": "^13.1.1",
-    "@atlaskit/select": "^14.1.0",
+    "@atlaskit/select": "^15.0.0",
     "@rehooks/component-size": "^1.0.2",
     "@welldone-software/why-did-you-render": "^6.2.0",
     "axios": "^0.21.1",
