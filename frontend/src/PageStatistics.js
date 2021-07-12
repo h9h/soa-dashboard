@@ -20,7 +20,10 @@ const StaticPageStatistics = (props) => {
 
   let {match: {params: { umgebung, datumVon, datumBis }}} = props
   if (window.location.href.endsWith('/aktuell')) {
-    datumVon = moment().subtract(1, 'days').format('YYYY-MM-DD')
+    // Wenn Montag gehe auf Freitag zurück, sonst Vortag
+    const today = moment()
+    const goBackDays = today.day() === 1 ? 3 : 1
+    datumVon = moment().subtract(goBackDays, 'days').format('YYYY-MM-DD')
     datumBis = datumVon
   }
   if (datumVon && !datumBis) {
