@@ -81,8 +81,6 @@ const HeaderStatistics = props => {
     })
   }
 
-  const handleClickExportCsv = props.onClickExportCsv || (() => {})
-
   return (
     <Navbar bg="light" expand="lg" key="navbar" fixed="top">
       {width > 1600 && (
@@ -116,7 +114,7 @@ const HeaderStatistics = props => {
               <FormControl
                 as={Datum}
                 date={filter.datumVon}
-                minDate={moment(filter.datumBis, 'YYYY-MM-DD').subtract(21, 'days').format('DD.MM.YYYY')}
+                minDate={moment(filter.datumBis, 'YYYY-MM-DD').subtract(90, 'days').format('DD.MM.YYYY')}
                 maxDate={moment().subtract(1, 'days').format('DD.MM.YYYY')}
                 setDate={handleFilterChange('datumVon')}
               />
@@ -190,15 +188,6 @@ const HeaderStatistics = props => {
                 filterAll()
                 renderAll()
               }}
-            />
-            <Blank/>
-            <Blank/>
-            <ButtonWithTip
-              title="CSV"
-              description="Exportiere Daten als CSV"
-              glyph="exportCsv"
-              handleClick={handleClickExportCsv}
-              disabled={true}
             />
           </Form>
         </Nav>

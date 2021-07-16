@@ -67,7 +67,7 @@ const PageStatistics = (props) => {
 
 
   return (
-    <ConnectedInnerPageStatistics header={handleClick => <HeaderStatistics onClickExportCsv={handleClick} />}/>
+    <ConnectedInnerPageStatistics />
   )
 }
 
@@ -88,17 +88,13 @@ const InnerPageStatistics = (props) => {
     getData()
   }, [umgebung, datumVon, datumBis, statisticFlags])
 
-  const handleClickExportCsv = () => {
-    alert('exportCsv geclickt ' + data.status)
-  }
-
   return (
     <>
       <Helmet>
         <title>Statistik {umgebung}</title>
       </Helmet>
       <Container fluid>
-        {props.header(handleClickExportCsv)}
+        <HeaderStatistics />
         <BodyArea>
           <InteractiveStatistics
             data={data}
