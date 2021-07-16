@@ -32,14 +32,14 @@
     "@atlaskit/theme" "^11.0.0"
     fbjs "^3.0.0"
 
-"@atlaskit/select@^15.0.0":
-  version "15.0.0"
-  resolved "https://registry.yarnpkg.com/@atlaskit/select/-/select-15.0.0.tgz#45242abfe5f5285dbc94ace9a1334c59a244106c"
+"@atlaskit/select@^15.0.1":
+  version "15.0.1"
+  resolved "https://registry.yarnpkg.com/@atlaskit/select/-/select-15.0.1.tgz#9eea258171f5f8b9303e39b46a82e780eced03c2"
   dependencies:
     "@atlaskit/analytics-next" "^8.2.0"
     "@atlaskit/icon" "^21.7.0"
     "@atlaskit/spinner" "^15.0.0"
-    "@atlaskit/theme" "^11.2.0"
+    "@atlaskit/theme" "^11.3.0"
     "@babel/runtime" "^7.0.0"
     "@emotion/core" "^10.0.9"
     "@popperjs/core" "^2.9.1"
@@ -61,9 +61,9 @@
     "@babel/runtime" "^7.0.0"
     "@emotion/core" "^10.0.9"
 
-"@atlaskit/theme@^11.0.0", "@atlaskit/theme@^11.1.0", "@atlaskit/theme@^11.2.0":
-  version "11.2.1"
-  resolved "https://registry.yarnpkg.com/@atlaskit/theme/-/theme-11.2.1.tgz#28d4030d86877f2d9c71dbae20576cb698e893a6"
+"@atlaskit/theme@^11.0.0", "@atlaskit/theme@^11.1.0", "@atlaskit/theme@^11.3.0":
+  version "11.3.0"
+  resolved "https://registry.yarnpkg.com/@atlaskit/theme/-/theme-11.3.0.tgz#741cc02ffec41b321f7a28c390c09934e2fe1eb5"
   dependencies:
     "@babel/runtime" "^7.0.0"
     exenv "^1.2.2"
