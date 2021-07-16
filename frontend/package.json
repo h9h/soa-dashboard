@@ -5,7 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "@atlaskit/reduced-ui-pack": "^13.1.1",
-    "@atlaskit/select": "^14.1.0",
+    "@atlaskit/select": "^15.0.0",
     "@rehooks/component-size": "^1.0.2",
     "@welldone-software/why-did-you-render": "^6.2.0",
     "axios": "^0.21.1",
@@ -23,7 +23,7 @@
     "moment": "^2.29.1",
     "object.entries": "^1.1.4",
     "pino": "^6.11.3",
-    "pino-pretty": "^5.1.0",
+    "pino-pretty": "^5.1.1",
     "prop-types": "^15.7.2",
     "query-string": "^7.0.1",
     "ramda": "^0.27.1",
