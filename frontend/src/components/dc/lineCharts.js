@@ -3,13 +3,13 @@ import { ZAHL_FORMAT } from './utils'
 import { compositeChart, lineChart, legend, pluck } from 'dc'
 import moment from 'moment'
 import * as d3 from 'd3'
+import crossfilter from 'crossfilter2'
 
 // ---------------------------------------------------------------
 // Chart Defaults
 // ---------------------------------------------------------------
 const createCompositeChart = (div, colorScheme, dimensions) => {
   const colors = getColorFunction(colorScheme)
-
   const chart = compositeChart(div)
 
   const zeitDim = dimensions.zeit
@@ -111,11 +111,16 @@ export const renderLineChartAnzahlCalls = ({div, dimensions, colorScheme}) => {
 
 export const renderLineChartTimingCalls = ({div, dimensions, colorScheme}) => {
   const chart = createCompositeChart(div, colorScheme, dimensions)
+  const colors = ['#F8B620', '#FF0000', ...getColorFunction(colorScheme)]
+  chart.ordinalColors(colors)
+
   chart
     .yAxisLabel('Durchschnitt Antwort (ms)')
     .compose([
+      createLine(chart, dimensions, 'warnThreshold'),
+      createLine(chart, dimensions, 'errorThreshold'),
       createChartAntwortzeit(chart, dimensions),
-      createChartVerarbeitungszeit(chart, dimensions)
+      createChartVerarbeitungszeit(chart, dimensions),
     ])
 
   chart.render()
@@ -155,8 +160,43 @@ const createChartAntwortzeit = (chart, dimensions) => {
 }
 
 const createChartVerarbeitungszeit = (chart, dimensions) => {
-  const antwortzeit = dimensions.zeit.group().reduce(...reduceAverageWeighted('DURCHSCHNITT_PROVIDER_ZEIT'))
+  const zeiten = dimensions.zeit
+  const antwortzeit = zeiten.group().reduce(...reduceAverageWeighted('DURCHSCHNITT_PROVIDER_ZEIT'))
+
+  const maxTimeDay = crossfilter(zeiten.filter(d => {
+    const zeit = moment(d)
+    return zeit.hour() >= 8 && zeit.hour() < 20
+  }).top(Infinity)).dimension(d => d.Date)
+
+  //console.log('Filtered', maxTimeDay.group().top(Infinity))
+  const maxTimeDayVerarbeitungszeit = maxTimeDay
+    .group()
+    .reduce(...reduceAverageWeighted('DURCHSCHNITT_PROVIDER_ZEIT'))
+    .order(d => d.avg)
+    .top(1)[0].value.avg
+  console.log('max time', maxTimeDayVerarbeitungszeit)
+
   return createLineChart(chart)
     .group(antwortzeit, 'Verarbeitungszeit')
     .valueAccessor(d => d.value.avg)
+}
+
+const createLine = (chart, dimensions, type) => {
+  const zeiten = dimensions.zeit
+  const antwortzeit = zeiten.group().reduce(...reduceAverageWeighted(type))
+  const myChart = lineChart(chart)
+
+  myChart
+    .curve(d3.curveMonotoneX)
+    .dotRadius(0)
+    .renderArea(false)
+    .defined(d => d.y != null ? d.y : null)
+    .xyTipsOn(false)
+    .group(antwortzeit, type)
+    .valueAccessor(d => d.value.avg)
+    .dashStyle([1, 4])
+
+  myChart.legendables = () => {}
+
+  return myChart
 }

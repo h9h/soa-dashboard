@@ -80,6 +80,8 @@ const defaultConfiguration = {
     colorSchemes: {},
     nrOfCalls: "50",
     nrOfFaults: "10",
+    providerTimeWarning: "90",
+    providerTimeError: "120",
   },
   links: getLinks
 }
