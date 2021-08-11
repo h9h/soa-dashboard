@@ -137,6 +137,9 @@ export const getStatisticsData = async (umgebung, datumVon, datumBis, statisticF
   const part = partition(TIMING_BREAKPOINTS)
   const partBus = partition(TIMING_BUS_BREAKPOINTS)
 
+  const warnThreshold = getConfigurationValue('statistics.providerTimeWarning')
+  const errorThreshold = getConfigurationValue('statistics.providerTimeError')
+
   statistics.forEach(row => {
     if (!row.SERVICE) {
       row.ShortName = 'n.a.'
@@ -158,6 +161,8 @@ export const getStatisticsData = async (umgebung, datumVon, datumBis, statisticF
     row.PartitionGesamtZeit = part(row.DURCHSCHNITT_GESAMT_ZEIT)
     row.PartitionBusZeit = partBus(row.DURCHSCHNITT_BUS_ZEIT)
     row.PartitionProviderZeit = part(row.DURCHSCHNITT_PROVIDER_ZEIT)
+    row.warnThreshold = warnThreshold
+    row.errorThreshold = errorThreshold
   })
   trace('Created additional fields', { anzahlRows: statistics.length })
 

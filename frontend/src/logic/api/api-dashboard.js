@@ -45,27 +45,35 @@ export const getLogpoints = (filter, cb) => {
   const sec = TIME_FORMAT === 'HH:mm' ? ':00' : ''
   const {umgebung, datum, von, bis, searchType, searchValue} = filter
 
-  let adjustedVon = von
-  if (searchValue && searchValue.length > 0) {
-    // wenn wir nach spezifischen Referenzen für einzelne Calls suchen, können wir den Suchzeitraum ausdehnen
-    const { anzahlMitSuchparameter, unit} = getConfigurationValue("filter.widenFilter")
-    adjustedVon = moment(bis, TIME_FORMAT).subtract(anzahlMitSuchparameter, unit)
-    if (adjustedVon.isAfter(moment(von, TIME_FORMAT))) {
-      // ... aber verkürzen ihn nicht, falls er eh schon groß war
-      adjustedVon = von
-    } else {
-      adjustedVon = adjustedVon.format(TIME_FORMAT)
-    }
-  }
-
-  let url = `${getEsbUrl(umgebung)}/dashboard/LogPoints/${datum}?from=${adjustedVon}${sec}&to=${bis}${sec}`
-
+  let url
+  let info
   if (searchValue && searchValue.length > 0) {
     const searchTypeUrl = getSearchTypeUrl(searchType)
-    url = `${url}&${searchTypeUrl}=${encodeURIComponent(searchValue)}`
+    if (bis === '00:00:00') {
+      url = `${getEsbUrl(umgebung)}/dashboard/LogPoints/${datum}?${searchTypeUrl}=${encodeURIComponent(searchValue)}`
+      info = `${searchValue} am ${datum}`
+    } else {
+      // TODO: Temporär bis neue API verteilt (dann weg, und bis === xx weg)
+      // wenn wir nach spezifischen Referenzen für einzelne Calls suchen, können wir den Suchzeitraum ausdehnen
+      const { anzahlMitSuchparameter, unit} = getConfigurationValue("filter.widenFilter")
+      let adjustedVon
+      adjustedVon = moment(bis, TIME_FORMAT).subtract(anzahlMitSuchparameter, unit)
+      if (adjustedVon.isAfter(moment(von, TIME_FORMAT))) {
+        // ... aber verkürzen ihn nicht, falls er eh schon groß war
+        adjustedVon = von
+      } else {
+        adjustedVon = adjustedVon.format(TIME_FORMAT)
+      }
+
+      url = `${getEsbUrl(umgebung)}/dashboard/LogPoints/${datum}?from=${adjustedVon}${sec}&to=${bis}${sec}&${searchTypeUrl}=${encodeURIComponent(searchValue)}`
+      info = `${searchValue} im Zeitraum von ${von} bis ${bis}`
+    }
+  } else {
+    url = `${getEsbUrl(umgebung)}/dashboard/LogPoints/${datum}?from=${von}${sec}&to=${bis}${sec}`
+    info = `Zeitraum von ${von} bis ${bis}`
   }
 
-  getData(API.LOGPOINT, url, cb, filter, `Zeitraum von ${adjustedVon} bis ${bis}`)
+  getData(API.LOGPOINT, url, cb, filter, info)
 }
 
 export const getService = (filter, cb) => {
