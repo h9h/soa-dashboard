@@ -4,6 +4,7 @@ import { compositeChart, lineChart, legend, pluck } from 'dc'
 import moment from 'moment'
 import * as d3 from 'd3'
 import crossfilter from 'crossfilter2'
+import { sendInfo } from '../../App'
 
 // ---------------------------------------------------------------
 // Chart Defaults
@@ -109,39 +110,6 @@ export const renderLineChartAnzahlCalls = ({div, dimensions, colorScheme}) => {
   chart.render()
 }
 
-export const renderLineChartTimingCalls = ({div, dimensions, colorScheme}) => {
-  const chart = createCompositeChart(div, colorScheme, dimensions)
-  const colors = ['#F8B620', '#FF0000', ...getColorFunction(colorScheme)]
-  chart.ordinalColors(colors)
-
-  chart
-    .yAxisLabel('Durchschnitt Antwort (ms)')
-    .compose([
-      createLine(chart, dimensions, 'warnThreshold'),
-      createLine(chart, dimensions, 'errorThreshold'),
-      createChartAntwortzeit(chart, dimensions),
-      createChartVerarbeitungszeit(chart, dimensions),
-    ])
-
-  chart.render()
-}
-
-export const renderLineChartAnzahlUndTimingCalls = ({div, dimensions, colorScheme}) => {
-  const chart = createCompositeChart(div, colorScheme, dimensions)
-  chart
-    .yAxisLabel('Anzahl Serviceaufrufe (pro Stunde)')
-    .rightYAxisLabel('Durchschnittliche Antwortzeit (ms)')
-    .compose([
-      createChartGesamtanzahl(chart, dimensions),
-      createChartFault(chart, dimensions),
-      createChartAntwortzeit(chart, dimensions)
-        .useRightYAxis(true)
-    ])
-
-  chart.render()
-}
-
-
 const createChartGesamtanzahl = (chart, dimensions) => {
   const anzahl = dimensions.zeit.group().reduceSum(pluck('ANZAHLGESAMT'))
   return createLineChart(chart).group(anzahl, 'Gesamtanzahl Calls')
@@ -174,7 +142,7 @@ const createChartVerarbeitungszeit = (chart, dimensions) => {
     .reduce(...reduceAverageWeighted('DURCHSCHNITT_PROVIDER_ZEIT'))
     .order(d => d.avg)
     .top(1)[0].value.avg
-  console.log('max time', maxTimeDayVerarbeitungszeit)
+  sendInfo(`Maximale durchschnittliche Verarbeitungszeit (zwischen 8:00 und 20:00): ${Math.round(maxTimeDayVerarbeitungszeit)} ms`)
 
   return createLineChart(chart)
     .group(antwortzeit, 'Verarbeitungszeit')
@@ -199,4 +167,37 @@ const createLine = (chart, dimensions, type) => {
   myChart.legendables = () => {}
 
   return myChart
+}
+
+
+export const renderLineChartTimingCalls = ({div, dimensions, colorScheme}) => {
+  const chart = createCompositeChart(div, colorScheme, dimensions)
+  const colors = ['#F8B620', '#FF0000', ...getColorFunction(colorScheme)]
+  chart.ordinalColors(colors)
+
+  chart
+    .yAxisLabel('Durchschnitt Antwort (ms)')
+    .compose([
+      createLine(chart, dimensions, 'warnThreshold'),
+      createLine(chart, dimensions, 'errorThreshold'),
+      createChartAntwortzeit(chart, dimensions),
+      createChartVerarbeitungszeit(chart, dimensions),
+    ])
+
+  chart.render()
+}
+
+export const renderLineChartAnzahlUndTimingCalls = ({div, dimensions, colorScheme}) => {
+  const chart = createCompositeChart(div, colorScheme, dimensions)
+  chart
+    .yAxisLabel('Anzahl Serviceaufrufe (pro Stunde)')
+    .rightYAxisLabel('Durchschnittliche Antwortzeit (ms)')
+    .compose([
+      createChartGesamtanzahl(chart, dimensions),
+      createChartFault(chart, dimensions),
+      createChartAntwortzeit(chart, dimensions)
+        .useRightYAxis(true)
+    ])
+
+  chart.render()
 }

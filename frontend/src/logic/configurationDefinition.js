@@ -1,185 +1,185 @@
 export const DEFINITIONS = {
   version: {
-    id: "/Version",
-    type: "number"
+    id: '/Version',
+    type: 'number'
   },
   startpage: {
-    id: "/Startpage",
-    type: "string",
+    id: '/Startpage',
+    type: 'string',
     enum: ['dashboard', 'statistics']
   },
   umgebungen: {
-    id: "/Umgebungen",
-    type: "object",
+    id: '/Umgebungen',
+    type: 'object',
     patternProperties: {
-      "^.+$": { anyOf: [
-          { type: "uri" },
-          { type: "null" },
+      '^.+$': { anyOf: [
+          { type: 'uri' },
+          { type: 'null' },
         ]}
     },
     minProperties: 1,
     additionalProperties: false
   },
   duration: {
-    id: "/Duration",
-    type: "object",
+    id: '/Duration',
+    type: 'object',
     properties: {
-      anzahl: {type: "string", pattern: "^\\d{1,3}$"},
-      unit: {type: "string", enum: ['seconds', 'minutes', 'hours']}
+      anzahl: {type: 'string', pattern: '^\\d{1,3}$'},
+      unit: {type: 'string', enum: ['seconds', 'minutes', 'hours']}
     },
-    required: ["anzahl", "unit"],
+    required: ['anzahl', 'unit'],
     additionalProperties: false
   },
   time: {
-    id: "/Time",
-    type: "object",
+    id: '/Time',
+    type: 'object',
     properties: {
-      duration: {"$ref": "/Duration"},
+      duration: {'$ref': '/Duration'},
     },
-    required: ["duration"],
+    required: ['duration'],
     additionalProperties: false
   },
   widenFilter: {
-    id: "/WidenFilter",
-    type: "object",
+    id: '/WidenFilter',
+    type: 'object',
     properties: {
-      anzahlVor: {type: "string", pattern: "^\\d{1,2}$"},
-      anzahlZurueck: {type: "string", pattern: "^\\d{1,2}$"},
-      anzahlMitSuchparameter: {type: "string", pattern: "^\\d{1,2}$"},
-      unit: {type: "string", enum: ['minutes']}
+      anzahlVor: {type: 'string', pattern: '^\\d{1,2}$'},
+      anzahlZurueck: {type: 'string', pattern: '^\\d{1,2}$'},
+      anzahlMitSuchparameter: {type: 'string', pattern: '^\\d{1,2}$'},
+      unit: {type: 'string', enum: ['minutes']}
     },
-    required: ["anzahlVor", "anzahlZurueck", "anzahlMitSuchparameter", "unit"],
+    required: ['anzahlVor', 'anzahlZurueck', 'anzahlMitSuchparameter', 'unit'],
     additionalProperties: false
   },
   filter: {
-    id: "/Filter",
-    type: "object",
+    id: '/Filter',
+    type: 'object',
     properties: {
-      umgebung: {type: "string", pattern: "^.+$" },
-      widenFilter: {"$ref": "/WidenFilter"}
+      umgebung: {type: 'string', pattern: '^.+$' },
+      widenFilter: {'$ref': '/WidenFilter'}
     },
-    required: ["umgebung", "widenFilter"],
+    required: ['umgebung', 'widenFilter'],
     additionalProperties: false
   },
   table: {
-    id: "/Table",
-    type: "object",
+    id: '/Table',
+    type: 'object',
     properties: {
-      pageSizes: {type: "array", "items": { anyOf: [
-            { type: "string", pattern: "^\\d{1,3}$" },
-            { type: "null" },
+      pageSizes: {type: 'array', 'items': { anyOf: [
+            { type: 'string', pattern: '^\\d{1,3}$' },
+            { type: 'null' },
           ]}
         ,
         uniqueItems: true,
         minItems: 1
       },
-      defaultSize: {type: "string", pattern: "^\\d{1,3}$" }
+      defaultSize: {type: 'string', pattern: '^\\d{1,3}$' }
     },
-    required: ["pageSizes", "defaultSize"],
+    required: ['pageSizes', 'defaultSize'],
     additionalProperties: false
   },
   timeline: {
-    id: "/Timeline",
-    type: "object",
+    id: '/Timeline',
+    type: 'object',
     properties: {
-      alignFlag: {type: "string", enum: ["left", "center", "right"]}
+      alignFlag: {type: 'string', enum: ['left', 'center', 'right']}
     },
-    required: ["alignFlag"],
+    required: ['alignFlag'],
     additionalProperties: false
   },
   logpoints: {
-    id: "/Logpoints",
-    type: "object",
+    id: '/Logpoints',
+    type: 'object',
     properties: {
-      verticalSeparation: {type: "string", enum: ["true", "false"]}
+      verticalSeparation: {type: 'string', enum: ['true', 'false']}
     },
-    required: ["verticalSeparation"],
+    required: ['verticalSeparation'],
     additionalProperties: false
   },
   distribution: {
-    id: "/Distribution",
-    type: "object",
+    id: '/Distribution',
+    type: 'object',
     properties: {
-      heightInPx: {type: "string", pattern: "^\\d{1,3}$"},
+      heightInPx: {type: 'string', pattern: '^\\d{1,3}$'},
     },
-    required: ["heightInPx"],
+    required: ['heightInPx'],
     additionalProperties: false
   },
   presentation: {
-    id: "/Presentation",
-    type: "object",
+    id: '/Presentation',
+    type: 'object',
     properties: {
-      timeline: {"$ref": "/Timeline"},
-      logpoints: {"$ref": "/Logpoints"},
-      distribution: {"$ref": "/Distribution"}
+      timeline: {'$ref': '/Timeline'},
+      logpoints: {'$ref': '/Logpoints'},
+      distribution: {'$ref': '/Distribution'}
     },
     required: [],
     additionalProperties: false
   },
   mock: {
-    id: "/Mock",
-    type: "object",
+    id: '/Mock',
+    type: 'object',
     properties: {
-      anzahl: {type: "string", pattern: "^\\d{2,5}$"},
-      doMock: {type: "string", enum: ['true', 'false']}
+      anzahl: {type: 'string', pattern: '^\\d{2,5}$'},
+      doMock: {type: 'string', enum: ['true', 'false']}
     },
-    required: ["anzahl", "doMock"],
+    required: ['anzahl', 'doMock'],
     additionalProperties: false
   },
   advanced: {
-    id: "/Advanced",
-    type: "object",
+    id: '/Advanced',
+    type: 'object',
     properties: {
-      millisPreExecutionOnNotification: {type: "string", pattern: "^\\d{1,3}$"},
-      millisAutoCloseNotification: {type: "string", pattern: "^\\d{1,4}$"},
-      notificationPositionHorizontal: {type: "string", enum: ['left', 'center', 'right']},
-      notificationPositionVertical: {type: "string", enum: ['top', 'bottom']},
-      sliceFetchStatisticsHours: {type: "string", pattern: "^\\d{1,2}$"},
-      maxQueuedMessagesWithMessagecontent: {type: "string", pattern: "^\\d{1,3}$"},
+      millisPreExecutionOnNotification: {type: 'string', pattern: '^\\d{1,3}$'},
+      millisAutoCloseNotification: {type: 'string', pattern: '^\\d{1,4}$'},
+      notificationPositionHorizontal: {type: 'string', enum: ['left', 'center', 'right']},
+      notificationPositionVertical: {type: 'string', enum: ['top', 'bottom']},
+      sliceFetchStatisticsHours: {type: 'string', pattern: '^\\d{1,2}$'},
+      maxQueuedMessagesWithMessagecontent: {type: 'string', pattern: '^\\d{1,3}$'},
     },
     required: [
-      "millisPreExecutionOnNotification",
-      "millisAutoCloseNotification",
-      "notificationPositionHorizontal",
-      "notificationPositionVertical",
-      "sliceFetchStatisticsHours",
-      "maxQueuedMessagesWithMessagecontent"
+      'millisPreExecutionOnNotification',
+      'millisAutoCloseNotification',
+      'notificationPositionHorizontal',
+      'notificationPositionVertical',
+      'sliceFetchStatisticsHours',
+      'maxQueuedMessagesWithMessagecontent'
     ],
     additionalProperties: false
   },
   debug: {
-    id: "/Debug",
-    type: "object",
+    id: '/Debug',
+    type: 'object',
     properties: {
-      namespaces: {type: "string"},
-      level: {type: "string", enum: ['0', '1', '2', '3', '4']},
+      namespaces: {type: 'string'},
+      level: {type: 'string', enum: ['0', '1', '2', '3', '4']},
     },
     required: [
-      "namespaces",
-      "level",
+      'namespaces',
+      'level',
     ],
     additionalProperties: false
   },
   statistics: {
-    id: "/Statistics",
-    type: "object",
+    id: '/Statistics',
+    type: 'object',
     properties: {
-      colorSchemes: {type: "object"},
-      nrOfCalls: {type: "string", pattern: "^\\d{1,3}$"},
-      nrOfFaults: {type: "string", pattern: "^\\d{1,3}$"},
-      providerTimeWarning: {type: "string", pattern: "^\\d{2,4}$"},
-      providerTimeError: {type: "string", pattern: "^\\d{2,4}$"},
+      colorSchemes: {type: 'object'},
+      nrOfCalls: {type: 'string', pattern: '^\\d{1,3}$'},
+      nrOfFaults: {type: 'string', pattern: '^\\d{1,3}$'},
+      providerTimeWarning: {type: 'string', pattern: '^\\d{2,4}$'},
+      providerTimeError: {type: 'string', pattern: '^\\d{2,4}$'},
     },
-    required: ["colorSchemes", "nrOfCalls", "nrOfFaults", "providerTimeWarning", "providerTimeError"],
+    required: ['colorSchemes', 'nrOfCalls', 'nrOfFaults', 'providerTimeWarning', 'providerTimeError'],
     additionalProperties: false
   },
   links: {
-    id: "/Links",
-    type: "object",
+    id: '/Links',
+    type: 'object',
     patternProperties: {
-      "^.+$": { anyOf: [
-          { type: "uri" },
-          { type: "null" },
+      '^.+$': { anyOf: [
+          { type: 'uri' },
+          { type: 'null' },
         ]}
     },
     additionalProperties: false
@@ -187,24 +187,24 @@ export const DEFINITIONS = {
 }
 
 export const CONFIGURATION_SCHEMA = {
-  id: "/Configuration",
-  type: "object",
+  id: '/Configuration',
+  type: 'object',
   properties: {
-    startpage: {"$ref": "/Startpage"},
-    umgebungen: {"$ref": "/Umgebungen"},
-    time: {"$ref": "/Time"},
-    filter: {"$ref": "/Filter"},
-    logtable: {"$ref": "/Table"},
-    messagetable: {"$ref": "/Table"},
-    queuetable: {"$ref": "/Table"},
-    queuetabletable: {"$ref": "/Table"},
-    checkalivetable: {"$ref": "/Table"},
-    statistikdata: {"$ref": "/Table"},
-    presentation: {"$ref": "/Presentation"},
-    mock: {"$ref": "/Mock"},
-    advanced: {"$ref": "/Advanced"},
-    debug: {"$ref": "/Debug"},
-    statistics: {"$ref": "/Statistics"},
-    links: {"$ref": "/Links"}
+    startpage: {'$ref': '/Startpage'},
+    umgebungen: {'$ref': '/Umgebungen'},
+    time: {'$ref': '/Time'},
+    filter: {'$ref': '/Filter'},
+    logtable: {'$ref': '/Table'},
+    messagetable: {'$ref': '/Table'},
+    queuetable: {'$ref': '/Table'},
+    queuetabletable: {'$ref': '/Table'},
+    checkalivetable: {'$ref': '/Table'},
+    statistikdata: {'$ref': '/Table'},
+    presentation: {'$ref': '/Presentation'},
+    mock: {'$ref': '/Mock'},
+    advanced: {'$ref': '/Advanced'},
+    debug: {'$ref': '/Debug'},
+    statistics: {'$ref': '/Statistics'},
+    links: {'$ref': '/Links'}
   }
 }
