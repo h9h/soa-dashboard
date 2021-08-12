@@ -54,10 +54,7 @@ export const NavigationForm = ({page, user, logout, haveJobsApi}) => {
         {haveJobsApi && <Target to="jobs" description="Zu den Jobs (Resend...)" title="Jobs"/>}
         <Target to="statistics" description="Zu der Service-Statistik" title="Statistik"/>
         <Target to="checkalive" description="Zu der Übersicht Checkalive" title="Healthcheck"/>
-        <Dropdown alignRight onToggle={(show, e) => {
-          console.log(show)
-          if (e.preventDefault) e.preventDefault()
-        }}>
+        <Dropdown alignRight onClick={(e) => e.stopPropagation()}>
           <Dropdown.Toggle variant="light" id="dropdown-basic">
             ...
           </Dropdown.Toggle>
