@@ -8,6 +8,7 @@ import Log from '../log'
 import {
   getConfigurationValue,
   getStoredConfiguration,
+  resetConfiguration,
   storeConfiguration,
 } from './configuration'
 
@@ -181,6 +182,14 @@ function reducer (state = {}, action) {
       return {
         ...state,
         configuration: newConfiguration,
+      }
+    }
+
+    case 'resetConfiguration': {
+      const configuration = resetConfiguration()
+      return {
+        ...state,
+        configuration,
       }
     }
 

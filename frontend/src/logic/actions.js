@@ -95,6 +95,10 @@ export const updateConfiguration = (values) => ({
   values
 })
 
+export const resetConfiguration = () => ({
+  type: 'resetConfiguration',
+})
+
 export const sendStatusInfo = info => ({
   type: 'sendStatusInfo',
   info

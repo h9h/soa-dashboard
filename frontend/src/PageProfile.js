@@ -12,8 +12,8 @@ import ButtonWithTip from './components/ButtonWithTip'
 import Log from './log'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
-import { updateConfiguration } from './logic/actions'
-import { validateConfiguration } from './logic/configuration'
+import { updateConfiguration, resetConfiguration } from './logic/actions'
+import { validateConfiguration, getStoredConfiguration } from './logic/configuration'
 
 const log = Log('pageprofile')
 
@@ -86,7 +86,8 @@ const PageProfile = (props) => {
                 description="Setzt die aktuelle Konfiguration auf die Default-Konfiguration zurück"
                 glyph="resetConfiguration"
                 handleClick={() => {
-                  props.updateConfiguration(null)
+                  props.resetConfiguration()
+                  setConfiguration(getStoredConfiguration())
                   toast(
                     `Konfiguration auf Defaultwerte zurückgesetzt`,
                     {type: toast.TYPE.SUCCESS},
@@ -199,5 +200,6 @@ export default connect(
   }),
   dispatch => ({
     updateConfiguration: values => dispatch(updateConfiguration(values)),
+    resetConfiguration: () => dispatch(resetConfiguration())
   }),
 )(PageProfile)

@@ -94,6 +94,11 @@ export const storeConfiguration = values => {
   store.set(CONFIG_STORE_KEY, values)
 }
 
+export const resetConfiguration = () => {
+  store.set(CONFIG_STORE_KEY, defaultConfiguration)
+  return {...defaultConfiguration}
+}
+
 export const getConfigurationValue = key => {
   return path(key.split('.'), getStoredConfiguration())
 }
@@ -106,3 +111,4 @@ export const validateConfiguration = values => {
 
   return v.validate(values, CONFIGURATION_SCHEMA)
 }
+
