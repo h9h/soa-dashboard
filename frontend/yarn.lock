@@ -32,9 +32,9 @@
     "@atlaskit/theme" "^11.4.0"
     fbjs "^3.0.0"
 
-"@atlaskit/select@^15.0.2":
-  version "15.0.2"
-  resolved "https://registry.yarnpkg.com/@atlaskit/select/-/select-15.0.2.tgz#37b7107a414cdb9652ea9c07067945a24252d5e9"
+"@atlaskit/select@^15.1.0":
+  version "15.1.0"
+  resolved "https://registry.yarnpkg.com/@atlaskit/select/-/select-15.1.0.tgz#9b112ab2ce84ba7effbdd83eb92e7b94d088a306"
   dependencies:
     "@atlaskit/analytics-next" "^8.2.0"
     "@atlaskit/icon" "^21.7.0"
@@ -9244,9 +9244,9 @@ react-uid@^2.2.0:
   dependencies:
     tslib "^1.10.0"
 
-react-virtualized-auto-sizer@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/react-virtualized-auto-sizer/-/react-virtualized-auto-sizer-1.0.5.tgz#9eeeb8302022de56fbd7a860b08513120ce36509"
+react-virtualized-auto-sizer@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/react-virtualized-auto-sizer/-/react-virtualized-auto-sizer-1.0.6.tgz#66c5b1c9278064c5ef1699ed40a29c11518f97ca"
 
 react-window@^1.8.6:
   version "1.8.6"
