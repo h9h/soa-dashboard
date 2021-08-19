@@ -73,7 +73,7 @@ const PageStatistics = (props) => {
 
 const InnerPageStatistics = (props) => {
   log.trace('Mount InnerPageStatistics')
-  const { umgebung, datumVon, datumBis, statisticFlags, view = 'default', colorScheme = 'Tableau10' } = props
+  const { header, umgebung, datumVon, datumBis, statisticFlags, view = 'default', colorScheme = 'Tableau10' } = props
   const { width } = useWindowSize()
 
   const [data, setData] = useState({status: 'loading'})
@@ -88,13 +88,15 @@ const InnerPageStatistics = (props) => {
     getData()
   }, [umgebung, datumVon, datumBis, statisticFlags])
 
+  const HeaderElement = header || (() => <HeaderStatistics />)
+
   return (
     <>
       <Helmet>
         <title>Statistik {umgebung}</title>
       </Helmet>
       <Container fluid>
-        <HeaderStatistics />
+        <HeaderElement />
         <BodyArea>
           <InteractiveStatistics
             data={data}
