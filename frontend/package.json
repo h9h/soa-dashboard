@@ -7,7 +7,7 @@
     "@atlaskit/reduced-ui-pack": "^14.0.0",
     "@atlaskit/select": "^15.1.0",
     "@rehooks/component-size": "^1.0.2",
-    "@welldone-software/why-did-you-render": "^6.2.0",
+    "@welldone-software/why-did-you-render": "^6.2.1",
     "axios": "^0.21.1",
     "bootstrap": "^4.1.0",
     "copy-to-clipboard": "^3.2.0",
