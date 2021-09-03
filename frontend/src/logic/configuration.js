@@ -7,7 +7,7 @@ import { CONFIGURATION_SCHEMA, DEFINITIONS } from './configurationDefinition'
 const CONFIG_STORE_KEY = 'esb-dashboard'
 
 const defaultConfiguration = {
-  version: 5,
+  version: 6,
   umgebungen: getDefaultUmgebungen,
   startpage: 'dashboard',
   time: {
@@ -27,7 +27,7 @@ const defaultConfiguration = {
   },
   logtable: {
     pageSizes: ['6', '10', '12', '50', '100'],
-    defaultSize: '10'
+    defaultSize: '100'
   },
   messagetable: {
     pageSizes: ['6', '10', '12', '50', '100'],
@@ -66,7 +66,7 @@ const defaultConfiguration = {
   },
   advanced: {
     millisPreExecutionOnNotification: '50',
-    millisAutoCloseNotification: '4000',
+    millisAutoCloseNotification: '2000',
     notificationPositionVertical: 'bottom',
     notificationPositionHorizontal: 'center',
     sliceFetchStatisticsHours: '12',
