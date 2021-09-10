@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import Container from 'react-bootstrap/Container'
-import HeaderStatistics from './components/HeaderStatistics'
 import BodyArea from './components/BodyArea'
 import Log from './log'
 import InteractiveStatistics from './components/InteractiveStatistics'
 import { Helmet } from 'react-helmet'
 import useWindowSize from './components/useWindowSize'
 import moment from 'moment'
-import HeaderStandalone from './components/HeaderStandalone'
+import HeaderStandaloneStatistics from './components/HeaderStandaloneStatistics'
 import { connect } from 'react-redux'
 import { getStatisticsData } from './logic/api/rest-api-statistics'
 
@@ -39,7 +38,7 @@ const StaticPageStatistics = (props) => {
 
   return (
     <InnerPageStatistics
-      header={() => <HeaderStandalone title={title} view={view} setView={setView}/>}
+      header={() => <HeaderStandaloneStatistics title={title} view={view} setView={setView}/>}
       umgebung={umgebung}
       datumVon={datumVon}
       datumBis={datumBis}
@@ -88,7 +87,7 @@ const InnerPageStatistics = (props) => {
     getData()
   }, [umgebung, datumVon, datumBis, statisticFlags])
 
-  const HeaderElement = header || (() => <HeaderStatistics />)
+  const HeaderElement = header || (() => <HeaderStandaloneStatistics />)
 
   return (
     <>
