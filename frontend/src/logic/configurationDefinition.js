@@ -136,6 +136,7 @@ export const DEFINITIONS = {
       notificationPositionVertical: {type: 'string', enum: ['top', 'bottom']},
       sliceFetchStatisticsHours: {type: 'string', pattern: '^\\d{1,2}$'},
       maxQueuedMessagesWithMessagecontent: {type: 'string', pattern: '^\\d{1,3}$'},
+      immediateReloadOnUmgebungChanged: {type: 'string', enum: ['true', 'false']}
     },
     required: [
       'millisPreExecutionOnNotification',
@@ -143,7 +144,8 @@ export const DEFINITIONS = {
       'notificationPositionHorizontal',
       'notificationPositionVertical',
       'sliceFetchStatisticsHours',
-      'maxQueuedMessagesWithMessagecontent'
+      'maxQueuedMessagesWithMessagecontent',
+      'immediateReloadOnUmgebungChanged'
     ],
     additionalProperties: false
   },

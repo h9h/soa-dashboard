@@ -43,6 +43,8 @@ export const HeaderForm = props => {
     changeFilter({umgebung, messageType, datumVon, datumBis, searchType, searchValue})
   }, [umgebung, messageType, datumVon, datumBis, searchType, searchValue])
 
+  const immediateReload = getConfigurationValue('advanced.immediateReloadOnUmgebungChanged') === 'true'
+
   const propagateFilter = filter => {
     withExplanation({
       nachricht: 'Nachrichten werden geladen',
@@ -71,7 +73,7 @@ export const HeaderForm = props => {
         }
       }
 
-      if (key === 'umgebung' || key === 'messageType') {
+      if (immediateReload && (key === 'umgebung' || key === 'messageType')) {
         propagateFilter(newFilter)
       }
 

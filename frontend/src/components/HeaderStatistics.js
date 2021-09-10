@@ -47,6 +47,8 @@ const HeaderStatistics = props => {
     })
   }
 
+  const immediateReload = getConfigurationValue('advanced.immediateReloadOnUmgebungChanged') === 'true'
+
   const handleFilterChange = key => event => {
     const value = event.target ? event.target.value : event
     log.trace('filter change', key, value)
@@ -73,7 +75,7 @@ const HeaderStatistics = props => {
         }
       }
 
-      if (key === 'umgebung' || key === 'flag') {
+      if (immediateReload && (key === 'umgebung' || key === 'flag')) {
         refresh(newFilter)
       }
 

@@ -72,6 +72,7 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
   }, [umgebung, datum, bis, searchType, searchValue])
 
   log.trace('filter', localFilter)
+  const immediateReload = getConfigurationValue('advanced.immediateReloadOnUmgebungChanged') === 'true'
 
   const handleFilterChange = key => event => {
     const value = event.target ? event.target.value : event
@@ -85,7 +86,7 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
         [key]: value.replace(/"/g, '') // strippe " aus Suchwert (eigentlich immer, aber da spielt es eine Rolle) damit kopierter Wert (mit ") einfach eingesetzt werden kann
       }
 
-      if (key === 'umgebung') {
+      if (immediateReload && key === 'umgebung') {
         propagateFilter(newFilter)
       }
       return newFilter

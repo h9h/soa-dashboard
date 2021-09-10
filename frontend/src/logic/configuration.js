@@ -70,7 +70,8 @@ const defaultConfiguration = {
     notificationPositionVertical: 'bottom',
     notificationPositionHorizontal: 'center',
     sliceFetchStatisticsHours: '12',
-    maxQueuedMessagesWithMessagecontent: '10'
+    maxQueuedMessagesWithMessagecontent: '10',
+    immediateReloadOnUmgebungChanged: 'true'
   },
   debug: {
     namespaces: 'ESBD:*',
