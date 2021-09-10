@@ -63,6 +63,8 @@ export const cellFactory = onClick => key => {
     case 'MEP':
       return row => <MessageExchangePattern row={row}/>
     case 'MESSAGEID':
+      return () => null
+    case 'VirtualMESSAGEID':
       return row => <MessageId row={row} />
     case 'MSGID':
       return row => <MsgID row={row} />

@@ -13,6 +13,9 @@ const spezial = cell => ({
   MESSAGEID: {
     PivotValue: cell('MESSAGEID'),
   },
+  VirtualMESSAGEID: {
+    Aggregated: cell('MESSAGEID'),
+  },
   Timestamp: {
     Aggregated: cell('Timestamp.Aggregated'),
   },
@@ -121,6 +124,7 @@ const decorator = showFunction => columnObject => {
 
 export const getColumns = (showFunction, keys) => {
   const allKeys = keys.concat([
+    'VirtualMESSAGEID',
     'Timestamp',
     'Sender',
     'ServiceOperation',

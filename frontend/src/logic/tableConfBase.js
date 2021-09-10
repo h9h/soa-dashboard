@@ -10,7 +10,7 @@ export const MESSAGE_TYPE_COLUMNS = {
 
 export const TABLE_COLUMNS = {
   ...MESSAGE_TYPE_COLUMNS,
-  LogPoints: ['INTERNALLOGID', 'Timestamp', 'DESCRIPTION', 'LOGPOINTNO', 'MESSAGEID', 'Sender', 'PROCESSINSTANCEID', 'SENDERTIMESTAMP', 'ENVIRONMENT', 'ORIGINATOR', 'OPERATION', 'SERVICE', 'MEP', 'PARENTPROCESSINSTANCEID', 'RELATESTOMESSAGEID', 'Aktionen'],
+  LogPoints: ['MESSAGEID', 'INTERNALLOGID', 'Timestamp', 'DESCRIPTION', 'LOGPOINTNO', 'VirtualMESSAGEID', 'Sender', 'PROCESSINSTANCEID', 'SENDERTIMESTAMP', 'ENVIRONMENT', 'ORIGINATOR', 'OPERATION', 'SERVICE', 'MEP', 'PARENTPROCESSINSTANCEID', 'RELATESTOMESSAGEID', 'Aktionen'],
   Statistic: ['Zeit', 'Domain', 'DURATION', 'ORIGINATOR', 'OPERATION', 'SERVICE', 'MEP', 'ANZAHLGESAMT', 'ANZAHLFAULT', 'DURCHSCHNITT_GESAMT_ZEIT', 'DURCHSCHNITT_PROVIDER_ZEIT', 'DURCHSCHNITT_BUS_ZEIT'],
   Queues: ['QUEUE_NAME', 'QUEUE_TABLE', 'QUEUE_TYPE', 'EXPIRATION', 'USER_COMMENT', 'WAITING', 'READY', 'EXPIRED', 'SCHEDULE_DISABLED'],
   Queuetable: ['QUEUE_NAME', 'QUEUE_TABLE', 'MSGID', 'ENQ_TIME', 'MESSAGE', 'MESSAGESIZE', 'MessageContent'],
@@ -47,14 +47,20 @@ const DEFAULT_PROPS = {
     sortable: false
   },
   MESSAGEID: {
+    Header: '',
+    width: 0,
+    ordnung: 999,
+  },
+  VirtualMESSAGEID: {
     Header: 'Message-ID',
     width: 180,
-    ordnumg: 1
+    accessor: item => item.MESSAGEID,
+    ordnung: 1,
   },
   PROCESSINSTANCEID: {
     Header: 'ProcessInstance',
     width: 180,
-    ordnumg: 30
+    ordnung: 30
   },
   Timestamp: {
     Header: 'Timestamp',

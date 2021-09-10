@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo } from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import ReactTable from 'react-table-6'
-import ReactJson from 'react-json-view'
 import { sort } from 'ramda'
 import { getColumns } from '../logic/tableConfLog'
 import { getLogpoints } from '../logic/api/api-dashboard'
@@ -26,15 +25,6 @@ import { Modal, useModal } from './LogpointModals'
 
 const log = Log('logtable')
 
-const getSubComponent = ({row}) => {
-  const {Timestamp, Sender, ServiceOperation, filter, ...rest} = row._original
-  return (
-    <div style={{padding: '20px'}}>
-      <ReactJson src={{...rest}} name={false}/>
-    </div>
-  )
-}
-
 const getTdProps = (history, route) => {
   const handleRouteTo = (searchType, searchValue) => {
     const concreteRoute = route(searchType, searchValue)
@@ -50,11 +40,15 @@ const getTdProps = (history, route) => {
       onClick: (e, handleOriginal) => {
         log.trace('Click on column', column.id)
         switch (column.id) {
-          case 'ORIGINATOR':
+          case 'xxx': // sinnvoll?
             if (rowInfo && rowInfo.row) {
               log.trace('Route to Dashboard')
               handleRouteTo(LOG_SEARCH_TYPES.MESSAGEID, rowInfo.row.MESSAGEID)
             }
+            break
+          case 'MESSAGEID':
+            // kein handleOriginal für das Pivot-Feld Message ID - wir wollen die
+            // Zeile nicht aufklappen!
             break
           default:
             if (handleOriginal) {
@@ -157,7 +151,6 @@ const UnconnectedLogpointTable = ({ logs, defaultPageSize, pageSizes, setPageSiz
           data={logs.data}
           onPageSizeChange={setPageSize}
           defaultPageSize={defaultPageSize}
-          SubComponent={getSubComponent}
           style={{height: (height - barchartHeight - menuHeight) + 'px'}}
           {...tableOptions}
         />
