@@ -17,11 +17,12 @@
     prop-types "^15.5.10"
     use-memo-one "^1.1.1"
 
-"@atlaskit/icon@^21.7.0":
-  version "21.7.0"
-  resolved "https://registry.yarnpkg.com/@atlaskit/icon/-/icon-21.7.0.tgz#ba854342c0328874d7c5a2b0519eefe490ece54f"
+"@atlaskit/icon@^21.8.0":
+  version "21.8.1"
+  resolved "https://registry.yarnpkg.com/@atlaskit/icon/-/icon-21.8.1.tgz#3ead4559656d219f00280f506ce675fe0314b59d"
   dependencies:
-    "@atlaskit/theme" "^11.0.0"
+    "@atlaskit/theme" "^11.5.0"
+    "@atlaskit/tokens" "^0.2.0"
     "@babel/runtime" "^7.0.0"
     "@emotion/core" "^10.0.9"
 
@@ -32,14 +33,15 @@
     "@atlaskit/theme" "^11.4.0"
     fbjs "^3.0.0"
 
-"@atlaskit/select@^15.1.0":
-  version "15.1.0"
-  resolved "https://registry.yarnpkg.com/@atlaskit/select/-/select-15.1.0.tgz#9b112ab2ce84ba7effbdd83eb92e7b94d088a306"
+"@atlaskit/select@^15.2.1":
+  version "15.2.1"
+  resolved "https://registry.yarnpkg.com/@atlaskit/select/-/select-15.2.1.tgz#37c9fef7dda08eda39d686e2f8230a03111de47b"
   dependencies:
     "@atlaskit/analytics-next" "^8.2.0"
-    "@atlaskit/icon" "^21.7.0"
+    "@atlaskit/icon" "^21.8.0"
     "@atlaskit/spinner" "^15.0.0"
-    "@atlaskit/theme" "^11.4.0"
+    "@atlaskit/theme" "^11.5.0"
+    "@atlaskit/tokens" "^0.2.0"
     "@babel/runtime" "^7.0.0"
     "@emotion/core" "^10.0.9"
     "@popperjs/core" "^2.9.1"
@@ -61,18 +63,18 @@
     "@babel/runtime" "^7.0.0"
     "@emotion/core" "^10.0.9"
 
-"@atlaskit/theme@^11.0.0", "@atlaskit/theme@^11.1.0", "@atlaskit/theme@^11.4.0":
-  version "11.4.0"
-  resolved "https://registry.yarnpkg.com/@atlaskit/theme/-/theme-11.4.0.tgz#03f22bd266d6640d33abd26eedb6aae912e936f6"
+"@atlaskit/theme@^11.1.0", "@atlaskit/theme@^11.4.0", "@atlaskit/theme@^11.5.0":
+  version "11.5.2"
+  resolved "https://registry.yarnpkg.com/@atlaskit/theme/-/theme-11.5.2.tgz#43ac3b3a203241ae83b1d62d15912e6c36f465a9"
   dependencies:
-    "@atlaskit/tokens" "^0.0.17"
+    "@atlaskit/tokens" "^0.2.0"
     "@babel/runtime" "^7.0.0"
     exenv "^1.2.2"
     prop-types "^15.5.10"
 
-"@atlaskit/tokens@^0.0.17":
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/@atlaskit/tokens/-/tokens-0.0.17.tgz#77b74605f3248e3b3a1b35a66f16e3a96b54d56e"
+"@atlaskit/tokens@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@atlaskit/tokens/-/tokens-0.2.0.tgz#ffa91911cba56ed0b9ef3f14c8a0bb7debdce098"
   dependencies:
     "@babel/runtime" "^7.0.0"
 
