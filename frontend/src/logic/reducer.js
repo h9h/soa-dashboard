@@ -58,11 +58,12 @@ function reducer (state = {}, action) {
 
     case 'setFilter': {
       updateStoredUmgebung(action.umgebung)
-      const {von, bis} = getDuration(getConfigurationValue('time.duration'))(moment(action.bis, TIME_FORMAT))
+      const {duration, von, bis} = getDuration(action.duration)(moment(action.bis, TIME_FORMAT))
       return {
         ...state,
         umgebung: action.umgebung,
         datum: action.datum,
+        duration,
         von,
         bis,
         logSearchType: action.logSearchType,
@@ -203,6 +204,7 @@ function reducer (state = {}, action) {
     case 'sendStatusInfo': {
       const newInfo = typeof action.info === 'string' ? action.info : null
       if (!newInfo) return state
+
       return {
         ...state,
         infos: [newInfo].concat(state.infos),

@@ -9,17 +9,29 @@ export const convertToMoment = raw => {
 
 export const getDuration = duration => time => {
   return {
+    duration,
     bis: time.format(TIME_FORMAT),
     von: defaultSubtract(duration)(time).format(TIME_FORMAT)
   }
 }
 
-export const defaultSubtract = duration => mom => {
-  return mom.subtract(duration.anzahl, duration.unit)
+export const getDurationUnitText = unit => {
+  switch(unit) {
+    case "seconds": return "Sekunden"
+    case "hours": return "Stunden"
+    default: return "Minuten"
+  }
 }
 
-export const defaultAdd = duration => mom => {
-  return mom.add(duration.anzahl, duration.unit)
+export const getDurations = unit => {
+  switch(unit) {
+    case "seconds": return [60, 120]
+    case "hours": return [1, 2, 6, 12]
+    default: return [10, 30, 60]
+  }
+}
+export const defaultSubtract = duration => mom => {
+  return moment(mom).subtract(duration.anzahl, duration.unit)
 }
 
 export const widenTime = widenFilter => (von, bis) => {

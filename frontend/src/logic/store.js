@@ -22,7 +22,7 @@ export const LOG_SEARCH_TYPES = {
 export const initialState = () => {
   log.trace('initialState called')
   const configuration = getStoredConfiguration()
-  const { von, bis } = getDuration(configuration.time.duration)(moment())
+  const { duration, von, bis } = getDuration(configuration.time.duration)(moment())
 
   const persistence = new Persistence(USER_KEY)
   let user = persistence.get()
@@ -36,6 +36,7 @@ export const initialState = () => {
     user: user,
     umgebung: configuration.filter.umgebung,
     datum: moment().format('YYYY-MM-DD'),
+    duration,
     von,
     bis,
     logSearchType: LOG_SEARCH_TYPES.MESSAGEID,

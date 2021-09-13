@@ -15,7 +15,7 @@ import { connect } from 'react-redux'
 import Log from '../log'
 import { getDashboardRoute } from '../logic/routes'
 import Separator from './Separator'
-import { getDuration, TIME_FORMAT, widenTime } from '../logic/time'
+import { getDurationUnitText, getDuration, TIME_FORMAT, widenTime, getDurations } from '../logic/time'
 import moment from 'moment'
 import Datum from './datetime/Datum'
 import Zeit from './datetime/Zeit'
@@ -59,17 +59,17 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
   const width = rest.width || windowWidth
 
   // setzte lokale Daten auf Props beim ersten Render
-  const {umgebung, datum, bis, searchType, searchValue} = rest
-  const [localFilter, setLocalFilter] = useState({umgebung, datum, bis, searchType, searchValue})
+  const {umgebung, datum, duration, bis, searchType, searchValue} = rest
+  const [localFilter, setLocalFilter] = useState({umgebung, datum, duration, bis, searchType, searchValue})
 
   // sorge dafür, dass die lokalen Daten die Props auch bei Änderungen wiederspiegeln
   useEffect(() => {
     setLocalFilter(filter => {
-      if (equals(filter, {umgebung, datum, bis, searchType, searchValue})) return filter
-      log.trace('aktualisiere Parameter', umgebung, datum, bis, searchType, searchValue)
-      return {umgebung, datum, bis, searchType, searchValue}
+      if (equals(filter, {umgebung, datum, duration, bis, searchType, searchValue})) return filter
+      log.trace('aktualisiere Parameter', umgebung, datum, duration, bis, searchType, searchValue)
+      return {umgebung, datum, duration, bis, searchType, searchValue}
     })
-  }, [umgebung, datum, bis, searchType, searchValue])
+  }, [umgebung, datum, duration, bis, searchType, searchValue])
 
   log.trace('filter', localFilter)
   const immediateReload = getConfigurationValue('advanced.immediateReloadOnUmgebungChanged') === 'true'
@@ -80,10 +80,18 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
 
     setLocalFilter(filter => {
       const searchValue = key === 'searchType' ? '' : filter.searchValue // setze Suchwert zurück, wenn Suchtyp geändert wird
-      const newFilter = {
+      const newFilter = key === 'duration.anzahl'
+        ? {
         ...filter,
-        searchValue,
-        [key]: value.replace(/"/g, '') // strippe " aus Suchwert (eigentlich immer, aber da spielt es eine Rolle) damit kopierter Wert (mit ") einfach eingesetzt werden kann
+          duration: {
+            unit: filter.duration.unit,
+            anzahl: value
+          }
+        }
+        : {
+          ...filter,
+          searchValue,
+          [key]: value.replace(/"/g, '') // strippe " aus Suchwert (eigentlich immer, aber da spielt es eine Rolle) damit kopierter Wert (mit ") einfach eingesetzt werden kann
       }
 
       if (immediateReload && key === 'umgebung') {
@@ -96,12 +104,12 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
   const propagateFilter = filter => {
     withExplanation({
       nachricht: 'Selektiere Daten',
-      fn: () => setFilter(filter.umgebung, filter.datum, filter.bis, filter.searchType, filter.searchValue)
+      fn: () => setFilter(filter.umgebung, filter.datum, filter.duration, filter.bis, filter.searchType, filter.searchValue)
     })
   }
 
   const getRoute = filter => {
-    let {von, bis} = getDuration(getConfigurationValue('time.duration'))(moment(filter.bis, TIME_FORMAT))
+    let {von, bis} = getDuration(filter.duration)(moment(filter.bis, TIME_FORMAT))
 
     if (filter.searchValue) {
       const {von: vonNeu, bis: bisNeu} = widenTime(getConfigurationValue('filter.widenFilter'))(von, bis)
@@ -121,6 +129,8 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
     key={umgebung}>{umgebung}</option>)
   const searchTypes = Object.keys(LOG_SEARCH_TYPES).map(k => <option key={k}>{LOG_SEARCH_TYPES[k]}</option>)
 
+  const durations = getDurations(localFilter.duration.unit).map(anzahl => <option key={anzahl}>{anzahl}</option>)
+
   const propagateLocalFilter = () => {
     LRUs[localFilter.searchType].store(localFilter.searchValue)
     propagateFilter(localFilter)
@@ -132,6 +142,8 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
       document.getElementById('snapshot').click()
     }
   }
+
+  const durationUnitText = getDurationUnitText(localFilter.duration.unit)
 
   return (
     <>
@@ -165,8 +177,16 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
           <Blank/>
         </FormGroup>
         <Blank/>
+        <Form inline>
+          <FormGroup controlId="select.duration">
+            <FormControl as="select" value={localFilter.duration.anzahl} onChange={handleFilterChange('duration.anzahl')}>
+              {durations}
+            </FormControl>
+          </FormGroup>
+          <Blank/>
+        </Form>
         <FormGroup controlId="select.bis">
-          Bis:
+          {durationUnitText} bis:
           <Blank/>
           <FormControl
             as={Zeit}
@@ -219,6 +239,7 @@ export default connect(
   state => ({
     umgebung: state.umgebung,
     datum: state.datum,
+    duration: state.duration,
     von: state.von,
     bis: state.bis,
     searchType: state.logSearchType,
@@ -226,6 +247,6 @@ export default connect(
   }),
   dispatch => ({
     actualise: () => dispatch(actualise),
-    setFilter: (umgebung, datum, bis, searchType, searchValue) => dispatch(setFilter(umgebung, datum, bis, searchType, searchValue))
+    setFilter: (umgebung, datum, duration, bis, searchType, searchValue) => dispatch(setFilter(umgebung, datum, duration, bis, searchType, searchValue))
   })
 )(Header)

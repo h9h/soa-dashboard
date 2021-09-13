@@ -11,10 +11,11 @@ export const actualise = {
   type: 'actualise'
 }
 
-export const setFilter = (umgebung, datum, bis, logSearchType, logSearchValue) => ({
+export const setFilter = (umgebung, datum, duration, bis, logSearchType, logSearchValue) => ({
   type: 'setFilter',
   umgebung,
   datum,
+  duration,
   bis,
   logSearchType,
   logSearchValue
