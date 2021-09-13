@@ -17,11 +17,12 @@
     prop-types "^15.5.10"
     use-memo-one "^1.1.1"
 
-"@atlaskit/icon@^21.7.0":
-  version "21.7.0"
-  resolved "https://registry.yarnpkg.com/@atlaskit/icon/-/icon-21.7.0.tgz#ba854342c0328874d7c5a2b0519eefe490ece54f"
+"@atlaskit/icon@^21.8.0":
+  version "21.8.1"
+  resolved "https://registry.yarnpkg.com/@atlaskit/icon/-/icon-21.8.1.tgz#3ead4559656d219f00280f506ce675fe0314b59d"
   dependencies:
-    "@atlaskit/theme" "^11.0.0"
+    "@atlaskit/theme" "^11.5.0"
+    "@atlaskit/tokens" "^0.2.0"
     "@babel/runtime" "^7.0.0"
     "@emotion/core" "^10.0.9"
 
@@ -32,14 +33,15 @@
     "@atlaskit/theme" "^11.4.0"
     fbjs "^3.0.0"
 
-"@atlaskit/select@^15.1.0":
-  version "15.1.0"
-  resolved "https://registry.yarnpkg.com/@atlaskit/select/-/select-15.1.0.tgz#9b112ab2ce84ba7effbdd83eb92e7b94d088a306"
+"@atlaskit/select@^15.2.1":
+  version "15.2.1"
+  resolved "https://registry.yarnpkg.com/@atlaskit/select/-/select-15.2.1.tgz#37c9fef7dda08eda39d686e2f8230a03111de47b"
   dependencies:
     "@atlaskit/analytics-next" "^8.2.0"
-    "@atlaskit/icon" "^21.7.0"
+    "@atlaskit/icon" "^21.8.0"
     "@atlaskit/spinner" "^15.0.0"
-    "@atlaskit/theme" "^11.4.0"
+    "@atlaskit/theme" "^11.5.0"
+    "@atlaskit/tokens" "^0.2.0"
     "@babel/runtime" "^7.0.0"
     "@emotion/core" "^10.0.9"
     "@popperjs/core" "^2.9.1"
@@ -61,18 +63,18 @@
     "@babel/runtime" "^7.0.0"
     "@emotion/core" "^10.0.9"
 
-"@atlaskit/theme@^11.0.0", "@atlaskit/theme@^11.1.0", "@atlaskit/theme@^11.4.0":
-  version "11.4.0"
-  resolved "https://registry.yarnpkg.com/@atlaskit/theme/-/theme-11.4.0.tgz#03f22bd266d6640d33abd26eedb6aae912e936f6"
+"@atlaskit/theme@^11.1.0", "@atlaskit/theme@^11.4.0", "@atlaskit/theme@^11.5.0":
+  version "11.5.2"
+  resolved "https://registry.yarnpkg.com/@atlaskit/theme/-/theme-11.5.2.tgz#43ac3b3a203241ae83b1d62d15912e6c36f465a9"
   dependencies:
-    "@atlaskit/tokens" "^0.0.17"
+    "@atlaskit/tokens" "^0.2.0"
     "@babel/runtime" "^7.0.0"
     exenv "^1.2.2"
     prop-types "^15.5.10"
 
-"@atlaskit/tokens@^0.0.17":
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/@atlaskit/tokens/-/tokens-0.0.17.tgz#77b74605f3248e3b3a1b35a66f16e3a96b54d56e"
+"@atlaskit/tokens@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@atlaskit/tokens/-/tokens-0.2.0.tgz#ffa91911cba56ed0b9ef3f14c8a0bb7debdce098"
   dependencies:
     "@babel/runtime" "^7.0.0"
 
@@ -1107,9 +1109,9 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.0", "@babel/runtime@^7.12.1", "@babel/runtime@^7.13.10", "@babel/runtime@^7.13.8", "@babel/runtime@^7.14.0", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
-  version "7.14.0"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.14.0.tgz#46794bc20b612c5f75e62dd071e24dfd95f1cbe6"
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.0", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.13", "@babel/runtime@^7.13.10", "@babel/runtime@^7.13.8", "@babel/runtime@^7.14.0", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
+  version "7.15.4"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.15.4.tgz#fd17d16bfdf878e6dd02d19753a39fa8a8d9c84a"
   dependencies:
     regenerator-runtime "^0.13.4"
 
@@ -2480,9 +2482,9 @@ axe-core@^4.0.2:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.2.1.tgz#2e50bcf10ee5b819014f6e342e41e45096239e34"
 
-axios@^0.21.2:
-  version "0.21.2"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.2.tgz#21297d5084b2aeeb422f5d38e7be4fbb82239017"
+axios@^0.21.4:
+  version "0.21.4"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
   dependencies:
     follow-redirects "^1.14.0"
 
@@ -5093,9 +5095,11 @@ fast-safe-stringify@^2.0.7, fast-safe-stringify@^2.0.8:
   version "2.0.8"
   resolved "https://registry.yarnpkg.com/fast-safe-stringify/-/fast-safe-stringify-2.0.8.tgz#dc2af48c46cf712b683e849b2bbd446b32de936f"
 
-fast-xml-parser@^3.19.0:
-  version "3.19.0"
-  resolved "https://registry.yarnpkg.com/fast-xml-parser/-/fast-xml-parser-3.19.0.tgz#cb637ec3f3999f51406dd8ff0e6fc4d83e520d01"
+fast-xml-parser@^3.20.0:
+  version "3.20.0"
+  resolved "https://registry.yarnpkg.com/fast-xml-parser/-/fast-xml-parser-3.20.0.tgz#b9ce9ddbc44d2cb7e38f846c5929c667bbf0936d"
+  dependencies:
+    strnum "^1.0.3"
 
 fastify-warning@^0.2.0:
   version "0.2.0"
@@ -8929,9 +8933,9 @@ react-base16-styling@^0.6.0:
     lodash.flow "^3.3.0"
     pure-color "^1.2.0"
 
-react-bootstrap@^1.6.1:
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/react-bootstrap/-/react-bootstrap-1.6.1.tgz#c5493c028ede885826b72eb31e66f6f0a52ab007"
+react-bootstrap@^1.6.3:
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/react-bootstrap/-/react-bootstrap-1.6.3.tgz#6c2b27ed320b95a690ac416ddbb11983de1f954d"
   dependencies:
     "@babel/runtime" "^7.14.0"
     "@restart/context" "^2.1.4"
@@ -8946,7 +8950,7 @@ react-bootstrap@^1.6.1:
     invariant "^2.2.4"
     prop-types "^15.7.2"
     prop-types-extra "^1.1.0"
-    react-overlays "^5.0.1"
+    react-overlays "^5.1.1"
     react-transition-group "^4.4.1"
     uncontrollable "^7.2.1"
     warning "^4.0.3"
@@ -9059,9 +9063,9 @@ react-node-resolver@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-node-resolver/-/react-node-resolver-1.0.1.tgz#1798a729c0e218bf2f0e8ddf79c550d4af61d83a"
 
-react-overlays@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/react-overlays/-/react-overlays-5.0.1.tgz#7e2c3cd3c0538048b0b7451d203b1289c561b7f2"
+react-overlays@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/react-overlays/-/react-overlays-5.1.1.tgz#2e7cf49744b56537c7828ccb94cfc63dd778ae4f"
   dependencies:
     "@babel/runtime" "^7.13.8"
     "@popperjs/core" "^2.8.6"
@@ -9094,23 +9098,23 @@ react-refresh@^0.8.3:
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.8.3.tgz#721d4657672d400c5e3c75d063c4a85fb2d5d68f"
 
-react-router-dom@^5.0.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-5.2.0.tgz#9e65a4d0c45e13289e66c7b17c7e175d0ea15662"
+react-router-dom@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-5.3.0.tgz#da1bfb535a0e89a712a93b97dd76f47ad1f32363"
   dependencies:
-    "@babel/runtime" "^7.1.2"
+    "@babel/runtime" "^7.12.13"
     history "^4.9.0"
     loose-envify "^1.3.1"
     prop-types "^15.6.2"
-    react-router "5.2.0"
+    react-router "5.2.1"
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
 
-react-router@5.2.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/react-router/-/react-router-5.2.0.tgz#424e75641ca8747fbf76e5ecca69781aa37ea293"
+react-router@5.2.1:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-5.2.1.tgz#4d2e4e9d5ae9425091845b8dbc6d9d276239774d"
   dependencies:
-    "@babel/runtime" "^7.1.2"
+    "@babel/runtime" "^7.12.13"
     history "^4.9.0"
     hoist-non-react-statics "^3.1.0"
     loose-envify "^1.3.1"
@@ -9226,9 +9230,9 @@ react-themeable@^1.1.0:
   dependencies:
     object-assign "^3.0.0"
 
-react-toastify@^7.0.4:
-  version "7.0.4"
-  resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-7.0.4.tgz#7d0b743f2b96f65754264ca6eae31911a82378db"
+react-toastify@^8.0.2:
+  version "8.0.2"
+  resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-8.0.2.tgz#11f73b3a847fcffeb47b1823e8974e9895f98fae"
   dependencies:
     clsx "^1.1.1"
 
@@ -10339,6 +10343,10 @@ strip-final-newline@^2.0.0:
 strip-json-comments@^3.1.0, strip-json-comments@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
+
+strnum@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/strnum/-/strnum-1.0.3.tgz#bbc438bcb35fbbfc9c1e82f73097665b6ec6959e"
 
 style-loader@1.3.0:
   version "1.3.0"
