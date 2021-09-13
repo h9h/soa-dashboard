@@ -45,7 +45,15 @@ const PageHelp = lazy(() => import('./PageHelp'))
 const PageServicecall = lazy(() => import('./PageServicecall'))
 const Statusleiste = lazy(() => import('./Statusleiste'))
 
-export let sendInfo = () => {}
+const store = createStore(
+  reducer,
+  initialState(),
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__({
+    trace: getConfigurationValue('mock.doMock') === 'true'
+  })
+)
+
+export let sendInfo = info => store.dispatch(sendStatusInfo(info))
 
 const getStartpage = () => {
   const startpage = getConfigurationValue('startpage')
@@ -61,15 +69,6 @@ const getStartpage = () => {
 
 const App = () => {
   log.info('Render ESB-Dashboard')
-  const store = createStore(
-    reducer,
-    initialState(),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__({
-      trace: getConfigurationValue('mock.doMock') === 'true'
-    })
-  )
-
-  sendInfo = info => store.dispatch(sendStatusInfo(info))
 
   const component = getStartpage()
 

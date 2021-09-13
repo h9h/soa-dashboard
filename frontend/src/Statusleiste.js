@@ -36,7 +36,7 @@ const Impressum = ({version, width}) => {
 
 const LogoSmall = () => <LogoUnsized style={{height: '35px', paddingRight: '50px'}}/>
 
-const Statusleiste = (props) => {
+const Statusleiste = ({ infos, user, von }) => {
   const {width} = useWindowSize()
   const version = process.env.REACT_APP_VERSION
   const recipient = process.env.REACT_APP_FEEDBACK_MAIL
@@ -49,13 +49,13 @@ const Statusleiste = (props) => {
   const doShow = () => setShow(true)
   const handleHide = () => setShow(false)
 
-  const infoItems = props.infos.slice(0,10).map((info, i) => <option key={i}>{info.length > 100 ? `...${info.substring(info.length - 100)}` : info}</option>)
+  const infoItems = infos.slice(0,10).map((info, i) => <option key={i}>{info.length > 100 ? `...${info.substring(info.length - 100)}` : info}</option>)
 
   return (
     <>
-      {rightToViewProps(props.user) && (
+      {rightToViewProps(user) && (
         <ModalDialog show={show} onHide={handleHide} title="Admin Information">
-          <ReactJson src={{props: {...props}, env: {...process.env}}} name={false}/>
+          <ReactJson src={{props: {infos, user, von}, env: {...process.env}}} name={false}/>
         </ModalDialog>
       )}
       <Navbar bg="light" expand="lg" key="footer" fixed="bottom">
@@ -68,12 +68,12 @@ const Statusleiste = (props) => {
             </Nav.Item>
           </Nav>
           <Form inline>
-            <FormControl className="smallfont" as="select" value={props.infos[0]} readOnly>
+            <FormControl className="smallfont" as="select" value={infos[0]} readOnly>
               {infoItems}
             </FormControl>
           </Form>
           <Nav className="justify-content-end">
-            {rightToViewProps(props.user) && (
+            {rightToViewProps(user) && (
               <Form inline>
                 <Button onClick={doShow} variant="light">
                   <Icon glyph='dev'/>
@@ -100,5 +100,5 @@ const Statusleiste = (props) => {
 }
 
 export default connect(
-  state => ({...state}),
+  state => ({ infos: state.infos, user: state.user, von: state.von}),
 )(Statusleiste)
