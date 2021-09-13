@@ -75,7 +75,7 @@ const HeaderStatistics = props => {
         }
       }
 
-      if (immediateReload && (key === 'umgebung' || key === 'flag')) {
+      if ((immediateReload && key === 'umgebung') || key === 'flag') {
         refresh(newFilter)
       }
 

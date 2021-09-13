@@ -6,6 +6,7 @@ import InteractiveStatistics from './components/InteractiveStatistics'
 import { Helmet } from 'react-helmet'
 import useWindowSize from './components/useWindowSize'
 import moment from 'moment'
+import HeaderStatistics from './components/HeaderStatistics'
 import HeaderStandaloneStatistics from './components/HeaderStandaloneStatistics'
 import { connect } from 'react-redux'
 import { getStatisticsData } from './logic/api/rest-api-statistics'
@@ -66,7 +67,7 @@ const PageStatistics = (props) => {
 
 
   return (
-    <ConnectedInnerPageStatistics />
+    <ConnectedInnerPageStatistics header={() => <HeaderStatistics />}/>
   )
 }
 
