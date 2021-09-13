@@ -5,10 +5,10 @@
   "license": "MIT",
   "dependencies": {
     "@atlaskit/reduced-ui-pack": "^14.0.0",
-    "@atlaskit/select": "^15.1.0",
+    "@atlaskit/select": "^15.2.1",
     "@rehooks/component-size": "^1.0.2",
     "@welldone-software/why-did-you-render": "^6.2.1",
-    "axios": "^0.21.2",
+    "axios": "^0.21.4",
     "bootstrap": "^4.1.0",
     "copy-to-clipboard": "^3.2.0",
     "core-js": "^3.17.3",
@@ -31,7 +31,7 @@
     "react-app-polyfill": "^2.0.0",
     "react-autocomplete-input": "^1.0.18",
     "react-autosuggest": "^10.1.0",
-    "react-bootstrap": "^1.6.1",
+    "react-bootstrap": "^1.6.3",
     "react-dom": "^17.0.2",
     "react-flatpickr": "^3.9.0",
     "react-helmet": "^6.1.0",
@@ -39,10 +39,10 @@
     "react-inspector": "^5.1.1",
     "react-json-view": "^1.21.3",
     "react-redux": "^7.2.5",
-    "react-router-dom": "^5.0.0",
+    "react-router-dom": "^5.3.0",
     "react-table": "^7.7.0",
     "react-table-6": "^6.11.0",
-    "react-toastify": "^7.0.4",
+    "react-toastify": "^8.0.2",
     "react-virtualized-auto-sizer": "^1.0.6",
     "react-window": "^1.8.6",
     "redux": "^4.1.1",
@@ -53,7 +53,7 @@
     "vis-data": "^7.1.2",
     "vis-timeline": "^7.4.9",
     "vis-util": "^5.0.2",
-    "xml-formatter": "^2.4.0"
+    "xml-formatter": "^2.4.1"
   },
   "scripts": {
     "build": "react-scripts build",
