@@ -98,6 +98,8 @@ export const cellFactory = onClick => key => {
     case 'USINGPORTFQN':
     case 'PROVIDINGPORTFQN':
       return row => <Smaller>{row.value}</Smaller>
+    case 'SENDERFQN':
+      return row => <div style={{ overflowX: 'auto', overflowY: 'hidden'}}>{row.value}</div>
     case 'ISALIVE':
       return row => <IsAlive row={row} />
     case 'RESPONSE':
