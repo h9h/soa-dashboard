@@ -17,6 +17,12 @@
     prop-types "^15.5.10"
     use-memo-one "^1.1.1"
 
+"@atlaskit/codemod-utils@^3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@atlaskit/codemod-utils/-/codemod-utils-3.4.0.tgz#8ec854b6b935e290eafe701b83167450af9c2efa"
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+
 "@atlaskit/icon@^21.8.0":
   version "21.8.1"
   resolved "https://registry.yarnpkg.com/@atlaskit/icon/-/icon-21.8.1.tgz#3ead4559656d219f00280f506ce675fe0314b59d"
@@ -26,11 +32,11 @@
     "@babel/runtime" "^7.0.0"
     "@emotion/core" "^10.0.9"
 
-"@atlaskit/reduced-ui-pack@^14.0.0":
-  version "14.0.0"
-  resolved "https://registry.yarnpkg.com/@atlaskit/reduced-ui-pack/-/reduced-ui-pack-14.0.0.tgz#8d0dc0ebd32fd41b4407eaa154e2cdf1fc036147"
+"@atlaskit/reduced-ui-pack@^14.0.1":
+  version "14.0.1"
+  resolved "https://registry.yarnpkg.com/@atlaskit/reduced-ui-pack/-/reduced-ui-pack-14.0.1.tgz#9b4e1b34463f72abe54c377581edc834214893cc"
   dependencies:
-    "@atlaskit/theme" "^11.4.0"
+    "@atlaskit/theme" "^12.0.0"
     fbjs "^3.0.0"
 
 "@atlaskit/select@^15.2.1":
@@ -63,7 +69,7 @@
     "@babel/runtime" "^7.0.0"
     "@emotion/core" "^10.0.9"
 
-"@atlaskit/theme@^11.1.0", "@atlaskit/theme@^11.4.0", "@atlaskit/theme@^11.5.0":
+"@atlaskit/theme@^11.1.0", "@atlaskit/theme@^11.5.0":
   version "11.5.2"
   resolved "https://registry.yarnpkg.com/@atlaskit/theme/-/theme-11.5.2.tgz#43ac3b3a203241ae83b1d62d15912e6c36f465a9"
   dependencies:
@@ -71,6 +77,14 @@
     "@babel/runtime" "^7.0.0"
     exenv "^1.2.2"
     prop-types "^15.5.10"
+
+"@atlaskit/theme@^12.0.0":
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/@atlaskit/theme/-/theme-12.0.0.tgz#f70b9bb2d18fc040ac5197d7636129119138c089"
+  dependencies:
+    "@atlaskit/codemod-utils" "^3.4.0"
+    "@atlaskit/tokens" "^0.2.0"
+    "@babel/runtime" "^7.0.0"
 
 "@atlaskit/tokens@^0.2.0":
   version "0.2.0"
