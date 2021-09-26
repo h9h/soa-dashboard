@@ -23,11 +23,11 @@
   dependencies:
     "@babel/runtime" "^7.0.0"
 
-"@atlaskit/icon@^21.8.0":
-  version "21.8.1"
-  resolved "https://registry.yarnpkg.com/@atlaskit/icon/-/icon-21.8.1.tgz#3ead4559656d219f00280f506ce675fe0314b59d"
+"@atlaskit/icon@^21.9.0":
+  version "21.9.0"
+  resolved "https://registry.yarnpkg.com/@atlaskit/icon/-/icon-21.9.0.tgz#41913b6f1f4325f12f1266b278ecbcdc8b2b368e"
   dependencies:
-    "@atlaskit/theme" "^11.5.0"
+    "@atlaskit/theme" "^12.0.0"
     "@atlaskit/tokens" "^0.2.0"
     "@babel/runtime" "^7.0.0"
     "@emotion/core" "^10.0.9"
@@ -39,14 +39,14 @@
     "@atlaskit/theme" "^12.0.0"
     fbjs "^3.0.0"
 
-"@atlaskit/select@^15.2.1":
-  version "15.2.1"
-  resolved "https://registry.yarnpkg.com/@atlaskit/select/-/select-15.2.1.tgz#37c9fef7dda08eda39d686e2f8230a03111de47b"
+"@atlaskit/select@^15.2.2":
+  version "15.2.2"
+  resolved "https://registry.yarnpkg.com/@atlaskit/select/-/select-15.2.2.tgz#2d620e7e7c8936821453a4a830962bcf86858016"
   dependencies:
     "@atlaskit/analytics-next" "^8.2.0"
-    "@atlaskit/icon" "^21.8.0"
+    "@atlaskit/icon" "^21.9.0"
     "@atlaskit/spinner" "^15.0.0"
-    "@atlaskit/theme" "^11.5.0"
+    "@atlaskit/theme" "^12.0.0"
     "@atlaskit/tokens" "^0.2.0"
     "@babel/runtime" "^7.0.0"
     "@emotion/core" "^10.0.9"
@@ -69,7 +69,7 @@
     "@babel/runtime" "^7.0.0"
     "@emotion/core" "^10.0.9"
 
-"@atlaskit/theme@^11.1.0", "@atlaskit/theme@^11.5.0":
+"@atlaskit/theme@^11.1.0":
   version "11.5.2"
   resolved "https://registry.yarnpkg.com/@atlaskit/theme/-/theme-11.5.2.tgz#43ac3b3a203241ae83b1d62d15912e6c36f465a9"
   dependencies:
