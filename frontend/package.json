@@ -4,19 +4,19 @@
   "homepage": ".",
   "license": "MIT",
   "dependencies": {
-    "@atlaskit/reduced-ui-pack": "^14.0.0",
+    "@atlaskit/reduced-ui-pack": "^14.0.1",
     "@atlaskit/select": "^15.2.1",
     "@rehooks/component-size": "^1.0.2",
     "@welldone-software/why-did-you-render": "^6.2.1",
     "axios": "^0.21.4",
     "bootstrap": "^4.1.0",
     "copy-to-clipboard": "^3.2.0",
-    "core-js": "^3.17.3",
+    "core-js": "^3.18.0",
     "crossfilter2": "^1.5.4",
     "d3": "^7.0.1",
     "dc": "^4.2.7",
     "debug": "^4.3.2",
-    "fast-xml-parser": "^3.19.0",
+    "fast-xml-parser": "^3.20.0",
     "flatpickr": "^4.6.9",
     "jsonpath": "^1.1.1",
     "jsonschema": "^1.4.0",
@@ -53,7 +53,7 @@
     "vis-data": "^7.1.2",
     "vis-timeline": "^7.4.9",
     "vis-util": "^5.0.2",
-    "xml-formatter": "^2.4.0"
+    "xml-formatter": "^2.4.1"
   },
   "scripts": {
     "build": "react-scripts build",
