@@ -58,6 +58,9 @@ const spezial = cell => ({
   ORIGINATOR: {
     show: false,
   },
+  SENDERFQN: {
+    show: false,
+  }
 })
 
 const TIMING_FILTER = [
