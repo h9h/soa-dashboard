@@ -53,7 +53,7 @@
     "vis-data": "^7.1.2",
     "vis-timeline": "^7.4.9",
     "vis-util": "^5.0.2",
-    "xml-formatter": "^2.4.1"
+    "xml-formatter": "^2.5.0"
   },
   "scripts": {
     "build": "react-scripts build",
