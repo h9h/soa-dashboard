@@ -23,7 +23,7 @@
     "moment": "^2.29.1",
     "object.entries": "^1.1.5",
     "pino": "^6.13.3",
-    "pino-pretty": "^7.0.1",
+    "pino-pretty": "^7.1.0",
     "prop-types": "^15.7.2",
     "query-string": "^7.0.1",
     "ramda": "^0.27.1",
