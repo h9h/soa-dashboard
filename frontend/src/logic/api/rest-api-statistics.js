@@ -81,6 +81,7 @@ export const getStatisticsData = async (umgebung, datumVon, datumBis, statisticF
 
   const flagDaytime = statisticFlags === 'daylight' || statisticFlags.indexOf('daylight') > -1
   const flagNighttime = statisticFlags === 'night' || statisticFlags.indexOf('night') > -1
+  trace('Statistic Flags', { statisticFlags, flagDaytime, flagNighttime })
 
   let dataArray
 
@@ -125,14 +126,21 @@ export const getStatisticsData = async (umgebung, datumVon, datumBis, statisticF
     const mom = moment(object.STARTTIMESTAMP, 'YYYY-MM-DDTHH:mm:SSZ')
     object.Zeit = mom.valueOf()
     object.Date = mom.toDate()
+    object.Hour = object.Date.getHours()
 
-    if (flagNighttime && (object.Date.getHours() > 5 && object.Date.getHours() < 21)) object = nullObject(object)
-    if (flagDaytime && (object.Date.getHours() <6 || object.Date.getHours() > 20)) object = nullObject(object)
+    if (flagNighttime && (object.Hour > 5 && object.Hour < 21)) object = nullObject(object)
+    if (flagDaytime && (object.Hour < 6 || object.Hour > 20)) object = nullObject(object)
 
     return object
   })
 
-  trace('Created object', { beispiel: statistics[0], anzahlRows: statistics.length })
+  const anzahlPerHour = statistics.reduce((acc, row) => {
+    if (!acc[row.Hour]) acc[row.Hour] = 0
+    acc[row.Hour] += row.ANZAHLGESAMT
+    return acc
+  }, {})
+
+  trace('Created object', { beispiel: statistics[0], anzahlRows: statistics.length, anzahlPerHour })
 
   const part = partition(TIMING_BREAKPOINTS)
   const partBus = partition(TIMING_BUS_BREAKPOINTS)
@@ -158,20 +166,22 @@ export const getStatisticsData = async (umgebung, datumVon, datumBis, statisticF
     }
     // bei negativen Werten müsste es sich um asynchrone Calls handeln, dann ist Gesamtzeit ein geeigneter Anhaltspunkt
     row.DURCHSCHNITT_BUS_ZEIT = (row.DURCHSCHNITT_GESAMT_ZEIT - row.DURCHSCHNITT_PROVIDER_ZEIT) < 0 ? row.DURCHSCHNITT_GESAMT_ZEIT : (row.DURCHSCHNITT_GESAMT_ZEIT - row.DURCHSCHNITT_PROVIDER_ZEIT)
+    row.ContributionGesamtZeit = row.DURCHSCHNITT_GESAMT_ZEIT * row.ANZAHLGESAMT / anzahlPerHour[row.Hour]
     row.PartitionGesamtZeit = part(row.DURCHSCHNITT_GESAMT_ZEIT)
     row.PartitionBusZeit = partBus(row.DURCHSCHNITT_BUS_ZEIT)
     row.PartitionProviderZeit = part(row.DURCHSCHNITT_PROVIDER_ZEIT)
     row.warnThreshold = warnThreshold
     row.errorThreshold = errorThreshold
   })
-  trace('Created additional fields', { anzahlRows: statistics.length })
+  trace('Created additional fields', { beispiel: statistics[0], anzahlRows: statistics.length })
 
   const cf = crossfilter(statistics)
-  trace('Created crossfilter', { cfSize: cf.size() })
+  trace('Created crossfilter', { beispiel: cf.allFiltered()[0], cfSize: cf.size() })
   sendInfo(`Anzahl Statistiksätze: ${cf.size()}`)
 
   const dims = {
     zeit: cf.dimension(d => d.Date),
+    hour: cf.dimension(d => d.Hour),
     bus: cf.dimension(d => d.ORIGINATOR),
     mep: cf.dimension(d => d.MEP),
     domain: cf.dimension(d => d.Domain),
