@@ -24,6 +24,7 @@ import { json2string } from '../../logic/utils'
 import RowAktionen from './RowAktionen'
 import Scheduler from './Scheduler'
 import ProcessInstanceId from './ProcessInstanceID'
+import ZeitKosten from './ZeitKosten'
 
 const pk = key => {
   switch(key){
@@ -95,6 +96,8 @@ export const cellFactory = onClick => key => {
     case 'DURCHSCHNITT_BUS_ZEIT':
     case 'DURCHSCHNITT_PROVIDER_ZEIT':
       return row => <Dauer row={row} partitionKey={pk(key)} />
+    case 'ContributionGesamtZeit':
+      return row => <ZeitKosten row={row} />
     case 'USINGPORTFQN':
     case 'PROVIDINGPORTFQN':
       return row => <Smaller>{row.value}</Smaller>
