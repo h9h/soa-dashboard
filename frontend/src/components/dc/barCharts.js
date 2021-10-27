@@ -95,11 +95,14 @@ export const renderBarChartTiming = timingKey => ({div, dimensions, colorScheme}
 
   const timingDim = dimensions[timingKey.key]
   const anzahl = timingDim.group().reduceCount()
+  const fraction = 100 / timingDim.groupAll().value()
+
+  log.trace('renderBarChartTiming', { Daten: anzahl.all(), Anzahl: anzahl.size(), Fraction: fraction })
 
   chart
     .dimension(timingDim)
     .group(anzahl)
-    .valueAccessor(d => d.value / timingDim.groupAll().value() * 100)
+    .valueAccessor(d => d.value * fraction)
 
   chart.render()
 
