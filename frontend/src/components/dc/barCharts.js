@@ -5,6 +5,9 @@ import { TIMING_BREAKPOINTS, TIMING_BUS_BREAKPOINTS } from '../../logic/api/rest
 import { COLOR_SCHEMES, legendTiming, TIMINGS } from './utils'
 import moment from 'moment'
 import { renderPieChartDomain } from './pieCharts'
+import Log from '../../log'
+
+const log = Log('barcharts')
 
 const cx = (div) => div.clientHeight
 const widthLegend = 250
@@ -123,6 +126,9 @@ export const renderBarChartLogpoints = ({div, dimensions, setBis}) => {
 
   const calls = dimTime.group().reduceSum(pluck('anzahlMessages'))
   const faults = dimTime.group().reduceSum(pluck('anzahlFaultpoints'))
+
+  log.trace('Anzahl Calls', calls)
+  log.trace('Anzahl Faults', faults)
 
   chart
     .width(div.clientWidth)
