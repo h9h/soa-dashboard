@@ -9,10 +9,10 @@
     "@rehooks/component-size": "^1.0.2",
     "@types/node": "^16.11.6",
     "@welldone-software/why-did-you-render": "^6.2.1",
-    "axios": "^0.22.0",
+    "axios": "^0.24.0",
     "bootstrap": "^4.1.0",
     "copy-to-clipboard": "^3.2.0",
-    "core-js": "^3.18.1",
+    "core-js": "^3.19.1",
     "crossfilter2": "^1.5.4",
     "d3": "^7.1.1",
     "dc": "^4.2.7",
@@ -23,8 +23,8 @@
     "jsonschema": "^1.4.0",
     "moment": "^2.29.1",
     "object.entries": "^1.1.5",
-    "pino": "^6.13.3",
-    "pino-pretty": "^7.0.1",
+    "pino": "^7.1.0",
+    "pino-pretty": "^7.2.0",
     "prop-types": "^15.7.2",
     "query-string": "^7.0.1",
     "ramda": "^0.27.1",
@@ -54,7 +54,7 @@
     "vis-data": "^7.1.2",
     "vis-timeline": "^7.4.9",
     "vis-util": "^5.0.2",
-    "xml-formatter": "^2.4.1"
+    "xml-formatter": "^2.5.1"
   },
   "scripts": {
     "build": "react-scripts build",

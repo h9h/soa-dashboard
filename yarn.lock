@@ -134,10 +134,10 @@ activedirectory2@^2.1.0:
     ldapjs "^2.1.0"
     merge-options "^2.0.0"
 
-adm-zip@^0.5.7:
-  version "0.5.7"
-  resolved "https://registry.yarnpkg.com/adm-zip/-/adm-zip-0.5.7.tgz#86d73d2c9b7766024e47f736b31af71e253b6d8d"
-  integrity sha512-QLEo3eoC2B0i3+g/G5nNzKbGoVOjW2ingZ4TXl7/YeDM+FAl3SiHSNnokTZLFEuVHBn5CbZ42KJcIIsRji1EgQ==
+adm-zip@^0.5.9:
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/adm-zip/-/adm-zip-0.5.9.tgz#b33691028333821c0cf95c31374c5462f2905a83"
+  integrity sha512-s+3fXLkeeLjZ2kLjCBwQufpI5fuN+kIGBxu6530nVQZGVol0d7Y/M88/xw9HGGUcJjKf8LutN3VPRUBq6N7Ajg==
 
 agent-base@6:
   version "6.0.2"
@@ -275,10 +275,10 @@ atob@^2.1.2:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
-axios@^0.22.0:
-  version "0.22.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.22.0.tgz#bf702c41fb50fbca4539589d839a077117b79b25"
-  integrity sha512-Z0U3uhqQeg1oNcihswf4ZD57O3NrR1+ZXhxaROaWpDmsDTx7T2HNBV2ulBtie2hwJptu8UvgnJoK+BIqdzh/1w==
+axios@^0.24.0:
+  version "0.24.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.24.0.tgz#804e6fa1e4b9c5288501dd9dff56a7a0940d20d6"
+  integrity sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==
   dependencies:
     follow-redirects "^1.14.4"
 
@@ -1616,10 +1616,10 @@ koa-send@^5.0.1:
     http-errors "^1.7.3"
     resolve-path "^1.4.0"
 
-koa@^2.13.3:
-  version "2.13.3"
-  resolved "https://registry.yarnpkg.com/koa/-/koa-2.13.3.tgz#a62641ba753ec54bee2c6da1a4f294c5fac35407"
-  integrity sha512-XhXIoR+ylAwqG3HhXwnMPQAM/4xfywz52OvxZNmxmTWGGHsvmBv4NSIhURha6yMuvEex1WdtplUTHnxnKpQiGw==
+koa@^2.13.4:
+  version "2.13.4"
+  resolved "https://registry.yarnpkg.com/koa/-/koa-2.13.4.tgz#ee5b0cb39e0b8069c38d115139c774833d32462e"
+  integrity sha512-43zkIKubNbnrULWlHdN5h1g3SEKXOEzoAlRsHOTFpnlDu8JlAOZSMJBLULusuXRequboiwJcj5vtYXKB3k7+2g==
   dependencies:
     accepts "^1.3.5"
     cache-content-type "^1.0.0"
@@ -2219,10 +2219,10 @@ pify@^4.0.1:
   resolved "https://registry.yarnpkg.com/pify/-/pify-4.0.1.tgz#4b2cd25c50d598735c50292224fd8c6df41e3231"
   integrity sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==
 
-pkg-fetch@3.2.3:
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/pkg-fetch/-/pkg-fetch-3.2.3.tgz#9825febf4eadd470c126d3f6bdc2cb6996861d36"
-  integrity sha512-bv9vYANgAZ2Lvxn5Dsq7E0rLqzcqYkV4gnwe2f7oHV9N4SVMfDOIjjFCRuuTltop5EmsOcu7XkQpB5A/pIgC1g==
+pkg-fetch@3.2.4:
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/pkg-fetch/-/pkg-fetch-3.2.4.tgz#5372734b12167d4bacd872be348217461b517390"
+  integrity sha512-ewUD26GP86/8+Fu93zrb30CpJjKOtT4maSgm4SwTX9Ujy1pfdUdv+1PubsY9tTJES0iBYItAtqbfkf7Wu5LV9w==
   dependencies:
     chalk "^4.1.0"
     fs-extra "^9.1.0"
@@ -2232,10 +2232,10 @@ pkg-fetch@3.2.3:
     semver "^7.3.5"
     yargs "^16.2.0"
 
-pkg@^5.3.3:
-  version "5.3.3"
-  resolved "https://registry.yarnpkg.com/pkg/-/pkg-5.3.3.tgz#5ad1dadfc4e55169f0e1046626e669e0428d4cd7"
-  integrity sha512-48qPxwyPvKfUuXxeK+kS3mBvfWWTX2khAdceDThbWCc8OUz3RFyO1Ft8SVkq2gQfPU2DtiPtWaf2SKH0Dlx59g==
+pkg@^5.4.1:
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/pkg/-/pkg-5.4.1.tgz#4d824e42c454f32131e471d7cd8d14bfdb3e1c4c"
+  integrity sha512-iJs3W6MCgeZ4MrH7iZtX6HTqsNzoh2U9rGILL3eOLbQFV43U8WPAzrqRK7cBQGuHx38UXxcGT6G/2yDl/GveRg==
   dependencies:
     "@babel/parser" "7.13.13"
     "@babel/types" "7.13.12"
@@ -2246,7 +2246,7 @@ pkg@^5.3.3:
     into-stream "^6.0.0"
     minimist "^1.2.5"
     multistream "^4.1.0"
-    pkg-fetch "3.2.3"
+    pkg-fetch "3.2.4"
     prebuild-install "6.0.1"
     progress "^2.0.3"
     resolve "^1.20.0"
