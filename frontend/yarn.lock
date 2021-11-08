@@ -32,9 +32,9 @@
     "@babel/runtime" "^7.0.0"
     "@emotion/core" "^10.0.9"
 
-"@atlaskit/reduced-ui-pack@^14.0.1":
-  version "14.0.1"
-  resolved "https://registry.yarnpkg.com/@atlaskit/reduced-ui-pack/-/reduced-ui-pack-14.0.1.tgz#9b4e1b34463f72abe54c377581edc834214893cc"
+"@atlaskit/reduced-ui-pack@^15.0.0":
+  version "15.0.0"
+  resolved "https://registry.yarnpkg.com/@atlaskit/reduced-ui-pack/-/reduced-ui-pack-15.0.0.tgz#e2b57753ab492bea42996f47604d4131a58d1c84"
   dependencies:
     "@atlaskit/theme" "^12.0.0"
     fbjs "^3.0.0"
