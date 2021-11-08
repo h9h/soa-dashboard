@@ -11086,9 +11086,9 @@ vis-data@^7.1.2:
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/vis-data/-/vis-data-7.1.2.tgz#b7d076ac79cb54f7c5e9c80f5b03b93cc8cc1fda"
 
-vis-timeline@^7.4.9:
-  version "7.4.9"
-  resolved "https://registry.yarnpkg.com/vis-timeline/-/vis-timeline-7.4.9.tgz#7ed225a04b521cb6c2d603e498953b1222650806"
+vis-timeline@^7.5.0:
+  version "7.5.0"
+  resolved "https://registry.yarnpkg.com/vis-timeline/-/vis-timeline-7.5.0.tgz#d2fc2b84d0c32769fd287cd17616541229e55be3"
 
 vis-util@^5.0.2:
   version "5.0.2"
