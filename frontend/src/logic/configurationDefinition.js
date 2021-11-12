@@ -169,10 +169,11 @@ export const DEFINITIONS = {
       colorSchemes: {type: 'object'},
       nrOfCalls: {type: 'string', pattern: '^\\d{1,3}$'},
       nrOfFaults: {type: 'string', pattern: '^\\d{1,3}$'},
+      nrOfExpensive: {type: 'string', pattern: '^\\d{1,3}$'},
       providerTimeWarning: {type: 'string', pattern: '^\\d{2,4}$'},
       providerTimeError: {type: 'string', pattern: '^\\d{2,4}$'},
     },
-    required: ['colorSchemes', 'nrOfCalls', 'nrOfFaults', 'providerTimeWarning', 'providerTimeError'],
+    required: ['colorSchemes', 'nrOfCalls', 'nrOfFaults', 'nrOfExpensive', 'providerTimeWarning', 'providerTimeError'],
     additionalProperties: false
   },
   links: {

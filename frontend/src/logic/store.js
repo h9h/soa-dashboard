@@ -41,6 +41,7 @@ export const initialState = () => {
     bis,
     logSearchType: LOG_SEARCH_TYPES.MESSAGEID,
     logSearchValue: '',
+    onlyFaults: false,
     messageSearchType: LOG_SEARCH_TYPES.SENDERFQN,
     messageSearchValue: '',
     messageId: '',

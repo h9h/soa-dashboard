@@ -3,7 +3,20 @@ import {rowChart, pluck} from 'dc'
 import * as d3 from 'd3'
 import { getColorFunction } from './dcUtils'
 
-const createRowChart = (div, color, withAxis = true) => {
+const tooltipText = fieldname => {
+  let text
+  switch (fieldname){
+    case 'ContributionGesamtZeit':
+      text = 'Zeitkosten'
+      break
+    default:
+      text = 'Anzahl Calls'
+  }
+
+  return value => `${text}: ${value}`
+}
+
+const createRowChart = fieldname => (div, color, withAxis = true) => {
   const colors = [color]
 
   const chart = rowChart(div)
@@ -25,6 +38,8 @@ const createRowChart = (div, color, withAxis = true) => {
     chart.xAxis(axis)
   }
 
+  const tooltip = tooltipText(fieldname)
+
   chart
     .height(div.clientHeight)
     .width(div.clientWidth)
@@ -33,18 +48,18 @@ const createRowChart = (div, color, withAxis = true) => {
     .turnOnControls()
     .title(d => ([
       d.key,
-      'Anzahl Calls: ' + ZAHL_FORMAT(d.value)
+      tooltip(ZAHL_FORMAT(d.value))
     ].join('\n')))
 
   return chart
 }
 
-export const renderRowChartListServices = ({div, dimensions, colorScheme}) => {
+export const renderRowChartListServices = fieldname => ({div, dimensions, colorScheme}) => {
   const dimension = dimensions.operation
-  const anzahl = dimension.group().reduceSum(pluck('ANZAHLGESAMT'))
+  const anzahl = dimension.group().reduceSum(pluck(fieldname))
   const colors = getColorFunction(colorScheme)
 
-  const chart = createRowChart(div, colors[0], false)
+  const chart = createRowChart(fieldname)(div, colors[0], false)
 
   chart.margins().left = 75
   chart
@@ -56,27 +71,12 @@ export const renderRowChartListServices = ({div, dimensions, colorScheme}) => {
   chart.render()
 }
 
-export const renderRowChartServicesTopN = n => ({div, dimensions, colorScheme}) => {
+export const renderRowChartServicesTopN = (fieldname, n) => ({div, dimensions, colorScheme}) => {
   const colors = getColorFunction(colorScheme)
-  const chart = createRowChart(div, colors[0])
+  const chart = createRowChart(fieldname)(div, colors[0])
 
   const serviceDim = dimensions.operation
-  const anzahl = serviceDim.group().reduceSum(pluck('ANZAHLGESAMT'))
-
-  chart
-    .group(anzahl)
-    .dimension(serviceDim)
-    .data(g => g.top(n))
-
-  chart.render()
-}
-
-export const renderRowChartFaultsTopN = n => ({div, dimensions, colorScheme}) => {
-  const colors = getColorFunction(colorScheme)
-  const chart = createRowChart(div, colors[1])
-
-  const serviceDim = dimensions.operation
-  const anzahl = serviceDim.group().reduceSum(pluck('ANZAHLFAULT'))
+  const anzahl = serviceDim.group().reduceSum(pluck(fieldname))
 
   chart
     .group(anzahl)

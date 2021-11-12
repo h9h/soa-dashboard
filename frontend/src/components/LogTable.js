@@ -60,25 +60,25 @@ const getTdProps = (history, route) => {
   }
 }
 
-const useFetch = ({umgebung, datum, von, bis, searchType, searchValue}) => {
+const useFetch = ({umgebung, datum, von, bis, searchType, searchValue, onlyFaults}) => {
   const [result, setResult] = useState({
     status: 'loading'
   })
 
   useEffect(() => {
     setResult({status: 'loading'})
-    log.trace('useEffect on filter', umgebung, datum, von, bis, searchType, searchValue)
-    getLogpoints({umgebung, datum, von, bis, searchType, searchValue}, setResult)
-  }, [umgebung, datum, von, bis, searchType, searchValue])
+    log.trace('useEffect on filter', umgebung, datum, von, bis, searchType, searchValue, onlyFaults)
+    getLogpoints({umgebung, datum, von, bis, searchType, searchValue, onlyFaults}, setResult)
+  }, [umgebung, datum, von, bis, searchType, searchValue, onlyFaults])
 
   return result
 }
 
 export const UnconnectedLogTable = withRouter((props) => {
   log.trace('Mount UnconnectedLogTable', props)
-  const {umgebung, datum, von, bis, searchType, searchValue} = props
+  const {umgebung, datum, von, bis, searchType, searchValue, onlyFaults} = props
   const decodedSearchValue = decodeURIComponent(searchValue)
-  const result = useFetch({umgebung, datum, von, bis, searchType, searchValue: decodedSearchValue})
+  const result = useFetch({umgebung, datum, von, bis, searchType, searchValue: decodedSearchValue, onlyFaults})
 
   switch(result.status) {
     case 'ready':
@@ -179,6 +179,7 @@ export default connect(
     bis: state.bis,
     searchType: state.logSearchType,
     searchValue: state.logSearchValue,
+    onlyFaults: state.onlyFaults
   }),
   dispatch => ({
     setSearchParameters: (searchType, searchValue) => dispatch(setLogSearchParameters(searchType, searchValue)),

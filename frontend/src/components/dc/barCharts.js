@@ -4,7 +4,6 @@ import * as d3 from 'd3'
 import { TIMING_BREAKPOINTS, TIMING_BUS_BREAKPOINTS } from '../../logic/api/rest-api-statistics'
 import { COLOR_SCHEMES, legendTiming, TIMINGS } from './utils'
 import moment from 'moment'
-import { renderPieChartDomain } from './pieCharts'
 import Log from '../../log'
 
 const log = Log('barcharts')
@@ -16,7 +15,7 @@ const minWidthForLegend = 400
 
 export const HISTOGRAMM_COLORS = ['#dddddd', ...COLOR_SCHEMES.GreenRed10.slice(1)]
 
-const createBarChart = (div, colorScheme, legend) => {
+const createBarChart = (div, legend) => {
   const height = cx(div)
   const chart = barChart(div)
 
@@ -91,10 +90,10 @@ function setChartTitleAndLegend (div, title, text, colors, colorSquare = false) 
   })
 }
 
-export const renderBarChartTiming = timingKey => ({div, dimensions, colorScheme}) => {
+export const renderBarChartTiming = timingKey => ({div, dimensions}) => {
   const breakpoints = timingKey === TIMINGS.BUS ? TIMING_BUS_BREAKPOINTS : TIMING_BREAKPOINTS
   const legend = legendTiming(breakpoints)
-  const chart = createBarChart(div, colorScheme, legend)
+  const chart = createBarChart(div, legend)
 
   const timingDim = dimensions[timingKey.key]
   const anzahl = timingDim.group().reduceCount()
@@ -167,21 +166,22 @@ export const renderBarChartLogpoints = ({div, dimensions, setBis}) => {
 export const renderBarChartDomain = ({div, dimensions, colorScheme}) => {
   const dimension = dimensions.domain
   const domains = dimension.group().reduceSum(pluck('ANZAHLGESAMT'))
+  log.trace('Domains', domains.all())
+  const domainNames = domains.all().map(pluck('key'))
   const colors = getColorFunction(colorScheme)
   const height = cx(div)
-  const withLegend = div.clientWidth >= minWidthForLegend
 
-  const leftDiv = d3.select(div).append('div').attr('style', withLegend ? 'float: left; width: 66%;' : 'width: 100%;')
-  const chart = barChart(leftDiv)
+  const chart = barChart(div)
 
   chart.margins().left = 60
-  chart.margins().right = 20
+  chart.margins().right = 60
+  chart.margins().bottom = 120
 
   chart.ordinalColors(colors)
 
   chart
     .colorAccessor(d => d.key)
-    .width(leftDiv.clientWidth)
+    .width(div.clientWidth)
     .height(height)
     .x(d3.scaleBand())
     .xUnits(units.ordinal)
@@ -190,12 +190,17 @@ export const renderBarChartDomain = ({div, dimensions, colorScheme}) => {
     .dimension(dimension)
     .group(domains, "Anzahl Calls")
     .brushOn(false)
-    .xAxis().tickValues([])
+    .xAxis().tickValues(domainNames)
+
+  chart.on('pretransition', c => {
+    c.select('.axis.x')
+      .attr("text-anchor", "end")
+      .selectAll("text")
+      .attr("transform", "rotate(-45)")
+      .attr("dy", "0.2em")
+      .attr("dx", "-1em")
+      .attr("style", "font-size: 12px")
+  })
 
   chart.render()
-
-  if (withLegend) {
-    const rightDiv = d3.select(div).append('div').attr('style', 'float: left; width: 33%;')
-    renderPieChartDomain({ div: rightDiv, dimensions, colorScheme, onlyLegend: true })
-  }
 }

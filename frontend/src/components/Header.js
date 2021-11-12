@@ -25,6 +25,8 @@ import { LOG_SEARCH_TYPES } from '../logic/store'
 import { LRUProvider } from './suggestions/lruProvider'
 import { getConfigurationValue } from '../logic/configuration'
 import useWindowSize from './useWindowSize'
+import { FormCheck } from 'react-bootstrap'
+import Tipp from './Tipp'
 
 const log = Log('header')
 
@@ -59,17 +61,17 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
   const width = rest.width || windowWidth
 
   // setzte lokale Daten auf Props beim ersten Render
-  const {umgebung, datum, duration, bis, searchType, searchValue} = rest
-  const [localFilter, setLocalFilter] = useState({umgebung, datum, duration, bis, searchType, searchValue})
+  const {umgebung, datum, duration, bis, searchType, searchValue, onlyFaults} = rest
+  const [localFilter, setLocalFilter] = useState({umgebung, datum, duration, bis, searchType, searchValue, onlyFaults})
 
   // sorge dafür, dass die lokalen Daten die Props auch bei Änderungen wiederspiegeln
   useEffect(() => {
     setLocalFilter(filter => {
-      if (equals(filter, {umgebung, datum, duration, bis, searchType, searchValue})) return filter
-      log.trace('aktualisiere Parameter', umgebung, datum, duration, bis, searchType, searchValue)
-      return {umgebung, datum, duration, bis, searchType, searchValue}
+      if (equals(filter, {umgebung, datum, duration, bis, searchType, searchValue, onlyFaults})) return filter
+      log.trace('aktualisiere Parameter', { umgebung, datum, duration, bis, searchType, searchValue, onlyFaults })
+      return {umgebung, datum, duration, bis, searchType, searchValue, onlyFaults}
     })
-  }, [umgebung, datum, duration, bis, searchType, searchValue])
+  }, [umgebung, datum, duration, bis, searchType, searchValue, onlyFaults])
 
   log.trace('filter', localFilter)
   const immediateReload = getConfigurationValue('advanced.immediateReloadOnUmgebungChanged') === 'true'
@@ -79,6 +81,8 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
     log.trace('change filter', key, value)
 
     setLocalFilter(filter => {
+      if (key === 'onlyFaults') return {...filter, onlyFaults: event.target.checked}
+
       const searchValue = key === 'searchType' ? '' : filter.searchValue // setze Suchwert zurück, wenn Suchtyp geändert wird
       const newFilter = key === 'duration.anzahl'
         ? {
@@ -104,7 +108,7 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
   const propagateFilter = filter => {
     withExplanation({
       nachricht: 'Selektiere Daten',
-      fn: () => setFilter(filter.umgebung, filter.datum, filter.duration, filter.bis, filter.searchType, filter.searchValue)
+      fn: () => setFilter(filter.umgebung, filter.datum, filter.duration, filter.bis, filter.searchType, filter.searchValue, filter.onlyFaults)
     })
   }
 
@@ -197,13 +201,26 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
           <Blank/>
           <Blank/>
         </FormGroup>
+        <FormGroup controlId="check.faults">
+          <Tipp title="Nur Faults" content="Selektiere nur Calls mit Fault-Logpunkten">
+            <FormCheck
+              type="checkbox"
+              checked={localFilter.onlyFaults}
+              onChange={handleFilterChange('onlyFaults')}
+              label={"nur Faults"}
+            />
+          </Tipp>
+          <Blank/>
+          <Blank/>
+          <Blank/>
+        </FormGroup>
       </Form>
       <Form inline onSubmit={e => e.preventDefault()}>
         <FormGroup controlId="select.suchtyp">
           <FormControl as="select" value={localFilter.searchType} onChange={handleFilterChange('searchType')}>
             {searchTypes}
           </FormControl>
-          <div style={{width: `${width > 1600 ? '700' : '260'}px`}}>
+          <div style={{width: `${width > 1600 ? '500' : '260'}px`}}>
             <AutosuggestBox
               provider={LRUs[localFilter.searchType]}
               onChange={handleFilterChange('searchValue')}
@@ -243,10 +260,11 @@ export default connect(
     von: state.von,
     bis: state.bis,
     searchType: state.logSearchType,
-    searchValue: state.logSearchValue
+    searchValue: state.logSearchValue,
+    onlyFaults: state.onlyFaults
   }),
   dispatch => ({
     actualise: () => dispatch(actualise),
-    setFilter: (umgebung, datum, duration, bis, searchType, searchValue) => dispatch(setFilter(umgebung, datum, duration, bis, searchType, searchValue))
+    setFilter: (umgebung, datum, duration, bis, searchType, searchValue, onlyFaults) => dispatch(setFilter(umgebung, datum, duration, bis, searchType, searchValue, onlyFaults))
   })
 )(Header)

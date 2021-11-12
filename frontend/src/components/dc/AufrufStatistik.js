@@ -17,7 +17,7 @@ export function AufrufStatistik (props) {
   const brush = render(renderChartBrush())
   const lineAnzahl = render(renderLineChartAnzahlCalls)
   const lineTiming = render(renderLineChartTimingCalls)
-  const rowService = render(renderRowChartListServices)
+  const rowService = render(renderRowChartListServices('ANZAHLGESAMT'))
 
   const sunDomain = render(renderSunburstChart)
   const barDomain = render(renderBarChartDomain)

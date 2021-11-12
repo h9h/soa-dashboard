@@ -67,7 +67,8 @@ function reducer (state = {}, action) {
         von,
         bis,
         logSearchType: action.logSearchType,
-        logSearchValue: action.logSearchValue
+        logSearchValue: action.logSearchValue,
+        onlyFaults: action.onlyFaults
       }
     }
 

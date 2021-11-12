@@ -37,6 +37,8 @@ const wertFunction = wert => {
       return v => v.ANZAHLGESAMT
     case 'anzahlFault':
       return v => v.ANZAHLFAULT
+    case 'ContributionGesamtZeit':
+      return v => v.ContributionGesamtZeit
     default:
       return () => 0
   }
@@ -162,6 +164,13 @@ export const renderRidgelinePlot = (dimension, wert, range) => ({div, dimensions
   chart.render()
 }
 
+function ermittleTextCaption (wert, data, globalMax) {
+  const t1 = `Anzahl Sätze: ${data.series.length}`
+  const unit = wert.indexOf('anzahl') === 0 ? 'Stück' : wert.indexOf('Contribution') === 0 ? 'ms x Anzahl' :'ms in Summe'
+  const t2 = `Globales Maximum: ${ZAHL_FORMAT(globalMax)} ${unit}`
+  return `${t1} - ${t2}`
+}
+
 class RidgelineChart extends Chart {
   constructor(div) {
     super(div)
@@ -261,7 +270,7 @@ class RidgelineChart extends Chart {
     const line = area.lineY1()
 
     d3.select(this._div).append('text')
-      .text(`Anzahl Sätze: ${data.series.length} - Globales Maximum: ${ZAHL_FORMAT(globalMax)} ${this._wert.indexOf('anzahl') === 0 ? 'Stück' : 'ms in Summe'}`)
+      .text(ermittleTextCaption(this._wert, data, globalMax))
 
     const svg = d3.select(this._div).append('svg')
     svg.attr('width', width)

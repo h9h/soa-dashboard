@@ -2,9 +2,9 @@ import React from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import * as PropTypes from 'prop-types'
-import { renderRowChartFaultsTopN, renderRowChartServicesTopN } from './rowCharts'
+import { renderRowChartServicesTopN } from './rowCharts'
 import { renderPlot } from './dcUtils'
-import { SelectorCol, VeryHighSelectorCol } from './dcStyles'
+import { HighSelectorCol, SelectorCol, VeryHighSelectorCol } from './dcStyles'
 import { renderBarChartDomain, renderBarChartTiming } from './barCharts'
 import { TIMINGS } from './utils'
 import { renderSunburstChart } from './sunburstChart'
@@ -17,8 +17,14 @@ export function AllgemeineStatistik (props) {
   const render = renderPlot(props.data, props.colorscheme)
   const N = parseInt(getConfigurationValue('statistics.nrOfCalls'), 10)
   const NFault = parseInt(getConfigurationValue('statistics.nrOfFaults'), 10)
+  const NExpensive = parseInt(getConfigurationValue('statistics.nrOfExpensive'), 10)
 
   return <div style={{ width: props.width }}>
+    <Row>
+      <Col xs={12}>
+
+      </Col>
+    </Row>
     <Row>
       <Col xs={12} lg={4}>
         <Centered>
@@ -51,14 +57,21 @@ export function AllgemeineStatistik (props) {
             <Centered>
               <h3>Faults - Top {NFault}</h3>
             </Centered>
-            {render(renderRowChartFaultsTopN(NFault))}
+            {render(renderRowChartServicesTopN('ANZAHLFAULT', NFault))}
           </Col>
-          <Col xs={12} style={{height: (N * 25 + 50) + 'px'}}>
+          <Col xs={12} style={{height: (NExpensive * 25 + 120) + 'px'}}>
+            <Centered>
+              <br />
+              <h3>Zeit-teuerste Calls - Top {NExpensive}</h3>
+            </Centered>
+            {render(renderRowChartServicesTopN('ContributionGesamtZeit', NExpensive))}
+          </Col>
+          <Col xs={12} style={{height: (N * 25 + 120) + 'px'}}>
             <Centered>
               <br />
               <h3>Gesamtanzahl Calls - Top {N}</h3>
             </Centered>
-            {render(renderRowChartServicesTopN(N))}
+            {render(renderRowChartServicesTopN('ANZAHLGESAMT', N))}
           </Col>
         </Row>
       </Col>
@@ -69,9 +82,9 @@ export function AllgemeineStatistik (props) {
               <h3>Domänen</h3>
             </Centered>
           </Col>
-          <SelectorCol xs={12}>
+          <HighSelectorCol xs={12}>
             {render(renderBarChartDomain)}
-          </SelectorCol>
+          </HighSelectorCol>
           <VeryHighSelectorCol>
             {render(renderSunburstChart)}
           </VeryHighSelectorCol>

@@ -5,7 +5,6 @@ import { range } from 'ramda'
 import DataContext from './DataContext'
 import React from 'react'
 import moment from 'moment'
-// import { json2string } from '../../logic/utils'
 
 const formatMillisecond = d3.timeFormat('.%L')
 const formatSecond = d3.timeFormat(':%S')

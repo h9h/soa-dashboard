@@ -16,6 +16,7 @@ const createPieChart = ({ div, colorScheme, legendFunction = d => d.name, onlyLe
   const chart = pieChart(div)
   chart
     .ordinalColors(colors)
+    .colorAccessor(d => d.key)
     .innerRadius(onlyLegend ? radius : Math.min(50, centre/2))
     .radius(radius)
     .externalRadiusPadding(0)
@@ -33,6 +34,8 @@ export const renderPieChartDomain = ({div, dimensions, colorScheme, onlyLegend =
   chart
     .dimension(dimension)
     .group(anzahl)
+    .ordering(d => d.key)
+    .colorAccessor(d => d.key)
     .title(d => d.key)
 
   chart.render()

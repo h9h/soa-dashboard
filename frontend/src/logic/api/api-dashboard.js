@@ -6,6 +6,9 @@ import { getConfigurationValue } from '../configuration'
 import { notification } from '../notification'
 import { MESSAGE_TYPES_NAMES } from '../tableConfMessages'
 import { sendInfo } from '../../App'
+import Log from '../../log'
+
+const log = Log('api-dashboards')
 
 export const getUmgebungen = umgebungen => {
   return Object.keys(umgebungen)
@@ -43,7 +46,7 @@ const getSearchTypeUrl = searchType => {
 
 export const getLogpoints = (filter, cb) => {
   const sec = TIME_FORMAT === 'HH:mm' ? ':00' : ''
-  const {umgebung, datum, von, bis, searchType, searchValue} = filter
+  const {umgebung, datum, von, bis, searchType, searchValue, onlyFaults} = filter
 
   let url
   let info
@@ -72,7 +75,9 @@ export const getLogpoints = (filter, cb) => {
     url = `${getEsbUrl(umgebung)}/dashboard/LogPoints/${datum}?from=${von}${sec}&to=${bis}${sec}`
     info = `Zeitraum von ${von} bis ${bis}`
   }
+  if (onlyFaults) url = `${url}&faultLogpoint=`
 
+  log.trace('ESB0 Api url', url)
   getData(API.LOGPOINT, url, cb, filter, info)
 }
 

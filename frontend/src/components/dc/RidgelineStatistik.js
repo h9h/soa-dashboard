@@ -48,6 +48,7 @@ const WertOptions = (
     <option key={TIMINGS.PROVIDER.key}
             value={TIMINGS.PROVIDER.key}>Verarbeitungszeit
     </option>
+    <option key='ContributionGesamtZeit' value='ContributionGesamtZeit'>Zeit-Kosten</option>
     <option key='anzahlGesamt' value='anzahlGesamt'>Anzahl Calls</option>
     <option key='anzahlFault' value='anzahlFault'>Anzahl Faults</option>
   </>
@@ -100,9 +101,9 @@ const UnconnectedRidgelineStatistik = (props) => {
           </Col>
           <Col xs={3}>
             <Row>
-              <SelectorCol>
+              <HighSelectorCol>
                 {barDomain}
-              </SelectorCol>
+              </HighSelectorCol>
             </Row>
             <Row>
               <HighSelectorCol>

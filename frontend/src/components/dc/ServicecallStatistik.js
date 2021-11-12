@@ -45,9 +45,22 @@ export function ServicecallStatistik (props) {
       </Col>
     </Row>
     <Row>
-      <Listing>
-        {render(renderRowChartListServices)}
-      </Listing>
+      <Col xs={6}>
+        <Row>
+          <Listing>
+            <h1>Teuerste Servicecalls (Zeit x Anzahl)</h1>
+            {render(renderRowChartListServices('ContributionGesamtZeit'))}
+          </Listing>
+        </Row>
+      </Col>
+      <Col xs={6}>
+        <Row>
+          <Listing>
+            <h1>Alle Servicecalls nach Aufrufzahlen</h1>
+            {render(renderRowChartListServices('ANZAHLGESAMT'))}
+          </Listing>
+        </Row>
+      </Col>
     </Row>
   </div>
 }

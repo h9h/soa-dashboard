@@ -134,9 +134,11 @@ export const getStatisticsData = async (umgebung, datumVon, datumBis, statisticF
     return object
   })
 
+  const MIN_CALLS_PER_HOUR = 10
+
   const anzahlPerHour = statistics.reduce((acc, row) => {
     if (!acc[row.Hour]) acc[row.Hour] = 0
-    acc[row.Hour] += row.ANZAHLGESAMT
+    acc[row.Hour] += row.ANZAHLGESAMT < MIN_CALLS_PER_HOUR ? 0 : row.ANZAHLGESAMT
     return acc
   }, {})
 
@@ -166,7 +168,7 @@ export const getStatisticsData = async (umgebung, datumVon, datumBis, statisticF
     }
     // bei negativen Werten müsste es sich um asynchrone Calls handeln, dann ist Gesamtzeit ein geeigneter Anhaltspunkt
     row.DURCHSCHNITT_BUS_ZEIT = (row.DURCHSCHNITT_GESAMT_ZEIT - row.DURCHSCHNITT_PROVIDER_ZEIT) < 0 ? row.DURCHSCHNITT_GESAMT_ZEIT : (row.DURCHSCHNITT_GESAMT_ZEIT - row.DURCHSCHNITT_PROVIDER_ZEIT)
-    row.ContributionGesamtZeit = row.DURCHSCHNITT_GESAMT_ZEIT * row.ANZAHLGESAMT / anzahlPerHour[row.Hour]
+    row.ContributionGesamtZeit = row.ANZAHLGESAMT < MIN_CALLS_PER_HOUR ? 0 : row.DURCHSCHNITT_GESAMT_ZEIT * row.ANZAHLGESAMT
     row.PartitionGesamtZeit = part(row.DURCHSCHNITT_GESAMT_ZEIT)
     row.PartitionBusZeit = partBus(row.DURCHSCHNITT_BUS_ZEIT)
     row.PartitionProviderZeit = part(row.DURCHSCHNITT_PROVIDER_ZEIT)
@@ -193,7 +195,7 @@ export const getStatisticsData = async (umgebung, datumVon, datumBis, statisticF
     anzahlFault: cf.dimension(d => d.ANZAHLFAULT),
     timingGesamt: cf.dimension(d => d.PartitionGesamtZeit),
     timingProvider: cf.dimension(d => d.PartitionProviderZeit),
-    timingBus: cf.dimension(d => d.PartitionBusZeit)
+    timingBus: cf.dimension(d => d.PartitionBusZeit),
   }
   trace('Created dimensions')
 
