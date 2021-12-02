@@ -16,6 +16,7 @@ export const LOG_SEARCH_TYPES = {
   SENDERFQN: 'Sender-FQN',
   MESSAGEID: 'Message-Id',
   SERVICE: 'Service-Namespace',
+  OPERATION: 'Operation',
   PROCESS_INSTANCE_ID: 'ProcessInstance-Id'
 }
 

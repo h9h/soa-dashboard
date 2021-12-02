@@ -36,6 +36,8 @@ const getSearchTypeUrl = searchType => {
       return 'senderFQN'
     case LOG_SEARCH_TYPES.SERVICE:
       return 'serviceNamespace'
+    case LOG_SEARCH_TYPES.OPERATION:
+      return 'operation'
     case LOG_SEARCH_TYPES.PROCESS_INSTANCE_ID:
       return 'processInstanceId'
     default:
