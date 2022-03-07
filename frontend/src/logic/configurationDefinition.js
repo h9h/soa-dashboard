@@ -172,8 +172,9 @@ export const DEFINITIONS = {
       nrOfExpensive: {type: 'string', pattern: '^\\d{1,3}$'},
       providerTimeWarning: {type: 'string', pattern: '^\\d{2,4}$'},
       providerTimeError: {type: 'string', pattern: '^\\d{2,4}$'},
+      dump: {type: 'string', enum: ['true', 'false']},
     },
-    required: ['colorSchemes', 'nrOfCalls', 'nrOfFaults', 'nrOfExpensive', 'providerTimeWarning', 'providerTimeError'],
+    required: ['colorSchemes', 'nrOfCalls', 'nrOfFaults', 'nrOfExpensive', 'providerTimeWarning', 'providerTimeError', 'dump'],
     additionalProperties: false
   },
   links: {

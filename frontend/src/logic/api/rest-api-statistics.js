@@ -7,8 +7,12 @@ import { STATISTIC } from '../mock/statistic'
 import { getConfigurationValue } from '../configuration'
 import { getEsbUrl } from './api-dashboard'
 import { sendInfo } from '../../App'
+import { v1 as uuid } from 'uuid'
+import { logToFile } from './rest-api-local'
+import { uniq } from 'ramda'
 
 const log = Log('rest-api-statistics')
+log.file = logToFile('rest-api-statistics')
 
 export const TIMING_BREAKPOINTS = [0, 10, 50, 100, 250, 500, 1000, 10000, 60000]
 export const TIMING_BUS_BREAKPOINTS = [0, 5, 10, 20, 50, 100, 250, 1000]
@@ -78,12 +82,14 @@ const nullObject = o => ({
 export const getStatisticsData = async (umgebung, datumVon, datumBis, statisticFlags) => {
   const trace = timeSpent(log.trace)
   const MOCK = getConfigurationValue('mock.doMock') === 'true'
+  const dumpStatistic = getConfigurationValue('statistics.dump') === 'true'
 
   const flagDaytime = statisticFlags === 'daylight' || statisticFlags.indexOf('daylight') > -1
   const flagNighttime = statisticFlags === 'night' || statisticFlags.indexOf('night') > -1
   trace('Statistic Flags', { statisticFlags, flagDaytime, flagNighttime })
 
   let dataArray
+  const id = uuid()
 
   if (MOCK) {
     dataArray = [{ records: STATISTIC }]
@@ -106,8 +112,9 @@ export const getStatisticsData = async (umgebung, datumVon, datumBis, statisticF
       urls.push(url)
     }
     trace(urls.length + ' calls', { urls })
+    log.file({ id, event: 'get-statistics-data', dumpStatistic, urls })
 
-    const iter = async () => Promise.all(urls.map(async url => { // TODO simplify
+    const iter = async () => Promise.all(urls.map(async url => {
       return await fetchRecords(url)
     }))
 
@@ -176,6 +183,9 @@ export const getStatisticsData = async (umgebung, datumVon, datumBis, statisticF
     row.errorThreshold = errorThreshold
   })
   trace('Created additional fields', { beispiel: statistics[0], anzahlRows: statistics.length })
+  if (dumpStatistic) {
+    log.file({ id, event: 'ServiceOperations', Service: uniq(statistics.map(s => ({SENDERFQN: s.SENDERFQN, OPERATION: s.OPERATION}))) })
+  }
 
   const cf = crossfilter(statistics)
   trace('Created crossfilter', { beispiel: cf.allFiltered()[0], cfSize: cf.size() })

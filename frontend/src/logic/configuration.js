@@ -84,6 +84,7 @@ const defaultConfiguration = {
     nrOfExpensive: '10',
     providerTimeWarning: '90',
     providerTimeError: '120',
+    dump: 'false'
   },
   links: getLinks
 }
