@@ -3,9 +3,9 @@ import { MEPS } from './mep'
 import React from 'react'
 
 export const MESSAGE_TYPE_COLUMNS = {
-  Rejected: ['ID', 'Timestamp', 'ServiceOperation', 'MEP', 'MESSAGETYPE', 'DESCRIPTION', 'LOGPOINTNO', 'ORIGINATOR', 'ENCODING', 'MESSAGE', 'MESSAGESIZE'],
-  Undelivered: ['ID', 'Timestamp', 'ServiceOperation', 'MEP', 'MESSAGETYPE', 'MESSAGEID', 'Sender', 'PROCESSINSTANCEID', 'SENDERTIMESTAMP', 'PARENTPROCESSINSTANCEID', 'RELATESTOMESSAGEID', 'MESSAGE', 'MESSAGESIZE', 'ERRORCODE', 'REASON', 'REPLYCONTEXT'],
-  Expired: ['ID', 'Timestamp', 'ServiceOperation', 'MEP', 'MESSAGEID', 'Sender', 'PROCESSINSTANCEID', 'SENDERTIMESTAMP', 'PARENTPROCESSINSTANCEID', 'RELATESTOMESSAGEID', 'MESSAGE', 'MESSAGESIZE', 'REPLYCONTEXT']
+  Rejected: ['ID', 'Timestamp', 'ServiceOperation', 'MEP', 'MESSAGETYPE', 'DESCRIPTION', 'LOGPOINTNO', 'ORIGINATOR', 'ENCODING', 'MESSAGE', 'MESSAGESIZE', 'JumpToCall'],
+  Undelivered: ['ID', 'Timestamp', 'ServiceOperation', 'MEP', 'MESSAGETYPE', 'MESSAGEID', 'Sender', 'PROCESSINSTANCEID', 'SENDERTIMESTAMP', 'PARENTPROCESSINSTANCEID', 'RELATESTOMESSAGEID', 'MESSAGE', 'MESSAGESIZE', 'ERRORCODE', 'REASON', 'REPLYCONTEXT', 'JumpToCall'],
+  Expired: ['ID', 'Timestamp', 'ServiceOperation', 'MEP', 'MESSAGEID', 'Sender', 'PROCESSINSTANCEID', 'SENDERTIMESTAMP', 'PARENTPROCESSINSTANCEID', 'RELATESTOMESSAGEID', 'MESSAGE', 'MESSAGESIZE', 'REPLYCONTEXT', 'JumpToCall']
 }
 
 export const TABLE_COLUMNS = {
@@ -309,6 +309,11 @@ const DEFAULT_PROPS = {
     Header: 'Response',
     minWidth: 350,
     ordnung: 4
+  },
+  JumpToCall: {
+    Header: 'L',
+    width: 50,
+    ordnung: 15
   }
 }
 

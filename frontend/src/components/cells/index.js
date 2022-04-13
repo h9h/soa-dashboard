@@ -25,6 +25,7 @@ import RowAktionen from './RowAktionen'
 import Scheduler from './Scheduler'
 import ProcessInstanceId from './ProcessInstanceID'
 import ZeitKosten from './ZeitKosten'
+import JumpToCall from './JumpToCall'
 
 const pk = key => {
   switch(key){
@@ -109,6 +110,8 @@ export const cellFactory = onClick => key => {
       return row => <MessageContent row={row} />
     case 'DUMP':
       return row => <div style={{ wordBreak: 'normal', overflow: 'auto'}}>{json2string(row)}</div>
+    case 'JumpToCall':
+      return row => <JumpToCall row={row} />
     default:
       return row => {
         return <Default row={row} />

@@ -60,7 +60,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "start": "react-scripts start",
-    "release-it": "yarn version --patch"
+    "release-it": "npm run version --patch"
   },
   "eslintConfig": {
     "extends": "react-app"
