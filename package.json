@@ -4,7 +4,7 @@
   "license": "MIT",
   "bin": "server.js",
   "dependencies": {
-    "@koa/cors": "^3.1.0",
+    "@koa/cors": "^3.3.0",
     "activedirectory2": "^2.1.0",
     "adm-zip": "^0.5.9",
     "axios": "^0.26.1",
