@@ -18,7 +18,7 @@
     "dc": "^4.2.7",
     "debug": "^4.3.4",
     "fast-xml-parser": "^3.20.3",
-    "flatpickr": "^4.6.9",
+    "flatpickr": "^4.6.13",
     "jsonpath": "^1.1.1",
     "jsonschema": "^1.4.0",
     "moment": "^2.29.2",
