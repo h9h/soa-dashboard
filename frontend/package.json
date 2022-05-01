@@ -5,7 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "@atlaskit/reduced-ui-pack": "^16.1.0",
-    "@atlaskit/select": "^15.2.2",
+    "@atlaskit/select": "^15.2.12",
     "@rehooks/component-size": "^1.0.2",
     "@types/node": "^17.0.24",
     "@welldone-software/why-did-you-render": "^6.2.1",
@@ -23,7 +23,7 @@
     "jsonschema": "^1.4.0",
     "moment": "^2.29.2",
     "object.entries": "^1.1.5",
-    "pino": "^7.1.0",
+    "pino": "^7.11.0",
     "pino-pretty": "^7.2.0",
     "prop-types": "^15.7.2",
     "query-string": "^7.0.1",
