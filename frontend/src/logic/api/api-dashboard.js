@@ -132,6 +132,8 @@ export const resendMessage = async (umgebung, mep, operation, { queuename, topic
     `${getEsbUrl(umgebung)}/me/Databases/ME/Queues?MEP=${mep}&operation=${operation}&QueueName=${queuename}` :
     `${getEsbUrl(umgebung)}/me/Databases/ME/Queues?MEP=${mep}&operation=${operation}&TopicName=${topicname}`
 
+  sendInfo(`API resendMessage: ${url}`)
+
   const { success, result } = await postDataXml(url, message)
   if (!result.JMSMessageID) {
     return { success: false, result, fehlermeldung: 'Keine JMSMessageID erhalten --> Enqueueing fehlgeschlagen'}
@@ -147,6 +149,8 @@ export const deleteMessage = async (umgebung, messageType, id) => {
 export const getMessage = async (umgebung, messageType, id) => {
   const url = `${getEsbUrl(umgebung)}/dashboard/${messageType}Messages/${id}`
   const data = await get(url)
+
+  sendInfo(`API getMessage: ${url}`)
 
   if (!data.success) {
     return { success: false, result: 'Kein Satz vorhanden', fehlermeldung: 'Kein Message-Satz vorhanden' }

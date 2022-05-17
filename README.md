@@ -177,7 +177,7 @@ Daher dieser Workaround:
 1. gehe zu <https://github.com/vercel/pkg-fetch/releases/>
 1. such die passende Version gemäß der Fehlermeldung in der Logdatei `output-...-pkg.log`
 1. Download die gewünschte Version gemäß Log-Datei
-1. Gehe zum ./pkg-cache Verzeichnis (bei mir: C:\Users\\{userid}\\.pkg-cache\v2.6)
+1. Gehe zum ./pkg-cache Verzeichnis (bei mir: C:\Users\\{userid}\\.pkg-cache\v3.2)
 1. Kopiere das heruntergeladene Bin
-1. Benenne den Anfang der Datei um zu "fetched-..."
+1. Benenne den Anfang der Datei um zu "fetched-..." (z.B. "fetched-v10.24.1-win-x64")
 1. Versuche pkg Skript noch einmal, sollte dann funktionieren
