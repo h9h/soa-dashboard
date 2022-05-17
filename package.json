@@ -4,17 +4,17 @@
   "license": "MIT",
   "bin": "server.js",
   "dependencies": {
-    "@koa/cors": "^3.1.0",
+    "@koa/cors": "^3.3.0",
     "activedirectory2": "^2.1.0",
     "adm-zip": "^0.5.9",
-    "axios": "^0.24.0",
+    "axios": "^0.26.1",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
     "koa-router": "^10.1.1",
     "koa-send": "^5.0.1",
     "ldapjs": "^2.3.1",
-    "moment": "^2.29.1",
-    "ramda": "^0.27.1"
+    "moment": "^2.29.3",
+    "ramda": "^0.28.0"
   },
   "scripts": {
     "backup:config": "node backupConfig.js",
@@ -35,10 +35,10 @@
     "release-it": "cd frontend && npm run release-it && git push --follow-tags"
   },
   "devDependencies": {
-    "@vercel/ncc": "^0.31.1",
-    "cpy-cli": "^3.1.1",
+    "@vercel/ncc": "^0.33.4",
+    "cpy-cli": "^4.1.0",
     "npm-run-all": "^4.1.5",
-    "pkg": "^5.4.1"
+    "pkg": "^5.6.0"
   },
   "pkg": {
     "assets": [
