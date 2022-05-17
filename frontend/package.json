@@ -20,7 +20,7 @@
     "fast-xml-parser": "^3.20.3",
     "flatpickr": "^4.6.13",
     "jsonpath": "^1.1.1",
-    "jsonschema": "^1.4.0",
+    "jsonschema": "^1.4.1",
     "moment": "^2.29.2",
     "object.entries": "^1.1.5",
     "pino": "^7.11.0",
