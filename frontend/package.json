@@ -45,7 +45,7 @@
     "react-table-6": "^6.11.0",
     "react-toastify": "^8.2.0",
     "react-virtualized-auto-sizer": "^1.0.6",
-    "react-window": "^1.8.6",
+    "react-window": "^1.8.7",
     "redux": "^4.2.0",
     "regenerator-runtime": "^0.13.9",
     "store": "^2.0.12",
