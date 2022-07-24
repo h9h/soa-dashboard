@@ -27,7 +27,7 @@
     "pino-pretty": "^7.6.1",
     "prop-types": "^15.7.2",
     "query-string": "^7.1.1",
-    "ramda": "^0.27.1",
+    "ramda": "^0.28.0",
     "react": "^17.0.2",
     "react-app-polyfill": "^3.0.0",
     "react-autocomplete-input": "^1.0.18",
