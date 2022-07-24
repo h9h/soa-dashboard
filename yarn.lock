@@ -492,7 +492,7 @@ delegates@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/delegates/-/delegates-1.0.0.tgz"
 
-depd@^2.0.0, depd@~2.0.0:
+depd@2.0.0, depd@^2.0.0, depd@~2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/depd/-/depd-2.0.0.tgz"
 
@@ -787,6 +787,16 @@ http-errors@^1.6.3, http-errors@^1.7.3:
     statuses ">= 1.5.0 < 2"
     toidentifier "1.0.0"
 
+http-errors@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/http-errors/-/http-errors-2.0.0.tgz#b7774a1486ef73cf7667ac9ae0858c012c57b9d3"
+  dependencies:
+    depd "2.0.0"
+    inherits "2.0.4"
+    setprototypeof "1.2.0"
+    statuses "2.0.1"
+    toidentifier "1.0.1"
+
 http-errors@~1.6.2:
   version "1.6.3"
   resolved "https://registry.npmjs.org/http-errors/-/http-errors-1.6.3.tgz"
@@ -997,15 +1007,14 @@ koa-convert@^2.0.0:
     co "^4.6.0"
     koa-compose "^4.1.0"
 
-koa-router@^10.1.1:
-  version "10.1.1"
-  resolved "https://registry.npmjs.org/koa-router/-/koa-router-10.1.1.tgz"
+koa-router@^12.0.0:
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/koa-router/-/koa-router-12.0.0.tgz#94276df8c7aef424b86728b0ff4a69de50050dbc"
   dependencies:
-    debug "^4.1.1"
-    http-errors "^1.7.3"
+    http-errors "^2.0.0"
     koa-compose "^4.1.0"
     methods "^1.1.2"
-    path-to-regexp "^6.1.0"
+    path-to-regexp "^6.2.1"
 
 koa-send@^5.0.1:
   version "5.0.1"
@@ -1402,9 +1411,9 @@ path-parse@^1.0.7:
   version "1.0.7"
   resolved "https://registry.npmjs.org/path-parse/-/path-parse-1.0.7.tgz"
 
-path-to-regexp@^6.1.0:
-  version "6.2.0"
-  resolved "https://registry.npmjs.org/path-to-regexp/-/path-to-regexp-6.2.0.tgz"
+path-to-regexp@^6.2.1:
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-6.2.1.tgz#d54934d6798eb9e5ef14e7af7962c945906918e5"
 
 path-type@^3.0.0:
   version "3.0.0"
@@ -1726,6 +1735,10 @@ spdx-license-ids@^3.0.0:
   version "3.0.8"
   resolved "https://registry.npmjs.org/spdx-license-ids/-/spdx-license-ids-3.0.8.tgz"
 
+statuses@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/statuses/-/statuses-2.0.1.tgz#55cb000ccf1d48728bd23c685a063998cf1a1b63"
+
 "statuses@>= 1.4.0 < 2", "statuses@>= 1.5.0 < 2", statuses@^1.5.0:
   version "1.5.0"
   resolved "https://registry.npmjs.org/statuses/-/statuses-1.5.0.tgz"
@@ -1854,6 +1867,10 @@ to-regex-range@^5.0.1:
 toidentifier@1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/toidentifier/-/toidentifier-1.0.0.tgz"
+
+toidentifier@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.1.tgz#3be34321a88a820ed1bd80dfaa33e479fbb8dd35"
 
 tr46@~0.0.3:
   version "0.0.3"
