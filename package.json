@@ -7,7 +7,7 @@
     "@koa/cors": "^3.4.1",
     "activedirectory2": "^2.1.0",
     "adm-zip": "^0.5.9",
-    "axios": "^0.27.2",
+    "axios": "^1.0.0",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
     "koa-router": "^12.0.0",
