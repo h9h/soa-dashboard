@@ -50,6 +50,7 @@
     "regenerator-runtime": "^0.13.9",
     "store": "^2.0.12",
     "styled-components": "^5.3.5",
+    "url": "^0.11.0",
     "uuid": "8.3.2",
     "vis-data": "^7.1.4",
     "vis-timeline": "^7.7.0",
@@ -66,7 +67,7 @@
     "extends": "react-app"
   },
   "devDependencies": {
-    "react-scripts": "5.0.1"
+    "react-scripts": "^5.0.1"
   },
   "browserslist": [
     ">0.2%",

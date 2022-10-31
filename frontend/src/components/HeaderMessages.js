@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
-import FormGroup from 'react-bootstrap/FormGroup'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import ButtonWithTip from '../components/ButtonWithTip'
@@ -88,32 +87,23 @@ export const HeaderForm = props => {
 
   return (
     <>
-      <Form inline>
-        <FormGroup controlId="select.umgebung">
-          <FormControl as="select" value={filter.umgebung}
+      <Form  className="d-flex">
+          <Form.Select value={filter.umgebung}
                        onChange={handleFilterChange('umgebung')}>
             {getUmgebungen(getConfigurationValue('umgebungen'))
               .map(umgebung => <option key={umgebung}>{umgebung}</option>)}
-          </FormControl>
-        </FormGroup>
+          </Form.Select>
         <Blank/>
         <Blank/>
-      </Form>
-      <Form inline>
-        <FormGroup controlId="select.messagetype">
-          <Form.Label>Typ: </Form.Label>
+          <Navbar.Text>Typ: </Navbar.Text>
           <Blank/>
-          <FormControl as="select" value={filter.messageType}
+          <Form.Select value={filter.messageType}
                        onChange={handleFilterChange('messageType')}>
             {OptionenMessageTypes}
-          </FormControl>
-        </FormGroup>
+          </Form.Select>
         <Blank/>
         <Blank/>
-      </Form>
-      <Form inline onSubmit={e => e.preventDefault()}>
-        <FormGroup controlId="datum.von">
-          <Form.Label>Von: </Form.Label>
+          <Navbar.Text>Von: </Navbar.Text>
           <Blank/>
           <FormControl
             as={Datum}
@@ -121,11 +111,9 @@ export const HeaderForm = props => {
             maxDate={today}
             setDate={handleFilterChange('datumVon')}
           />
-        </FormGroup>
         <Blank/>
         <Blank/>
-        <FormGroup controlId="datum.bis">
-          <Form.Label>Bis: </Form.Label>
+          <Navbar.Text>Bis: </Navbar.Text>
           <Blank/>
           <FormControl
             as={Datum}
@@ -136,11 +124,9 @@ export const HeaderForm = props => {
           <Blank/>
           <Blank/>
           <Blank/>
-        </FormGroup>
-        <FormGroup controlId="select.suchtyp">
-          <FormControl as="select" value={filter.searchType} onChange={handleFilterChange('searchType')} disabled={messageType === MESSAGE_TYPES_NAMES.REJECTED}>
+          <Form.Select value={filter.searchType} onChange={handleFilterChange('searchType')} disabled={messageType === MESSAGE_TYPES_NAMES.REJECTED}>
             {searchTypes}
-          </FormControl>
+          </Form.Select>
           <div style={{width: `${width > 1600 ? '600' : '145'}px`}}>
             <AutosuggestBox
               provider={LRUs[filter.searchType]}
@@ -149,7 +135,6 @@ export const HeaderForm = props => {
               disabled={messageType === MESSAGE_TYPES_NAMES.REJECTED}
             />
           </div>
-        </FormGroup>
         {filter.messageType && filter.datumVon && filter.datumBis && (
           <>
             <ButtonWithTip
@@ -181,7 +166,7 @@ const HeaderMessages = props => {
       )}
       <Navbar.Toggle aria-controls="basic-navbar-nav"/>
       <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
+        <Nav className="me-auto">
           <HeaderForm width={width} {...props} />
         </Nav>
         <Nav className="justify-content-end">

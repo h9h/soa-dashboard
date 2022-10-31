@@ -18,6 +18,7 @@ import { withNotification } from './logic/notification'
 import Logo from './Logo'
 
 import Log from './log'
+import { useLocation, useNavigate } from 'react-router-dom'
 const log = Log('pagelogin')
 
 const HelpAuthenticator = ({show}) => {
@@ -40,12 +41,18 @@ const HelpAuthenticator = ({show}) => {
 
 const PageLogin = props => {
   log.trace('PageLogin')
+
+  const location = useLocation()
+  const redirectTo = location.state?.from?.pathname
+  const navigate = useNavigate()
+
   const logoParent = useRef(null)
   const [appIsCurrent, setAppIsCurrent] = useState(false)
   const [authReady, setAuthReady] = useState(false)
   const [userId, setUserId] = useState('')
   const [password, setPassword] = useState('')
   const [waitingForAuthentication, setWaitingForAuthentication] = useState(false)
+  const [readyToRedirect, setReadyToRedirect] = useState(false)
 
   useEffect(() => {
     const check = async () => {
@@ -99,7 +106,11 @@ const PageLogin = props => {
         log.trace('propagate user into state')
         withNotification({
           nachricht: `Willkommen beim Dashboard, ${user.idm.givenName} ${user.idm.sn}!`,
-          fn: () => props.loggedIn(user),
+          fn: () => {
+            props.loggedIn(user)
+            setWaitingForAuthentication(false)
+            setReadyToRedirect(true)
+          },
           autoClose: 5000
         })
       } else {
@@ -109,11 +120,14 @@ const PageLogin = props => {
           nachricht: 'Authentifizierung fehlgeschlagen',
           fn: () => {
             setPassword('')
-            setWaitingForAuthentication(false)
           }
         })
       }
     })
+  }
+
+  if (readyToRedirect) {
+    navigate(redirectTo)
   }
 
   if (waitingForAuthentication) {
@@ -169,7 +183,7 @@ const PageLogin = props => {
               </FormGroup>
               <Blank/>
               <Button
-                block
+                block="true"
                 disabled={!enabled}
                 variant={enabled ? 'primary' : 'outline-secondary'}
                 type="submit"

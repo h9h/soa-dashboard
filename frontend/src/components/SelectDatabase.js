@@ -40,13 +40,13 @@ const SelectDatabase = ({ umgebung, database: defaultDatabase, onSelect }) => {
     }
 
     return (
-      <Form.Control as="select" value={selectedDatabase || ''} onChange={handleChange}>
+      <Form.Select value={selectedDatabase || ''} onChange={handleChange}>
         {uniq(databases.data
           .map(item => item.DATABASE))
           .sort()
           .map(item => <option key={item}>{item}</option>)
         }
-      </Form.Control>
+      </Form.Select>
     )
   }
 

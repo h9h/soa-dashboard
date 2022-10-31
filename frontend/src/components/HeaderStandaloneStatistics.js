@@ -17,13 +17,13 @@ const HeaderStandaloneStatistics = ({ title, view = 'default', setView = () => {
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav"/>
       <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
-          <Form inline>
+        <Nav className="me-auto">
+          <Form  className="d-flex">
             <SelectReportview views={VIEWS} value={view} onChange={setView} ohneTitel={true}/>
             <Blank/>
             <Blank/>
           </Form>
-          <Form inline>
+          <Form  className="d-flex">
             <ButtonWithTip
               title="Charts"
               description="Setze Charts zurück, lösche alle Filter"

@@ -58,7 +58,7 @@ const MessageFilter = ({row, defaultFilter, handleFilter}) => {
       <Row>
         <Col>
           <div>
-          <Form inline onSubmit={() => false}>
+          <Form  className="d-flex" onSubmit={() => false}>
             <FormGroup>
               <Tipp title="Filter" content={(
                 <>

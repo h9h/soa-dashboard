@@ -15,7 +15,7 @@ import {
   setBis,
   updateConfiguration,
 } from '../logic/actions'
-import { withRouter } from 'react-router-dom'
+import withRouter from '../withRouter'
 import { getDashboardRoute } from '../logic/routes'
 import { LOG_SEARCH_TYPES } from '../logic/store'
 import { getDefaultFilterMethod, json2string } from '../logic/utils'

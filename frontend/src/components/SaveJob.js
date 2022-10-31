@@ -69,7 +69,7 @@ const SaveJob = ({job, ...props}) => {
 
   return (
     <>
-      <Form inline>
+      <Form  className="d-flex">
         <Tipp title="Jobname" content="Hier wird ein Name vorgeschlagen, unter dem der Job gespeichert werden kann. Sie können aber auch einen anderen Namen wählen.">
           Name:
         </Tipp>

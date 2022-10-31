@@ -19,7 +19,6 @@ import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { ReactTableDefaults } from 'react-table-6'
-import { config } from 'dc'
 import * as d3 from 'd3'
 import de_locale from 'moment/locale/de'
 import moment from 'moment'
@@ -54,27 +53,6 @@ log.trace('Starting app', d3.timeFormat("%c")(new Date()))
 // Konfiguriere deutsche Zeit/Datumsformate für moment
 moment.locale('de', de_locale)
 log.trace('Starting app', moment().format('dddd, DD.MM.YYYY'))
-
-// Konfiguriere Standard-Farbschema für dc
-config.defaultColors(d3.schemeCategory10)
-
-if (process
-  && process.env
-  && (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test')
-  && false
-) {
-  log.warn(`
-
-    ================================================================
-    React is instrumented with @welldone-software/why-did-you-render
-    
-    You should not see this in productions-deployments
-    ================================================================
-
-    `)
-  const whyDidYouRender = require('@welldone-software/why-did-you-render');
-  whyDidYouRender(React);
-}
 
 if (!Object.entries) {
   log.warn('shimming "Object.entries"')

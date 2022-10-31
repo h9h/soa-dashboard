@@ -1,4 +1,4 @@
-import { toast } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
 import { getConfigurationValue } from './configuration'
 
 import Log from '../log'
@@ -37,16 +37,14 @@ const getNotificationPosition = () => {
   }
 }
 
-const toastConfiguration = () => {
-  return {
-    position: getNotificationPosition(),
-    autoClose: getMillisNotificationAutoClose(),
-    pauseOnFocusLoss: true,
-    style: { width: '600px' }
-  }
+export const MyToastContainer = () => {
+  return <ToastContainer
+          position={ getNotificationPosition()}
+          autoClose={getMillisNotificationAutoClose()}
+          pauseOnFocusLoss={true}
+          style={{ width: '600px' }}
+         />
 }
-
-toast.configure(toastConfiguration())
 
 /* Prüfe, ob Notification tatsächlich gezeigt werden soll */
 const shouldShowNotification = (props, nachricht, fn = () => {}) => {
@@ -69,7 +67,6 @@ export const withExplanation = ({ nachricht, fn, ...props }) => {
     log.trace('withExplanation', nachricht)
 
     const toastId = toast(nachricht, {
-      ...toastConfiguration(),
       autoClose: false,
       ...props
     })
@@ -87,7 +84,6 @@ export const withNotification = ({ nachricht, fn, ...props }) => {
   if (shouldShowNotification(props, nachricht, fn)) {
     log.trace('withNotification', nachricht)
     const toastId = toast(nachricht, {
-      ...toastConfiguration(),
       ...props
     })
     setTimeout(fn, getMillisPreExecutionOnNotification())
@@ -100,7 +96,6 @@ export const withNotification = ({ nachricht, fn, ...props }) => {
 export const notification = ({ nachricht, ...props }) => {
   if (shouldShowNotification(props, nachricht)) {
     return toast(nachricht, {
-      ...toastConfiguration(),
       ...props
     })
   }
@@ -109,7 +104,6 @@ export const notification = ({ nachricht, ...props }) => {
 export const withProgressNotification = ({ nachricht, ...props }) => {
   log.trace('withProgressNotification', nachricht)
   const toastId = toast(nachricht, {
-    ...toastConfiguration(),
     autoClose: false,
     closeButton: false,
     draggable: false,

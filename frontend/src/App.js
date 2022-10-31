@@ -15,7 +15,7 @@
 
  */
 import React, { Suspense, lazy } from 'react'
-import { HashRouter as Router, Switch, Route } from 'react-router-dom'
+import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
@@ -26,11 +26,11 @@ import { initialState } from './logic/store'
 import Log from './log'
 import { getConfigurationValue } from './logic/configuration'
 import { sendStatusInfo } from './logic/actions'
+import { MyToastContainer } from './logic/notification'
+import ProtectedRoute from './ProtectedRoute'
 const log = Log('app')
 
 // Lazy Load die einzelnen Seiten
-const RouteUnauthenticated = lazy(() => import('./RouteUnauthenticated'))
-const RouteAuthenticated = lazy(() => import('./RouteAuthenticated'))
 const PageLogin = lazy(() => import('./PageLogin'))
 const PageDashboard = lazy(() => import('./PageDashboard'))
 const PageDashboard2 = lazy(() => import('./PageDashboard2'))
@@ -59,11 +59,11 @@ const getStartpage = () => {
   const startpage = getConfigurationValue('startpage')
   switch (startpage) {
     case 'dashboard':
-      return PageDashboard
+      return <PageDashboard />
     case 'statistics':
-      return PageStatistics
+      return <PageStatistics />
     default:
-      return PageDashboard
+      return <PageDashboard />
   }
 }
 
@@ -77,40 +77,40 @@ const App = () => {
       <Helmet>
         <title>Lade...</title>
       </Helmet>
+      <MyToastContainer />
       <Suspense fallback={<WartenAnzeiger nachricht="Seite wird geladen" withHeader={true}/>}>
         <Router>
-          <Switch>
+          <Routes>
             {/* Öffentlich zugänglich */}
-            <Route exact path="/statistics/:umgebung/aktuell" component={PageStatistics}/>
-            <Route exact path="/statistics/:umgebung/:datumVon" component={PageStatistics}/>
-            <Route path="/help" component={PageHelp}/>
-            <Route path="/profile" component={PageProfile}/>
-            <Route exact path="/checkalive" component={PageCheckalive}/>
-            <Route path="/checkalive/:umgebung" component={PageCheckalive}/>
+            <Route path="/login" element={<PageLogin />} />
+            <Route path="/statistics/:umgebung/aktuell" element={<PageStatistics />}/>
+            <Route path="/statistics/:umgebung/:datumVon" element={<PageStatistics />}/>
+            <Route path="/help" element={<PageHelp />}/>
+            <Route path="/profile" element={<PageProfile />}/>
+            <Route path="/checkalive/:umgebung" element={<PageCheckalive />}/>
+            <Route path="/checkalive" element={<PageCheckalive />}/>
 
-            {/* Ziel falls nicht eingeloggt und Zugriff auf geschützte Seite gewollt */}
-            <RouteUnauthenticated path="/login" component={PageLogin} />
+            {/* Geschützt */}
+            <Route path="/" element={<ProtectedRoute />}>
+              <Route path="/dashboard/:umgebung/:datum/:von/:bis/:searchType/:searchValue" element={<PageDashboard />}/>
+              <Route path="/dashboard/:umgebung/:datum/:von/:bis" element={<PageDashboard />}/>
+              <Route path="/dashboard" element={<PageDashboard/>}/>
 
-            {/* Geschützte Seiten */}
-            <RouteAuthenticated exact path="/dashboard" component={PageDashboard}/>
-            <RouteAuthenticated path="/dashboard/:umgebung/:datum/:von/:bis/:searchType/:searchValue" component={PageDashboard}/>
-            <RouteAuthenticated path="/dashboard/:umgebung/:datum/:von/:bis" component={PageDashboard}/>
+              <Route path="/dashboard2/:umgebung/:datum/:von/:bis/:searchType/:searchValue" element={<PageDashboard2 />}/>
+              <Route path="/dashboard2/:umgebung/:datum/:von/:bis" element={<PageDashboard2 />}/>
+              <Route path="/dashboard2" element={<PageDashboard2 />}/>
 
-            <RouteAuthenticated exact path="/dashboard2" component={PageDashboard2}/>
-            <RouteAuthenticated path="/dashboard2/:umgebung/:datum/:von/:bis/:searchType/:searchValue" component={PageDashboard2}/>
-            <RouteAuthenticated path="/dashboard2/:umgebung/:datum/:von/:bis" component={PageDashboard2}/>
+              <Route path="/queues/:umgebung/:database/:queuetable" element={<PageQueuetables />}/>
+              <Route path="/queues" element={<PageQueues />}/>
+              <Route path="/messages" element={<PageMessages />}/>
+              <Route path="/jobs" element={<PageJobs/>}/>
 
-            <RouteAuthenticated exact path="/queues/:umgebung/:database/:queuetable" component={PageQueuetables}/>
-            <RouteAuthenticated path="/queues" component={PageQueues}/>
-            <RouteAuthenticated path="/messages" component={PageMessages}/>
-            <RouteAuthenticated path="/jobs" component={PageJobs}/>
-
-            <RouteAuthenticated path="/message/:umgebung/:datum/:von/:bis/:messageId" component={PageServicecall}/>
-            <RouteAuthenticated exact path="/statistics/:umgebung/:datumVon/:datumBis" component={PageStatistics}/>
-            <RouteAuthenticated path="/statistics" component={PageStatistics}/>
-
-            <RouteAuthenticated path="/" component={component}/>
-          </Switch>
+              <Route path="/message/:umgebung/:datum/:von/:bis/:messageId" element={<PageServicecall />}/>
+              <Route path="/statistics/:umgebung/:datumVon/:datumBis" element={<PageStatistics />}/>
+              <Route path="/statistics" element={<PageStatistics />}/>
+              <Route path="/" element={component}/>
+            </Route>
+          </Routes>
 
           {/* Unabhängig von Route (aber brauchen Router-Context wegen Navigation) */}
           <Statusleiste />
@@ -119,5 +119,29 @@ const App = () => {
     </Provider>
   )
 }
+
+//{/* Ziel falls nicht eingeloggt und Zugriff auf geschützte Seite gewollt */}
+//{/* Geschützte Seiten */}
+/**
+<RouteUnauthenticated path="/login" component={PageLogin} />
+
+<RouteAuthenticated path="/dashboard/:umgebung/:datum/:von/:bis/:searchType/:searchValue" component={PageDashboard}/>
+<RouteAuthenticated path="/dashboard/:umgebung/:datum/:von/:bis" component={PageDashboard}/>
+
+<RouteAuthenticated exact path="/dashboard2" component={PageDashboard2}/>
+<RouteAuthenticated path="/dashboard2/:umgebung/:datum/:von/:bis/:searchType/:searchValue" component={PageDashboard2}/>
+<RouteAuthenticated path="/dashboard2/:umgebung/:datum/:von/:bis" component={PageDashboard2}/>
+
+<RouteAuthenticated exact path="/queues/:umgebung/:database/:queuetable" component={PageQueuetables}/>
+<RouteAuthenticated path="/queues" component={PageQueues}/>
+<RouteAuthenticated path="/messages" component={PageMessages}/>
+<RouteAuthenticated path="/jobs" component={PageJobs}/>
+
+<RouteAuthenticated path="/message/:umgebung/:datum/:von/:bis/:messageId" component={PageServicecall}/>
+<RouteAuthenticated exact path="/statistics/:umgebung/:datumVon/:datumBis" component={PageStatistics}/>
+<RouteAuthenticated path="/statistics" component={PageStatistics}/>
+
+<RouteAuthenticated path="/" component={component}/>
+ */
 
 export default App

@@ -5,7 +5,7 @@ import { getClientUrl } from '../../logic/api/rest-api-local'
 import { once } from 'ramda'
 import { getDashboardRoute } from '../../logic/routes'
 import { LOG_SEARCH_TYPES } from '../../logic/store'
-import { withRouter } from 'react-router-dom'
+import withRouter from '../../withRouter'
 import { withNotification } from '../../logic/notification'
 import copy from 'copy-to-clipboard'
 
@@ -68,7 +68,7 @@ const WrappedAktion = withRouter(({ button, history }) => (
 ))
 
 const ButtonRow = ({ row, buttons }) => (
-  <Form inline>
+  <Form  className="d-flex">
     {buttons.map(b => b(row)).filter(b => b).map(button => <WrappedAktion key={button.title} button={button} />)}
   </Form>
 )

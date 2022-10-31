@@ -61,20 +61,20 @@ const Statusleiste = ({ infos, user, von }) => {
       <Navbar bg="light" expand="lg" key="footer" fixed="bottom">
         <Navbar.Toggle aria-controls="basic-navbar-nav"/>
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
+          <Nav className="me-auto">
             <LogoSmall/>
             <Nav.Item>
               <Impressum version={version} width={width}/>
             </Nav.Item>
           </Nav>
-          <Form inline>
+          <Form className='d-flex'>
             <FormControl className="smallfont" as="select" value={infos[0]} readOnly>
               {infoItems}
             </FormControl>
           </Form>
           <Nav className="justify-content-end">
             {rightToViewProps(user) && (
-              <Form inline>
+              <Form  className="d-flex">
                 <Button onClick={doShow} variant="light">
                   <Icon glyph='dev'/>
                 </Button>

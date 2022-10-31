@@ -11,7 +11,7 @@ const HeaderQueueMessages = () => {
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav"/>
       <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
+        <Nav className="me-auto">
         </Nav>
         <Nav className="justify-content-end">
           <Navigation page="queuedmessages" />

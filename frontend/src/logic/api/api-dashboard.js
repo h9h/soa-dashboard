@@ -40,6 +40,8 @@ const getSearchTypeUrl = searchType => {
       return 'operation'
     case LOG_SEARCH_TYPES.PROCESS_INSTANCE_ID:
       return 'processInstanceId'
+    case LOG_SEARCH_TYPES.PARENT_PROCESS_INSTANCE_ID:
+      return 'parentProcessInstanceId'
     default:
       alert('Programmierfehler: URL für' + searchType + ' fehlt')
       return '___URL___'

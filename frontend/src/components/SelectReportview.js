@@ -1,7 +1,7 @@
 import React from 'react'
 import FormGroup from 'react-bootstrap/FormGroup'
 import FormLabel from 'react-bootstrap/FormLabel'
-import FormControl from 'react-bootstrap/FormControl'
+import Form from 'react-bootstrap/Form'
 import Blank from './Blank'
 
 const ViewOptions = ({views}) => (
@@ -23,9 +23,9 @@ const SelectReportview = ({views, value, onChange, ohneTitel}) => {
         <Blank/>
       </>
     )}
-    <FormControl as="select" value={value} onChange={handleChange}>
+    <Form.Select value={value} onChange={handleChange}>
       <ViewOptions views={views} />
-    </FormControl>
+    </Form.Select>
   </FormGroup>
 }
 

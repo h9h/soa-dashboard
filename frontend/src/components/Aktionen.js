@@ -33,7 +33,7 @@ export const Aktionen = ({anzahlMessages, onClickAktion}) => {
   return (
     <>
       <h3>Aktionen</h3>
-      <Form inline>
+      <Form  className="d-flex">
         <FormGroup controlId="select.aktion">
           <FormControl as="select"
                        value={aktion.name}

@@ -92,24 +92,24 @@ const HeaderStatistics = props => {
       )}
       <Navbar.Toggle aria-controls="basic-navbar-nav"/>
       <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
-          <Form inline>
+        <Nav className="me-auto">
+          <Form  className="d-flex">
             <SelectReportview views={VIEWS} value={view} onChange={props.setView} ohneTitel={true}/>
             <Blank/>
             <Blank/>
           </Form>
-          <Form inline>
+          <Form  className="d-flex">
             <FormGroup controlId="select.umgebung">
-              <FormControl as="select" value={filter.umgebung}
+              <Form.Select value={filter.umgebung}
                            onChange={handleFilterChange('umgebung')}>
                 {getUmgebungen(getConfigurationValue('umgebungen'))
                   .map(umgebung => <option key={umgebung}>{umgebung}</option>)}
-              </FormControl>
+              </Form.Select>
             </FormGroup>
             <Blank/>
             <Blank/>
           </Form>
-          <Form inline>
+          <Form  className="d-flex">
             <FormGroup controlId="datum.von">
               <Form.Label>Von: </Form.Label>
               <Blank/>
@@ -180,7 +180,7 @@ const HeaderStatistics = props => {
             <Blank/>
             <Blank/>
           </Form>
-          <Form inline>
+          <Form  className="d-flex">
             <ButtonWithTip
               title="Charts"
               description="Setze Charts zurück, lösche alle Filter"
@@ -194,7 +194,7 @@ const HeaderStatistics = props => {
           </Form>
         </Nav>
         <Nav className="justify-content-end">
-          <Form inline>
+          <Form  className="d-flex">
             <SelectColorScheme scheme={colorScheme} onChange={props.setColorScheme} ohneTitel={true}/>
           </Form>
           <Blank/>

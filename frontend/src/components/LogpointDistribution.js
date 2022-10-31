@@ -105,7 +105,7 @@ const LogpointDistribution = React.memo(({isEmpty, statistik, setBis}) => {
             margin: '0 10px 0 11px',
             padding: "0"
           }}>
-            <Form inline>
+            <Form className='d-flex'>
               <PlayButton
                 title='Zurück 10m'
                 description={`gehe zu ${timeFastBackwards.format('HH:mm:ss')}`}

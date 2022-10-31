@@ -17,7 +17,8 @@ export const LOG_SEARCH_TYPES = {
   MESSAGEID: 'Message-Id',
   SERVICE: 'Service-Namespace',
   OPERATION: 'Operation',
-  PROCESS_INSTANCE_ID: 'ProcessInstance-Id'
+  PROCESS_INSTANCE_ID: 'ProcessInstance-Id',
+  PARENT_PROCESS_INSTANCE_ID: 'Parent-ProcessInstance-Id'
 }
 
 export const initialState = () => {

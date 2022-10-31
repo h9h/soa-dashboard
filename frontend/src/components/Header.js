@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
-import FormGroup from 'react-bootstrap/FormGroup'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import { Link } from 'react-router-dom'
@@ -41,7 +40,7 @@ const Header = props => {
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav"/>
       <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
+        <Nav className="me-auto">
           <HeaderForm {...props} />
         </Nav>
         <Navigation page="dashboard"/>
@@ -151,26 +150,19 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
 
   return (
     <>
-      <Form inline>
+      <Form className='d-flex'>
         <ButtonWithTip
           glyph="actualise"
           title="Aktualisiere Selektion"
           description="Aktualisiere auf das aktuelle Datum und Uhrzeit und selektiere Logpunkte"
           handleClick={aktualisiere}
         />
-      </Form>
-      <Form inline>
-        <FormGroup controlId="select.umgebung">
-          <FormControl as="select" value={localFilter.umgebung} onChange={handleFilterChange('umgebung')}>
+          <Form.Select value={localFilter.umgebung} onChange={handleFilterChange('umgebung')}>
             {umgebungen}
-          </FormControl>
-        </FormGroup>
+          </Form.Select>
         <Blank/>
         <Blank/>
         <Blank/>
-      </Form>
-      <Form inline>
-        <FormGroup controlId="select.datum">
           <FormControl
             as={Datum}
             date={localFilter.datum}
@@ -179,18 +171,18 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
             setDate={handleFilterChange('datum')}
           />
           <Blank/>
-        </FormGroup>
         <Blank/>
-        <Form inline>
-          <FormGroup controlId="select.duration">
-            <FormControl as="select" value={localFilter.duration.anzahl} onChange={handleFilterChange('duration.anzahl')}>
-              {durations}
-            </FormControl>
-          </FormGroup>
-          <Blank/>
-        </Form>
-        <FormGroup controlId="select.bis">
-          {durationUnitText} bis:
+          <Form.Select
+            value={localFilter.duration.anzahl}
+            onChange={handleFilterChange('duration.anzahl')}
+            style={{ width: "100px" }}
+          >
+            {durations}
+          </Form.Select>
+        <Blank/>
+          <Navbar.Text style={{ width: "fit-content", whiteSpace: "nowrap" }}>
+            {durationUnitText} bis:
+          </Navbar.Text>
           <Blank/>
           <FormControl
             as={Zeit}
@@ -200,8 +192,7 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
           <Blank/>
           <Blank/>
           <Blank/>
-        </FormGroup>
-        <FormGroup controlId="check.faults">
+        <Navbar.Text style={{ width: "fit-content", whiteSpace: "nowrap" }}>
           <Tipp title="Nur Faults" content="Selektiere nur Calls mit Fault-Logpunkten">
             <FormCheck
               type="checkbox"
@@ -210,16 +201,13 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
               label={"nur Faults"}
             />
           </Tipp>
+        </Navbar.Text>
           <Blank/>
           <Blank/>
           <Blank/>
-        </FormGroup>
-      </Form>
-      <Form inline onSubmit={e => e.preventDefault()}>
-        <FormGroup controlId="select.suchtyp">
-          <FormControl as="select" value={localFilter.searchType} onChange={handleFilterChange('searchType')}>
+          <Form.Select value={localFilter.searchType} onChange={handleFilterChange('searchType')}>
             {searchTypes}
-          </FormControl>
+          </Form.Select>
           <div style={{width: `${width > 1600 ? '500' : '260'}px`}}>
             <AutosuggestBox
               provider={LRUs[localFilter.searchType]}
@@ -227,7 +215,6 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
               value={localFilter.searchValue}
             />
           </div>
-        </FormGroup>
         <ButtonWithTip
           title="Selektiere Log-Punkte"
           description={`Selektiert die Logpunkte entsprechend den Filter-Kriterien. 
@@ -238,7 +225,9 @@ export const HeaderForm = ({setFilter, actualise, ...rest}) => {
           glyph="execute"
           handleClick={propagateLocalFilter}
         />
+        <Navbar.Text style={{ width: "fit-content", whiteSpace: "nowrap" }}>
         <Separator/>
+        </Navbar.Text>
         <Link id="snapshot" to={getRoute(localFilter)} target="_blank"/>
         <ButtonWithTip
           glyph="snapshot"

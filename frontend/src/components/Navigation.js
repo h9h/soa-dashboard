@@ -47,14 +47,14 @@ export const NavigationForm = ({page, user, logout, haveJobsApi}) => {
 
   return (
     <>
-      <Form inline>
+      <Form className='d-flex right'>
         <Target to="dashboard" description="Zurück zum Dashboard" title="Dashboard"/>
         <Target to="queues" description="Zu den Queues" title="Queues"/>
         <Target to="messages" description="Zu den undelivered, rejected, expired Nachrichten" title="Nachrichten"/>
         {haveJobsApi && <Target to="jobs" description="Zu den Jobs (Resend...)" title="Jobs"/>}
         <Target to="statistics" description="Zu der Service-Statistik" title="Statistik"/>
         <Target to="checkalive" description="Zu der Übersicht Checkalive" title="Healthcheck"/>
-        <Dropdown alignRight onClick={(e) => e.stopPropagation()}>
+        <Dropdown className="dropstart" onClick={(e) => e.stopPropagation()}>
           <Dropdown.Toggle variant="light" id="dropdown-basic">
             ...
           </Dropdown.Toggle>

@@ -26,7 +26,7 @@ const NumberPicker = props => {
   const plus = () => handleUpdate(value + 1)
 
   return (
-    <Form inline>
+    <Form  className="d-flex">
       <FormGroup>
         {title && (
           <>

@@ -71,7 +71,7 @@ const UnconnectedRidgelineStatistik = (props) => {
           <Col xs={9}>
             <Row>
               <Submenu xs={9}>
-                <SubForm inline>
+                <SubForm  className="d-flex">
                   <Form.Label>Werte pro Service</Form.Label>
                   <Blank/>
                   <Blank/>

@@ -176,3 +176,11 @@ textarea {
     font-size: 12px;
     background-color: transparent;
 }
+
+.dropdown-menu {
+    min-width: auto !important;
+}
+
+#navbarScrollingDropdown {
+    width: fit-content;
+}

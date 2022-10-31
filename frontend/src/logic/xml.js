@@ -1,4 +1,4 @@
-import { parse as fastparse } from 'fast-xml-parser'
+import { XMLParser } from 'fast-xml-parser'
 
 const PARSE_OPTIONS = {
   attributeNamePrefix: '', // default @
@@ -22,5 +22,6 @@ const PARSE_OPTIONS = {
 }
 
 export const parse = (xml) => {
-  return fastparse(xml, PARSE_OPTIONS)
+  const parser = new XMLParser(PARSE_OPTIONS)
+  return parser.parse(xml)
 }

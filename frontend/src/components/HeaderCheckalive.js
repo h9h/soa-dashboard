@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import Form from 'react-bootstrap/Form'
-import FormControl from 'react-bootstrap/FormControl'
 import FormGroup from 'react-bootstrap/FormGroup'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
@@ -50,14 +49,14 @@ const HeaderCheckalive = props => {
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav"/>
       <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
-          <Form inline>
+        <Nav className="me-auto">
+          <Form  className="d-flex">
             <FormGroup controlId="select.umgebung">
-              <FormControl as="select" value={filter.umgebung}
+              <Form.Select value={filter.umgebung}
                            onChange={handleFilterChange('umgebung')}>
                 {getUmgebungen(getConfigurationValue('umgebungen'))
                   .map(umgebung => <option key={umgebung}>{umgebung}</option>)}
-              </FormControl>
+              </Form.Select>
             </FormGroup>
           </Form>
         </Nav>
