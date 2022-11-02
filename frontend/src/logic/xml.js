@@ -10,6 +10,7 @@ const PARSE_OPTIONS = {
   alwaysCreateTextNode: false,
   parseNodeValue: true,
   parseAttributeValue: true,
+  removeNSPrefix: true,
   trimValues: true,
   cdataTagName: '__cdata', //default is 'false'
   cdataPositionChar: '\\c',
