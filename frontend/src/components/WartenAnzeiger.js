@@ -22,12 +22,12 @@ const WartenAnzeiger = ({nachricht = null, withHeader = false}) => (
     <TopSpace>
       <div className="d-flex justify-content-center">
         {nachricht && (
-          <h2>{nachricht}</h2>
+          <h4>{nachricht}</h4>
         )}
       </div>
       <div className="d-flex justify-content-center">
         <Spinner animation="border" role="status">
-          <span className="sr-only">Bitte warten...</span>
+          <span className="visually-hidden">Bitte warten...</span>
         </Spinner>
       </div>
     </TopSpace>

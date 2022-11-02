@@ -13,12 +13,12 @@ import { Icon } from './components/icons'
 import WartenAnzeiger from './components/WartenAnzeiger'
 import { checkAvailability, checkLogin, checkVersion } from './logic/authorization'
 import { all, identity } from 'ramda'
-import Blank from './components/Blank'
 import { withNotification } from './logic/notification'
 import Logo from './Logo'
 
 import Log from './log'
 import { useLocation, useNavigate } from 'react-router-dom'
+
 const log = Log('pagelogin')
 
 const HelpAuthenticator = ({show}) => {
@@ -76,7 +76,7 @@ const PageLogin = props => {
     return (
       <Centered>
         <h2>Es steht eine neue Version der Applikation zur Verfügung</h2>
-        <br />
+        <br/>
         <h3>Bitte aktualisieren Sie die Seite</h3>
       </Centered>
     )
@@ -143,13 +143,13 @@ const PageLogin = props => {
       </Helmet>
       <Container>
         <Row>
-          <Col xs={{ offset: 4, span: 4 }} ref={logoParent}>
+          <Col xs={{offset: 4, span: 4}} ref={logoParent}>
             <Centered>
               <br/>
               <Centered>
                 <Logo element={logoParent}/>
-                <hr />
-                <h1 style={{ marginTop: '50px', fontWeight: 'bold' }}>ESB Dashboard</h1>
+                <hr/>
+                <h1 style={{marginTop: '50px', fontWeight: 'bold'}}>ESB Dashboard</h1>
               </Centered>
               <br/>
             </Centered>
@@ -161,7 +161,7 @@ const PageLogin = props => {
           </Col>
           <Col xs={4}>
             <Form onSubmit={handleSubmit}>
-              <FormGroup controlId="userId">
+              <FormGroup className="mb-3" controlId="login.userid">
                 <Form.Label>User ID</Form.Label>
                 <Form.Control
                   autoFocus
@@ -172,18 +172,16 @@ const PageLogin = props => {
                   name="username"
                 />
               </FormGroup>
-              <FormGroup controlId="password">
-                <Form.Label>Passwort</Form.Label>
-                <Form.Control
-                  value={password}
-                  onChange={handleChange(setPassword)}
-                  type="password"
-                  autoComplete="off"
-                />
+              <FormGroup className="mb-3" controlId="login.password">
+              <Form.Label>Passwort</Form.Label>
+              <Form.Control
+                value={password}
+                onChange={handleChange(setPassword)}
+                type="password"
+                autoComplete="off"
+              />
               </FormGroup>
-              <Blank/>
               <Button
-                block="true"
                 disabled={!enabled}
                 variant={enabled ? 'primary' : 'outline-secondary'}
                 type="submit"
