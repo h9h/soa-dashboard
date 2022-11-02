@@ -5,15 +5,13 @@ import entries from 'object.entries'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import 'bootstrap/dist/css/bootstrap.min.css'
-//import 'bootstrap/dist/css/bootstrap-grid.css'
-//import 'bootstrap/dist/css/bootstrap-reboot.css'
+import './bs.css'
 import 'react-table-6/react-table.css'
 import 'vis-timeline/dist/vis-timeline-graph2d.min.css'
 import '@atlaskit/reduced-ui-pack/dist/bundle.css'
 import 'react-toastify/dist/ReactToastify.css'
 import 'flatpickr/dist/themes/light.css'
-import 'dc/dist/style/dc.min.css'
+import 'dc/dist/style/dc.css'
 import './index.css'
 
 import App from './App'
@@ -51,8 +49,8 @@ d3.timeFormatDefaultLocale(locale)
 log.trace('Starting app', d3.timeFormat("%c")(new Date()))
 
 // Konfiguriere deutsche Zeit/Datumsformate für moment
-moment.locale('de', de_locale)
-log.trace('Starting app', moment().format('dddd, DD.MM.YYYY'))
+moment.updateLocale('de', de_locale)
+log.info('Starting app', moment().format('dddd, DD.MM.YYYY'))
 
 if (!Object.entries) {
   log.warn('shimming "Object.entries"')
