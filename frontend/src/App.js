@@ -15,7 +15,7 @@
 
  */
 import React, { Suspense, lazy } from 'react'
-import { HashRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
