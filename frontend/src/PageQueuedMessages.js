@@ -1,19 +1,21 @@
 import React from 'react'
 import Container from 'react-bootstrap/Container'
-import queryString from 'query-string'
 import BodyArea from './components/BodyArea'
 import Log from './log'
 import QueuedMessages from './components/QueuedMessages'
 import { Helmet } from 'react-helmet'
 import HeaderQueueMessages from './components/HeaderQueueMessages'
+import { useParams, useSearchParams } from 'react-router-dom'
 
 const log = Log('pagequeuedmessages')
 
 const PageQueuedMessages = (props) => {
-  const {match: {params: {umgebung, database, queuetable}}} = props
-  const queryParams = queryString.parse(props.location.search)
+  const {umgebung, database, queuetable} = useParams()
+  const [searchParams] = useSearchParams()
+
+  const queryParams = Object.fromEntries([...searchParams])
   const queue = queryParams && queryParams.queue ? queryParams.queue : null
-  log.trace('Mount PageQueuedMessages', { umgebung, database, queuetable, queue, queryParams })
+  log.info('Mount PageQueuedMessages', { umgebung, database, queuetable, queue, queryParams })
 
   return (
     <>

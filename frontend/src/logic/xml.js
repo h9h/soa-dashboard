@@ -7,6 +7,7 @@ const PARSE_OPTIONS = {
   ignoreAttributes: false,
   ignoreNameSpace: true, // macht die Anzeige Menschen-freundlicher!
   allowBooleanAttributes: false,
+  alwaysCreateTextNode: false,
   parseNodeValue: true,
   parseAttributeValue: true,
   trimValues: true,

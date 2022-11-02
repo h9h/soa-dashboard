@@ -12,11 +12,12 @@ import { Centered } from './components/styles'
 import moment from 'moment'
 import Log from './log'
 import { LOG_SEARCH_TYPES } from './logic/store'
+import { useParams } from 'react-router-dom'
 
 const log = Log('pageservicecall')
 
 const PageServicecall = props => {
-  const {match: {params: {umgebung, datum, von, bis, messageId}}} = props
+  const {umgebung, datum, von, bis, messageId} = useParams()
   log.trace('mount PageServicecall', umgebung, datum, von, bis, messageId)
 
   const [logs, setLogs] = useState({status: 'loading'})

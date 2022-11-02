@@ -6,6 +6,7 @@ import Log from './log'
 import { Helmet } from 'react-helmet'
 import HeaderStandalone from './components/HeaderStandalone'
 import CheckaliveRuns, { UnconnectedCheckaliveRuns } from './components/checkalive/CheckaliveRuns'
+import { useParams } from 'react-router-dom'
 
 const log = Log('pagecheckalive')
 
@@ -15,17 +16,13 @@ const PageCheckalive = (props) => {
   let header
   let body
 
-  if (props && props.match && props.match.params) {
-    const {match: {params: {umgebung}}} = props
-    if (umgebung) {
-      log.trace('...mit Parametern', umgebung)
-      const title = <div>Checkalive-Runs auf {umgebung}</div>
-      header = <HeaderStandalone title={title}/>
-      body = <UnconnectedCheckaliveRuns umgebung={umgebung} />
-    } else {
-      header = <HeaderCheckalive/>
-      body = <CheckaliveRuns/>
-    }
+  const {umgebung} = useParams()
+
+  if (umgebung) {
+    log.trace('...mit Parametern', umgebung)
+    const title = <div>Checkalive-Runs auf {umgebung}</div>
+    header = <HeaderStandalone title={title}/>
+    body = <UnconnectedCheckaliveRuns umgebung={umgebung} />
   } else {
     header = <HeaderCheckalive/>
     body = <CheckaliveRuns/>

@@ -8,6 +8,7 @@ import HeaderStandalone from './components/HeaderStandalone'
 import moment from 'moment'
 import LogpointTable from './components/LogpointTable'
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 
 const log = Log('pagedashboard2')
 
@@ -31,9 +32,10 @@ const usePropsOrState = (props) => {
 
   let dispatch = useDispatch()
 
-  if (props && props.match && props.match.params && props.match.params.umgebung) {
-    console.log('props.match.params', props.match.params)
-    const {match: {params: {umgebung, datum, von, bis, searchType, searchValue}}} = props
+  const {umgebung, datum, von, bis, searchType, searchValue} = useParams()
+
+  if (umgebung) {
+    console.log(umgebung)
     stateProps.umgebung = umgebung
     stateProps.datum = datum
     stateProps.von = von
