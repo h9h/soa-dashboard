@@ -145,17 +145,19 @@ const HeaderStatistics = props => {
                       onChange={handleFilterChange('flag')}
                     >
                       <ToggleButton
+                        id="daylight"
                         value="daylight"
                         variant="light"
                       >
                         <Tipp
-                          title="Nur Tagsüber"
-                          content="Zeige nur Zeiten zwischen 06:00 und 20:00"
-                        >
+                          title="Nur Tags"
+                          content="Zeige nur Zeiten zwischen 05:00 und 20:00"
+                          >
                           <Icon glyph="daylight"/>
                         </Tipp>
                       </ToggleButton>
                       <ToggleButton
+                        id="night"
                         value="night"
                         variant="light"
                       >

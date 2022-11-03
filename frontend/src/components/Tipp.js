@@ -5,7 +5,7 @@ import Popover from 'react-bootstrap/Popover'
 const Tipp = ({ title, content, children, disabled = false, ...props }) => {
   const popover = (
     <Popover id={`popover-${title}`} title={title}>
-      {content}
+      <Popover.Body>{content}</Popover.Body>
     </Popover>
   )
 
@@ -15,7 +15,11 @@ const Tipp = ({ title, content, children, disabled = false, ...props }) => {
   // are not passed to the custom react element in children
   // see https://github.com/react-bootstrap/react-bootstrap/issues/2208#issuecomment-301737531
   return (
-    <OverlayTrigger trigger={['hover', 'focus']} key={title} placement={props.placement || "bottom"} overlay={popover}>
+    <OverlayTrigger
+      trigger={['hover', 'focus']}
+      key={title}
+      placement={props.placement || "bottom"}
+      overlay={popover}>
       <span  style={{ cursor: 'help' }}>{children}</span>
     </OverlayTrigger>
   )
