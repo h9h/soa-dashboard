@@ -43,7 +43,7 @@ const PageLogin = props => {
   log.trace('PageLogin')
 
   const location = useLocation()
-  const redirectTo = location.state?.from?.pathname
+  const redirectTo = location.state?.from?.pathname || '/'
   const navigate = useNavigate()
 
   const logoParent = useRef(null)
