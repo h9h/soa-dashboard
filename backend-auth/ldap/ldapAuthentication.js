@@ -4,6 +4,9 @@ const flatten = require('ramda').flatten
 
 const parameters = require('../../customisation/authentication.config.js')
 
+/**
+ * resendUsers contains a list of user-ids. Those users can resend messages from the queue
+ */
 let resendUsers
 try {
   resendUsers = require('../../customisation/resend-users.config.js')
@@ -15,7 +18,12 @@ const log = {
   trace: console.log
 }
 
-// Hack, weil LDAP nicht so tut, wie ich will...
+/**
+ * We need to use our own entryParser to interpret the result from th AD
+ * - dn needs to be in specified ldap group
+ *
+ * @returns {{entryParser: entryParser, isAuthorized: (function(*))}}
+ */
 const entryFound = () => {
   let foundDn = null
   let dashBoard = false

@@ -3,8 +3,8 @@ export const logpointToNumber = lp => parseInt(('' + lp).replace(/\u2026/, ''), 
 export const logpointWithMessage = logpoint => {
   const no = logpointToNumber(logpoint)
   return [
-    2, 4, 6, 11, 13, 15, 53, 55, 58,
-    71, 73, 75, 77, 82, 84, 86, 88, 91, 92, // Datapower Logpunkte
+    2, 4, 6, 11, 13, 15, 53, 55, 58, 61, 63,
+    71, 73, 75, 77, 82, 84, 86, 88, 91, 92, 94, 96, 98, // Datapower Logpunkte
     // 42, // ab zur Deadletter Queue --> hat keine neuen Informationen
     // 44, // ab zur Undelivered Queue --> nein, Nachricht in Undelivered Queue
     48 // resend aus Queue --> könnte gepatcht sein
@@ -47,6 +47,7 @@ export const logpointDirection = logpoint => {
   const no = logpointToNumber(logpoint)
   if (no < 10) return LP_DIRECTION.REQUEST
   if (no > 80 && no < 90) return LP_DIRECTION.REQUEST
+  if (no === 96 || no === 98) return LP_DIRECTION.REQUEST
   if (no === 42 || no === 48) return LP_DIRECTION.REQUEST
   return LP_DIRECTION.RESPONSE
 }
