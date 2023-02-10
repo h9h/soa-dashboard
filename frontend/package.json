@@ -23,7 +23,7 @@
     "jsonschema": "^1.4.1",
     "moment": "^2.29.4",
     "object.entries": "^1.1.5",
-    "pino": "^7.11.0",
+    "pino": "^8.10.0",
     "pino-pretty": "^7.6.1",
     "prop-types": "^15.7.2",
     "query-string": "^7.1.1",
