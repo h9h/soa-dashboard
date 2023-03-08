@@ -1,5 +1,55 @@
 export const logpointToNumber = lp => parseInt(('' + lp).replace(/\u2026/, ''), 10)
 
+/*
+Logpunkte
+|Nr|Wer|Beschreibung
+|---|---|---|
+| 1|Service Consumer|Consumer sendet Request an den Bus
+| 2|ESB             |Bus hat Request empfangen
+| 3|ESB             | „Validate“ des Requests (sofern eine private Service Signatur vorliegt)
+| 4|ESB             | „Transform“ zum KDM
+| 5|ESB             | "Validate" der KDM Payload
+| 6|ESB             | „Transform“ zum Provider DM
+| 7|ESB             | „Validate“ (sofern eine private Service Signatur vorliegt)
+| 8|ESB             | Bus sendet den Request an Service Provider "Routing"
+| 9|Service Provider| Provider hat Request empfangen und startet die Verarbeitung "Operate"
+|10|Service Provider|Provider sendet Response an den Bus
+|11|ESB             | Bus hat Response empfangen
+|12|ESB             | „Validate“ (sofern eine private Service Signatur vorliegt)
+|13|ESB             | „Transform“ zum KDM
+|14|ESB             | "Validate" der KDM Payload
+|15|ESB             | „Transform“ zum Consumer DM
+|16|ESB             | „Validate“ (sofern eine private Service Signatur vorliegt)
+|17|ESB             | Bus sendet Response an Service Consumer "Routing"
+|18|Service Consumer|Consumer hat Response empfangen und startet Verarbeitung "Operate"
+|42|ESB             | Nachricht wurde in Deadletter-Queue eingestellt
+|44|ESB             | Nachricht wurde in Undelivered-Queue eingestellt
+|48|ESB             | Resend aus Queue über Dashboard wurde angestoßen
+|52|ESB             | „Validate“ (sofern eine private Service Signatur vorliegt)
+|53|ESB             | „Transform“ zum KDM
+|54|ESB             | "Validate" der KDM Payload
+|55|ESB             | „Transform“ zum Consumer DM
+|56|ESB             | „Validate“ (sofern eine private Service Signatur vorliegt)
+|57|ESB             | Bus sendet Fault an Service Consumer "Routing"
+|58|Service Consumer|Consumer hat Fault empfangen und startet Verarbeitung "Operate"
+|61|SEP             | Response received from Backend
+|63|SEP             | Passing Response to Caller
+|82|SEP             | Request vom Bus ist beim SEP eingegangen
+|84|SEP             | Request wurden an externen Provider abgesendet
+|75|SEP             | Response vom externen Provider ist beim SEP eingegangen
+|77|SEP             | Response wurde an den Bus abgegeben
+|86|SEP             | Request vom externen Consumer ist beim SEP eingegangen
+|88|SEP             | Request wurden an Bus abgesendet
+|71|SEP             | Response vom Bus ist beim SEP eingegangen
+|73|SEP             | Response wurde an den externen Consumer abgegeben
+|96|SEP             | Request vom internen Consumer ist beim SEP eingegangen
+|98|SEP             | Request wurden an Bus abgesendet
+|61|SEP             | Response vom Bus ist beim SEP eingegangen
+|63|SEP             | Response wurde an den internen Consumer abgegeben
+|92|SEP             | Fault bei Aufrufen eines externen Consumers
+|94|SEP             | Fault bei Aufrufen eines internen Consumers
+
+ */
 export const logpointWithMessage = logpoint => {
   const no = logpointToNumber(logpoint)
   return [
@@ -26,15 +76,16 @@ export const isApplication = logpoint => {
 
 export const isFault = logpoint => {
   if (logpoint === 42 || logpoint === 44) return true // Einstellen in Queue
-  if (logpoint > 49 && logpoint < 70) return true
-  if (logpoint > 90) return true // Datapower Faults
+  if (logpoint  >  49 && logpoint  <  60) return true
+  if (logpoint === 92 || logpoint === 94) return true // Datapower Faults
+  if (logpoint === 92 || logpoint === 94) return true // Datapower Faults
   return false
 }
 
 export const logpointType = logpoint => {
   if (isApplication(logpoint)) return LP_TYPES.APPLICATION
   if (isFault(logpoint)) return LP_TYPES.FAULT
-  if (logpoint > 70) return LP_TYPES.SEP // Datapower
+  if (logpoint > 70 || logpoint === 61 || logpoint === 63) return LP_TYPES.SEP // Datapower
   return LP_TYPES.BUS
 }
 
