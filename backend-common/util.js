@@ -10,7 +10,9 @@ const version = require('../frontend/package.json').version
 const createApp = (router) => {
   const app = new Koa()
 
-  app.use(bodyParser())
+  app.use(bodyParser(
+    { jsonLimit: '32mb' }
+  ))
   app.use(cors())
 
   app.on('error', (err, ctx) => {
@@ -64,8 +66,7 @@ const startServer = (config, router, helptext) => {
 
   const app = createApp(router)
   http.createServer(app.callback()).listen(PORT)
-  https.createServer(app.callback()).listen(PORT + 1)
-
+  
   console.log(helptext(PORT))
 }
 
