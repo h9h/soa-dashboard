@@ -22,16 +22,14 @@ export const getClientUrl = () => {
 }
 
 const getLocalURL = (auth) => {
-  const PORT = auth ? process.env.REACT_APP_AUTHENTICATION_PORT : process.env.REACT_APP_FILE_PORT
   if (!auth || process.env.REACT_APP_USE_LOCAL_AUTHENTICATION === 'true') {
+    const PORT = auth ? process.env.REACT_APP_AUTHENTICATION_PORT : process.env.REACT_APP_FILE_PORT
     return `http://localhost:${PORT}`
   } else {
     log.trace('window.location.protocol', window.location.protocol)
-    if (window.location.protocol === 'https:') {
-      return `${window.location.protocol}//${window.location.hostname}:${parseInt(PORT, 10) + 1}`
-    } else {
-      return `${window.location.protocol}//${window.location.hostname}:${PORT}`
-    }
+    const url = `${window.location.protocol}//${window.location.hostname}/api`
+    log.trace('Local URL', url)
+    return url
   }
 }
 
