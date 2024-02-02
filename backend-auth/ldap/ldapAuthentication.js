@@ -31,6 +31,7 @@ const entryFound = () => {
   return {
     entryParser: (entry, raw, cb) => {
       if (entry.dn) foundDn = entry.dn
+      // log.trace('groupMembership', entry.groupMembership)
       dashBoard = (parameters.GROUP && entry.groupMembership && entry.groupMembership.indexOf(parameters.GROUP) > -1) || !parameters.GROUP
       cb(entry)
     },

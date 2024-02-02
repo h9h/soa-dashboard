@@ -202,6 +202,7 @@ export async function getData (api, url, cb, annotations, info) {
   const now = new Date()
   const logLabel = 'fetch: "' + url + '"'
   log.time(logLabel)
+  log.file({ url, api })
   const MOCK = getConfigurationValue('mock.doMock') === 'true'
 
   let records

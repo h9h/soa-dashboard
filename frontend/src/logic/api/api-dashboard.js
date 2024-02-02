@@ -138,6 +138,7 @@ export const resendMessage = async (umgebung, mep, operation, { queuename, topic
 
   const { success, result } = await postDataXml(url, message)
   if (!result.JMSMessageID) {
+    log.warn("Enqueueing failed", result)
     return { success: false, result, fehlermeldung: 'Keine JMSMessageID erhalten --> Enqueueing fehlgeschlagen'}
   }
   return { success, result }
