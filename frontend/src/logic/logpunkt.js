@@ -22,6 +22,10 @@ Logpunkte
 |16|ESB             | „Validate“ (sofern eine private Service Signatur vorliegt)
 |17|ESB             | Bus sendet Response an Service Consumer "Routing"
 |18|Service Consumer|Consumer hat Response empfangen und startet Verarbeitung "Operate"
+|21|SEP intern      | Response wurde vom Bus entgegengenommen 
+|23|SEP intern      | Response wurde an Consumer übergeben
+|26|SEP intern      | Request wurde vom Consumer entgegengenommen
+|28|SEP intern      | Request wurde an Bus übergeben
 |42|ESB             | Nachricht wurde in Deadletter-Queue eingestellt
 |44|ESB             | Nachricht wurde in Undelivered-Queue eingestellt
 |48|ESB             | Resend aus Queue über Dashboard wurde angestoßen
@@ -46,15 +50,17 @@ Logpunkte
 |98|SEP             | Request wurden an Bus abgesendet
 |61|SEP             | Response vom Bus ist beim SEP eingegangen
 |63|SEP             | Response wurde an den internen Consumer abgegeben
-|92|SEP             | Fault bei Aufrufen eines externen Consumers
-|94|SEP             | Fault bei Aufrufen eines internen Consumers
+|91|SEP             | Fault: Int Consumer -> SEP -> ext Provider
+|92|SEP             | Fault: Ext Consumer -> SEP -> int Provider
+|93|SEP intern      | Fault bei Aufrufen eines internen Consumers
+|94|SEP intern      | Fault: Int Consumer -> SEP int -> Bus
 
  */
 export const logpointWithMessage = logpoint => {
   const no = logpointToNumber(logpoint)
   return [
     2, 4, 6, 11, 13, 15, 53, 55, 58, 61, 63,
-    71, 73, 75, 77, 82, 84, 86, 88, 91, 92, 94, 96, 98, // Datapower Logpunkte
+    71, 73, 75, 77, 82, 84, 86, 88, 91, 92, 93, 94, 96, 98, // Datapower Logpunkte
     // 42, // ab zur Deadletter Queue --> hat keine neuen Informationen
     // 44, // ab zur Undelivered Queue --> nein, Nachricht in Undelivered Queue
     48 // resend aus Queue --> könnte gepatcht sein

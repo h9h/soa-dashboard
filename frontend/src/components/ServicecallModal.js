@@ -19,6 +19,8 @@ const ServicecallModal = (props) => {
   const route = getMessageRoute(umgebung, datum, von, bis, messageId)
   log.trace('Route', route)
 
+  log.trace('Row', row.row)
+  
   const title = (
     <>
       Logpoints für {row.row.ServiceOperation[1]} / {row.row.MESSAGEID}

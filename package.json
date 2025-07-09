@@ -32,7 +32,9 @@
     "pkg:all": "npm run pkg:server:dashboard && npm run pkg:server:file",
     "build:all": "npm run backup:config && npm run pkg:all && npm run ncc:build",
     "postbuild:all": "cpy ./dist/auth/index.js ./frontend/build --rename=auth.js",
-    "release-it": "cd frontend && npm run release-it && git push --follow-tags"
+    "release-it": "cd frontend && npm run release-it && git push --follow-tags",
+    "build-auth": " npx ncc build server.js -o dist/auth",
+    "postbuild-auth": "cpy ./dist/auth/index.js ./frontend/build --rename=auth.js --flat"
   },
   "devDependencies": {
     "@vercel/ncc": "^0.34.0",
