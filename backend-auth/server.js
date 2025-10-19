@@ -13,11 +13,11 @@ setupRoutes(router, version)
 
 if (haveFrontend) {
   router.get('/', async ctx => {
-    await Send(ctx, path.join('../frontend/build', 'index.html'), {root: __dirname})
+    await Send(ctx, path.join(__dirname, '../frontend/build', 'index.html'))
   })
 
   router.get('*', async ctx => {
-    await Send(ctx, path.join('../frontend/build', ctx.path), {root: __dirname})
+    await Send(ctx, path.join(__dirname, '../frontend/build', ctx.path))
   })
 }
 
