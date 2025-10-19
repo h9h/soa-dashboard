@@ -6,19 +6,19 @@
 
 ## Überblick
 
-Das Projekt besteht aus zwei Teilen:
+Das Projekt besteht aus drei Teilen:
 
-- einem React Frontend
-- einem kleinem Server Backend für die Authentifizierung
-- und optional einem kleinen Server Backend für Housekeeping-Jobs in der SOA (z.B. Resend von Nachrichten)
+- einem React Frontend (`./frontend`)
+- einem kleinen Server Backend für die Authentifizierung (`./backend-auth`)
+- und optional einem kleinen Server Backend für Housekeeping-Jobs in der SOA (`./backend-jobs`)
 
-Das Frontend liegt im Verzeichnis <code>./frontend</code>. Hierbei handelt es sich um ein
+Das Frontend liegt im Verzeichnis `./frontend`. Hierbei handelt es sich um ein
 gewöhnliches [CRA-Projekt](https://github.com/facebook/create-react-app), welches eine Single Page App realisiert.
 
 Die Backends sind [KOA-Server](https://koajs.com/):
 
-- <code>./server.js</code> bietet eine REST-Schnittstelle zur LDAP-Authentifizierung
-- <code>./backend-jobs/server.js</code> liefert eine API für's Housekeeping
+- `./backend-auth/server.js` bietet eine REST-Schnittstelle zur LDAP-Authentifizierung
+- `./backend-jobs/server.js` liefert eine API für's Housekeeping
 
 Working Demo: [hier](https://h9h.github.io) User = Password = testuser
 
@@ -46,119 +46,140 @@ SOA über eine REST-Schnittstelle angebunden werden (siehe blauen Kasten). Die A
 
 ### Installation und Customising
 
-1: Hole Sourcen:
+#### 1. Repository klonen
 
-```
+```bash
 git clone https://github.com/h9h/soa-dashboard.git
+cd soa-dashboard
 ```
 
-2: Lege Customising-Dateien in den Ordnern
+#### 2. Abhängigkeiten installieren
 
-```
-./customisation
-```
-
-und
-
-```
-./frontend/src/customisation
+```bash
+npm install
+cd frontend && npm install && cd ..
 ```
 
-entsprechend der dort liegenden README.md an:
+#### 3. Konfiguration einrichten
 
-- [Backend Customisation Readme](./customisation/README.md)
-- [Frontend Customisation Readme](./frontend/src/customisation/README.md)
+Führe das Setup-Script aus, um Beispiel-Konfigurationsdateien zu kopieren:
 
-3: Lege im Ordner
-
-```
-./frontend
+```bash
+npm run setup
 ```
 
-eine ```.env``` gemäß dem Beispiel ```.env.example``` an.
+Dies erstellt Konfigurationsdateien im Ordner `./customisation` basierend auf den Beispielen in `./config`.
 
-4: ```yarn install``` einmal auf Ebene des Projektes und einmal im Ordner ```frontend```.
+Bearbeite die Dateien in `./customisation`:
+- `authentication.config.js` - LDAP/AD-Einstellungen
+- `jobs.config.js` - Job-Verzeichnisse und Port
+- `authenticationImplementation.js` - Authentifizierungsstrategie
+- `resend-users.config.js` - Benutzer mit Resend-Rechten (optional)
+
+#### 4. Frontend-Konfiguration
+
+Lege im Ordner `./frontend` eine `.env` gemäß dem Beispiel `.env.example` an.
+
+```bash
+cp frontend/.env.example frontend/.env
+```
+
+Bearbeite `frontend/.env` mit deinen Einstellungen.
+
+#### 5. Entwicklungsserver starten
+
+```bash
+npm start
+```
+
+Dies startet:
+- Frontend: http://localhost:3000
+- Auth-Backend: http://localhost:4166
+- Jobs-Backend: http://localhost:4000
 
 ### Skripte
 
-In der <code>./package.json</code> sind verschiedene Skripte definiert:
+In der `./package.json` sind verschiedene Skripte definiert:
+
+#### Setup und Konfiguration
+
+```bash
+npm run setup           # Erstelle Beispiel-Konfigurationsdateien
+npm run backup:config   # Sichere aktuelle Konfiguration
+npm run lint            # Prüfe Code-Qualität (Backend)
+npm run lint:fix        # Fixe Code-Qualität automatisch
+```
 
 #### Für die Entwicklung
 
+```bash
+npm start               # Starte alles (Frontend + beide Backends)
+npm run start:frontend  # Nur Frontend
+npm run start:auth      # Nur Auth-Backend
+npm run start:file      # Nur Jobs-Backend
 ```
-yarn start
 
-```
-
-startet sowohl einen Hot-Loading Server für das Frontend, welches dann unter <code><http://localhost:3000></code>
-verfügbar ist. Des Weiteren werden die Backends für Authentication und Housekeeping gestartet. Diese laufen
-standardmäßig unter Port 4166 bzw. 4000.
-
-Alternativ können die drei Komponenten einzeln gestartet werden - dies ist sinnvoll, wenn man in der Entwicklung
-ein Backend durchstarten möchte, ohne immer das Frontend mit zu starten:
-
-```
-yarn ncc:server:auth
-yarn ncc:server:file
-yarn start:frontend
-```
+Startet sowohl einen Hot-Loading Server für das Frontend unter `http://localhost:3000`,
+als auch die Backends für Authentication und Housekeeping (standardmäßig Ports 4166 bzw. 4000).
 
 #### Für das Erzeugen der Artefakte mit Node-Backend
 
-```
-yarn build
+```bash
+npm run build           # Baut nur das Frontend
+npm run ncc:build       # Bundelt beide Backends als JS
+npm run build-auth      # Bundelt nur Auth-Backend
 ```
 
-baut die Frontend-SPA unter <code>./frontend/build</code>. Ein Aufruf der <code>index.html</code> aus dem
+`npm run build` baut die Frontend-SPA unter `./frontend/build`. Ein Aufruf der `index.html` aus dem
 Build-Verzeichnis im Browser ergibt folgenden Zustand nach erfolgreichem Bau:
+
 ![Login ohne Authentifizierungsbackend](./images/Login-Screen.png)
 
 Auf der linken Seite ist ein Stop-Symbol und individueller Text zu sehen. Dies zeigt an, dass das Authentifizierungs-
-Backend nicht ereichbar ist.
+Backend nicht erreichbar ist.
 
-```
-yarn ncc:build
-```
-
-erzeugt unter <code>./dist</code> zwei Verzeichnisse - "auth" und "file" - die jeweils eine <code>index.js</code>
+`npm run ncc:build` erzeugt unter `./dist` zwei Verzeichnisse - "auth" und "jobs" - die jeweils eine `index.js`
 enthalten. Dieses sind fertig gebundelte JavaScript-Sourcen für die Backends.
 
-Das Authentifizierungsbackend kann dann mittels ```node ./dist/auth``` gestartet werden. Danach verschwindet das
+Das Authentifizierungsbackend kann dann mittels `node ./dist/auth` gestartet werden. Danach verschwindet das
 Stop-Symbol:
+
 ![Login mit Authentifizierungsbackend](./images/Login-mit-Auth-Screen.png)
   
 #### Für das Erzeugen der Artefakte mit Binary-Backend
 
-Das Frontend wird wieder mit ```yarn build``` gebaut. Die Backends werden mittels
-
+```bash
+npm run pkg:server:dashboard   # Erstellt esb-dashboard.exe
+npm run pkg:server:file         # Erstellt esb-jobs.exe
+npm run pkg:all                 # Erstellt beide EXEs
+npm run build:all               # Kompletter Build (Frontend + Backends als JS und EXE)
 ```
-yarn pkg:server:dashboard
-yarn pkg:server:file
-```
 
+Das Frontend wird mit `npm run build` gebaut. Die Backends werden mittels `npm run pkg:all`
 als Windows-EXEs bereit gestellt.
 
-Ein potentieller Betriebsmodus wäre dann, lokal <code> esb-dashboard.exe</code> zu starten, da diese sowohl das
+Ein potentieller Betriebsmodus wäre dann, lokal `esb-dashboard.exe` zu starten, da diese sowohl das
 Frontend, als auch das Authentifizierungs-Backend bereit stellt. Das Dashboard steht dann unter
-<code>http:/localhost:4166</code> zur Verfügung.
+`http://localhost:4166` zur Verfügung.
 
 #### Alles zusammen
 
 Mittels
 
-```
-yarn build:all
+```bash
+npm run build:all
 ```
 
 werden
 
 1. das Frontend gebundelt
-1. die esb-dashboard.exe und esb-jobs.exe erzeugt
-1. die Javascripte für Auth- und Jobs-Backend gebundelt
-1. und das gebundelte Auth-Javascript mit in das frontend/build-Verzeichnis kopiert.
+2. die esb-dashboard.exe und esb-jobs.exe erzeugt
+3. die Javascripte für Auth- und Jobs-Backend gebundelt
+4. und das gebundelte Auth-Javascript mit in das frontend/build-Verzeichnis kopiert.
 
-Damit reicht es dann, das frontend/build Verzeichnis an den gewünschten Ort auf dem Server zu deployen und den Start
-von ```node ./auth.js``` in den Start des Servers einzubinden.
+Damit reicht es dann, das `frontend/build` Verzeichnis an den gewünschten Ort auf dem Server zu deployen und den Start
+von `node ./auth.js` in den Start des Servers einzubinden.
+
 Für den Stopp des Authentifizierungs-Backends reicht ein kill auf den Prozess. Es wird kein Zustand gehalten.
 
 ### Hinweise
