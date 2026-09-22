@@ -46,17 +46,3 @@ module.exports = {
 
 or create your own by implementing getDN and checkLogin. The export of config 
 is just for showing in console, could be empty object.
-
-### Jobs Customisation
-
-1: File: **jobs.config.js**
-
-```
-const parameters = {
-  JOB_PATH: "C:/Dashboard",
-  MODEL_PATH: "C:/DashboardModel",
-  LOCAL_SERVER_PORT: "4000",
-}
-
-module.exports = parameters
-```

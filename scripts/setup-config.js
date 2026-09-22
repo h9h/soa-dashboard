@@ -14,7 +14,6 @@ const CUSTOM_DIR = path.join(__dirname, '../customisation')
 
 const configFiles = [
   'authentication.config.js',
-  'jobs.config.js',
   'resend-users.config.js',
   'authenticationImplementation.js'
 ]

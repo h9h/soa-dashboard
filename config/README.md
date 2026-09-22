@@ -13,9 +13,6 @@ This directory contains example configuration files for the SOA Dashboard.
 ### authentication.config.js
 LDAP/Active Directory connection settings and server port for the authentication backend.
 
-### jobs.config.js  
-File paths and server port for the jobs/housekeeping backend.
-
 ### resend-users.config.js
 List of users authorized to resend messages (optional - defaults to all authenticated users).
 
