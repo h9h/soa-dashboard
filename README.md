@@ -150,7 +150,13 @@ Das Authentifizierungsbackend kann dann mittels `node ./dist/auth` gestartet wer
 Stop-Symbol:
 
 ![Login mit Authentifizierungsbackend](./images/Login-mit-Auth-Screen.png)
-  
+
+⚠ Das Stop-Symbol verschwindet nur dann, wenn der Build mit `REACT_APP_USE_LOCAL_AUTHENTICATION=true` erzeugt wurde.
+Ein Deployment-Build (Flag nicht gesetzt) ruft die Authentifizierung unter `<protocol>//<hostname>/api` auf — beim
+Öffnen der `index.html` von der Platte also unter `file:///api`. Siehe
+[Lokales Testen des Builds](#lokales-testen-des-builds).
+
+
 #### Alles zusammen
 
 Mittels
@@ -170,3 +176,50 @@ Damit reicht es dann, das `frontend/build` Verzeichnis an den gewünschten Ort a
 von `node ./auth.js` in den Start des Servers einzubinden.
 
 Für den Stopp des Authentifizierungs-Backends reicht ein kill auf den Prozess. Es wird kein Zustand gehalten.
+
+#### Lokales Testen des Builds
+
+Die SPA legt die URL des Auth-Backends zur **Bauzeit** fest
+(`frontend/src/logic/api/rest-api-local.js`):
+
+| `REACT_APP_USE_LOCAL_AUTHENTICATION` | URL der Authentifizierung |
+|---|---|
+| `true` | `http://localhost:4166` (bzw. `REACT_APP_AUTHENTICATION_PORT`) |
+| nicht gesetzt (Deployment) | `<protocol>//<hostname>/api` — **ohne Portangabe** |
+
+Das Jobs-Backend wird in beiden Fällen direkt unter `http://localhost:4000` angesprochen.
+
+Ein Deployment-Build lässt sich deshalb nicht durch einfaches Öffnen der `index.html` testen: der Login ginge
+gegen `file:///api`. Für einen realistischen Test gibt es
+
+```bash
+npm run serve:build          # http://localhost + Proxy /api -> localhost:4166
+npm run serve:build 8099     # abweichender Port (Login schlägt dann fehl, s.u.)
+```
+
+`scripts/serve-build.js` liefert `frontend/build` statisch aus und leitet `/api` an das Auth-Backend weiter —
+also genau die Konstellation, die im Deployment der Webserver herstellt. Der Auth-Port wird aus
+`customisation/authentication.config.js` (`LOCAL_SERVER_PORT`) gelesen, optional als zweites Argument
+überschreibbar.
+
+Der komplette lokale Test:
+
+```bash
+npm run build                # oder npm run build:all
+npm run start:auth           # in einer zweiten Konsole (alternativ: node ./dist/auth)
+npm run serve:build          # in einer dritten Konsole, als Administrator
+```
+
+Weil der gebaute Bundle die Authentifizierung ohne Portangabe aufruft, **muss** der Build-Server auf Port 80
+laufen. Unter Windows erfordert das eine Konsole mit Administratorrechten; ist der Port belegt (IIS, http.sys),
+zeigt `netstat -ano | findstr :80` den Verursacher.
+
+Ohne Administratorrechte bleibt der schnelle Weg: einmalig mit gesetztem Flag bauen, dann genügt jeder Port —
+oder sogar die `index.html` von der Platte:
+
+```bash
+cd frontend
+set REACT_APP_USE_LOCAL_AUTHENTICATION=true && npm run build    # PowerShell: $env:REACT_APP_USE_LOCAL_AUTHENTICATION="true"
+```
+
+Ein so gebautes Artefakt zeigt auf `localhost` und darf **nicht** deployt werden.
