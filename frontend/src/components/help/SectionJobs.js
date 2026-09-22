@@ -61,8 +61,12 @@ const page = () => {
           <Header>Wenn Sie die Jobs-Funktionalität verwenden wollen</Header>
           Starten Sie folgende Datei (oder eine lokale Kopie der Datei):
           <p>
-            <em><code>W:\GGR-IGF1-02-SOA\98 SOA Tools\ESB-Dashboard\esb-jobs.exe</code></em>
+            <em><code>W:\GGR-IGF1-02-SOA\98 SOA Tools\ESB-Dashboard\soa-dashboard-jobs.exe</code></em>
           </p>
+          Wenn Sie eine lokale Kopie anlegen, kopieren Sie bitte die Datei
+          <code>jobs.config.json</code> mit — ohne sie startet das Jobs-Backend nicht, da darin
+          die Verzeichnisse <code>JOB_PATH</code> und <code>MODEL_PATH</code> stehen.
+          <br/>
           Nach dem erneuten Aufruf des Dasboards wird die Jobs Funktionalität damit nun angeboten:
           <Paragraph>
             <Abbildung>
