@@ -6,7 +6,7 @@
 const parameters = {
   URL_LDAP: "ldap://ldap.server.name",
   BASE_DN: "O=WHATEVER",
-  SERVER_PORT: "4166",
+  LOCAL_SERVER_PORT: "4166",
   GROUP: "LDAP Group DN, if being in a group is required to get access to dashboard"
 }
 

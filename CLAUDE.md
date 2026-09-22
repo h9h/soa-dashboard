@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ESB/SOA-Dashboard: a React SPA (`./frontend`) that visualizes log points, messages, queues, and statistics pulled from a SOA's REST interfaces, plus two small Koa backends:
 
-- `./server.js` — authentication backend (LDAP/ActiveDirectory), serves the built SPA when run as `esb-dashboard.exe`
+- `./backend-auth/server.js` — authentication backend (LDAP/ActiveDirectory), serves the built SPA when run as `esb-dashboard.exe`
 - `./backend-jobs/server.js` — housekeeping backend: read/write job definitions, logs, and model JSON from local directories
 
 Authentication needs a real Node process because LDAP libraries depend on Node's `net` module, unavailable in the browser. See `README.md` for the full architecture diagram and rationale.
@@ -22,7 +22,9 @@ Backend and frontend customisation files are **not** in the repo (gitignored) an
   `frontend/src/customisation/README.md`
 - `./frontend/.env` based on `frontend/.env.example`
 
-Without these, `require()` calls in `server.js` / `backend-jobs/server.js` / frontend config modules fail at startup/build.
+Without these, `require()` calls in `backend-auth/server.js` / `backend-jobs/server.js` / frontend config modules fail at startup/build.
+
+`npm run setup` (`scripts/setup-config.js`) copies the tracked templates in `config/*.example.js` into `customisation/` as a starting point.
 
 ## Commands
 
@@ -30,13 +32,15 @@ Root `package.json` scripts (run from repo root):
 
 ```
 npm run start              # frontend (CRA hot reload, :3000) + auth backend (:4166) + jobs backend (:4000) in parallel
-npm run start:auth         # auth backend only: node server.js
+npm run setup              # copy config/*.example.js -> customisation/ (first-time setup)
+npm run start:auth         # auth backend only: node backend-auth/server.js
 npm run start:file         # jobs backend only: node backend-jobs/server.js
 npm run start:frontend     # frontend only (cd frontend && npm run start)
 npm run build              # build the frontend SPA -> frontend/build
 npm run ncc:build          # bundle both backends with @vercel/ncc -> dist/auth, dist/jobs
 npm run pkg:all             # package both backends as Windows .exe via `pkg` -> esb-dashboard.exe, esb-jobs.exe
 npm run build:all          # backup config + pkg:all + ncc:build, then copies dist/auth/index.js into frontend/build as auth.js
+npm run lint               # eslint over backend-*/**/*.js and scripts/**/*.js (npm run lint:fix to autofix)
 ```
 
 Frontend (`./frontend`):
@@ -51,7 +55,7 @@ Run a single frontend test: `cd frontend && npm test -- <pattern>` (e.g. a filen
 
 Note: the repo is mid-migration from Yarn to npm (`yarn.lock` removed, `package-lock.json` is now authoritative) — use `npm`, not `yarn`, despite older mentions of `yarn install`/`yarn start` in `README.md`.
 
-There is no backend test suite or lint script configured at the repo root; the frontend's only configured lint is CRA's built-in `eslintConfig: { extends: "react-app" }`, enforced as warnings during `npm run build`/`start`.
+There is no backend test suite. Backend linting is `npm run lint` (eslint, config in `.eslintrc.js`); the frontend's only configured lint is CRA's built-in `eslintConfig: { extends: "react-app" }`, enforced as warnings during `npm run build`/`start`.
 
 ### Windows packaging caveat
 
@@ -64,17 +68,17 @@ Both backends share `backend-common/util.js`:
 - `createApp(router)` — wires up `koa-bodyparser`, `@koa/cors`, request logging, and an `X-Response-Time` header
 - `startServer(config, router, helptext)` — starts the `http` server on `config.LOCAL_SERVER_PORT` (or `argv[2]`) and prints a help banner
 
-**Auth backend** (`server.js` → `backend-auth/authentication.js` → `customisation/authenticationImplementation.js`
-→ `backend-auth/ldap/ldapAuthentication.js`):
+**Auth backend** (`backend-auth/server.js` → `backend-auth/routes.js` → `backend-auth/authentication.js`
+→ `customisation/authenticationImplementation.js` → `backend-auth/ldap/ldapAuthentication.js`):
 - `GET /dn/:user` — resolve a user's DN and whether they're authorized (LDAP group membership) and can resend messages
 - `PUT /authenticate { user, password }` — bind against AD with the resolved DN
 - When invoked as `esb-dashboard.exe` (detected via `process.argv[0]`), also serves the built SPA from `frontend/build` for `/` and `*`
 - `resend-users.config.js` is an allowlist (by uppercased user-id) of who may resend messages; if absent, everyone authenticated can resend
 
-**Jobs backend** (`backend-jobs/server.js` + `backend-jobs/jobs.js`):
+**Jobs backend** (`backend-jobs/server.js` → `backend-jobs/routes.js` + `backend-jobs/jobs.js`):
 - `GET /jobs`, `GET /job/:jobname`, `POST /job/save` — list/read/write `*.job.json` files under `JOB_PATH`
 - `GET /model/:name`, `GET /config/:name` — read model JSON / expose individual config values
-- All file writes are restricted to `JOB_PATH` directly (`checkStaysInDirectory`/`path.dirname` checks) to prevent path traversal outside the configured directory
+- All file writes are restricted to `JOB_PATH` directly (`checkStaysInDirectory`/`path.dirname` checks in `backend-jobs/routes.js`) to prevent path traversal outside the configured directory
 
 ## Frontend architecture
 
@@ -97,6 +101,6 @@ CRA app using Redux (single store, no middleware) + React Router v6 (`HashRouter
 
 ## Working with this repo
 
-- Backend code is plain CommonJS JavaScript (not TypeScript) despite the user's general TS preference — match the existing module style in `server.js`, `backend-auth/`, `backend-jobs/`, `backend-common/` rather than introducing TS tooling into this repo.
+- Backend code is plain CommonJS JavaScript (not TypeScript) despite the user's general TS preference — match the existing module style in `backend-auth/`, `backend-jobs/`, `backend-common/`, `scripts/` rather than introducing TS tooling into this repo.
 - Frontend is plain JS (CRA, not TS) using Redux/class-and-hook React, not htmx — match existing patterns.
 - User-facing strings and comments in this codebase are predominantly German; match that when editing existing UI text/log messages.

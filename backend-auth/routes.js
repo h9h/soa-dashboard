@@ -8,12 +8,12 @@ const checkLogin = require('./authentication').checkLogin
  */
 function setupRoutes(router, version) {
   router.get('/dn/:user', async ctx => {
-    const { dn, isAuthorized, result, canResend } = await getDN(ctx.params.user)
+    const { dn, isAuthorized, results, canResend } = await getDN(ctx.params.user)
 
     ctx.body = {
       dn,
       isAuthorized,
-      result,
+      results,
       canResend
     }
   })

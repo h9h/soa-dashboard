@@ -6,7 +6,7 @@
 const parameters = {
   JOB_PATH: "C:/Dashboard",
   MODEL_PATH: "C:/DashboardModel",
-  SERVER_PORT: "4000",
+  LOCAL_SERVER_PORT: "4000",
 }
 
 module.exports = parameters
