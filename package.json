@@ -2,7 +2,6 @@
   "name": "soa-dashboard",
   "version": "1.0.0",
   "license": "MIT",
-  "bin": "backend-auth/server.js",
   "dependencies": {
     "@koa/cors": "3.4.1",
     "activedirectory2": "2.1.0",
@@ -11,7 +10,6 @@
     "koa": "2.13.4",
     "koa-bodyparser": "4.3.0",
     "koa-router": "12.0.0",
-    "koa-send": "5.0.1",
     "ldapjs": "2.3.3",
     "moment": "2.29.4",
     "ramda": "0.28.0"
@@ -27,10 +25,7 @@
     "ncc:server:auth": "ncc run backend-auth/server.js",
     "ncc:build": "ncc build backend-auth/server.js -o dist/auth",
     "build": "cd frontend && npm run build",
-    "prepkg:server:dashboard": "npm run build",
-    "pkg:server:dashboard": "pkg backend-auth/server.js --target node10-win-x64 --output esb-dashboard.exe --debug > output-dashboard-win-pkg.log",
-    "pkg:all": "npm run pkg:server:dashboard",
-    "build:all": "npm run backup:config && npm run pkg:all && npm run ncc:build",
+    "build:all": "npm run backup:config && npm run build && npm run ncc:build",
     "postbuild:all": "cpy ./dist/auth/index.js ./frontend/build --rename=auth.js",
     "release-it": "cd frontend && npm run release-it && git push --follow-tags",
     "build-auth": "npx ncc build backend-auth/server.js -o dist/auth",
@@ -40,12 +35,6 @@
     "@vercel/ncc": "0.34.0",
     "cpy-cli": "4.2.0",
     "eslint": "^8.57.0",
-    "npm-run-all": "4.1.5",
-    "pkg": "5.8.0"
-  },
-  "pkg": {
-    "assets": [
-      "frontend/build/**/*"
-    ]
+    "npm-run-all": "4.1.5"
   }
 }
