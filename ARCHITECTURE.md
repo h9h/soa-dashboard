@@ -28,8 +28,8 @@ configuration, and job files.
 |---|---|---|
 | R1 | Authenticate against ActiveDirectory/LDAP | Needs a Node process — LDAP libraries depend on Node's `net`, unavailable in the browser |
 | R2 | One build must serve several SOA stages (DEV/TEST/PROD) | Target URL is runtime configuration (`Umgebung`), not build-time |
-| R3 | Deployable as a plain static drop plus one process, or as a single `.exe` | Backends are bundled with `ncc` and packaged with `pkg` |
-| R4 | Job files and model data live on a local/served filesystem | Second backend with filesystem access, strictly path-fenced |
+| R3 | Deployable as a plain static drop plus one process | The auth backend is bundled with `ncc` into a single `auth.js` next to the built SPA |
+| R4 | Job files and model data live on a local/served filesystem | Separate jobs backend with filesystem access, strictly path-fenced — since its Go port it lives in its own repository (`../soa-dashboard-jobs`) |
 | R5 | Must be demoable/developable without a SOA | Global mock mode replaces every REST client with fixtures |
 
 ---
@@ -39,14 +39,10 @@ configuration, and job files.
 ```
 soa-dashboard/
 ├── backend-auth/           # Auth backend (LDAP/ActiveDirectory)
-│   ├── server.js           # Entry point, optional static SPA hosting
+│   ├── server.js           # Entry point
 │   ├── routes.js           # GET /dn/:user, PUT /authenticate, GET /version
 │   ├── authentication.js   # Facade re-exporting the customisation module
 │   └── ldap/               # LDAP implementation
-├── backend-jobs/           # Housekeeping backend (job/model files)
-│   ├── server.js           # Entry point
-│   ├── routes.js           # Job/model/config routes incl. the path guard
-│   └── jobs.js             # Job file utilities
 ├── backend-common/
 │   └── util.js             # createRouter / createApp / startServer
 ├── frontend/               # React SPA (CRA)
@@ -61,6 +57,10 @@ soa-dashboard/
 `config/` holds the tracked examples, `customisation/` the real and deliberately
 unversioned values. `npm run setup` bootstraps the latter from the former — the
 four configuration layers are described in section 7.1.
+
+The **jobs backend is no longer part of this repository**. It was ported from Koa/Node to Go and
+lives in `../soa-dashboard-jobs`; the REST protocol is unchanged, so the SPA talks to it without
+any adaptation. It is treated as an external system throughout this document.
 
 ## 2. C4 Level 1 — System context
 
@@ -99,12 +99,12 @@ C4Container
 
     Container_Boundary(dash, "ESB/SOA-Dashboard") {
         Container(spa, "Dashboard SPA", "React 17, CRA 5, Redux 4, React Router 6 (HashRouter)", "All UI and all business logic. Talks to the SOA directly from the browser")
-        Container(auth, "Auth Backend", "Node.js, Koa 2, activedirectory2/ldapjs", "GET /dn/:user, PUT /authenticate, GET /version, GET /checkalive. When run as esb-dashboard.exe it also serves the built SPA")
-        Container(jobs, "Jobs Backend", "Node.js, Koa 2, fs", "GET /jobs, GET /job/:name, POST /job/save, PUT /log, GET /model/:name, GET /config/:name, GET /checkalive")
-        ContainerDb(files, "Job- und Modellverzeichnis", "Windows filesystem (JOB_PATH, MODEL_PATH)", "*.job.json job definitions, *.log traces, model JSON such as SenderFQN2QueueName.json")
+        Container(auth, "Auth Backend", "Node.js, Koa 2, activedirectory2/ldapjs", "GET /dn/:user, PUT /authenticate, GET /version, GET /checkalive")
         ContainerDb(browserstore, "Browser Storage", "localStorage via store.js (cookie fallback)", "Keys esbd.user (session) and esb-dashboard (UI configuration)")
     }
 
+    System_Ext(jobs, "Jobs Backend", "../soa-dashboard-jobs, Go, :4000")
+    System_Ext(files, "Job- und Modellverzeichnis", "Windows filesystem (JOB_PATH, MODEL_PATH)")
     System_Ext(soa, "SOA / ESB Runtime", "Per-Umgebung REST endpoint")
     System_Ext(ad, "ActiveDirectory / LDAP", "Corporate directory")
 
@@ -124,8 +124,8 @@ C4Container
 | Container | Source | Responsibility | Deliberately *not* responsible for |
 |---|---|---|---|
 | Dashboard SPA | `frontend/` | All domain logic: filtering, aggregation, timeline construction, job orchestration | Authentication against LDAP; filesystem access |
-| Auth Backend | `backend-auth/` | LDAP DN resolution, group-based authorisation, credential bind, version endpoint, optional static hosting of the SPA | Session storage — it is completely stateless, a `kill` is a safe stop |
-| Jobs Backend | `backend-jobs/` | Path-fenced filesystem I/O for jobs, logs, models, and exposing selected config values | Authentication — it has none (see §7.2) |
+| Auth Backend | `backend-auth/` | LDAP DN resolution, group-based authorisation, credential bind, version endpoint | Serving the SPA — that is a web server's job; session storage — it is completely stateless, a `kill` is a safe stop |
+| Jobs Backend | `../soa-dashboard-jobs` (Go) | Path-fenced filesystem I/O for jobs, logs, models, and exposing selected config values | Authentication — it has none (see §7.2) |
 
 ### Why the SPA calls the SOA directly
 
@@ -158,14 +158,14 @@ C4Component
         Component(apiesb, "rest-api-esb", "logic/api/rest-api-esb.js", "Low-level axios wrapper for the SOA: fetchData/getData/postDataXml/del, header+rows to object mapping, evolveData normalisation, toast on error")
         Component(apidash, "api-dashboard", "logic/api/api-dashboard.js", "Builds every SOA URL from Umgebung + filter: LogPoints, Messages, Databases, Queues, Queuetables, CheckAliveRuns, resend, delete")
         Component(apistat, "rest-api-statistics", "logic/api/rest-api-statistics.js", "Slices the statistics query by hours, aggregates into crossfilter dimensions, derives domains and timing buckets")
-        Component(apilocal, "rest-api-local", "logic/api/rest-api-local.js", "Two axios instances: auth backend and jobs backend. Login, version, checkalive, job save (64 KiB chunks), model/config lookup, logToFile")
+        Component(apilocal, "rest-api-local", "logic/api/rest-api-local.js", "Two axios instances: auth backend and jobs backend (../soa-dashboard-jobs). Login, version, checkalive, job save (64 KiB chunks), model/config lookup, logToFile")
         Component(handlers, "Action handlers", "logic/actionHandlers/ + Executor.js", "resendMessages, deleteMessage, nurLog. Executor runs the steps of a job, short-circuits on first failure, collects a per-step result protocol")
         Component(mock, "Mock fixtures", "logic/mock/", "Fixture data returned instead of REST results when mock.doMock === 'true'")
     }
 
     System_Ext(soa, "SOA / ESB Runtime", "")
     System_Ext(authx, "Auth Backend", "")
-    System_Ext(jobsx, "Jobs Backend", "")
+    System_Ext(jobsx, "Jobs Backend", "../soa-dashboard-jobs, Go, :4000")
 
     Rel(app, pages, "renders")
     Rel(app, store, "Provider")
@@ -212,7 +212,7 @@ C4Component
     title Level 3 — Components inside the Auth Backend
 
     Container_Boundary(authc, "Auth Backend (backend-auth/server.js)") {
-        Component(routes, "Route layer", "backend-auth/routes.js, koa-router", "GET /dn/:user, PUT /authenticate, GET /version, GET /checkalive. If argv[0] contains esb-dashboard.exe, also GET / and GET * serving frontend/build")
+        Component(routes, "Route layer", "backend-auth/routes.js, koa-router", "GET /dn/:user, PUT /authenticate, GET /version, GET /checkalive")
         Component(common, "backend-common/util", "Koa app factory", "createRouter (adds /checkalive with uptime, config dump, version), createApp (bodyparser 32 MB, CORS, request log, X-Response-Time), startServer (port from config or argv[2])")
         Component(indirect, "authentication.js", "Indirection module", "Re-exports getDN/checkLogin/config from customisation/authenticationImplementation.js")
         Component(custom, "authenticationImplementation.js", "Customisation hook (gitignored)", "Points at the bundled LDAP implementation, or at an installation-specific one")
@@ -222,7 +222,6 @@ C4Component
     }
 
     System_Ext(ad, "ActiveDirectory / LDAP", "")
-    System_Ext(build, "frontend/build", "Static SPA assets")
 
     Rel(routes, common, "createRouter / createApp / startServer")
     Rel(routes, indirect, "getDN, checkLogin")
@@ -231,7 +230,6 @@ C4Component
     Rel(ldap, cfgauth, "reads")
     Rel(ldap, resend, "reads (optional)")
     Rel(ldap, ad, "LDAP find / bind")
-    Rel(routes, build, "koa-send (exe mode only)")
 
     UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="1")
 ```
@@ -243,34 +241,15 @@ itself and never touches `backend-auth/ldap/`.
 LDAP filter values are escaped per RFC 4515 (`escapeFilterValue`) before being interpolated into
 `CN=…`, so a user-id like `a*` cannot turn the lookup into a wildcard search.
 
-### 4.3 Jobs Backend
+### 4.3 Jobs Backend — external
 
-```mermaid
-C4Component
-    title Level 3 — Components inside the Jobs Backend
-
-    Container_Boundary(jobsc, "Jobs Backend (backend-jobs/server.js)") {
-        Component(jroutes, "Route layer", "backend-jobs/routes.js, koa-router", "PUT /log, GET /jobs, GET /job/:jobname, POST /job/save, GET /model/:name, GET /config/:name, GET /checkalive")
-        Component(jcommon, "backend-common/util", "shared", "Same app factory as the auth backend")
-        Component(guard, "Path guard", "checkStaysInDirectory / getJob", "Rejects any resolved path whose dirname is not exactly JOB_ROOT (resp. the model dir) — blocks ../ traversal and subdirectory writes")
-        Component(jobsmod, "jobs.js", "fs helpers", "listJobs filters *.job.json; getJob reads a single file with the same dirname check")
-        Component(jcfg, "jobs.config.js", "Customisation (gitignored)", "JOB_PATH, MODEL_PATH, LOCAL_SERVER_PORT, plus arbitrary values exposed via GET /config/:name")
-    }
-
-    ContainerDb(fs, "Filesystem", "JOB_PATH / MODEL_PATH", "")
-
-    Rel(jroutes, jcommon, "uses")
-    Rel(jroutes, guard, "validates every write path")
-    Rel(jroutes, jobsmod, "listJobs / getJob")
-    Rel(jroutes, jcfg, "reads config values")
-    Rel(jobsmod, fs, "fs.promises")
-    Rel(jroutes, fs, "appendFile / writeFile")
-
-    UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="1")
-```
-
-`JOB_ROOT` is created on startup if missing (`fs.mkdir`, `EEXIST` tolerated), then the server
-starts.
+The housekeeping backend is no longer built here. It was ported to Go and lives in
+`../soa-dashboard-jobs` (`soa-dashboard-jobs.exe`, port 4000), with the same routes
+(`PUT /log`, `GET /jobs`, `GET /job/:jobname`, `POST /job/save`, `GET /model/:name`,
+`GET /config/:name`, `GET /checkalive`), the same path fencing against `../` traversal, and the
+same `JOB_PATH`/`MODEL_PATH` configuration — now as `jobs.config.json`. Because the protocol is
+unchanged, `rest-api-local.js` needed no adaptation. See that repository's `README.md` for its
+component structure and the rationale for the port.
 
 ---
 
@@ -406,8 +385,8 @@ C4Deployment
         Deployment_Node(nodeauth, "node backend-auth/server.js", "Node.js, :4166") {
             Container(auth, "Auth Backend", "Koa", "")
         }
-        Deployment_Node(nodejobs, "node backend-jobs/server.js", "Node.js, :4000") {
-            Container(jobs, "Jobs Backend", "Koa", "")
+        Deployment_Node(nodejobs, "soa-dashboard-jobs.exe", "Go, :4000") {
+            Container(jobs, "Jobs Backend", "aus ../soa-dashboard-jobs", "")
         }
         Deployment_Node(disk, "Local disk", "C:/Dashboard, C:/DashboardModel") {
             ContainerDb(files, "Job- und Modelldateien", "*.job.json, *.log, *.json", "")
@@ -437,7 +416,7 @@ C4Deployment
             Container(spa, "Dashboard SPA", "static bundle from frontend/build", "")
             ContainerDb(ls, "localStorage", "esbd.user, esb-dashboard", "")
         }
-        Deployment_Node(exejobs, "esb-jobs.exe", "pkg, node10-win-x64, :4000") {
+        Deployment_Node(exejobs, "soa-dashboard-jobs.exe", "Go, :4000") {
             Container(jobs, "Jobs Backend", "", "")
         }
         Deployment_Node(disk, "Local disk", "JOB_PATH / MODEL_PATH") {
@@ -477,47 +456,34 @@ C4Deployment
 The jobs backend is therefore **always** a per-workstation process; the auth backend can be
 central behind a reverse proxy that maps `/api` onto port 4166.
 
-### 6.3 Standalone `esb-dashboard.exe`
-
-`esb-dashboard.exe` packs the SPA (`pkg.assets: frontend/build/**/*`) together with the auth
-backend. It detects its own mode via `process.argv[0].indexOf('esb-dashboard.exe') > -1` and, in
-that case, registers `GET /` and `GET *` to `koa-send` from `frontend/build`. The whole dashboard
-is then reachable at `http://localhost:4166`, no web server required.
-
-### 6.4 Build pipeline
+### 6.3 Build pipeline
 
 ```mermaid
 flowchart LR
     subgraph src[Sources]
         FE[frontend/src]
-        BE["backend-auth/, backend-jobs/, backend-common/"]
-        BJ["backend-jobs/"]
+        BE["backend-auth/, backend-common/"]
         CU["customisation/*, frontend/src/customisation/*, frontend/.env"]
     end
 
     CU -.->|required at require-time| FE
     CU -.-> BE
-    CU -.-> BJ
 
     FE -->|react-scripts build| BUILD[frontend/build]
     BE -->|ncc build| DA[dist/auth/index.js]
-    BJ -->|ncc build| DJ[dist/jobs/index.js]
-    BUILD --> PKGD
-    BE --> PKGD["pkg --target node10-win-x64"]
-    BJ --> PKGJ["pkg --target node10-win-x64"]
-    PKGD --> EXE1[esb-dashboard.exe]
-    PKGJ --> EXE2[esb-jobs.exe]
     DA -->|"cpy --rename=auth.js"| BUILD
 
     BACKUP[scripts/backupConfig.js] -->|zip| ZIP["C:/Temp/soa-dashboard-config-backup-*.zip"]
 
     classDef art fill:#e8f0fe,stroke:#4285f4
-    class BUILD,DA,DJ,EXE1,EXE2,ZIP art
+    class BUILD,DA,ZIP art
 ```
 
-`npm run build:all` = `backup:config` → `pkg:all` → `ncc:build` → `postbuild:all` (copy
+`npm run build:all` = `backup:config` → `build` → `ncc:build` → `postbuild:all` (copy
 `dist/auth/index.js` into `frontend/build` as `auth.js`). Deploying then means copying
-`frontend/build` and adding `node ./auth.js` to the server's startup.
+`frontend/build` and adding `node ./auth.js` to the server's startup. There is no `.exe` artefact
+any more — the SPA is a static drop, the auth backend a single bundled JavaScript file, and the
+jobs backend is built in its own repository.
 
 ---
 
@@ -559,13 +525,13 @@ Consequences worth knowing:
 | Authorisation (resend) | `resend-users.config.js` allowlist produces `canResend` on the session | Absent file means every authenticated user may resend |
 | Session | Plain JSON object in `localStorage`, 12 h TTL checked client-side | No token, no server-side revocation. The `TODO` in `authorization.js` marks JWT as the intended evolution |
 | Route protection | `ProtectedRoute` + `checkValidUser` | Client-side only — the SOA REST endpoints are called directly by the browser and are not gated by the dashboard |
-| Path traversal | `checkStaysInDirectory` / `path.dirname === root` in both the jobs server and `jobs.js` | Solid against `../`, but the jobs backend has **no authentication at all** — it is safe only because it binds a localhost port on the operator's own machine |
+| Path traversal | Path fencing inside the jobs backend (`../soa-dashboard-jobs`) | Solid against `../`, but the jobs backend has **no authentication at all** — it is safe only because it binds a localhost port on the operator's own machine |
 | LDAP injection | `escapeFilterValue` (RFC 4515) on the user-id | Wildcards and parentheses cannot leak into the filter |
-| CORS | `@koa/cors()` with defaults on both backends | Wide open; acceptable for localhost/intranet, worth narrowing if the auth backend is exposed |
+| CORS | `@koa/cors()` with defaults on the auth backend (the jobs backend does the same) | Wide open; acceptable for localhost/intranet, worth narrowing if the auth backend is exposed |
 
 ### 7.3 Error handling and observability
 
-- **Backends:** `app.on('error')` logs to the console; each request logs method, URL and
+- **Auth backend:** `app.on('error')` logs to the console; each request logs method, URL and
   `X-Response-Time`, with `/checkalive` and `/log` filtered out to keep the console readable.
   `GET /checkalive` returns uptime, the full config dump and the version — it is both the liveness
   probe used by the SPA and the diagnostic endpoint.
@@ -593,13 +559,13 @@ Consequences worth knowing:
 | Decision | Rationale | Trade-off accepted |
 |---|---|---|
 | A separate Node process purely for authentication | Every usable LDAP/AD client depends on Node's `net`; a browser cannot bind LDAP, and hand-rolling the protocol was rejected | An extra process to deploy and monitor |
-| Two backends instead of one | Different lifecycles and trust zones: auth is central and stateless, jobs is per-workstation and filesystem-bound | Duplicated bootstrapping — mitigated by `backend-common/util.js` |
+| Two backends instead of one | Different lifecycles and trust zones: auth is central and stateless, jobs is per-workstation and filesystem-bound | Two artefacts to deploy — and since the Go port, two repositories |
+| Jobs backend ported to Go, into its own repository | Seven filesystem routes did not need Node: `go build` produces the Windows binary without the proxy-hostile `pkg-fetch` download, and without Koa/moment/ramda. Only LDAP genuinely requires Node, so only auth stays here | The shared `backend-common/util.js` bootstrapping is duplicated across two languages; the protocol contract is now cross-repository |
 | SPA calls the SOA directly | Stage switching stays a client concern; backends stay trivial | Requires client-to-SOA reachability and CORS; no central audit point for SOA calls |
 | Stateless auth backend | Restart/kill is always safe, no session store to operate | Sessions cannot be revoked server-side |
 | Customisation via gitignored `require`d modules | Deployment-specific data (LDAP URLs, stage URLs, paths) never enters the repository | Fails hard when missing; `scripts/backupConfig.js` exists precisely because this config is unversioned |
 | `HashRouter` rather than `BrowserRouter` | The build must work when opened from `file://` and from static hosting without server-side rewrite rules | `#`-URLs |
 | Global mock switch | Demo and offline development without a SOA (the public demo runs this way) | Mock branches are interleaved with production code paths |
-| `pkg` to Windows `.exe` | Target environment has no managed Node runtime; operators just run a binary | Pinned to `node10-win-x64`; behind a proxy `pkg-fetch` must be primed manually (see `README.md`) |
 | CommonJS JS backends, plain-JS CRA frontend | Consistency with the existing code base | Diverges from the general TypeScript preference — deliberate for this repo |
 
 ---
@@ -608,9 +574,8 @@ Consequences worth knowing:
 
 **Constraints**
 
-- Windows-centric: `JOB_PATH`/`MODEL_PATH` default to `C:/…`, artefacts are `.exe`, the packaging
-  workaround is Windows-specific.
-- The `pkg` target is `node10-win-x64`; backend code must stay within that language level.
+- Windows-centric: `JOB_PATH`/`MODEL_PATH` default to `C:/…` and the jobs backend ships as a
+  Windows binary.
 - CRA 5 / React 17 with a large, version-pinned dependency set (`dc` 4, `react-table` 6 *and* 7,
   `vis-timeline`, Atlaskit, Bootstrap 5). Upgrades are coupled.
 - The repo is mid-migration from Yarn to npm — `package-lock.json` is authoritative,
@@ -651,5 +616,5 @@ Consequences worth knowing:
 | How does a housekeeping job run? | `frontend/src/logic/actionHandlers/` (`Executor.js`, `resendMessages.js`) |
 | How is a user authenticated/authorised? | `backend-auth/ldap/ldapAuthentication.js` |
 | Shared backend bootstrapping | `backend-common/util.js` |
-| Path-traversal fencing | `backend-jobs/routes.js` (`checkStaysInDirectory`), `backend-jobs/jobs.js` |
+| Path-traversal fencing, job/model file I/O | `../soa-dashboard-jobs` (`internal/jobstore`) |
 | What must be configured before anything runs? | `config/README.md` (+ `npm run setup`), `customisation/README.md`, `frontend/src/customisation/README.md`, `frontend/.env.example` |

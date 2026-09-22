@@ -4,12 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project overview
 
-ESB/SOA-Dashboard: a React SPA (`./frontend`) that visualizes log points, messages, queues, and statistics pulled from a SOA's REST interfaces, plus two small Koa backends:
+ESB/SOA-Dashboard: a React SPA (`./frontend`) that visualizes log points, messages, queues, and statistics pulled from a SOA's REST interfaces, plus one small Koa backend:
 
-- `./backend-auth/server.js` — authentication backend (LDAP/ActiveDirectory), serves the built SPA when run as `esb-dashboard.exe`
-- `./backend-jobs/server.js` — housekeeping backend: read/write job definitions, logs, and model JSON from local directories
+- `./backend-auth/server.js` — authentication backend (LDAP/ActiveDirectory)
 
 Authentication needs a real Node process because LDAP libraries depend on Node's `net` module, unavailable in the browser. See `README.md` for the full architecture diagram and rationale.
+
+The housekeeping backend (job definitions, logs, model JSON) was ported to Go and now lives in its own repository, `../soa-dashboard-jobs`. Its REST protocol is unchanged, so the SPA's jobs UI (`PageJobs.js`, the `file` axios instance in `rest-api-local.js`, `REACT_APP_FILE_PORT`) still belongs here and talks to that process on `localhost:4000`. There is no `.exe` build in this repo any more — the dashboard is deployed as a static SPA plus the `ncc`-bundled auth backend.
 
 ## Setup (required before running anything)
 
@@ -17,12 +18,11 @@ Backend and frontend customisation files are **not** in the repo (gitignored) an
 
 - `./customisation/authentication.config.js`, `./customisation/authenticationImplementation.js`, optionally
   `./customisation/resend-users.config.js` — see `customisation/README.md`
-- `./customisation/jobs.config.js` (defines `JOB_PATH`, `MODEL_PATH`, `LOCAL_SERVER_PORT`)
 - `./frontend/src/customisation/configuration.config.js`, `./frontend/src/customisation/logo.png` — see
   `frontend/src/customisation/README.md`
 - `./frontend/.env` based on `frontend/.env.example`
 
-Without these, `require()` calls in `backend-auth/server.js` / `backend-jobs/server.js` / frontend config modules fail at startup/build.
+Without these, `require()` calls in `backend-auth/server.js` / frontend config modules fail at startup/build.
 
 `npm run setup` (`scripts/setup-config.js`) copies the tracked templates in `config/*.example.js` into `customisation/` as a starting point.
 
@@ -31,15 +31,13 @@ Without these, `require()` calls in `backend-auth/server.js` / `backend-jobs/ser
 Root `package.json` scripts (run from repo root):
 
 ```
-npm run start              # frontend (CRA hot reload, :3000) + auth backend (:4166) + jobs backend (:4000) in parallel
+npm run start              # frontend (CRA hot reload, :3000) + auth backend (:4166) in parallel
 npm run setup              # copy config/*.example.js -> customisation/ (first-time setup)
 npm run start:auth         # auth backend only: node backend-auth/server.js
-npm run start:file         # jobs backend only: node backend-jobs/server.js
 npm run start:frontend     # frontend only (cd frontend && npm run start)
 npm run build              # build the frontend SPA -> frontend/build
-npm run ncc:build          # bundle both backends with @vercel/ncc -> dist/auth, dist/jobs
-npm run pkg:all             # package both backends as Windows .exe via `pkg` -> esb-dashboard.exe, esb-jobs.exe
-npm run build:all          # backup config + pkg:all + ncc:build, then copies dist/auth/index.js into frontend/build as auth.js
+npm run ncc:build          # bundle the auth backend with @vercel/ncc -> dist/auth
+npm run build:all          # backup config + build + ncc:build, then copies dist/auth/index.js into frontend/build as auth.js
 npm run lint               # eslint over backend-*/**/*.js and scripts/**/*.js (npm run lint:fix to autofix)
 ```
 
@@ -57,13 +55,11 @@ Note: the repo is mid-migration from Yarn to npm (`yarn.lock` removed, `package-
 
 There is no backend test suite. Backend linting is `npm run lint` (eslint, config in `.eslintrc.js`); the frontend's only configured lint is CRA's built-in `eslintConfig: { extends: "react-app" }`, enforced as warnings during `npm run build`/`start`.
 
-### Windows packaging caveat
-
-`pkg:server:dashboard` / `pkg:server:file` download Node binaries for `pkg`; behind a proxy this fails. Workaround documented in `README.md` under "zeit/pkg": manually download the matching `pkg-fetch` release into `~/.pkg-cache/v3.2` and rename it to `fetched-...`.
+Note: `eslint` is declared in `devDependencies` but is not in `package-lock.json` and not installed in the root `node_modules`, so `npm run lint` falls back to fetching it via `npx` — which hangs behind the corporate proxy. `node --check` is the practical syntax gate until the lockfile can be regenerated with registry access.
 
 ## Backend architecture
 
-Both backends share `backend-common/util.js`:
+The auth backend uses `backend-common/util.js`:
 - `createRouter(config)` — a `koa-router` with a standard `GET /checkalive` route (uptime, config dump, version)
 - `createApp(router)` — wires up `koa-bodyparser`, `@koa/cors`, request logging, and an `X-Response-Time` header
 - `startServer(config, router, helptext)` — starts the `http` server on `config.LOCAL_SERVER_PORT` (or `argv[2]`) and prints a help banner
@@ -72,13 +68,9 @@ Both backends share `backend-common/util.js`:
 → `customisation/authenticationImplementation.js` → `backend-auth/ldap/ldapAuthentication.js`):
 - `GET /dn/:user` — resolve a user's DN and whether they're authorized (LDAP group membership) and can resend messages
 - `PUT /authenticate { user, password }` — bind against AD with the resolved DN
-- When invoked as `esb-dashboard.exe` (detected via `process.argv[0]`), also serves the built SPA from `frontend/build` for `/` and `*`
 - `resend-users.config.js` is an allowlist (by uppercased user-id) of who may resend messages; if absent, everyone authenticated can resend
 
-**Jobs backend** (`backend-jobs/server.js` → `backend-jobs/routes.js` + `backend-jobs/jobs.js`):
-- `GET /jobs`, `GET /job/:jobname`, `POST /job/save` — list/read/write `*.job.json` files under `JOB_PATH`
-- `GET /model/:name`, `GET /config/:name` — read model JSON / expose individual config values
-- All file writes are restricted to `JOB_PATH` directly (`checkStaysInDirectory`/`path.dirname` checks in `backend-jobs/routes.js`) to prevent path traversal outside the configured directory
+**Jobs backend** — not in this repo, see `../soa-dashboard-jobs` (Go). Routes consumed by the SPA: `PUT /log`, `GET /jobs`, `GET /job/:jobname`, `POST /job/save`, `GET /model/:name`, `GET /config/:name`, `GET /checkalive`. Changing `rest-api-local.js`'s `file` instance means changing that repository too.
 
 ## Frontend architecture
 
@@ -89,7 +81,7 @@ CRA app using Redux (single store, no middleware) + React Router v6 (`HashRouter
 - `frontend/src/logic/configuration.js` — runtime-configurable settings (time windows, page sizes, advanced tuning, mock mode) merged from `defaultConfiguration` with whatever is persisted in `localStorage`
   (`esb-dashboard` key); validated against a JSON schema in `configurationDefinition.js`
 - `frontend/src/logic/api/` — REST clients: `rest-api-esb.js` (calls the SOA's own REST log/message APIs),
-  `rest-api-local.js` (calls the two Node backends above: auth, checkalive, file/jobs), `rest-api-statistics.js`,
+  `rest-api-local.js` (calls the auth backend and the external jobs backend: auth, checkalive, file/jobs), `rest-api-statistics.js`,
   `api-dashboard.js`. When `mock.doMock` is `'true'` (see customisation config), calls are replaced by fixtures in
   `frontend/src/logic/mock/`
 - `frontend/src/logic/actionHandlers/` — higher-level operations against the SOA (resend, delete, "nur Log") built
@@ -101,6 +93,6 @@ CRA app using Redux (single store, no middleware) + React Router v6 (`HashRouter
 
 ## Working with this repo
 
-- Backend code is plain CommonJS JavaScript (not TypeScript) despite the user's general TS preference — match the existing module style in `backend-auth/`, `backend-jobs/`, `backend-common/`, `scripts/` rather than introducing TS tooling into this repo.
+- Backend code is plain CommonJS JavaScript (not TypeScript) despite the user's general TS preference — match the existing module style in `backend-auth/`, `backend-common/`, `scripts/` rather than introducing TS tooling into this repo.
 - Frontend is plain JS (CRA, not TS) using Redux/class-and-hook React, not htmx — match existing patterns.
 - User-facing strings and comments in this codebase are predominantly German; match that when editing existing UI text/log messages.

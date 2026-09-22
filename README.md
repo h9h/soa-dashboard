@@ -6,19 +6,20 @@
 
 ## Überblick
 
-Das Projekt besteht aus drei Teilen:
+Das Projekt besteht aus zwei Teilen:
 
 - einem React Frontend (`./frontend`)
 - einem kleinen Server Backend für die Authentifizierung (`./backend-auth`)
-- und optional einem kleinen Server Backend für Housekeeping-Jobs in der SOA (`./backend-jobs`)
 
 Das Frontend liegt im Verzeichnis `./frontend`. Hierbei handelt es sich um ein
 gewöhnliches [CRA-Projekt](https://github.com/facebook/create-react-app), welches eine Single Page App realisiert.
 
-Die Backends sind [KOA-Server](https://koajs.com/):
+Das Backend ist ein [KOA-Server](https://koajs.com/): `./backend-auth/server.js` bietet eine
+REST-Schnittstelle zur LDAP-Authentifizierung.
 
-- `./backend-auth/server.js` bietet eine REST-Schnittstelle zur LDAP-Authentifizierung
-- `./backend-jobs/server.js` liefert eine API für's Housekeeping
+Das optionale Backend für die Housekeeping-Jobs der SOA liegt seit der Go-Portierung im eigenen
+Projekt [`soa-dashboard-jobs`](../soa-dashboard-jobs). Das Protokoll ist unverändert — die
+Oberfläche spricht ohne Anpassung mit dieser Fassung.
 
 Working Demo: [hier](https://h9h.github.io) User = Password = testuser
 
@@ -31,8 +32,8 @@ nicht zur Verfügung.
 Eine Eigenimplementierung kam für mich nicht in Frage. Daher brauchte ich einen Node.js Prozess, der
 die Authentifizierung abhandelt.
 
-Die API für's Housekeeping bietet einen Zugriff auf lokale Verzeichnisse: zum einen für die Definition und Logs der
-Housekeeping.Jobs, zum anderen um darüber für das Housekeeping benötigte Modell-Informationen bereit zu stellen.
+Die API für's Housekeeping — Zugriff auf lokale Verzeichnisse für Jobdefinitionen, Logs und
+Modell-Informationen — braucht kein Node und ist deshalb ausgelagert (siehe oben).
 
 ### High-Level Architektur
 
@@ -76,7 +77,6 @@ Dies erstellt Konfigurationsdateien im Ordner `./customisation` basierend auf de
 
 Bearbeite die Dateien in `./customisation`:
 - `authentication.config.js` - LDAP/AD-Einstellungen
-- `jobs.config.js` - Job-Verzeichnisse und Port
 - `authenticationImplementation.js` - Authentifizierungsstrategie
 - `resend-users.config.js` - Benutzer mit Resend-Rechten (optional)
 
@@ -99,7 +99,9 @@ npm start
 Dies startet:
 - Frontend: http://localhost:3000
 - Auth-Backend: http://localhost:4166
-- Jobs-Backend: http://localhost:4000
+
+Das Jobs-Backend (http://localhost:4000) wird bei Bedarf separat aus
+[`soa-dashboard-jobs`](../soa-dashboard-jobs) gestartet.
 
 ### Skripte
 
@@ -117,21 +119,20 @@ npm run lint:fix        # Fixe Code-Qualität automatisch
 #### Für die Entwicklung
 
 ```bash
-npm start               # Starte alles (Frontend + beide Backends)
+npm start               # Starte Frontend + Auth-Backend
 npm run start:frontend  # Nur Frontend
 npm run start:auth      # Nur Auth-Backend
-npm run start:file      # Nur Jobs-Backend
 ```
 
 Startet sowohl einen Hot-Loading Server für das Frontend unter `http://localhost:3000`,
-als auch die Backends für Authentication und Housekeeping (standardmäßig Ports 4166 bzw. 4000).
+als auch das Authentifizierungs-Backend (standardmäßig Port 4166).
 
-#### Für das Erzeugen der Artefakte mit Node-Backend
+#### Für das Erzeugen der Artefakte
 
 ```bash
 npm run build           # Baut nur das Frontend
-npm run ncc:build       # Bundelt beide Backends als JS
-npm run build-auth      # Bundelt nur Auth-Backend
+npm run ncc:build       # Bundelt das Auth-Backend als JS
+npm run build-auth      # dito, mit anschließendem Kopieren nach frontend/build
 ```
 
 `npm run build` baut die Frontend-SPA unter `./frontend/build`. Ein Aufruf der `index.html` aus dem
@@ -142,30 +143,14 @@ Build-Verzeichnis im Browser ergibt folgenden Zustand nach erfolgreichem Bau:
 Auf der linken Seite ist ein Stop-Symbol und individueller Text zu sehen. Dies zeigt an, dass das Authentifizierungs-
 Backend nicht erreichbar ist.
 
-`npm run ncc:build` erzeugt unter `./dist` zwei Verzeichnisse - "auth" und "jobs" - die jeweils eine `index.js`
-enthalten. Dieses sind fertig gebundelte JavaScript-Sourcen für die Backends.
+`npm run ncc:build` erzeugt unter `./dist/auth` eine `index.js`. Dieses ist die fertig gebundelte
+JavaScript-Source des Auth-Backends.
 
 Das Authentifizierungsbackend kann dann mittels `node ./dist/auth` gestartet werden. Danach verschwindet das
 Stop-Symbol:
 
 ![Login mit Authentifizierungsbackend](./images/Login-mit-Auth-Screen.png)
   
-#### Für das Erzeugen der Artefakte mit Binary-Backend
-
-```bash
-npm run pkg:server:dashboard   # Erstellt esb-dashboard.exe
-npm run pkg:server:file         # Erstellt esb-jobs.exe
-npm run pkg:all                 # Erstellt beide EXEs
-npm run build:all               # Kompletter Build (Frontend + Backends als JS und EXE)
-```
-
-Das Frontend wird mit `npm run build` gebaut. Die Backends werden mittels `npm run pkg:all`
-als Windows-EXEs bereit gestellt.
-
-Ein potentieller Betriebsmodus wäre dann, lokal `esb-dashboard.exe` zu starten, da diese sowohl das
-Frontend, als auch das Authentifizierungs-Backend bereit stellt. Das Dashboard steht dann unter
-`http://localhost:4166` zur Verfügung.
-
 #### Alles zusammen
 
 Mittels
@@ -176,33 +161,12 @@ npm run build:all
 
 werden
 
-1. das Frontend gebundelt
-2. die esb-dashboard.exe und esb-jobs.exe erzeugt
-3. die Javascripte für Auth- und Jobs-Backend gebundelt
+1. die Konfiguration gesichert
+2. das Frontend gebaut
+3. das Javascript für das Auth-Backend gebundelt
 4. und das gebundelte Auth-Javascript mit in das frontend/build-Verzeichnis kopiert.
 
 Damit reicht es dann, das `frontend/build` Verzeichnis an den gewünschten Ort auf dem Server zu deployen und den Start
 von `node ./auth.js` in den Start des Servers einzubinden.
 
 Für den Stopp des Authentifizierungs-Backends reicht ein kill auf den Prozess. Es wird kein Zustand gehalten.
-
-### Hinweise
-
-##### zeit/pkg
-
-Hinter einem Proxy funktioniert das Herunterladen der Binaries für die Packages nicht.
-Dies äußert sich dadurch, dass der Bauschritt `pkg:server:dashboard` abbricht.
-Die Fehlermeldung ist in der Log-Datei output-dashboard-win-pkg.log zu finden.
-Dort ist auch der Name der Datei zu finden, die im folgenden Workaround dann manuell herunterzuladen ist.
-
-Daher dieser Workaround:
-
-(hier für v2.6, ansonsten entsprechende Version jeweils anpassen - siehe `tag` in der Logdatei)
-
-1. gehe zu <https://github.com/vercel/pkg-fetch/releases/>
-1. such die passende Version gemäß der Fehlermeldung in der Logdatei `output-...-pkg.log`
-1. Download die gewünschte Version gemäß Log-Datei
-1. Gehe zum ./pkg-cache Verzeichnis (bei mir: C:\Users\\{userid}\\.pkg-cache\v3.2)
-1. Kopiere das heruntergeladene Bin
-1. Benenne den Anfang der Datei um zu "fetched-..." (z.B. "fetched-v10.24.1-win-x64")
-1. Versuche pkg Skript noch einmal, sollte dann funktionieren

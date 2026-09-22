@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Removed - Jobs-Backend und Exe-Bau
+
+#### backend-jobs ausgelagert
+- `backend-jobs/` entfernt — das Housekeeping-Backend wurde nach Go portiert und liegt jetzt
+  im eigenen Projekt `../soa-dashboard-jobs`
+- Das REST-Protokoll ist unverändert: die Oberfläche (`PageJobs.js`, `rest-api-local.js`,
+  `REACT_APP_FILE_PORT`) spricht ohne Anpassung mit der neuen Fassung auf Port 4000
+- Entfallen: `config/jobs.config.example.js`, die Skripte `start:file` und `ncc:server:file`,
+  der Jobs-Teil von `ncc:build`; `customisation/jobs.config.js` wird nicht mehr von
+  `npm run setup` angelegt
+- `customisation/jobs.config.js` bleibt auf bestehenden Rechnern liegen (gitignored) — das neue
+  Projekt konfiguriert sich über `jobs.config.json`
+
+#### Exe-Bau entfernt
+- Das Dashboard wird nicht mehr als `esb-dashboard.exe` ausgeliefert. Entfallen sind `pkg` samt
+  aller `pkg:*`-Skripte, der `pkg.assets`-Block und der `bin`-Eintrag
+- `backend-auth/server.js` liefert die gebaute SPA nicht mehr aus; die Erkennung über
+  `process.argv[0]` und die Abhängigkeit `koa-send` sind weg. Das Backend ist reines REST auf :4166
+- Deployment unverändert im Rest: `frontend/build` ausliefern und das mit `ncc` gebundelte
+  `auth.js` starten. `build:all` = `backup:config` → `build` → `ncc:build` → Kopieren nach
+  `frontend/build`
+- Der Proxy-Workaround für `pkg-fetch` ist damit gegenstandslos und aus `README.md` entfernt
+
 ### Changed - Code Organization Improvements
 
 #### Backend Structure
