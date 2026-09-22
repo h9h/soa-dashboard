@@ -39,6 +39,8 @@ npm run build              # build the frontend SPA -> frontend/build
 npm run ncc:build          # bundle the auth backend with @vercel/ncc -> dist/auth
 npm run build:all          # backup config + build + ncc:build, then copies dist/auth/index.js into frontend/build as auth.js
 npm run serve:build        # serve frontend/build + proxy /api -> auth backend (local deployment test; :80, or any port in browser-proxy mode)
+npm run build:local        # build the SPA with REACT_APP_USE_LOCAL_AUTHENTICATION=true (auth -> localhost; never deploy this)
+npm run start:local        # build:local (if needed) + auth backend + serve:build on :8099 + open browser
 npm run lint               # eslint over backend-*/**/*.js and scripts/**/*.js (npm run lint:fix to autofix)
 ```
 
@@ -91,8 +93,10 @@ CRA app using Redux (single store, no middleware) + React Router v6 (`HashRouter
   `frontend/build/index.html` from disk (it would call `file:///api`); use `npm run serve:build`
   (`scripts/serve-build.js`, static files + `/api` proxy). Port 80 is usually blocked by an http.sys reservation
   on Windows (admin rights don't help), so the script doubles as an HTTP forward proxy: run it on any port and
-  start the browser with `--proxy-server=127.0.0.1:<port>` against `http://soa-dashboard.local/`. The jobs
-  backend is always `http://localhost:<REACT_APP_FILE_PORT>`
+  start the browser with `--proxy-server=127.0.0.1:<port>` against `http://soa-dashboard.local/`. The practical
+  path is `npm run start:local` (local test build against `localhost`, marked by
+  `frontend/build/LOKALER-TESTBUILD.txt` — that build must not be deployed). The jobs backend is always
+  `http://localhost:<REACT_APP_FILE_PORT>`
 - `frontend/src/logic/actionHandlers/` — higher-level operations against the SOA (resend, delete, "nur Log") built
   on top of `Executor.js`
 - `frontend/src/App.js` — route table; routes under `<ProtectedRoute>` require a valid persisted user

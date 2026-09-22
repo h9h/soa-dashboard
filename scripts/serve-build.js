@@ -24,6 +24,8 @@ const net = require('net')
 const os = require('os')
 const path = require('path')
 
+const { isLocalBuild } = require('./build-local')
+
 const BUILD_DIR = path.join(__dirname, '../frontend/build')
 
 const getConfiguredAuthPort = () => {
@@ -212,6 +214,24 @@ server.on('error', err => {
 
 server.listen(PORT, () => {
   const userDataDir = path.join(os.tmpdir(), 'soa-dashboard-proxy')
+
+  if (isLocalBuild()) {
+    console.log(`
+
+ESB-Dashboard Build-Server (lokaler Testbau)
+--------------------------------------------
+Statische Dateien:  ${BUILD_DIR}
+
+   http://localhost:${PORT}
+
+Dieser Build spricht die Authentifizierung direkt auf http://localhost:${AUTH_PORT} an,
+der Port dieses Servers ist daher beliebig. Das Auth-Backend separat starten
+(npm run start:auth) - oder gleich alles zusammen mit npm run start:local.
+
+Beenden mit Strg-C.
+`)
+    return
+  }
 
   console.log(`
 

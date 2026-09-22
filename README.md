@@ -122,6 +122,8 @@ npm run lint:fix        # Fixe Code-Qualität automatisch
 npm start               # Starte Frontend + Auth-Backend
 npm run start:frontend  # Nur Frontend
 npm run start:auth      # Nur Auth-Backend
+npm run start:local     # Gebaute SPA lokal testen: Testbau + Auth-Backend + Webserver
+npm run serve:build     # Nur den Webserver für frontend/build
 ```
 
 Startet sowohl einen Hot-Loading Server für das Frontend unter `http://localhost:3000`,
@@ -133,6 +135,7 @@ als auch das Authentifizierungs-Backend (standardmäßig Port 4166).
 npm run build           # Baut nur das Frontend
 npm run ncc:build       # Bundelt das Auth-Backend als JS
 npm run build-auth      # dito, mit anschließendem Kopieren nach frontend/build
+npm run build:local     # Testbau: Authentifizierung direkt gegen localhost (nicht deployen!)
 ```
 
 `npm run build` baut die Frontend-SPA unter `./frontend/build`. Ein Aufruf der `index.html` aus dem
@@ -193,12 +196,54 @@ Ein Deployment-Build lässt sich deshalb nicht durch einfaches Öffnen der `inde
 gegen `file:///api`. Auch ein statischer Server auf einem beliebigen Port genügt nicht, denn die URL enthält
 keine Portangabe — die Authentifizierung wird immer auf Port 80 erwartet.
 
-Dafür gibt es `scripts/serve-build.js` (`npm run serve:build`). Das Skript liefert `frontend/build` statisch aus
-und leitet `/api` an das Auth-Backend weiter — also genau die Konstellation, die im Deployment der Webserver
-herstellt. Der Auth-Port wird aus `customisation/authentication.config.js` (`LOCAL_SERVER_PORT`) gelesen und ist
-optional als zweites Argument überschreibbar. Es gibt zwei Betriebsarten:
+##### Empfohlen: lokaler Testbau
 
-##### 1. Direkt auf Port 80
+Der einfachste Weg ist ein Build, der die Authentifizierung direkt auf `localhost` anspricht. Ein Kommando
+genügt:
+
+```bash
+npm run start:local
+```
+
+Das Skript `scripts/start-local.js`
+
+1. baut die SPA mit `REACT_APP_USE_LOCAL_AUTHENTICATION=true` (`scripts/build-local.js`), falls noch kein
+   lokaler Testbau vorliegt,
+2. startet das Auth-Backend,
+3. startet den Webserver auf Port 8099 und
+4. öffnet den Browser.
+
+Die Ausgaben beider Prozesse erscheinen mit den Präfixen `[auth]` und `[web]`; `Strg-C` beendet alles.
+Optionen: abweichender Port als erstes Argument, `--no-build` (vorhandenen Build verwenden), `--no-open`
+(Browser nicht öffnen), z. B. `npm run start:local -- 9000 --no-open`.
+
+Einzeln geht es genauso:
+
+```bash
+npm run build:local          # Build mit REACT_APP_USE_LOCAL_AUTHENTICATION=true
+npm run start:auth           # zweite Konsole
+npm run serve:build 8099     # dritte Konsole
+```
+
+Bei einem lokalen Testbau ist der Port des Webservers beliebig — und auch ein Öffnen der `index.html`
+direkt von der Platte funktioniert, solange das Auth-Backend läuft (`@koa/cors` beantwortet auch den
+`file://`-Ursprung `null`).
+
+`npm run build:local` legt im Build-Verzeichnis die Datei `LOKALER-TESTBUILD.txt` ab. Sie ist die Markierung,
+an der `serve:build` und `start:local` den Testbau erkennen — und die Erinnerung, dass dieses Artefakt auf
+`localhost` zeigt und **nicht deployt** werden darf. Für ein Deployment wieder mit `npm run build` bzw.
+`npm run build:all` bauen.
+
+##### Deployment-Artefakt testen
+
+Soll das **unveränderte** Deployment-Artefakt getestet werden, muss die Authentifizierung unter
+`http://<host>/api` erreichbar sein. Dafür gibt es `scripts/serve-build.js` (`npm run serve:build`): Das Skript
+liefert `frontend/build` statisch aus und leitet `/api` an das Auth-Backend weiter — also genau die
+Konstellation, die im Deployment der Webserver herstellt. Der Auth-Port wird aus
+`customisation/authentication.config.js` (`LOCAL_SERVER_PORT`) gelesen und ist optional als zweites Argument
+überschreibbar. Es gibt zwei Betriebsarten, beide mit Hürden:
+
+###### 1. Direkt auf Port 80
 
 ```bash
 npm run build                # oder npm run build:all
@@ -214,7 +259,7 @@ netstat -ano | findstr :80                          # PID 4 = System/http.sys
 netsh int ipv4 show excludedportrange protocol=tcp  # Port 80 als Ausschlussbereich
 ```
 
-##### 2. Als Browser-Proxy (ohne Administratorrechte)
+###### 2. Als Browser-Proxy (ohne Administratorrechte)
 
 Hier belegt niemand Port 80: der Browser fragt den Build-Server als HTTP-Proxy nach einem frei gewählten
 Hostnamen, und der Server beantwortet die Anfragen für diesen Host aus dem Build bzw. über `/api` aus dem
@@ -226,7 +271,7 @@ npm run serve:build 8099            # dritte Konsole, beliebiger freier Port
 ```
 
 ```bash
-chrome.exe --proxy-server="127.0.0.1:8099" --user-data-dir="%TEMP%\soa-dashboard-proxy" http://soa-dashboard.local/
+"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --proxy-server="127.0.0.1:8099" --user-data-dir="%TEMP%\soa-dashboard-proxy" http://soa-dashboard.local/
 ```
 
 Die passende Kommandozeile gibt das Skript beim Start aus; `msedge.exe` versteht dieselben Schalter. Das eigene
@@ -239,13 +284,5 @@ auf Port 4000 direkt erreicht wird.
 Hinweis: Wird die Proxy-Konfiguration des Browsers per Gruppenrichtlinie erzwungen, ignoriert Chrome
 `--proxy-server`. Dann bleibt ein separates Firefox-Profil mit manueller Proxy-Einstellung.
 
-##### Schneller Weg ohne Deployment-Treue
-
-Einmalig mit gesetztem Flag bauen — dann genügt jeder Port oder sogar die `index.html` von der Platte:
-
-```bash
-cd frontend
-set REACT_APP_USE_LOCAL_AUTHENTICATION=true && npm run build    # PowerShell: $env:REACT_APP_USE_LOCAL_AUTHENTICATION="true"
-```
-
-Ein so gebautes Artefakt zeigt auf `localhost` und darf **nicht** deployt werden.
+Schlägt beides fehl, bleibt der lokale Testbau oben — er deckt alles ab außer der Frage, ob der Webserver im
+Deployment `/api` korrekt weiterleitet.
