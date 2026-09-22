@@ -25,6 +25,7 @@
     "ncc:server:auth": "ncc run backend-auth/server.js",
     "ncc:build": "ncc build backend-auth/server.js -o dist/auth",
     "build": "cd frontend && npm run build",
+    "serve:build": "node scripts/serve-build.js",
     "build:all": "npm run backup:config && npm run build && npm run ncc:build",
     "postbuild:all": "cpy ./dist/auth/index.js ./frontend/build --rename=auth.js",
     "release-it": "cd frontend && npm run release-it && git push --follow-tags",
