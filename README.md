@@ -190,32 +190,58 @@ Die SPA legt die URL des Auth-Backends zur **Bauzeit** fest
 Das Jobs-Backend wird in beiden Fällen direkt unter `http://localhost:4000` angesprochen.
 
 Ein Deployment-Build lässt sich deshalb nicht durch einfaches Öffnen der `index.html` testen: der Login ginge
-gegen `file:///api`. Für einen realistischen Test gibt es
+gegen `file:///api`. Auch ein statischer Server auf einem beliebigen Port genügt nicht, denn die URL enthält
+keine Portangabe — die Authentifizierung wird immer auf Port 80 erwartet.
 
-```bash
-npm run serve:build          # http://localhost + Proxy /api -> localhost:4166
-npm run serve:build 8099     # abweichender Port (Login schlägt dann fehl, s.u.)
-```
+Dafür gibt es `scripts/serve-build.js` (`npm run serve:build`). Das Skript liefert `frontend/build` statisch aus
+und leitet `/api` an das Auth-Backend weiter — also genau die Konstellation, die im Deployment der Webserver
+herstellt. Der Auth-Port wird aus `customisation/authentication.config.js` (`LOCAL_SERVER_PORT`) gelesen und ist
+optional als zweites Argument überschreibbar. Es gibt zwei Betriebsarten:
 
-`scripts/serve-build.js` liefert `frontend/build` statisch aus und leitet `/api` an das Auth-Backend weiter —
-also genau die Konstellation, die im Deployment der Webserver herstellt. Der Auth-Port wird aus
-`customisation/authentication.config.js` (`LOCAL_SERVER_PORT`) gelesen, optional als zweites Argument
-überschreibbar.
-
-Der komplette lokale Test:
+##### 1. Direkt auf Port 80
 
 ```bash
 npm run build                # oder npm run build:all
-npm run start:auth           # in einer zweiten Konsole (alternativ: node ./dist/auth)
-npm run serve:build          # in einer dritten Konsole, als Administrator
+npm run start:auth           # zweite Konsole (alternativ: node ./dist/auth)
+npm run serve:build          # dritte Konsole  ->  http://localhost
 ```
 
-Weil der gebaute Bundle die Authentifizierung ohne Portangabe aufruft, **muss** der Build-Server auf Port 80
-laufen. Unter Windows erfordert das eine Konsole mit Administratorrechten; ist der Port belegt (IIS, http.sys),
-zeigt `netstat -ano | findstr :80` den Verursacher.
+Das setzt einen freien Port 80 voraus. Unter Windows ist der häufig dauerhaft von `http.sys` reserviert; dann
+hilft auch eine Administrator-Konsole nicht:
 
-Ohne Administratorrechte bleibt der schnelle Weg: einmalig mit gesetztem Flag bauen, dann genügt jeder Port —
-oder sogar die `index.html` von der Platte:
+```bash
+netstat -ano | findstr :80                          # PID 4 = System/http.sys
+netsh int ipv4 show excludedportrange protocol=tcp  # Port 80 als Ausschlussbereich
+```
+
+##### 2. Als Browser-Proxy (ohne Administratorrechte)
+
+Hier belegt niemand Port 80: der Browser fragt den Build-Server als HTTP-Proxy nach einem frei gewählten
+Hostnamen, und der Server beantwortet die Anfragen für diesen Host aus dem Build bzw. über `/api` aus dem
+Auth-Backend. Getestet wird dabei das **unveränderte** Deployment-Artefakt.
+
+```bash
+npm run start:auth                  # zweite Konsole
+npm run serve:build 8099            # dritte Konsole, beliebiger freier Port
+```
+
+```bash
+chrome.exe --proxy-server="127.0.0.1:8099" --user-data-dir="%TEMP%\soa-dashboard-proxy" http://soa-dashboard.local/
+```
+
+Die passende Kommandozeile gibt das Skript beim Start aus; `msedge.exe` versteht dieselben Schalter. Das eigene
+`--user-data-dir` sorgt für ein separates Browserprofil, damit die Proxy-Einstellung den normalen Browser nicht
+beeinflusst. Der Hostname ist frei wählbar (`SERVE_HOST`, Default `soa-dashboard.local`) und muss nicht im DNS
+stehen — er wird nie aufgelöst, sondern direkt vom Proxy beantwortet. Anfragen an andere Hosts reicht der Proxy
+unverändert weiter (https per `CONNECT`-Tunnel), `localhost` umgeht der Browser ohnehin, sodass das Jobs-Backend
+auf Port 4000 direkt erreicht wird.
+
+Hinweis: Wird die Proxy-Konfiguration des Browsers per Gruppenrichtlinie erzwungen, ignoriert Chrome
+`--proxy-server`. Dann bleibt ein separates Firefox-Profil mit manueller Proxy-Einstellung.
+
+##### Schneller Weg ohne Deployment-Treue
+
+Einmalig mit gesetztem Flag bauen — dann genügt jeder Port oder sogar die `index.html` von der Platte:
 
 ```bash
 cd frontend
