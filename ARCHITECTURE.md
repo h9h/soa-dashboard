@@ -34,6 +34,34 @@ configuration, and job files.
 
 ---
 
+### Repository layout
+
+```
+soa-dashboard/
+├── backend-auth/           # Auth backend (LDAP/ActiveDirectory)
+│   ├── server.js           # Entry point, optional static SPA hosting
+│   ├── routes.js           # GET /dn/:user, PUT /authenticate, GET /version
+│   ├── authentication.js   # Facade re-exporting the customisation module
+│   └── ldap/               # LDAP implementation
+├── backend-jobs/           # Housekeeping backend (job/model files)
+│   ├── server.js           # Entry point
+│   ├── routes.js           # Job/model/config routes incl. the path guard
+│   └── jobs.js             # Job file utilities
+├── backend-common/
+│   └── util.js             # createRouter / createApp / startServer
+├── frontend/               # React SPA (CRA)
+├── config/                 # Tracked configuration templates (*.example.js)
+├── customisation/          # Real configuration — gitignored, required at startup
+├── scripts/
+│   ├── setup-config.js     # Bootstraps customisation/ from config/*.example.js
+│   └── backupConfig.js     # Zips the unversioned configuration
+└── images/
+```
+
+`config/` holds the tracked examples, `customisation/` the real and deliberately
+unversioned values. `npm run setup` bootstraps the latter from the former — the
+four configuration layers are described in section 7.1.
+
 ## 2. C4 Level 1 — System context
 
 ```mermaid
@@ -96,7 +124,7 @@ C4Container
 | Container | Source | Responsibility | Deliberately *not* responsible for |
 |---|---|---|---|
 | Dashboard SPA | `frontend/` | All domain logic: filtering, aggregation, timeline construction, job orchestration | Authentication against LDAP; filesystem access |
-| Auth Backend | `server.js`, `backend-auth/` | LDAP DN resolution, group-based authorisation, credential bind, version endpoint, optional static hosting of the SPA | Session storage — it is completely stateless, a `kill` is a safe stop |
+| Auth Backend | `backend-auth/` | LDAP DN resolution, group-based authorisation, credential bind, version endpoint, optional static hosting of the SPA | Session storage — it is completely stateless, a `kill` is a safe stop |
 | Jobs Backend | `backend-jobs/` | Path-fenced filesystem I/O for jobs, logs, models, and exposing selected config values | Authentication — it has none (see §7.2) |
 
 ### Why the SPA calls the SOA directly
@@ -183,8 +211,8 @@ Notable structural facts:
 C4Component
     title Level 3 — Components inside the Auth Backend
 
-    Container_Boundary(authc, "Auth Backend (server.js)") {
-        Component(routes, "Route layer", "server.js, koa-router", "GET /dn/:user, PUT /authenticate, GET /version, GET /checkalive. If argv[0] contains esb-dashboard.exe, also GET / and GET * serving frontend/build")
+    Container_Boundary(authc, "Auth Backend (backend-auth/server.js)") {
+        Component(routes, "Route layer", "backend-auth/routes.js, koa-router", "GET /dn/:user, PUT /authenticate, GET /version, GET /checkalive. If argv[0] contains esb-dashboard.exe, also GET / and GET * serving frontend/build")
         Component(common, "backend-common/util", "Koa app factory", "createRouter (adds /checkalive with uptime, config dump, version), createApp (bodyparser 32 MB, CORS, request log, X-Response-Time), startServer (port from config or argv[2])")
         Component(indirect, "authentication.js", "Indirection module", "Re-exports getDN/checkLogin/config from customisation/authenticationImplementation.js")
         Component(custom, "authenticationImplementation.js", "Customisation hook (gitignored)", "Points at the bundled LDAP implementation, or at an installation-specific one")
@@ -222,7 +250,7 @@ C4Component
     title Level 3 — Components inside the Jobs Backend
 
     Container_Boundary(jobsc, "Jobs Backend (backend-jobs/server.js)") {
-        Component(jroutes, "Route layer", "koa-router", "PUT /log, GET /jobs, GET /job/:jobname, POST /job/save, GET /model/:name, GET /config/:name, GET /checkalive")
+        Component(jroutes, "Route layer", "backend-jobs/routes.js, koa-router", "PUT /log, GET /jobs, GET /job/:jobname, POST /job/save, GET /model/:name, GET /config/:name, GET /checkalive")
         Component(jcommon, "backend-common/util", "shared", "Same app factory as the auth backend")
         Component(guard, "Path guard", "checkStaysInDirectory / getJob", "Rejects any resolved path whose dirname is not exactly JOB_ROOT (resp. the model dir) — blocks ../ traversal and subdirectory writes")
         Component(jobsmod, "jobs.js", "fs helpers", "listJobs filters *.job.json; getJob reads a single file with the same dirname check")
@@ -375,7 +403,7 @@ C4Deployment
         Deployment_Node(cra, "CRA dev server", "react-scripts, :3000") {
             Container(spa, "Dashboard SPA", "hot reload", "")
         }
-        Deployment_Node(nodeauth, "node server.js", "Node.js, :4166") {
+        Deployment_Node(nodeauth, "node backend-auth/server.js", "Node.js, :4166") {
             Container(auth, "Auth Backend", "Koa", "")
         }
         Deployment_Node(nodejobs, "node backend-jobs/server.js", "Node.js, :4000") {
@@ -462,7 +490,7 @@ is then reachable at `http://localhost:4166`, no web server required.
 flowchart LR
     subgraph src[Sources]
         FE[frontend/src]
-        BE["server.js, backend-auth/, backend-common/"]
+        BE["backend-auth/, backend-jobs/, backend-common/"]
         BJ["backend-jobs/"]
         CU["customisation/*, frontend/src/customisation/*, frontend/.env"]
     end
@@ -481,7 +509,7 @@ flowchart LR
     PKGJ --> EXE2[esb-jobs.exe]
     DA -->|"cpy --rename=auth.js"| BUILD
 
-    BACKUP[backupConfig.js] -->|zip| ZIP["C:/Temp/soa-dashboard-config-backup-*.zip"]
+    BACKUP[scripts/backupConfig.js] -->|zip| ZIP["C:/Temp/soa-dashboard-config-backup-*.zip"]
 
     classDef art fill:#e8f0fe,stroke:#4285f4
     class BUILD,DA,DJ,EXE1,EXE2,ZIP art
@@ -514,6 +542,9 @@ Consequences worth knowing:
 - Missing customisation files make the servers and the frontend build **fail at startup**, by
   design — there is no silent fallback. `customisation/README.md` and
   `frontend/src/customisation/README.md` are the contracts.
+- The tracked `config/*.example.js` templates are the starting point; `npm run setup`
+  (`scripts/setup-config.js`) copies them into `customisation/`, where they are then filled
+  in per deployment and never committed.
 - Because `REACT_APP_*` is build-time, changing ports or the local-auth flag requires a rebuild;
   changing the list of `Umgebungen`, time windows, or page sizes does not.
 - `defaultConfiguration.version` (currently `6`) is the migration marker for stored
@@ -565,7 +596,7 @@ Consequences worth knowing:
 | Two backends instead of one | Different lifecycles and trust zones: auth is central and stateless, jobs is per-workstation and filesystem-bound | Duplicated bootstrapping — mitigated by `backend-common/util.js` |
 | SPA calls the SOA directly | Stage switching stays a client concern; backends stay trivial | Requires client-to-SOA reachability and CORS; no central audit point for SOA calls |
 | Stateless auth backend | Restart/kill is always safe, no session store to operate | Sessions cannot be revoked server-side |
-| Customisation via gitignored `require`d modules | Deployment-specific data (LDAP URLs, stage URLs, paths) never enters the repository | Fails hard when missing; `backupConfig.js` exists precisely because this config is unversioned |
+| Customisation via gitignored `require`d modules | Deployment-specific data (LDAP URLs, stage URLs, paths) never enters the repository | Fails hard when missing; `scripts/backupConfig.js` exists precisely because this config is unversioned |
 | `HashRouter` rather than `BrowserRouter` | The build must work when opened from `file://` and from static hosting without server-side rewrite rules | `#`-URLs |
 | Global mock switch | Demo and offline development without a SOA (the public demo runs this way) | Mock branches are interleaved with production code paths |
 | `pkg` to Windows `.exe` | Target environment has no managed Node runtime; operators just run a binary | Pinned to `node10-win-x64`; behind a proxy `pkg-fetch` must be primed manually (see `README.md`) |
@@ -620,5 +651,5 @@ Consequences worth knowing:
 | How does a housekeeping job run? | `frontend/src/logic/actionHandlers/` (`Executor.js`, `resendMessages.js`) |
 | How is a user authenticated/authorised? | `backend-auth/ldap/ldapAuthentication.js` |
 | Shared backend bootstrapping | `backend-common/util.js` |
-| Path-traversal fencing | `backend-jobs/server.js` (`checkStaysInDirectory`), `backend-jobs/jobs.js` |
-| What must be configured before anything runs? | `customisation/README.md`, `frontend/src/customisation/README.md`, `frontend/.env.example` |
+| Path-traversal fencing | `backend-jobs/routes.js` (`checkStaysInDirectory`), `backend-jobs/jobs.js` |
+| What must be configured before anything runs? | `config/README.md` (+ `npm run setup`), `customisation/README.md`, `frontend/src/customisation/README.md`, `frontend/.env.example` |
