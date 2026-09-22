@@ -44,6 +44,10 @@ Basis für die Daten des Dashboards sind die Logpunkte aus der SOA, die für die
 SOA über eine REST-Schnittstelle angebunden werden (siehe blauen Kasten). Die Authentifizierung des Nutzers erfolgt
 über einen REST-Call gegen den roten Kasten, der selbst wiederum das LDAP/ActiveDirectory anspricht.
 
+Eine ausführliche Architekturbeschreibung mit C4-Diagrammen (Context, Container, Component,
+Deployment) sowie den Laufzeitsichten für Login, Logpunkt-Abfrage und Resend findet sich in
+[ARCHITECTURE.md](./ARCHITECTURE.md).
+
 ### Installation und Customising
 
 1: Hole Sourcen:
