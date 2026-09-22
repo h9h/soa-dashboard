@@ -14,7 +14,7 @@ If you use provided LDAP-Authentication, you need this file:
 const parameters = {
   URL_LDAP: "ldap://ldap.server.name",
   BASE_DN: "O=WHATEVER",
-  SERVER_PORT: "4166",
+  LOCAL_SERVER_PORT: "4166",
   GROUP: "LDAP Group DN, if being in a group ist required to get access to dashboard"
 }
 
@@ -55,7 +55,7 @@ is just for showing in console, could be empty object.
 const parameters = {
   JOB_PATH: "C:/Dashboard",
   MODEL_PATH: "C:/DashboardModel",
-  SERVER_PORT: "4000",
+  LOCAL_SERVER_PORT: "4000",
 }
 
 module.exports = parameters

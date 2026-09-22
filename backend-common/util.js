@@ -62,7 +62,7 @@ const createRouter = (config) => {
 
 const startServer = (config, router, helptext) => {
   const argv = process.argv
-  let PORT = argv.length === 3 ? parseInt(argv[2], 10) : parseInt(config.SERVER_PORT, 10)
+  let PORT = argv.length === 3 ? parseInt(argv[2], 10) : parseInt(config.LOCAL_SERVER_PORT, 10)
 
   const app = createApp(router)
   http.createServer(app.callback()).listen(PORT)
